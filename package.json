@@ -5,7 +5,7 @@
   "dependencies": {
     "abcjs": "^5.3.5",
     "markdown-it": "^8.4.2",
-    "markdown-it-music": "github:shadanan/markdown-it-music",
+    "markdown-it-music": "github:markdown-music/markdown-it-music",
     "react": "^16.5.2",
     "react-dom": "^16.5.2",
     "react-scripts": "1.1.5"
