@@ -18,7 +18,7 @@ class MarkdownMusic extends React.Component {
   }
 
   render() {
-    this.md.opts.transpose = this.props.transpose;
+    this.md.setTranspose(this.props.transpose);
     return (
       <span dangerouslySetInnerHTML={{__html: this.md.render(this.props.source)}}/>
     );
