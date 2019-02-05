@@ -6,21 +6,11 @@ import './App.css';
 
 
 class MarkdownMusic extends React.Component {
-  constructor(props) {
-    super(props);
-
-    let musicOpts = {
-      transpose: this.props.transpose
-    };
-
-    this.md = MarkdownIt()
-      .use(MarkdownItMusic, musicOpts);
-  }
-
   render() {
-    this.md.opts.transpose = this.props.transpose;
+    let md = MarkdownIt()
+      .use(MarkdownItMusic, {transpose: this.props.transpose});
     return (
-      <span dangerouslySetInnerHTML={{__html: this.md.render(this.props.source)}}/>
+      <span dangerouslySetInnerHTML={{__html: md.render(this.props.source)}}/>
     );
   }
 }
