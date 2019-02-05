@@ -18,6 +18,7 @@ class MarkdownMusic extends React.Component {
   }
 
   render() {
+    this.md.opts.transpose = this.props.transpose;
     return (
       <span dangerouslySetInnerHTML={{__html: this.md.render(this.props.source)}}/>
     );
@@ -34,6 +35,8 @@ class App extends React.Component {
       markdown: null,
       transpose: 0
     };
+
+    this.handleKeyUpEvent = this.handleKeyUpEvent.bind(this);
   }
 
   componentDidMount() {
@@ -43,11 +46,23 @@ class App extends React.Component {
         (result) => {
           this.setState({
             isLoaded: true,
-            markdown: result,
-            transpose: 1
+            markdown: result
           })
         }
       );
+  }
+
+  handleKeyUpEvent(event) {
+    if (event.key === "ArrowUp") {
+      this.setState( {
+        transpose: this.state.transpose + 1
+      });
+    }
+    else if (event.key === "ArrowDown") {
+      this.setState({
+        transpose: this.state.transpose - 1
+      });
+    }
   }
 
   render() {
@@ -60,7 +75,7 @@ class App extends React.Component {
       )
     } else {
       return (
-        <div className="App">
+        <div className="App" tabIndex="0" onKeyUp={this.handleKeyUpEvent}>
           <MarkdownMusic source={markdown} transpose={transpose} />
         </div>
       );
