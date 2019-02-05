@@ -9,8 +9,12 @@ class MarkdownMusic extends React.Component {
   constructor(props) {
     super(props);
 
+    let musicOpts = {
+      transpose: this.props.transpose
+    };
+
     this.md = MarkdownIt()
-      .use(MarkdownItMusic);
+      .use(MarkdownItMusic, musicOpts);
   }
 
   render() {
@@ -27,7 +31,8 @@ class App extends React.Component {
 
     this.state = {
       isLoaded: false,
-      markdown: null
+      markdown: null,
+      transpose: 0
     };
   }
 
@@ -38,14 +43,15 @@ class App extends React.Component {
         (result) => {
           this.setState({
             isLoaded: true,
-            markdown: result
+            markdown: result,
+            transpose: 1
           })
         }
       );
   }
 
   render() {
-    const { isLoaded, markdown } = this.state;
+    const { isLoaded, markdown, transpose } = this.state;
     if (!isLoaded) {
       return (
         <div className="App">
@@ -55,7 +61,7 @@ class App extends React.Component {
     } else {
       return (
         <div className="App">
-          <MarkdownMusic source={markdown} />
+          <MarkdownMusic source={markdown} transpose={transpose} />
         </div>
       );
     }
