@@ -32,12 +32,12 @@ class App extends React.Component {
   constructor(props) {
     super(props);
 
-    const queryParams = queryString.parse(this.props.location.search);
+    this.queryParams = queryString.parse(this.props.location.search);
 
     this.state = {
       isLoaded: false,
       markdown: null,
-      transpose: queryParams.transpose || 0
+      transpose: parseInt(this.queryParams.transpose, 10) || 0
     };
 
     this.handleKeyUpEvent = this.handleKeyUpEvent.bind(this);
@@ -57,18 +57,19 @@ class App extends React.Component {
   }
 
   handleKeyUpEvent(event) {
-    if (event.key === "ArrowUp") {
+    if (event.keyCode === 38) {
       this.setState( {
         transpose: this.state.transpose + 1
       });
     }
-    else if (event.key === "ArrowDown") {
+    else if (event.keyCode === 40) {
       this.setState({
         transpose: this.state.transpose - 1
       });
     }
 
-    history.push(`/?transpose=${this.state.transpose}`);
+    this.queryParams.transpose = this.state.transpose + 1;
+    history.push(`${this.props.location.pathname}${queryString.stringify(this.queryParams)}`);
   }
 
   render() {
