@@ -1,9 +1,11 @@
 import React from 'react';
 import MarkdownIt from 'markdown-it';
-// import abc from 'abcjs';
 import MarkdownItMusic from 'markdown-it-music'
+import queryString from 'query-string';
+import { createBrowserHistory } from 'history';
 import './App.css';
 
+const history = createBrowserHistory();
 
 class MarkdownMusic extends React.Component {
   constructor(props) {
@@ -27,13 +29,18 @@ class MarkdownMusic extends React.Component {
 
 
 class App extends React.Component {
+  arrowUpKeyCode = 38;
+  arrowDownKeyCode = 40;
+
   constructor(props) {
     super(props);
+
+    this.queryParams = queryString.parse(this.props.location.search);
 
     this.state = {
       isLoaded: false,
       markdown: null,
-      transpose: 0
+      transpose: parseInt(this.queryParams.transpose, 10) || 0
     };
 
     this.handleKeyUpEvent = this.handleKeyUpEvent.bind(this);
@@ -53,16 +60,19 @@ class App extends React.Component {
   }
 
   handleKeyUpEvent(event) {
-    if (event.key === "ArrowUp") {
+    if (event.keyCode === this.arrowUpKeyCode) {
       this.setState( {
         transpose: this.state.transpose + 1
       });
     }
-    else if (event.key === "ArrowDown") {
+    else if (event.keyCode === this.arrowDownKeyCode) {
       this.setState({
         transpose: this.state.transpose - 1
       });
     }
+
+    this.queryParams.transpose = this.state.transpose + 1;
+    history.push(`${this.props.location.pathname}${queryString.stringify(this.queryParams)}`);
   }
 
   render() {
