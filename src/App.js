@@ -29,6 +29,9 @@ class MarkdownMusic extends React.Component {
 
 
 class App extends React.Component {
+  arrowUpKeyCode = 38;
+  arrowDownKeyCode = 40;
+
   constructor(props) {
     super(props);
 
@@ -57,12 +60,12 @@ class App extends React.Component {
   }
 
   handleKeyUpEvent(event) {
-    if (event.keyCode === 38) {
+    if (event.keyCode === this.arrowUpKeyCode) {
       this.setState( {
         transpose: this.state.transpose + 1
       });
     }
-    else if (event.keyCode === 40) {
+    else if (event.keyCode === this.arrowDownKeyCode) {
       this.setState({
         transpose: this.state.transpose - 1
       });
