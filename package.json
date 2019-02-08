@@ -3,13 +3,13 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "abcjs": "^5.3.5",
+    "abcjs": "^5.6.4",
     "history": "^4.7.2",
     "markdown-it": "^8.4.2",
     "markdown-it-music": "github:music-markdown/markdown-it-music",
     "query-string": "^6.2.0",
-    "react": "^16.5.2",
-    "react-dom": "^16.5.2",
+    "react": "^16.8.1",
+    "react-dom": "^16.8.1",
     "react-router-dom": "^4.3.1",
     "react-scripts": "^2.1.3"
   },
