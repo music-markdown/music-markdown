@@ -22,7 +22,7 @@ class MarkdownMusic extends React.Component {
   render() {
     this.md.setTranspose(this.props.transpose);
     return (
-      <span dangerouslySetInnerHTML={{__html: this.md.render(this.props.source)}}/>
+      <span dangerouslySetInnerHTML={{ __html: this.md.render(this.props.source) }} />
     );
   }
 }
@@ -40,20 +40,26 @@ class App extends React.Component {
     this.state = {
       isLoaded: false,
       markdown: null,
-      transpose: parseInt(this.queryParams.transpose, 10) || 0
+      transpose: parseInt(this.queryParams.transpose, 10) || 0,
+      repos: this.queryParams.repos,
+      path: this.queryParams.path,
     };
 
     this.handleKeyUpEvent = this.handleKeyUpEvent.bind(this);
   }
 
   componentDidMount() {
-    fetch("static/California Dreamin - Mama's and the Papa's.md")
-      .then(res => res.text())
+    if (!this.state.repos || !this.state.path) {
+      return;
+    }
+
+    fetch(`https://api.github.com/repos/${this.state.repos}/contents/${this.state.path}`)
+      .then(response => response.json())
       .then(
-        (result) => {
+        (json) => {
           this.setState({
             isLoaded: true,
-            markdown: result
+            markdown: atob(json.content),
           })
         }
       );
@@ -61,7 +67,7 @@ class App extends React.Component {
 
   handleKeyUpEvent(event) {
     if (event.keyCode === this.arrowUpKeyCode) {
-      this.setState( {
+      this.setState({
         transpose: this.state.transpose + 1
       });
     }
@@ -72,7 +78,7 @@ class App extends React.Component {
     }
 
     this.queryParams.transpose = this.state.transpose + 1;
-    history.push(`${this.props.location.pathname}${queryString.stringify(this.queryParams)}`);
+    history.push(`${this.props.location.pathname}?${queryString.stringify(this.queryParams)}`);
   }
 
   render() {
@@ -80,7 +86,9 @@ class App extends React.Component {
     if (!isLoaded) {
       return (
         <div className="App">
-          <div>Loading...</div>
+          <a href="?repos=music-markdown/almost-in-time&path=California Dreamin' - The Mamas and the Papas.md">
+            "music-markdown/almost-in-time: California Dreamin' &ndash; The Mamas and the Papas.md"
+          </a>
         </div>
       )
     } else {
