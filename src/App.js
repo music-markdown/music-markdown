@@ -3,6 +3,7 @@ import MarkdownIt from 'markdown-it';
 import MarkdownItMusic from 'markdown-it-music'
 import queryString from 'query-string';
 import { createBrowserHistory } from 'history';
+import { HashRouter as Router, Route, Link } from 'react-router-dom';
 import './App.css';
 
 const history = createBrowserHistory();
@@ -28,7 +29,7 @@ class MarkdownMusic extends React.Component {
 }
 
 
-class App extends React.Component {
+class Markdown extends React.Component {
   arrowUpKeyCode = 38;
   arrowDownKeyCode = 40;
 
@@ -49,11 +50,11 @@ class App extends React.Component {
   }
 
   componentDidMount() {
-    if (!this.state.repos || !this.state.path) {
-      return;
-    }
+    const owner = this.props.match.params.owner;
+    const repo = this.props.match.params.repo;
+    const path = this.props.match.params.path;
 
-    fetch(`https://api.github.com/repos/${this.state.repos}/contents/${this.state.path}`)
+    fetch(`https://api.github.com/repos/${owner}/${repo}/contents/${path}`)
       .then(response => response.json())
       .then(
         (json) => {
@@ -78,27 +79,39 @@ class App extends React.Component {
     }
 
     this.queryParams.transpose = this.state.transpose + 1;
-    history.push(`${this.props.location.pathname}?${queryString.stringify(this.queryParams)}`);
+    history.push(`#${this.props.location.pathname}?${queryString.stringify(this.queryParams)}`);
   }
 
   render() {
     const { isLoaded, markdown, transpose } = this.state;
     if (!isLoaded) {
       return (
-        <div className="App">
-          <a href="?repos=music-markdown/almost-in-time&path=California Dreamin' - The Mamas and the Papas.md">
-            "music-markdown/almost-in-time: California Dreamin' &ndash; The Mamas and the Papas.md"
-          </a>
-        </div>
+        <div className="Markdown">Loading...</div>
       )
     } else {
       return (
-        <div className="App" tabIndex="0" onKeyUp={this.handleKeyUpEvent}>
+        <div className="Markdown" tabIndex="0" onKeyUp={this.handleKeyUpEvent}>
           <MarkdownMusic source={markdown} transpose={transpose} />
         </div>
       );
     }
   }
 }
+
+const Home = () => (
+  <div>
+    <h2>Home</h2>
+    <Link to="/repos/music-markdown/almost-in-time/contents/California Dreamin' - The Mamas and the Papas.md">California Dreamin</Link>
+  </div>
+);
+
+const App = () => (
+  <Router>
+    <div>
+      <Route exact path="/" component={Home} />
+      <Route path="/repos/:owner/:repo/contents/:path" component={Markdown} />
+    </div>
+  </Router>
+);
 
 export default App;
