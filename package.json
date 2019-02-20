@@ -7,6 +7,7 @@
     "history": "^4.7.2",
     "markdown-it": "^8.4.2",
     "markdown-it-music": "github:music-markdown/markdown-it-music",
+    "node-sass": "^4.11.0",
     "query-string": "^6.2.0",
     "react": "^16.8.1",
     "react-dom": "^16.8.1",
