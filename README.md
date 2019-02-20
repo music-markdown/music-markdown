@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.com/music-markdown/markdown-it-music-demo.svg?branch=master)](https://travis-ci.com/music-markdown/markdown-it-music-demo)
+[![Build Status](https://travis-ci.com/music-markdown/music-markdown.svg?branch=master)](https://travis-ci.com/music-markdown/music-markdown)
 
-# markdown-it-music-demo
+# music-markdown
 React app that demos the functionality of the markdown-it-music plugin.
