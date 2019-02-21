@@ -4,7 +4,7 @@ import MarkdownItMusic from 'markdown-it-music'
 import queryString from 'query-string';
 import { createBrowserHistory } from 'history';
 import { HashRouter as Router, Route, Link } from 'react-router-dom';
-import './App.css';
+import './App.scss';
 
 const history = createBrowserHistory();
 
