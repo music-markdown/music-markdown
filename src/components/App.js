@@ -28,7 +28,6 @@ class MarkdownMusic extends React.Component {
   }
 }
 
-
 class Markdown extends React.Component {
   arrowUpKeyCode = 38;
   arrowDownKeyCode = 40;
