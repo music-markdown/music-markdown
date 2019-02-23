@@ -16,7 +16,7 @@ class MarkdownMusic extends React.Component {
       transpose: this.props.transpose
     };
 
-    this.md = MarkdownIt() // eslint-disable-line new-cap
+    this.md = new MarkdownIt()
       .use(MarkdownItMusic, musicOpts);
   }
 
