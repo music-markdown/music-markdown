@@ -5,6 +5,7 @@
   "dependencies": {
     "abcjs": "^5.6.4",
     "bootstrap": "^4.3.1",
+    "eslint-plugin-react": "^7.12.4",
     "history": "^4.7.2",
     "markdown-it": "^8.4.2",
     "markdown-it-music": "github:music-markdown/markdown-it-music",

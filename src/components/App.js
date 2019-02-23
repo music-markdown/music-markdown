@@ -3,12 +3,12 @@ import MarkdownIt from 'markdown-it';
 import MarkdownItMusic from 'markdown-it-music';
 import queryString from 'query-string';
 import { createBrowserHistory } from 'history';
-import { HashRouter as Router, Route, Link } from 'react-router-dom'; // eslint-disable-line no-unused-vars
+import { HashRouter as Router, Route, Link } from 'react-router-dom';
 import './App.scss';
 
 const history = createBrowserHistory();
 
-class MarkdownMusic extends React.Component { // eslint-disable-line no-unused-vars
+class MarkdownMusic extends React.Component {
   constructor(props) {
     super(props);
 
