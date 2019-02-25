@@ -1,6 +1,6 @@
 import React from 'react';
 import MarkdownIt from 'markdown-it';
-import MarkdownItMusic from 'markdown-it-music'
+import MarkdownItMusic from 'markdown-it-music';
 import queryString from 'query-string';
 import { createBrowserHistory } from 'history';
 import { HashRouter as Router, Route, Link } from 'react-router-dom';
@@ -12,11 +12,11 @@ class MarkdownMusic extends React.Component {
   constructor(props) {
     super(props);
 
-    let musicOpts = {
+    const musicOpts = {
       transpose: this.props.transpose
     };
 
-    this.md = MarkdownIt()
+    this.md = new MarkdownIt()
       .use(MarkdownItMusic, musicOpts);
   }
 
@@ -54,13 +54,13 @@ class Markdown extends React.Component {
     const path = this.props.match.params.path;
 
     fetch(`https://api.github.com/repos/${owner}/${repo}/contents/${path}`)
-      .then(response => response.json())
+      .then((response) => response.json())
       .then(
         (json) => {
           this.setState({
             isLoaded: true,
             markdown: atob(json.content),
-          })
+          });
         }
       );
   }
@@ -70,8 +70,7 @@ class Markdown extends React.Component {
       this.setState({
         transpose: this.state.transpose + 1
       });
-    }
-    else if (event.keyCode === this.arrowDownKeyCode) {
+    } else if (event.keyCode === this.arrowDownKeyCode) {
       this.setState({
         transpose: this.state.transpose - 1
       });
@@ -86,7 +85,7 @@ class Markdown extends React.Component {
     if (!isLoaded) {
       return (
         <div className="Markdown">Loading...</div>
-      )
+      );
     } else {
       return (
         <div className="Markdown" tabIndex="0" onKeyUp={this.handleKeyUpEvent}>
@@ -100,7 +99,9 @@ class Markdown extends React.Component {
 const Home = () => (
   <div>
     <h2>Home</h2>
-    <Link to="/repos/music-markdown/almost-in-time/contents/California Dreamin' - The Mamas and the Papas.md">California Dreamin</Link>
+    <Link to="/repos/music-markdown/almost-in-time/contents/California Dreamin' - The Mamas and the Papas.md">
+      California Dreamin
+    </Link>
   </div>
 );
 
