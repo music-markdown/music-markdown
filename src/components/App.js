@@ -23,8 +23,7 @@ const homeRouter = () => (
 const navigation = () => (
   <div>
     <h2>Home</h2>
-    <Link to="/repos/music-markdown/almost-in-time/contents/California Dreamin'\
-      - The Mamas and the Papas.md">
+    <Link to="/repos/music-markdown/almost-in-time/contents/California Dreamin' - The Mamas and the Papas.md">
       California Dreamin
     </Link>
   </div>
