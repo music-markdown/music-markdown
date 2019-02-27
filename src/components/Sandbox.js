@@ -18,7 +18,7 @@ function renderEsus4Svg() {
   }, 200, 200);
 }
 
-const Sandbox = () => (
+const sandbox = () => (
   <div>
     <h1>Music Markdown Sandbox</h1>
     <p>
@@ -34,4 +34,4 @@ const Sandbox = () => (
   </div>
 );
 
-export default Sandbox;
+export default sandbox;
