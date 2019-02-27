@@ -8,21 +8,21 @@ import '../../node_modules/bootstrap/dist/css/bootstrap.min.css';
 
 function App() {
   return (
-    <ResponsiveContainer childElement={homeRouter()} />
+    <ResponsiveContainer childElement={HomeRouter()} />
   );
 };
 
-const homeRouter = () => (
+const HomeRouter = () => (
   <Router>
     <div>
-      <Route exact path="/" component={navigation} />
+      <Route exact path="/" component={Navigation} />
       <Route path="/sandbox" component={Sandbox} />
       <Route path="/repos/:owner/:repo/contents/:path" component={MarkdownMusicSourceFetcher} />
     </div>
   </Router>
 );
 
-const navigation = () => (
+const Navigation = () => (
   <div>
     <h2>Home</h2>
     <Link to="/repos/music-markdown/almost-in-time/contents/California Dreamin' - The Mamas and the Papas.md">
