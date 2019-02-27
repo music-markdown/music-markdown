@@ -10,6 +10,7 @@
     "markdown-it": "^8.4.2",
     "markdown-it-music": "github:music-markdown/markdown-it-music",
     "node-sass": "^4.11.0",
+    "normalize-url": "^4.1.0",
     "npm": "^6.8.0",
     "query-string": "^6.2.0",
     "react": "^16.8.1",
