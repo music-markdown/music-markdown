@@ -1,4 +1,5 @@
 import React from 'react';
+import { MarkdownMusic } from './MarkdownItRender.js';
 import { renderChordDiagram } from 'markdown-it-music/renderers/chord_diagram';
 import { guitarChordLibrary } from 'markdown-it-music/renderers/chord_library';
 
@@ -9,6 +10,9 @@ const Sandbox = () => (
       This page exercises various subcomponents of music-markdown and
       markdown-it-music.
     </p>
+
+    <h2>Markdown Editor</h2>
+    <MarkdownEditor/>
 
     <h2>Chord Diagram Renderer</h2>
     <p>
@@ -23,6 +27,45 @@ const Sandbox = () => (
     <AllChords/>
   </div>
 );
+
+class MarkdownEditor extends React.Component {
+  constructor(props) {
+    super(props);
+
+    const value = '```chords\n' +
+      'c1:                    Am     G  F          G      Esus4  E\n\n' +
+      'v1: All the leaves are brown        and the sky is gray\n\n' +
+      'c1: F               C     E  Am       F        Esus4  E\n' +
+      'v1: I\'ve been for a walk         on a winter\'s day\n\n' +
+      'c1:                 Am    G  F       G      Esus4  E\n' +
+      'v1: I\'d be safe and warm        if I was in L.A.\n\n' +
+      'c1:            Am        G  F     G               Esus4  E\n' +
+      'v1: California dreamin\'        on such a winter\'s day\n' +
+      '```';
+
+    this.state = {
+      value
+    };
+
+    this.handleChange = this.handleChange.bind(this);
+  }
+
+  handleChange(event) {
+    this.setState({ value: event.target.value });
+  }
+
+  render() {
+    const styles = { display: 'flex', width: '100%' };
+    const editorStyles = { minHeight: '500px', width: '50%', marginRight: '20px' };
+
+    return <div style={styles}>
+      <textarea value={this.state.value} onChange={this.handleChange} style={editorStyles}></textarea>
+      <div style={editorStyles}>
+        <MarkdownMusic source={this.state.value}></MarkdownMusic>
+      </div>
+    </div>;
+  }
+}
 
 const AllChords = () => (
   Array.from(guitarChordLibrary.keys()).map((chord, index) => (

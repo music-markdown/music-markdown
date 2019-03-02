@@ -6,7 +6,7 @@ import queryString from 'query-string';
 
 const history = createBrowserHistory();
 
-class MarkdownMusic extends React.Component {
+export class MarkdownMusic extends React.Component {
   constructor(props) {
     super(props);
 
