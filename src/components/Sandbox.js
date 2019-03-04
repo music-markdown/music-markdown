@@ -33,7 +33,7 @@ class MarkdownEditor extends React.Component {
     super(props);
 
     const value = '```chords\n' +
-      'c1:                    Am     G  F          G      Esus4  E\n\n' +
+      'c1:                    Am     G  F          G      Esus4  E\n' +
       'v1: All the leaves are brown        and the sky is gray\n\n' +
       'c1: F               C     E  Am       F        Esus4  E\n' +
       'v1: I\'ve been for a walk         on a winter\'s day\n\n' +
@@ -56,7 +56,10 @@ class MarkdownEditor extends React.Component {
 
   render() {
     const styles = { display: 'flex', width: '100%' };
-    const editorStyles = { minHeight: '500px', width: '50%', marginRight: '20px' };
+    const editorStyles = {
+      minHeight: '500px', width: '50%', marginRight: '20px',
+      fontFamily: 'monospace', whiteSpace: 'pre'
+    };
 
     return <div style={styles}>
       <textarea value={this.state.value} onChange={this.handleChange} style={editorStyles}></textarea>
