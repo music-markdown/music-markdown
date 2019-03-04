@@ -75,6 +75,12 @@ class MarkdownMusicSourceFetcher extends React.Component {
   }
 }
 
+/**
+ * Returns a Promise of the content list in a github repo, see https://developer.github.com/v3/repos/contents/#get-contents
+ * @param {string} owner Account owner of the repo
+ * @param {string} repo Repo name
+ * @param {string} path Subdirectory of contents to list
+ */
 async function getRepoDirectoryList(owner, repo, path) {
   normalizedUrl = normalizeUrl(`https://api.github.com/repos/${owner}/${repo}/contents/${path}`);
   return fetch(normalizedUrl)
