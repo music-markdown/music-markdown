@@ -6,14 +6,22 @@ import Sandbox from './Sandbox.js';
 import './App.scss';
 import '../../node_modules/bootstrap/dist/css/bootstrap.min.css';
 
-function App() {
-  return (
-    <ResponsiveContainer childElement={HomeRouter()} />
-  );
+class App extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      darkLightThemeFlag: 'dark',
+    };
+  }
+  render() {
+    return (
+      <ResponsiveContainer children={[HomeRouter()]} />
+    );
+  }
 };
 
 const HomeRouter = () => (
-  <Router>
+  <Router key="home-router">
     <div>
       <Route exact path="/" component={Navigation} />
       <Route path="/sandbox" component={Sandbox} />
@@ -24,7 +32,6 @@ const HomeRouter = () => (
 
 const Navigation = () => (
   <div>
-    <h2>Home</h2>
     <Link to="/repos/music-markdown/almost-in-time/contents/California Dreamin' - The Mamas and the Papas.md">
       California Dreamin
     </Link>
