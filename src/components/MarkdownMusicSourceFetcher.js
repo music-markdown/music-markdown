@@ -1,14 +1,16 @@
 import React from 'react';
-import MarkdownItMusicRenderer from './MarkdownItMusicRenderer.js';
-import queryString from 'query-string';
 import { createBrowserHistory } from 'history';
+import MarkdownMusic from './MarkdownMusic';
+import queryString from 'query-string';
 
 const history = createBrowserHistory();
-const normalizeUrl = require('normalize-url');
 
 // TODO: Decouple retrieval of source markdown and controlling arguments to MarkdownMusic.
 // https://github.com/music-markdown/music-markdown/pull/25#discussion_r259598474
 class MarkdownMusicSourceFetcher extends React.Component {
+  arrowUpKeyCode = 38;
+  arrowDownKeyCode = 40;
+
   constructor(props) {
     super(props);
 
@@ -30,7 +32,7 @@ class MarkdownMusicSourceFetcher extends React.Component {
     const repo = this.props.match.params.repo;
     const path = this.props.match.params.path;
 
-    getRepoDirectoryList(owner, repo, path)
+    fetch(`https://api.github.com/repos/${owner}/${repo}/contents/${path}`)
       .then((response) => response.json())
       .then(
         (json) => {
@@ -68,23 +70,11 @@ class MarkdownMusicSourceFetcher extends React.Component {
     } else {
       return (
         <div className="Markdown" tabIndex="0" onKeyUp={this.handleKeyUpEvent}>
-          <MarkdownItMusicRenderer source={markdown} transpose={transpose} />
+          <MarkdownMusic source={markdown} transpose={transpose} />
         </div>
       );
     }
   }
-}
-
-/**
- * Returns a Promise of the content list in a github repo, see https://developer.github.com/v3/repos/contents/#get-contents
- * @param {string} owner Account owner of the repo
- * @param {string} repo Repo name
- * @param {string} path Subdirectory of contents to list
- */
-async function getRepoDirectoryList(owner, repo, path) {
-  normalizedUrl = normalizeUrl(`https://api.github.com/repos/${owner}/${repo}/contents/${path}`);
-  return fetch(normalizedUrl)
-    .then((response) => response.json());
 }
 
 export default MarkdownMusicSourceFetcher;

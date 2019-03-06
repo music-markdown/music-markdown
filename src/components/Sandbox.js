@@ -1,5 +1,5 @@
 import React from 'react';
-import { MarkdownMusic } from './MarkdownItRender.js';
+import MarkdownMusic from './MarkdownMusic';
 import { renderChordDiagram } from 'markdown-it-music/renderers/chord_diagram';
 import { guitarChordLibrary } from 'markdown-it-music/renderers/chord_library';
 

@@ -2,7 +2,7 @@ import React from 'react';
 import MarkdownIt from 'markdown-it';
 import MarkdownItMusic from 'markdown-it-music';
 
-class MarkdownItMusicRenderer extends React.Component {
+class MarkdownMusic extends React.Component {
   constructor(props) {
     super(props);
 
@@ -22,4 +22,4 @@ class MarkdownItMusicRenderer extends React.Component {
   }
 }
 
-export default MarkdownItMusicRenderer;
+export default MarkdownMusic;
