@@ -1,6 +1,6 @@
 import React from 'react';
 import { HashRouter as Router, Route, Link } from 'react-router-dom';
-import MarkdownMusicSourceFetcher from './MarkdownItRender.js';
+import MarkdownMusicSourceFetcher from './MarkdownMusicSourceFetcher';
 import ResponsiveContainer from './ResponsiveContainer.js';
 import Sandbox from './Sandbox.js';
 import './App.scss';
