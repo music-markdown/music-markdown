@@ -27,21 +27,16 @@ class MarkdownMusicSourceFetcher extends React.Component {
     this.handleKeyUpEvent = this.handleKeyUpEvent.bind(this);
   }
 
-  componentDidMount() {
+  async componentDidMount() {
     const owner = this.props.match.params.owner;
     const repo = this.props.match.params.repo;
     const path = this.props.match.params.path;
 
-    fetch(`https://api.github.com/repos/${owner}/${repo}/contents/${path}`)
-      .then((response) => response.json())
-      .then(
-        (json) => {
-          this.setState({
-            isLoaded: true,
-            markdown: atob(json.content),
-          });
-        }
-      );
+    const json = await getContents(owner, repo, path);
+    this.setState({
+      isLoaded: true,
+      markdown: atob(json.content)
+    });
   }
 
   handleKeyUpEvent(event) {
@@ -75,6 +70,19 @@ class MarkdownMusicSourceFetcher extends React.Component {
       );
     }
   }
+}
+
+/**
+ * Returns a Promise of the contents of a file or directory in a GitHub repository.
+ * See https://developer.github.com/v3/repos/contents/#get-contents
+ * @param {string} owner Account owner of the repo
+ * @param {string} repo Repo name
+ * @param {string} path The directory or file to retrieve
+ */
+async function getContents(owner, repo, path) {
+  const normalizedUrl = `https://api.github.com/repos/${owner}/${repo}/contents/${path}`;
+  const response = await fetch(normalizedUrl);
+  return response.json();
 }
 
 export default MarkdownMusicSourceFetcher;
