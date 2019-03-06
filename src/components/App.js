@@ -6,13 +6,9 @@ import Sandbox from './Sandbox.js';
 import './App.scss';
 import '../../node_modules/bootstrap/dist/css/bootstrap.min.css';
 
-class App extends React.Component {
-  render() {
-    return (
-      <ResponsiveContainer children={[HomeRouter()]} />
-    );
-  }
-};
+const App = () => (
+  <ResponsiveContainer children={[HomeRouter()]} />
+);
 
 const HomeRouter = () => (
   <Router key="home-router">
