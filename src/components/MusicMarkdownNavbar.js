@@ -2,15 +2,15 @@ import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
 import Nav from 'react-bootstrap/Nav';
 import React from 'react';
+import { getRepoList, addToRepoList } from '../util/GithubRepositoryUtil';
 
 const darkLightThemeFlag = 'dark';
-const REPO_LIST = 'repoList';
+const REPO_LIST_KEY = 'repoList';
 
 const MusicMarkdownNavbar = () => {
-  if (!localStorage.getItem(REPO_LIST)) {
-    addToRepoList('music-markdown/almost-in-time');
+  if (!localStorage.getItem(REPO_LIST_KEY)) {
+    addToRepoList('music-markdown', 'almost-in-time', '/');
   }
-  console.log(localStorage.getItem(REPO_LIST));
   return createNavbar();
 };
 
@@ -34,19 +34,6 @@ function createNavbar() {
   );
 }
 
-function getRepoList() {
-  return localStorage.getItem(REPO_LIST).split(' ');
-}
-
-function addToRepoList(githubRepo) {
-  const repoList = localStorage.getItem(REPO_LIST);
-  if (!localStorage.getItem(REPO_LIST)) {
-    localStorage.setItem(REPO_LIST, githubRepo);
-  } else {
-    localStorage.setItem(REPO_LIST, repoList.concat(` ${githubRepo}`));
-  }
-}
-
 /**
  * For all added repositories, add it to the dropdown list
  */
@@ -54,15 +41,17 @@ function addToRepoList(githubRepo) {
 function getRepositoriesDropdownItems() {
   const repoDropdownItems = [];
   const repoList = getRepoList();
-  repoList.forEach(function(repo) {
-    const repoId = `${repo.owner}/${repo.repo}${repo.path}`;
-    // TODO: List valid files after clicking on repo name
-    const itemHref = `/repos/${repo.owner}/${repo.repo}/contents${repo.path}`;
-    repoDropdownItems.push(
-      <NavDropdown.Item href={itemHref} key={`dropdown-item-${repoId}`}>
-        {repoId}
-      </NavDropdown.Item>);
-  });
+  if (repoList) {
+    repoList.forEach(function(repo) {
+      const repoId = `${repo.owner}/${repo.repo}${repo.path}`;
+      // TODO: List valid files after clicking on repo name
+      const itemHref = `#/repos/${repo.owner}/${repo.repo}/contents${repo.path}`;
+      repoDropdownItems.push(
+        <NavDropdown.Item href={itemHref} key={`dropdown-item-${repoId}`}>
+          {repoId}
+        </NavDropdown.Item>);
+    });
+  }
   return repoDropdownItems;
 }
 
