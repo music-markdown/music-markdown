@@ -1,5 +1,4 @@
-const REPO_LIST_KEY = 'repoList';
-
+import { REPOS_LOCAL_STORAGE_KEY } from './Constants';
 /**
  * Returns a Promise of the contents of a file or directory in a GitHub repository.
  * See https://developer.github.com/v3/repos/contents/#get-contents
@@ -18,57 +17,29 @@ export async function getContents(owner, repo, path) {
  * Returns list of repos stored in localStorage
  * @return {Array} Array of JSON dictionaries of repos
  */
-export function getRepoList() {
-  const repoListStr = localStorage.getItem(REPO_LIST_KEY);
+export function getRepositories() {
+  const repoListStr = localStorage.getItem(REPOS_LOCAL_STORAGE_KEY);
   if (repoListStr) {
-    return deserializeRepoList(repoListStr);
+    return JSON.parse(repoListStr);
   } else {
-    return undefined;
+    return [];
   }
 }
 
 /**
  * Adds a desired Github repo to localStorage
- * @param {A} owner Repo owner
- * @param {*} repo Repo name
- * @param {*} path Subdirectory
+ * @param {string} owner Repo owner
+ * @param {string} repo Repo name
+ * @param {string} path Subdirectory
  */
-export function addToRepoList(owner, repo, path) {
+export function addRepository(owner, repo, path) {
   const repoMap = {
     'owner': owner,
     'repo': repo,
     'path': path
   };
-  const repoList = getRepoList();
-  if (repoList === undefined) {
-    localStorage.setItem(REPO_LIST_KEY, JSON.stringify(repoMap));
-  } else {
-    repoList.push(repoMap);
-    localStorage.setItem(REPO_LIST_KEY, serializeRepoList(repoList));
-  }
-}
-
-/* Takes an array of repo maps and serializes it into a string */
-// TODO: URLs need to be sanitized
-function serializeRepoList(repoList) {
-  let serializedStr = '';
-  repoList.forEach(function(repo) {
-    const stringifiedMap = JSON.stringify(repo);
-    if (serializedStr.length === 0) {
-      serializedStr = stringifiedMap;
-    } else {
-      serializedStr = serializedStr.concat(';', stringifiedMap);
-    }
-  });
-  return serializedStr;
-}
-
-/* Takes a string representation of an array of maps and returns it as an array */
-function deserializeRepoList(stringifiedRepoList) {
-  const repoListArr = [];
-  const mapStrArr = stringifiedRepoList.split(';');
-  mapStrArr.forEach(function(strMap) {
-    repoListArr.push(JSON.parse(strMap));
-  });
-  return repoListArr;
+  const storedRepos = getRepositories();
+  const repoList = storedRepos.length > 0 ? storedRepos : [];
+  repoList.push(repoMap);
+  localStorage.setItem(REPOS_LOCAL_STORAGE_KEY, JSON.stringify(repoList));
 }
