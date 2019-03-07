@@ -6,6 +6,7 @@ const REPO_LIST_KEY = 'repoList';
  * @param {string} owner Account owner of the repo
  * @param {string} repo Repo name
  * @param {string} path The directory or file to retrieve
+ * @return {Object} JSON dictionary of repository contents
  */
 export async function getContents(owner, repo, path) {
   const normalizedUrl = `https://api.github.com/repos/${owner}/${repo}/contents/${path}`;
@@ -13,6 +14,10 @@ export async function getContents(owner, repo, path) {
   return response.json();
 }
 
+/**
+ * Returns list of repos stored in localStorage
+ * @return {Array} Array of JSON dictionaries of repos
+ */
 export function getRepoList() {
   const repoListStr = localStorage.getItem(REPO_LIST_KEY);
   if (repoListStr) {
@@ -22,6 +27,12 @@ export function getRepoList() {
   }
 }
 
+/**
+ * Adds a desired Github repo to localStorage
+ * @param {A} owner Repo owner
+ * @param {*} repo Repo name
+ * @param {*} path Subdirectory
+ */
 export function addToRepoList(owner, repo, path) {
   const repoMap = {
     'owner': owner,
@@ -35,7 +46,6 @@ export function addToRepoList(owner, repo, path) {
     repoList.push(repoMap);
     localStorage.setItem(REPO_LIST_KEY, serializeRepoList(repoList));
   }
-  // console.log(getRepoList());
 }
 
 /* Takes an array of repo maps and serializes it into a string */

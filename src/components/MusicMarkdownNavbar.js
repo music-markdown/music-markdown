@@ -4,6 +4,7 @@ import Nav from 'react-bootstrap/Nav';
 import React from 'react';
 import { getRepoList, addToRepoList } from '../util/GithubRepositoryUtil';
 
+// TODO: Build button toggle for dark/light
 const darkLightThemeFlag = 'dark';
 const REPO_LIST_KEY = 'repoList';
 
