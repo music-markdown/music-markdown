@@ -1,4 +1,4 @@
-import { getContents, getRepoList, addToRepoList } from './GithubRepositoryUtil';
+import { getContents, getRepositories, addRepository } from './GithubRepositoryUtil';
 
 const owner = 'music-markdown';
 const repo = 'almost-in-time';
@@ -11,8 +11,8 @@ test(`getContents for known Github repository`, async () => {
 
 test(`add repo to localStorage repoList then verify successfully added`, () => {
   localStorage.clear();
-  addToRepoList(owner, repo, path);
-  const repoList = getRepoList();
+  addRepository(owner, repo, path);
+  const repoList = getRepositories();
   const expectedMap = {
     'owner': owner,
     'repo': repo,
