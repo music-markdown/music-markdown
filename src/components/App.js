@@ -5,9 +5,10 @@ import ResponsiveContainer from './ResponsiveContainer.js';
 import Sandbox from './Sandbox.js';
 import './App.scss';
 import '../../node_modules/bootstrap/dist/css/bootstrap.min.css';
+import MusicMarkdownNavbar from './MusicMarkdownNavbar.js';
 
 const App = () => (
-  <ResponsiveContainer children={[HomeRouter()]} />
+  <ResponsiveContainer children={[MusicMarkdownNavbar(), HomeRouter()]} />
 );
 
 const HomeRouter = () => (

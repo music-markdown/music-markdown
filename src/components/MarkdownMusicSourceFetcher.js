@@ -2,6 +2,7 @@ import React from 'react';
 import { createBrowserHistory } from 'history';
 import MarkdownMusic from './MarkdownMusic';
 import queryString from 'query-string';
+import { getContents } from '../util/GithubRepositoryUtil';
 
 const history = createBrowserHistory();
 
@@ -70,19 +71,6 @@ class MarkdownMusicSourceFetcher extends React.Component {
       );
     }
   }
-}
-
-/**
- * Returns a Promise of the contents of a file or directory in a GitHub repository.
- * See https://developer.github.com/v3/repos/contents/#get-contents
- * @param {string} owner Account owner of the repo
- * @param {string} repo Repo name
- * @param {string} path The directory or file to retrieve
- */
-async function getContents(owner, repo, path) {
-  const normalizedUrl = `https://api.github.com/repos/${owner}/${repo}/contents/${path}`;
-  const response = await fetch(normalizedUrl);
-  return response.json();
 }
 
 export default MarkdownMusicSourceFetcher;
