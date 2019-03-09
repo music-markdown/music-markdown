@@ -6,7 +6,6 @@ const path = '/';
 
 test(`getContents for known Github repository`, async () => {
   const contents = await getContents(owner, repo, path);
-  console.log(contents);
   expect(contents.length).toBeGreaterThanOrEqual(1);
 });
 

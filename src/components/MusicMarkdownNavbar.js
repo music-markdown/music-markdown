@@ -20,8 +20,8 @@ const MusicMarkdownNavbar = () => {
       <Navbar.Toggle aria-controls="basic-navbar-nav" />
       <Navbar.Collapse>
         <Nav className="mr-auto">
-          <RepositoriesNavDropodown />
-          <NavLink to="/sandbox" className="nav-link" activeClassName="active">Sandbox (Beta)</NavLink>
+          <RepositoriesNavDropdown />
+          <NavLink to="/sandbox" className="nav-link" activeClassName="active">Sandbox</NavLink>
         </Nav>
       </Navbar.Collapse>
     </Navbar>
@@ -32,7 +32,7 @@ const MusicMarkdownNavbar = () => {
  * For all added repositories, add it to the dropdown list
  */
 // TODO: List first x items, then put in dropdown item to expand full list
-const RepositoriesNavDropodown = () => {
+const RepositoriesNavDropdown = () => {
   const repoDropdownItems = [];
   const repoList = getRepositories();
   if (repoList.length > 0) {
