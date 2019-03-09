@@ -4,16 +4,17 @@ import MarkdownMusicSourceFetcher from './MarkdownMusicSourceFetcher';
 import ResponsiveContainer from './ResponsiveContainer.js';
 import Sandbox from './Sandbox.js';
 import './App.scss';
-import '../../node_modules/bootstrap/dist/css/bootstrap.min.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
 import MusicMarkdownNavbar from './MusicMarkdownNavbar.js';
 
 const App = () => (
-  <ResponsiveContainer children={[MusicMarkdownNavbar(), HomeRouter()]} />
+  <ResponsiveContainer children={[HomeRouter()]} />
 );
 
 const HomeRouter = () => (
   <Router key="home-router">
     <div>
+      <Route component={MusicMarkdownNavbar} />
       <Route exact path="/" component={Navigation} />
       <Route path="/sandbox" component={Sandbox} />
       <Route path="/repos/:owner/:repo/contents/:path" component={MarkdownMusicSourceFetcher} />

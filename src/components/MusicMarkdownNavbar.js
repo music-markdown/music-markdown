@@ -2,6 +2,7 @@ import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
 import Nav from 'react-bootstrap/Nav';
 import React from 'react';
+import { NavLink } from 'react-router-dom';
 import { getRepositories, addRepository } from '../util/GithubRepositoryUtil';
 import { REPOS_LOCAL_STORAGE_KEY } from '../util/Constants';
 
@@ -20,7 +21,7 @@ const MusicMarkdownNavbar = () => {
       <Navbar.Collapse>
         <Nav className="mr-auto">
           <RepositoriesNavDropodown />
-          <Nav.Link href="#/sandbox">Sandbox (Beta)</Nav.Link>
+          <NavLink to="/sandbox" className="nav-link" activeClassName="active">Sandbox (Beta)</NavLink>
         </Nav>
       </Navbar.Collapse>
     </Navbar>
@@ -38,11 +39,11 @@ const RepositoriesNavDropodown = () => {
     repoList.forEach(function(repo) {
       const repoId = `${repo.owner}/${repo.repo}${repo.path}`;
       // TODO: List valid files after clicking on repo name
-      const itemHref = `#/repos/${repo.owner}/${repo.repo}/contents${repo.path}`;
+      const itemHref = `/repos/${repo.owner}/${repo.repo}/contents${repo.path}`;
       repoDropdownItems.push(
-        <NavDropdown.Item href={itemHref} key={`dropdown-item-${repoId}`}>
+        <NavLink to={itemHref} key={`dropdown-item-${repoId}`} className="dropdown-item">
           {repoId}
-        </NavDropdown.Item>);
+        </NavLink>);
     });
   }
   return (
