@@ -13,7 +13,6 @@
     "eslint-plugin-react": "^7.12.4",
     "history": "^4.7.2",
     "markdown-it": "^8.4.2",
-    "markdown-it-meta": "0.0.1",
     "markdown-it-music": "github:music-markdown/markdown-it-music",
     "node-sass": "^4.11.0",
     "normalize-url": "^4.1.0",
@@ -23,7 +22,7 @@
     "react-bootstrap": "^1.0.0-beta.5",
     "react-dom": "^16.8.1",
     "react-router-dom": "^4.3.1",
-    "react-scripts": "^2.1.5"
+    "react-scripts": "^2.1.8"
   },
   "scripts": {
     "start": "react-scripts start",
