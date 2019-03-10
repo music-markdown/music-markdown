@@ -1,4 +1,5 @@
-import { REPOS_LOCAL_STORAGE_KEY } from './Constants';
+import { REPOS_LOCAL_STORAGE_KEY, GITHUB_TOKEN_LOCAL_STORAGE_KEY } from './Constants';
+
 /**
  * Returns a Promise of the contents of a file or directory in a GitHub repository.
  * See https://developer.github.com/v3/repos/contents/#get-contents
@@ -8,8 +9,8 @@ import { REPOS_LOCAL_STORAGE_KEY } from './Constants';
  * @return {Object} JSON dictionary of repository contents
  */
 export async function getContents(owner, repo, path) {
-  const normalizedUrl = `https://api.github.com/repos/${owner}/${repo}/contents/${path}`;
-  const response = await fetch(normalizedUrl);
+  const apiUrl = getApiUrl(`/repos/${owner}/${repo}/contents/${path}`);
+  const response = await fetch(apiUrl);
   return response.json();
 }
 
@@ -42,4 +43,15 @@ export function addRepository(owner, repo, path) {
   const repoList = storedRepos.length > 0 ? storedRepos : [];
   repoList.push(repoMap);
   localStorage.setItem(REPOS_LOCAL_STORAGE_KEY, JSON.stringify(repoList));
+}
+
+export function getApiUrl(url) {
+  url = new URL(url, 'https://api.github.com');
+
+  const githubToken = localStorage.getItem(GITHUB_TOKEN_LOCAL_STORAGE_KEY);
+  if (githubToken) {
+    url.searchParams.set('access_token', githubToken);
+  }
+
+  return url;
 }
