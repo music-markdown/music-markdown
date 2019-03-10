@@ -15,7 +15,7 @@ export async function getContents(owner, repo, path) {
 }
 
 /**
- * Returns list of repos stored in localStorage
+ * Returns list of repos stored in localStorage.
  * @return {Array} Array of JSON dictionaries of repos
  */
 export function getRepositories() {
@@ -28,7 +28,7 @@ export function getRepositories() {
 }
 
 /**
- * Adds a desired Github repo to localStorage
+ * Adds a desired GitHub repo to localStorage.
  * @param {string} owner Repo owner
  * @param {string} repo Repo name
  * @param {string} path Subdirectory
@@ -45,6 +45,12 @@ export function addRepository(owner, repo, path) {
   localStorage.setItem(REPOS_LOCAL_STORAGE_KEY, JSON.stringify(repoList));
 }
 
+/**
+ * Composes the GitHub API url for the given url, attaching the user's GitHub
+ * access token if it exists.
+ * @param {string} url The path and search params
+ * @return {URL} Composed GitHub API url with user's personal access token
+ */
 export function getApiUrl(url) {
   url = new URL(url, 'https://api.github.com');
 
