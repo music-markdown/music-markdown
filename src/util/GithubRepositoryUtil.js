@@ -11,6 +11,9 @@ import { REPOS_LOCAL_STORAGE_KEY, GITHUB_TOKEN_LOCAL_STORAGE_KEY, GITHUB_API_URL
 export async function getContents(owner, repo, path) {
   const apiUrl = getApiUrl(`/repos/${owner}/${repo}/contents/${path}`);
   const response = await fetch(apiUrl);
+  if (path === undefined || path.length === 0 || path === '/') {
+    path = '';
+  }
   return response.json();
 }
 

@@ -1,13 +1,14 @@
 import React from 'react';
-import { HashRouter as Router, Route, Link } from 'react-router-dom';
+import { HashRouter as Router, Route } from 'react-router-dom';
 import { Provider } from 'react-redux';
-
-import MarkdownMusicSourceFetcher from './MarkdownMusicSourceFetcher';
-import MusicMarkdownNavbar from './MusicMarkdownNavbar.js';
-import ResponsiveContainer from './ResponsiveContainer.js';
-import Sandbox from './Sandbox.js';
 import store from '../redux/store';
 
+import MarkdownMusicSourceFetcher from './MarkdownMusicSourceFetcher';
+import MusicMarkdownNavbar from './MusicMarkdownNavbar';
+import ResponsiveContainer from './ResponsiveContainer';
+import RepositoryNavigation from './RepositoryNavigation';
+import Sandbox from './Sandbox.js';
+import { REPO_RESOURCE, RENDER_RESOURCE, SANDBOX_RESOURCE } from '../util/Constants';
 import './App.scss';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
@@ -21,19 +22,16 @@ const HomeRouter = () => (
       <div>
         <Route component={MusicMarkdownNavbar} />
         <Route exact path="/" component={Navigation} />
-        <Route path="/sandbox" component={Sandbox} />
-        <Route path="/repos/:owner/:repo/contents/:path" component={MarkdownMusicSourceFetcher} />
+        <Route exact path={REPO_RESOURCE} component={RepositoryNavigation} />
+        <Route path={SANDBOX_RESOURCE} component={Sandbox} />
+        <Route path={RENDER_RESOURCE} component={MarkdownMusicSourceFetcher} />
       </div>
     </Router>
   </Provider>
 );
 
 const Navigation = () => (
-  <div>
-    <Link to="/repos/music-markdown/almost-in-time/contents/California Dreamin' - The Mamas and the Papas.md">
-      California Dreamin
-    </Link>
-  </div>
+  <h1>Welcome to Music Markdown!</h1>
 );
 
 export default App;
