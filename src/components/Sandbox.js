@@ -2,9 +2,12 @@ import React from 'react';
 import MarkdownMusic from './MarkdownMusic';
 import { renderChordDiagram } from 'markdown-it-music/renderers/chord_diagram';
 import { guitarChordLibrary } from 'markdown-it-music/renderers/chord_library';
+import Toolbar from './Toolbar';
 
 const Sandbox = () => (
   <div>
+    <Toolbar></Toolbar>
+
     <h1>Music Markdown Sandbox</h1>
     <p>
       This page exercises various subcomponents of music-markdown and

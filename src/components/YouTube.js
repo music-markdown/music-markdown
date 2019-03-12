@@ -32,7 +32,7 @@ class YouTubeToggle extends React.Component {
 
   render() {
     if (!this.props.youTubeId) {
-      return;
+      return <div></div>;
     }
 
     return (

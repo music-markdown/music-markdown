@@ -1,0 +1,2 @@
+export const TRANSPOSE = 'TRANSPOSE';
+export const UPDATE_COLUMN_COUNT = 'UPDATE_COLUMN_COUNT';

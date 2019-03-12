@@ -1,25 +1,31 @@
 import React from 'react';
 import { HashRouter as Router, Route, Link } from 'react-router-dom';
+import { Provider } from 'react-redux';
+
 import MarkdownMusicSourceFetcher from './MarkdownMusicSourceFetcher';
+import MusicMarkdownNavbar from './MusicMarkdownNavbar.js';
 import ResponsiveContainer from './ResponsiveContainer.js';
 import Sandbox from './Sandbox.js';
+import store from '../redux/store';
+
 import './App.scss';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import MusicMarkdownNavbar from './MusicMarkdownNavbar.js';
 
 const App = () => (
   <ResponsiveContainer children={[HomeRouter()]} />
 );
 
 const HomeRouter = () => (
-  <Router key="home-router">
-    <div>
-      <Route component={MusicMarkdownNavbar} />
-      <Route exact path="/" component={Navigation} />
-      <Route path="/sandbox" component={Sandbox} />
-      <Route path="/repos/:owner/:repo/contents/:path" component={MarkdownMusicSourceFetcher} />
-    </div>
-  </Router>
+  <Provider key="home-provider" store={store}>
+    <Router key="home-router">
+      <div>
+        <Route component={MusicMarkdownNavbar} />
+        <Route exact path="/" component={Navigation} />
+        <Route path="/sandbox" component={Sandbox} />
+        <Route path="/repos/:owner/:repo/contents/:path" component={MarkdownMusicSourceFetcher} />
+      </div>
+    </Router>
+  </Provider>
 );
 
 const Navigation = () => (
