@@ -48,7 +48,7 @@ class MarkdownMusicSourceFetcher extends React.Component {
       );
     } else {
       return (
-        <div className="Markdown" tabIndex="0" onKeyUp={this.handleKeyUpEvent}>
+        <div className="Markdown">
           <Toolbar></Toolbar>
           <MarkdownMusic source={markdown} />
         </div>
