@@ -1,4 +1,4 @@
-import { REPOS_LOCAL_STORAGE_KEY, GITHUB_TOKEN_LOCAL_STORAGE_KEY } from './Constants';
+import { REPOS_LOCAL_STORAGE_KEY, GITHUB_TOKEN_LOCAL_STORAGE_KEY, GITHUB_API_URL } from './Constants';
 
 /**
  * Returns a Promise of the contents of a file or directory in a GitHub repository.
@@ -52,7 +52,7 @@ export function addRepository(owner, repo, path) {
  * @return {URL} Composed GitHub API url with user's personal access token
  */
 export function getApiUrl(url) {
-  url = new URL(url, 'https://api.github.com');
+  url = new URL(url, GITHUB_API_URL);
 
   const githubToken = localStorage.getItem(GITHUB_TOKEN_LOCAL_STORAGE_KEY);
   if (githubToken) {

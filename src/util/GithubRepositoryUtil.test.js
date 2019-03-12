@@ -6,6 +6,7 @@ describe('GitHub API', () => {
     localStorage.clear();
   });
 
+  // TODO: Mock out the network call to GitHub API
   test('getContents fetches contents', async () => {
     const contents = await getContents('music-markdown', 'almost-in-time', '/');
     expect(contents.length).toBeGreaterThanOrEqual(1);
