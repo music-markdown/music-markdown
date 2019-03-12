@@ -1,7 +1,9 @@
 import ContainerDimensions from 'react-container-dimensions';
 import React from 'react';
+import { connect } from 'react-redux';
 import MarkdownIt from 'markdown-it';
 import MarkdownItMusic from 'markdown-it-music';
+
 import { YouTubeToggle } from './YouTube';
 
 class MarkdownMusicRender extends React.Component {
@@ -13,7 +15,8 @@ class MarkdownMusicRender extends React.Component {
   }
 
   render() {
-    this.md.setTranspose(this.props.transpose);
+    this.md.setTranspose(this.props.transposeAmount);
+    this.md.setColumnCount(this.props.columnCount);
     this.md.setMaxWidth(this.props.width);
     const html = this.md.render(this.props.source);
 
@@ -26,9 +29,16 @@ class MarkdownMusicRender extends React.Component {
   }
 }
 
+function mapStateToProps(state) {
+  const { transposeAmount, columnCount } = state;
+  return { transposeAmount, columnCount };
+}
+
+const ConnectMarkdownMusicRender = connect(mapStateToProps)(MarkdownMusicRender);
+
 const MarkdownMusic = ({ source, transpose }) => (
   <ContainerDimensions>
-    <MarkdownMusicRender source={source} transpose={transpose} />
+    <ConnectMarkdownMusicRender source={source} transpose={transpose} />
   </ContainerDimensions>
 );
 

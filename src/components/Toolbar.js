@@ -19,10 +19,12 @@ class Toolbar extends React.Component {
   }
 
   handleTransposeClick(event) {
+    // TODO: Update history with new transposeAmount
     this.props.transpose(event.target.textContent === this.increase);
   }
 
   handleColumnClick(event) {
+    // TODO: Update history with new columnCount
     this.props.updateColumnCount(event.target.textContent === this.increase);
   }
 
