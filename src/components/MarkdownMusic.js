@@ -36,9 +36,9 @@ function mapStateToProps(state) {
 
 const ConnectMarkdownMusicRender = connect(mapStateToProps)(MarkdownMusicRender);
 
-const MarkdownMusic = ({ source, transpose }) => (
+const MarkdownMusic = ({ source }) => (
   <ContainerDimensions>
-    <ConnectMarkdownMusicRender source={source} transpose={transpose} />
+    <ConnectMarkdownMusicRender source={source} />
   </ContainerDimensions>
 );
 
