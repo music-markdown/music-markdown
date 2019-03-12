@@ -85,7 +85,7 @@ class RepositoryNavigation extends React.Component {
           item.type === 'dir' ? (
             <LinkContainer to={`${REPO_RESOURCE}?${newQueryString}`} key={key}>
               <ListGroupItem action>
-                <i>{item.name}</i>
+                <i>{`${item.name}`}</i>
               </ListGroupItem>
             </LinkContainer>
           ) : item.type === 'file' ? (

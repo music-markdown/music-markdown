@@ -4,7 +4,7 @@ import Nav from 'react-bootstrap/Nav';
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 import { getRepositories, addRepository } from '../util/GithubRepositoryUtil';
-import { REPOS_LOCAL_STORAGE_KEY } from '../util/Constants'
+import { REPOS_LOCAL_STORAGE_KEY } from '../util/Constants';
 import queryString from 'query-string';
 
 // TODO: Build button toggle for dark/light
