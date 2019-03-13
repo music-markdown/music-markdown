@@ -19,3 +19,25 @@ export const updateColumnCount = (isIncreaseColumnCount) => ({
     columnCount: isIncreaseColumnCount ? ++columnCount : --columnCount
   }
 });
+
+export const setTranspose = (newTransposeAmount) => {
+  transposeAmount = newTransposeAmount;
+
+  return ({
+    type: TRANSPOSE,
+    payload: {
+      transposeAmount
+    }
+  });
+};
+
+export const setColumnCount = (newColumnCount) => {
+  columnCount = newColumnCount;
+
+  return ({
+    type: UPDATE_COLUMN_COUNT,
+    payload: {
+      columnCount
+    }
+  });
+};

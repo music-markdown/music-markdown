@@ -1,31 +1,29 @@
 import React from 'react';
-import { createBrowserHistory } from 'history';
-import MarkdownMusic from './MarkdownMusic';
 import queryString from 'query-string';
-import { getContents } from '../util/GithubRepositoryUtil';
+import { connect } from 'react-redux';
 
-const history = createBrowserHistory();
+import MarkdownMusic from './MarkdownMusic';
+import Toolbar from './Toolbar';
+import { getContents } from '../util/GithubRepositoryUtil';
+import { setTranspose, setColumnCount } from '../redux/actions';
 
 // TODO: Decouple retrieval of source markdown and controlling arguments to MarkdownMusic.
 // https://github.com/music-markdown/music-markdown/pull/25#discussion_r259598474
 class MarkdownMusicSourceFetcher extends React.Component {
-  arrowUpKeyCode = 38;
-  arrowDownKeyCode = 40;
-
   constructor(props) {
     super(props);
 
     this.queryParams = queryString.parse(this.props.location.search);
 
+    this.props.setTranspose(parseInt(this.queryParams.transpose, 10) || 0);
+    this.props.setColumnCount(parseInt(this.queryParams.columnCount, 10) || 1);
+
     this.state = {
       isLoaded: false,
       markdown: null,
-      transpose: parseInt(this.queryParams.transpose, 10) || 0,
       repos: this.queryParams.repos,
       path: this.queryParams.path,
     };
-
-    this.handleKeyUpEvent = this.handleKeyUpEvent.bind(this);
   }
 
   async componentDidMount() {
@@ -40,37 +38,26 @@ class MarkdownMusicSourceFetcher extends React.Component {
     });
   }
 
-  handleKeyUpEvent(event) {
-    if (event.keyCode === this.arrowUpKeyCode) {
-      this.setState({
-        transpose: this.state.transpose + 1
-      });
-    } else if (event.keyCode === this.arrowDownKeyCode) {
-      this.setState({
-        transpose: this.state.transpose - 1
-      });
-    }
-
-    this.queryParams.transpose = this.state.transpose + 1;
-    history.push(`#${this.props.location.pathname}?${queryString.stringify(this.queryParams)}`);
-  }
-
   // TODO: Separate the UI component with the fetch logic, we don't necessarily need the fetcher
   // to be a React Component
   render() {
-    const { isLoaded, markdown, transpose } = this.state;
+    const { isLoaded, markdown } = this.state;
     if (!isLoaded) {
       return (
         <div className="Markdown">Loading...</div>
       );
     } else {
       return (
-        <div className="Markdown" tabIndex="0" onKeyUp={this.handleKeyUpEvent}>
-          <MarkdownMusic source={markdown} transpose={transpose} />
+        <div className="Markdown">
+          <Toolbar></Toolbar>
+          <MarkdownMusic source={markdown} />
         </div>
       );
     }
   }
 }
 
-export default MarkdownMusicSourceFetcher;
+export default connect(
+  undefined,
+  { setTranspose, setColumnCount }
+)(MarkdownMusicSourceFetcher);
