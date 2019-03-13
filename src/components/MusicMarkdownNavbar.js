@@ -3,8 +3,8 @@ import NavDropdown from 'react-bootstrap/NavDropdown';
 import Nav from 'react-bootstrap/Nav';
 import React from 'react';
 import { NavLink } from 'react-router-dom';
-import { getRepositories, addRepository } from '../util/GithubRepositoryUtil';
-import { REPOS_LOCAL_STORAGE_KEY } from '../util/Constants';
+import { getRepositories, addRepository } from '../lib/github';
+import { REPOS_LOCAL_STORAGE_KEY } from '../lib/constants';
 import queryString from 'query-string';
 
 // TODO: Build button toggle for dark/light
