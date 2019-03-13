@@ -1,7 +1,8 @@
 language: node_js
 
 node_js:
-  - "node"
+  - "11.10"   # Remove when create-react-app updates jest to 24
+#  - "node"   # Uncomment when create-react-app updates to jest 24
 
 install: npm install
 
