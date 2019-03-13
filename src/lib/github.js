@@ -1,4 +1,4 @@
-import { REPOS_LOCAL_STORAGE_KEY, GITHUB_TOKEN_LOCAL_STORAGE_KEY, GITHUB_API_URL } from './Constants';
+import { REPOS_LOCAL_STORAGE_KEY, GITHUB_TOKEN_LOCAL_STORAGE_KEY, GITHUB_API_URL } from './constants';
 
 /**
  * Returns a Promise of the contents of a file or directory in a GitHub repository.
@@ -9,11 +9,11 @@ import { REPOS_LOCAL_STORAGE_KEY, GITHUB_TOKEN_LOCAL_STORAGE_KEY, GITHUB_API_URL
  * @return {Object} JSON dictionary of repository contents
  */
 export async function getContents(owner, repo, path) {
-  const apiUrl = getApiUrl(`/repos/${owner}/${repo}/contents/${path}`);
-  const response = await fetch(apiUrl);
-  if (path === undefined || path.length === 0 || path === '/') {
+  if (path === undefined || path.length === 0) {
     path = '';
   }
+  const apiUrl = getApiUrl(`/repos/${owner}/${repo}/contents${path}`);
+  const response = await fetch(apiUrl);
   return response.json();
 }
 
