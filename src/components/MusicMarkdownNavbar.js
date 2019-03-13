@@ -5,6 +5,7 @@ import React from 'react';
 import { NavLink } from 'react-router-dom';
 import { getRepositories, addRepository } from '../util/GithubRepositoryUtil';
 import { REPOS_LOCAL_STORAGE_KEY } from '../util/Constants';
+import queryString from 'query-string';
 
 // TODO: Build button toggle for dark/light
 const darkLightThemeFlag = 'dark';
@@ -36,16 +37,22 @@ const RepositoriesNavDropdown = () => {
   const repoDropdownItems = [];
   const repoList = getRepositories();
   if (repoList.length > 0) {
-    repoList.forEach(function(repo) {
+    repoList.forEach((repo) => {
       const repoId = `${repo.owner}/${repo.repo}${repo.path}`;
       // TODO: List valid files after clicking on repo name
-      const itemHref = `/repos/${repo.owner}/${repo.repo}/contents${repo.path}`;
+      const queryParams = {
+        'owner': repo.owner,
+        'repo': repo.repo,
+        'path': repo.path
+      };
+      const itemHref = `/repo?${queryString.stringify(queryParams)}`;
       repoDropdownItems.push(
         <NavLink to={itemHref} key={`dropdown-item-${repoId}`} className="dropdown-item">
           {repoId}
         </NavLink>);
     });
   }
+
   return (
     <NavDropdown title="Music Repositories">
       {/* TODO: Build edit repo functionality */}
