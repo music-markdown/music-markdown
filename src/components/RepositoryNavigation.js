@@ -3,8 +3,8 @@ import Breadcrumb from 'react-bootstrap/Breadcrumb';
 import ListGroup from 'react-bootstrap/ListGroup';
 import ListGroupItem from 'react-bootstrap/ListGroupItem';
 import { LinkContainer } from 'react-router-bootstrap';
-import { getContents } from '../util/GithubRepositoryUtil';
-import { REPO_RESOURCE, RENDER_RESOURCE } from '../util/Constants';
+import { getContents } from '../lib/github';
+import { REPO_RESOURCE, RENDER_RESOURCE } from '../lib/constants';
 import queryString from 'query-string';
 
 /**

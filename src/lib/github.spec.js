@@ -1,15 +1,9 @@
-import { GITHUB_TOKEN_LOCAL_STORAGE_KEY } from './Constants';
-import { getContents, getRepositories, addRepository, getApiUrl } from './GithubRepositoryUtil';
+import { GITHUB_TOKEN_LOCAL_STORAGE_KEY } from './constants';
+import { getRepositories, addRepository, getApiUrl } from './github';
 
 describe('GitHub API', () => {
   afterEach(() => {
     localStorage.clear();
-  });
-
-  // TODO: Mock out the network call to GitHub API
-  test('getContents fetches contents', async () => {
-    const contents = await getContents('music-markdown', 'almost-in-time', '/');
-    expect(contents.length).toBeGreaterThanOrEqual(1);
   });
 
   test('getRepositories contains new repo when repo is added to localStorage', () => {

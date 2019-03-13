@@ -8,7 +8,7 @@ import MusicMarkdownNavbar from './MusicMarkdownNavbar';
 import ResponsiveContainer from './ResponsiveContainer';
 import RepositoryNavigation from './RepositoryNavigation';
 import Sandbox from './Sandbox.js';
-import { REPO_RESOURCE, RENDER_RESOURCE, SANDBOX_RESOURCE } from '../util/Constants';
+import { REPO_RESOURCE, RENDER_RESOURCE, SANDBOX_RESOURCE } from '../lib/constants';
 import './App.scss';
 import 'bootstrap/dist/css/bootstrap.min.css';
 

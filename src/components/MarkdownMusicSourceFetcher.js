@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 
 import MarkdownMusic from './MarkdownMusic';
 import Toolbar from './Toolbar';
-import { getContents } from '../util/GithubRepositoryUtil';
+import { getContents } from '../lib/github';
 import { setTranspose, setColumnCount, setFontSize } from '../redux/actions';
 
 // TODO: Decouple retrieval of source markdown and controlling arguments to MarkdownMusic.
