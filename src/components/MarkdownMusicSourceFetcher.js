@@ -27,9 +27,9 @@ class MarkdownMusicSourceFetcher extends React.Component {
   }
 
   async componentDidMount() {
-    const owner = this.props.match.params.owner;
-    const repo = this.props.match.params.repo;
-    const path = this.props.match.params.path;
+    const owner = this.queryParams.owner;
+    const repo = this.queryParams.repo;
+    const path = this.queryParams.path;
 
     const json = await getContents(owner, repo, path);
     this.setState({
