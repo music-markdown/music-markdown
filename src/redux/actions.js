@@ -1,10 +1,12 @@
 import {
   TRANSPOSE,
-  UPDATE_COLUMN_COUNT
+  UPDATE_COLUMN_COUNT,
+  UPDATE_FONT_SIZE
 } from './actionTypes';
 
 let transposeAmount = 0;
 let columnCount = 1;
+let fontSize = 13;
 
 export const transpose = (isIncreaseTransposeAmount) => ({
   type: TRANSPOSE,
@@ -20,24 +22,42 @@ export const updateColumnCount = (isIncreaseColumnCount) => ({
   }
 });
 
+export const updateFontSize = (isIncreaseFontSize) => ({
+  type: UPDATE_FONT_SIZE,
+  payload: {
+    fontSize: isIncreaseFontSize ? ++fontSize : --fontSize
+  }
+});
+
 export const setTranspose = (newTransposeAmount) => {
   transposeAmount = newTransposeAmount;
 
-  return ({
+  return {
     type: TRANSPOSE,
     payload: {
       transposeAmount
     }
-  });
+  };
 };
 
 export const setColumnCount = (newColumnCount) => {
   columnCount = newColumnCount;
 
-  return ({
+  return {
     type: UPDATE_COLUMN_COUNT,
     payload: {
       columnCount
     }
-  });
+  };
+};
+
+export const setFontSize = (newFontSize) => {
+  fontSize = newFontSize;
+
+  return {
+    type: UPDATE_FONT_SIZE,
+    payload: {
+      fontSize
+    }
+  };
 };
