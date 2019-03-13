@@ -6,6 +6,7 @@ import { connect } from 'react-redux';
 
 import { transpose } from '../redux/actions';
 import { updateColumnCount } from '../redux/actions';
+import { updateFontSize } from '../redux/actions';
 
 class Toolbar extends React.Component {
   constructor(props) {
@@ -13,6 +14,7 @@ class Toolbar extends React.Component {
 
     this.handleTransposeClick = this.handleTransposeClick.bind(this);
     this.handleColumnClick = this.handleColumnClick.bind(this);
+    this.handleFontClick = this.handleFontClick.bind(this);
 
     this.increase = '+1';
     this.decrease = '-1';
@@ -26,6 +28,11 @@ class Toolbar extends React.Component {
   handleColumnClick(event) {
     // TODO: Update history with new columnCount
     this.props.updateColumnCount(event.target.textContent === this.increase);
+  }
+
+  handleFontClick(event) {
+    // TODO: Update history with new fontSize
+    this.props.updateFontSize(event.target.textContent === this.increase);
   }
 
   render() {
@@ -42,6 +49,11 @@ class Toolbar extends React.Component {
           <Button variant='dark' onClick={this.handleColumnClick}>{this.decrease}</Button>
           <Button variant='dark' onClick={this.handleColumnClick}>{this.increase}</Button>
         </ButtonGroup>
+        <span className='padding bg-dark text-light my-auto'>Font Size</span>
+        <ButtonGroup>
+          <Button variant='dark' onClick={this.handleFontClick}>{this.decrease}</Button>
+          <Button variant='dark' onClick={this.handleFontClick}>{this.increase}</Button>
+        </ButtonGroup>
       </ButtonToolbar>
     );
   }
@@ -49,5 +61,5 @@ class Toolbar extends React.Component {
 
 export default connect(
   undefined,
-  { transpose, updateColumnCount }
+  { transpose, updateColumnCount, updateFontSize }
 )(Toolbar);
