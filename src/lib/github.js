@@ -6,13 +6,14 @@ import { REPOS_LOCAL_STORAGE_KEY, GITHUB_TOKEN_LOCAL_STORAGE_KEY, GITHUB_API_URL
  * @param {string} owner Account owner of the repo
  * @param {string} repo Repo name
  * @param {string} path The directory or file to retrieve
+ * @param {string} branch The branch to retrive contents from
  * @return {Object} JSON dictionary of repository contents
  */
-export async function getContents(owner, repo, path) {
+export async function getContents(owner, repo, path, branch) {
   if (path === undefined || path.length === 0) {
     path = '';
   }
-  const apiUrl = getApiUrl(`/repos/${owner}/${repo}/contents${path}`);
+  const apiUrl = getApiUrl(`/repos/${owner}/${repo}/contents/${path}`, branch);
   const response = await fetch(apiUrl);
   return response.json();
 }
@@ -28,6 +29,18 @@ export function getRepositories() {
   } else {
     return [];
   }
+}
+
+/**
+ * Returns a promise of a list of branches for the given repository.
+ * @param {string} owner Account owner of the repo
+ * @param {string} repo Repo name
+ */
+export async function getBranches(owner, repo) {
+  const apiUrl = getApiUrl(`/repos/${owner}/${repo}/branches`);
+  const response = await fetch(apiUrl);
+
+  return response.json();
 }
 
 /**
@@ -52,14 +65,19 @@ export function addRepository(owner, repo, path) {
  * Composes the GitHub API url for the given url, attaching the user's GitHub
  * access token if it exists.
  * @param {string} url The path and search params
+ * @param {string} branch The branch to get from
  * @return {URL} Composed GitHub API url with user's personal access token
  */
-export function getApiUrl(url) {
+export function getApiUrl(url, branch) {
   url = new URL(url, GITHUB_API_URL);
 
   const githubToken = localStorage.getItem(GITHUB_TOKEN_LOCAL_STORAGE_KEY);
   if (githubToken) {
     url.searchParams.set('access_token', githubToken);
+  }
+
+  if (branch) {
+    url.searchParams.set('ref', branch);
   }
 
   return url;
