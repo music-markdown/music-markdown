@@ -5,7 +5,6 @@ import React from 'react';
 import { NavLink } from 'react-router-dom';
 import { getRepositories, addRepository } from '../lib/github';
 import { REPOS_LOCAL_STORAGE_KEY } from '../lib/constants';
-import queryString from 'query-string';
 
 // TODO: Build button toggle for dark/light
 const darkLightThemeFlag = 'dark';
@@ -13,7 +12,7 @@ const darkLightThemeFlag = 'dark';
 const MusicMarkdownNavbar = () => {
   if (!localStorage.getItem(REPOS_LOCAL_STORAGE_KEY)) {
     // TODO: sanitize this input when storing
-    addRepository('music-markdown', 'almost-in-time', '/');
+    addRepository('music-markdown', 'almost-in-time', '/', 'master');
   }
   return (
     <Navbar bg={darkLightThemeFlag} expand="lg" variant={darkLightThemeFlag} key="top-navbar">
@@ -38,16 +37,12 @@ const RepositoriesNavDropdown = () => {
   const repoList = getRepositories();
   if (repoList.length > 0) {
     repoList.forEach((repo) => {
-      const repoId = `${repo.owner}/${repo.repo}${repo.path}`;
-      // TODO: List valid files after clicking on repo name
-      const queryParams = {
-        'owner': repo.owner,
-        'repo': repo.repo,
-        'path': repo.path
-      };
-      const itemHref = `/repo?${queryString.stringify(queryParams)}`;
+      const repoId = `${repo.owner}/${repo.repo}/${repo.branch}${repo.path}`;
       repoDropdownItems.push(
-        <NavLink to={itemHref} key={`dropdown-item-${repoId}`} className="dropdown-item">
+        <NavLink
+          to={`/repos/${repo.owner}/${repo.repo}/browser/${repo.branch}${repo.path}`}
+          key={`dropdown-item-${repoId}`}
+          className="dropdown-item">
           {repoId}
         </NavLink>);
     });
