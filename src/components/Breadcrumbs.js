@@ -7,7 +7,7 @@ import { LinkContainer } from 'react-router-bootstrap';
  * @param {string} pathname current URI pathname
  * @return {Array} List of BreadcrumbItems
  */
-export function getBreadcrumbsComponent(pathname) {
+const Breadcrumbs = ({ pathname }) => {
   const breadcrumbItems = [];
   const viewNames = ['browser', 'viewer', 'editor'];
   const keyBase = 'breadcrumb-item-';
@@ -40,6 +40,8 @@ export function getBreadcrumbsComponent(pathname) {
       // Last item should be active
       isActive = true;
       break;
+    default:
+      break;
     };
 
     breadcrumbItems.push(
@@ -56,4 +58,6 @@ export function getBreadcrumbsComponent(pathname) {
       {breadcrumbItems}
     </Breadcrumb>
   );
-}
+};
+
+export default Breadcrumbs;

@@ -1,8 +1,8 @@
 import React from 'react';
 import ListGroup from 'react-bootstrap/ListGroup';
 import NavigationListItem from './NavigationListItem';
+import Breadcrumbs from './Breadcrumbs';
 import { getBranches } from '../lib/github';
-import { getBreadcrumbsComponent } from '../lib/navigation';
 
 /**
  * A React component for rendering repository items when navigating the /repos resource
@@ -71,12 +71,10 @@ class BranchNavigation extends React.Component {
         listGroupItems.push(<NavigationListItem to={linkToContent} key={key} item={item.name} action />);
       });
 
-      const breadcrumbsComponent = getBreadcrumbsComponent(this.props.location.pathname);
-
       return (
         <>
           <h2>Repository Contents</h2>
-          {breadcrumbsComponent}
+          <Breadcrumbs pathname={this.props.location.pathname} />
           <ListGroup>
             {listGroupItems}
           </ListGroup>
