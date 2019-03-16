@@ -12,7 +12,7 @@ const darkLightThemeFlag = 'dark';
 const MusicMarkdownNavbar = () => {
   if (!localStorage.getItem(REPOS_LOCAL_STORAGE_KEY)) {
     // TODO: sanitize this input when storing
-    addRepository('music-markdown', 'almost-in-time', '/');
+    addRepository('music-markdown', 'almost-in-time', '/', 'master');
   }
   return (
     <Navbar bg={darkLightThemeFlag} expand="lg" variant={darkLightThemeFlag} key="top-navbar">
@@ -37,12 +37,10 @@ const RepositoriesNavDropdown = () => {
   const repoList = getRepositories();
   if (repoList.length > 0) {
     repoList.forEach((repo) => {
-      const repoId = `${repo.owner}/${repo.repo}${repo.path}`;
-      // TODO: List valid files after clicking on repo name
+      const repoId = `${repo.owner}/${repo.repo}/${repo.branch}${repo.path}`;
       repoDropdownItems.push(
         <NavLink
-          // TODO: branch
-          to={`/repos/${repo.owner}/${repo.repo}/browser/master${repo.path}`}
+          to={`/repos/${repo.owner}/${repo.repo}/browser/${repo.branch}${repo.path}`}
           key={`dropdown-item-${repoId}`}
           className="dropdown-item">
           {repoId}

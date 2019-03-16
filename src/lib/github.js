@@ -48,13 +48,10 @@ export async function getBranches(owner, repo) {
  * @param {string} owner Repo owner
  * @param {string} repo Repo name
  * @param {string} path Subdirectory
+ * @param {string} branch Branch name
  */
-export function addRepository(owner, repo, path) {
-  const repoMap = {
-    'owner': owner,
-    'repo': repo,
-    'path': path
-  };
+export function addRepository(owner, repo, path, branch) {
+  const repoMap = { owner, repo, path, branch };
   const storedRepos = getRepositories();
   const repoList = storedRepos.length > 0 ? storedRepos : [];
   repoList.push(repoMap);
