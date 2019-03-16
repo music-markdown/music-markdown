@@ -1,6 +1,5 @@
 import React from 'react';
 import Breadcrumb from 'react-bootstrap/Breadcrumb';
-import ListGroupItem from 'react-bootstrap/ListGroupItem';
 import { LinkContainer } from 'react-router-bootstrap';
 
 /**
@@ -58,11 +57,3 @@ export function getBreadcrumbsComponent(pathname) {
     </Breadcrumb>
   );
 }
-
-export const ListItem = ({ to, action, item }) => (
-  <LinkContainer to={to}>
-    <ListGroupItem action={action}>
-      {item}
-    </ListGroupItem>
-  </LinkContainer>
-);
