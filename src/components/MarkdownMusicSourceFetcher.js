@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import MarkdownMusic from './MarkdownMusic';
 import Toolbar from './Toolbar';
 import { getContents } from '../lib/github';
-import { setTranspose, setColumnCount } from '../redux/actions';
+import { setTranspose, setColumnCount, setFontSize } from '../redux/actions';
 
 // TODO: Decouple retrieval of source markdown and controlling arguments to MarkdownMusic.
 // https://github.com/music-markdown/music-markdown/pull/25#discussion_r259598474
@@ -17,6 +17,7 @@ class MarkdownMusicSourceFetcher extends React.Component {
 
     this.props.setTranspose(parseInt(this.queryParams.transpose, 10) || 0);
     this.props.setColumnCount(parseInt(this.queryParams.columnCount, 10) || 1);
+    this.props.setFontSize(parseInt(this.queryParams.fontSize, 10) || 13);
 
     this.state = {
       isLoaded: false,
@@ -55,5 +56,5 @@ class MarkdownMusicSourceFetcher extends React.Component {
 
 export default connect(
   undefined,
-  { setTranspose, setColumnCount }
+  { setTranspose, setColumnCount, setFontSize }
 )(MarkdownMusicSourceFetcher);

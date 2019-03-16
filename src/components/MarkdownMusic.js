@@ -17,6 +17,7 @@ class MarkdownMusicRender extends React.Component {
   render() {
     this.md.setTranspose(this.props.transposeAmount);
     this.md.setColumnCount(this.props.columnCount);
+    this.md.setFontSize(this.props.fontSize);
     this.md.setMaxWidth(this.props.width);
     const html = this.md.render(this.props.source);
 
@@ -30,8 +31,8 @@ class MarkdownMusicRender extends React.Component {
 }
 
 function mapStateToProps(state) {
-  const { transposeAmount, columnCount } = state;
-  return { transposeAmount, columnCount };
+  const { transposeAmount, columnCount, fontSize } = state;
+  return { transposeAmount, columnCount, fontSize };
 }
 
 const ConnectMarkdownMusicRender = connect(mapStateToProps)(MarkdownMusicRender);
