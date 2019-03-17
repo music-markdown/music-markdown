@@ -20,7 +20,7 @@ class RepositoryNavigation extends React.Component {
   async componentDidMount() {
     const { owner, repo, path, branch } = this.props.match.params;
 
-    const contents = await getContents(owner, repo, path === undefined ? path : decodeURIComponent(path), branch);
+    const contents = await getContents(owner, repo, path, branch);
     this.setState({
       isLoaded: true,
       contents
@@ -36,7 +36,7 @@ class RepositoryNavigation extends React.Component {
     const { owner, repo, path, branch } = this.props.match.params;
 
     if (prevOwner !== owner || prevRepo !== repo || prevPath !== path || prevBranch !== branch) {
-      const contents = await getContents(owner, repo, path === undefined ? path : decodeURIComponent(path), branch);
+      const contents = await getContents(owner, repo, path, branch);
       this.setState({
         isLoaded: true,
         contents
@@ -45,50 +45,47 @@ class RepositoryNavigation extends React.Component {
   }
 
   render() {
-    const { isLoaded } = this.state;
+    const { isLoaded, contents } = this.state;
     if (!isLoaded) {
-      return (
-        <div className="Markdown">Loading...</div>
-      );
-    } else {
-      const listGroupItems = [];
-      const { contents } = this.state;
+      return <div className="Markdown">Loading...</div>;
+    }
 
-      if (!contents.forEach) {
-        return <div>{contents.message}</div>;
+    if (!contents.forEach) {
+      return <div>{contents.message}</div>;
+    }
+
+    const listGroupItems = [];
+
+    contents.forEach((item) => {
+      const key = `list-group-item-${item.name}`;
+
+      const { owner, repo, branch } = this.props.match.params;
+
+      let viewType = 'error';
+      let itemJsx = <div>File type {item.type} not supported</div>;
+
+      if (item.type === 'dir') {
+        viewType = 'browser';
+        itemJsx = <i>{`/${item.name}`}</i>;
+      } else if (item.type === 'file') {
+        viewType = 'viewer';
+        itemJsx = item.name;
       }
 
-      contents.forEach((item) => {
-        const key = `list-group-item-${item.name}`;
+      const linkToContent = `/repos/${owner}/${repo}/${viewType}/${branch}/${item.path}`;
 
-        const { owner, repo, branch } = this.props.match.params;
+      listGroupItems.push(<NavigationListItem to={linkToContent} key={key} action item={itemJsx} />);
+    });
 
-        let viewType = 'error';
-        let itemJsx = <div>File type {item.type} not supported</div>;
-
-        if (item.type === 'dir') {
-          viewType = 'browser';
-          itemJsx = <i>{`/${item.name}`}</i>;
-        } else if (item.type === 'file') {
-          viewType = 'viewer';
-          itemJsx = item.name;
-        }
-
-        const linkToContent = `/repos/${owner}/${repo}/${viewType}/${branch}/${encodeURIComponent(item.path)}`;
-
-        listGroupItems.push(<NavigationListItem to={linkToContent} key={key} action item={itemJsx} />);
-      });
-
-      return (
-        <>
-          <h2>Repository Contents</h2>
-          <Breadcrumbs pathname={this.props.location.pathname} />
-          <ListGroup>
-            {listGroupItems}
-          </ListGroup>
-        </>
-      );
-    }
+    return (
+      <>
+        <h2>Repository Contents</h2>
+        <Breadcrumbs pathname={this.props.location.pathname} />
+        <ListGroup>
+          {listGroupItems}
+        </ListGroup>
+      </>
+    );
   }
 }
 

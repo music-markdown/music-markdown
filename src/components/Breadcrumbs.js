@@ -12,7 +12,7 @@ const Breadcrumbs = ({ pathname }) => {
   const viewNames = ['browser', 'viewer', 'editor'];
   const keyBase = 'breadcrumb-item-';
 
-  const subDirectoriesArr = decodeURIComponent(pathname).split('/');
+  const subDirectoriesArr = pathname.split('/');
 
   // pathname starts with '/', so discard. Pathname will sometimes end with '/', so discard that as well.
   subDirectoriesArr.shift();
