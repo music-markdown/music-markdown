@@ -1,13 +1,13 @@
-import Container from 'react-bootstrap/Container.js';
+import Grid from '@material-ui/core/Grid';
 import React from 'react';
 
 const RESPONSIVE_CONTAINER_KEY = 'app-container';
 
 function ResponsiveContainer(props) {
   return (
-    <Container key={RESPONSIVE_CONTAINER_KEY}>
+    <Grid key={RESPONSIVE_CONTAINER_KEY}>
       {props.children}
-    </Container>
+    </Grid>
   );
 }
 
