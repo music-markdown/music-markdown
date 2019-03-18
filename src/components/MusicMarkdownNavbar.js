@@ -28,10 +28,10 @@ const MusicMarkdownNavbar = (props) => {
     addRepository('music-markdown', 'almost-in-time', '/', 'master');
   }
   return (
-    <AppBar position={'sticky'} key="top-navbar">
+    <AppBar position={'sticky'} key='top-navbar'>
       <Toolbar>
         <Button className={classNames(classes.inheritHoverColor)} component={Link} to='/'>
-          <Typography variant="h6" color="inherit">
+          <Typography variant='h6' color='inherit'>
             Music Markdown
           </Typography>
         </Button>
