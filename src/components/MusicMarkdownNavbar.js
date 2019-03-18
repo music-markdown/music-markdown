@@ -2,17 +2,27 @@ import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
-import IconButton from '@material-ui/core/IconButton';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
-import MenuIcon from '@material-ui/icons/Menu';
+import { withStyles } from '@material-ui/core/styles';
+import classNames from 'classnames';
 
 import React from 'react';
 import { NavLink, Link } from 'react-router-dom';
 import { getRepositories, addRepository } from '../lib/github';
 import { REPOS_LOCAL_STORAGE_KEY } from '../lib/constants';
 
-const MusicMarkdownNavbar = () => {
+const styles = {
+  inheritHoverColor: {
+    '&:hover': {
+      color: 'inherit'
+    }
+  }
+};
+
+const MusicMarkdownNavbar = (props) => {
+  const { classes } = props;
+
   if (!localStorage.getItem(REPOS_LOCAL_STORAGE_KEY)) {
     // TODO: sanitize this input when storing
     addRepository('music-markdown', 'almost-in-time', '/', 'master');
@@ -20,13 +30,13 @@ const MusicMarkdownNavbar = () => {
   return (
     <AppBar position={'sticky'} key="top-navbar">
       <Toolbar>
-        <Button component={Link} to='/'>
+        <Button className={classNames(classes.inheritHoverColor)} component={Link} to='/'>
           <Typography variant="h6" color="inherit">
             Music Markdown
           </Typography>
         </Button>
-        <RepositoriesNavDropdown />
-        <Button component={NavLink} to='/sandbox'>
+        <RepositoriesNavDropdown {...props} />
+        <Button className={classNames(classes.inheritHoverColor)} component={NavLink} to='/sandbox'>
           Sandbox
         </Button>
       </Toolbar>
@@ -67,13 +77,16 @@ class RepositoriesNavDropdown extends React.Component {
     const repoList = getRepositories();
 
     if (repoList.length > 0) {
+      const { inheritHoverColor } = this.props.classes;
+
       repoList.forEach((repo) => {
         const repoId = `${repo.owner}/${repo.repo}/${repo.branch}${repo.path}`;
         repoDropdownItems.push(
           <MenuItem component={NavLink}
             to={`/repos/${repo.owner}/${repo.repo}/browser/${repo.branch}${repo.path}`}
             key={`dropdown-item-${repoId}`}
-            onClick={this.handleClose}>
+            onClick={this.handleClose}
+            className={classNames(inheritHoverColor)}>
             {repoId}
           </MenuItem>);
       });
@@ -97,4 +110,4 @@ class RepositoriesNavDropdown extends React.Component {
   }
 };
 
-export default MusicMarkdownNavbar;
+export default withStyles(styles)(MusicMarkdownNavbar);
