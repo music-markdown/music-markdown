@@ -2,6 +2,7 @@ import React from 'react';
 import { HashRouter as Router, Route, Switch } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import store from '../redux/store';
+import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 
 import MarkdownMusicSourceFetcher from './MarkdownMusicSourceFetcher';
 import MusicMarkdownNavbar from './MusicMarkdownNavbar';
@@ -12,8 +13,20 @@ import Sandbox from './Sandbox.js';
 import './App.scss';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
+// TODO: Build button toggle for dark/light
+const theme = createMuiTheme({
+  typography: {
+    useNextVariants: true,
+  },
+  palette: {
+    type: 'dark',
+  },
+});
+
 const App = () => (
-  <ResponsiveContainer children={[HomeRouter()]} />
+  <MuiThemeProvider theme={theme}>
+    <ResponsiveContainer children={[HomeRouter()]} />
+  </MuiThemeProvider>
 );
 
 const HomeRouter = () => (

@@ -1,13 +1,16 @@
-import Navbar from 'react-bootstrap/Navbar';
-import NavDropdown from 'react-bootstrap/NavDropdown';
-import Nav from 'react-bootstrap/Nav';
+import AppBar from '@material-ui/core/AppBar';
+import Toolbar from '@material-ui/core/Toolbar';
+import Typography from '@material-ui/core/Typography';
+import Button from '@material-ui/core/Button';
+import IconButton from '@material-ui/core/IconButton';
+import Menu from '@material-ui/core/Menu';
+import MenuItem from '@material-ui/core/MenuItem';
+import MenuIcon from '@material-ui/icons/Menu';
+
 import React from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, Link } from 'react-router-dom';
 import { getRepositories, addRepository } from '../lib/github';
 import { REPOS_LOCAL_STORAGE_KEY } from '../lib/constants';
-
-// TODO: Build button toggle for dark/light
-const darkLightThemeFlag = 'dark';
 
 const MusicMarkdownNavbar = () => {
   if (!localStorage.getItem(REPOS_LOCAL_STORAGE_KEY)) {
@@ -15,16 +18,19 @@ const MusicMarkdownNavbar = () => {
     addRepository('music-markdown', 'almost-in-time', '/', 'master');
   }
   return (
-    <Navbar bg={darkLightThemeFlag} expand="lg" variant={darkLightThemeFlag} key="top-navbar">
-      <Navbar.Brand href="/">Music Markdown</Navbar.Brand>
-      <Navbar.Toggle aria-controls="basic-navbar-nav" />
-      <Navbar.Collapse>
-        <Nav className="mr-auto">
-          <RepositoriesNavDropdown />
-          <NavLink to="/sandbox" className="nav-link" activeClassName="active">Sandbox</NavLink>
-        </Nav>
-      </Navbar.Collapse>
-    </Navbar>
+    <AppBar position={'sticky'} key="top-navbar">
+      <Toolbar>
+        <Button component={Link} to='/'>
+          <Typography variant="h6" color="inherit">
+            Music Markdown
+          </Typography>
+        </Button>
+        <RepositoriesNavDropdown />
+        <Button component={NavLink} to='/sandbox'>
+          Sandbox
+        </Button>
+      </Toolbar>
+    </AppBar>
   );
 };
 
@@ -32,30 +38,63 @@ const MusicMarkdownNavbar = () => {
  * For all added repositories, add it to the dropdown list
  */
 // TODO: List first x items, then put in dropdown item to expand full list
-const RepositoriesNavDropdown = () => {
-  const repoDropdownItems = [];
-  const repoList = getRepositories();
-  if (repoList.length > 0) {
-    repoList.forEach((repo) => {
-      const repoId = `${repo.owner}/${repo.repo}/${repo.branch}${repo.path}`;
-      repoDropdownItems.push(
-        <NavLink
-          to={`/repos/${repo.owner}/${repo.repo}/browser/${repo.branch}${repo.path}`}
-          key={`dropdown-item-${repoId}`}
-          className="dropdown-item">
-          {repoId}
-        </NavLink>);
-    });
+class RepositoriesNavDropdown extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      open: false
+    };
+
+    this.handleClick = this.handleClick.bind(this);
+    this.handleClose = this.handleClose.bind(this);
   }
 
-  return (
-    <NavDropdown title="Music Repositories">
-      {/* TODO: Build edit repo functionality */}
-      <NavDropdown.Item><b>Edit Repositories</b></NavDropdown.Item>
-      <NavDropdown.Divider />
-      {repoDropdownItems}
-    </NavDropdown>
-  );
+  handleClick() {
+    this.setState((state) => ({
+      open: !state.open
+    }));
+  }
+
+  handleClose() {
+    this.setState(() => ({
+      open: false
+    }));
+  }
+
+  render() {
+    const repoDropdownItems = [];
+    const repoList = getRepositories();
+
+    if (repoList.length > 0) {
+      repoList.forEach((repo) => {
+        const repoId = `${repo.owner}/${repo.repo}/${repo.branch}${repo.path}`;
+        repoDropdownItems.push(
+          <MenuItem component={NavLink}
+            to={`/repos/${repo.owner}/${repo.repo}/browser/${repo.branch}${repo.path}`}
+            key={`dropdown-item-${repoId}`}
+            onClick={this.handleClose}>
+            {repoId}
+          </MenuItem>);
+      });
+    }
+
+    const { open } = this.state;
+
+    return (
+      <>
+        <Button onClick={this.handleClick} buttonRef={(node) => {
+          this.anchorEl = node;
+        }}>
+          Music Repositories
+        </Button>
+
+        <Menu id='dropdown-menu' anchorEl={this.anchorEl} open={open} onClose={this.handleClose}>
+          {repoDropdownItems}
+        </Menu>
+      </>
+    );
+  }
 };
 
 export default MusicMarkdownNavbar;
