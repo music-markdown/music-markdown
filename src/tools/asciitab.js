@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 'use strict';
 
-const Chord = require('markdown-it-music/parsers/chord');
+const { isChord } = require('markdown-it-music/lib/chord');
 
 const State = {
   DEFAULT: 1,
@@ -24,7 +24,7 @@ function getMaybeChords(line) {
   const tokens = line.trim().split(/\s+/);
 
   for (const token of tokens) {
-    if (!Chord.isChord(token)) {
+    if (!isChord(token)) {
       return null;
     }
   }

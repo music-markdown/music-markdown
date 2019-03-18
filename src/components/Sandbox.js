@@ -1,5 +1,6 @@
 import React from 'react';
 import MarkdownMusic from './MarkdownMusic';
+import { parseVoicing } from 'markdown-it-music/lib/voicing';
 import { renderChordDiagram } from 'markdown-it-music/renderers/chord_diagram';
 import { guitarChordLibrary } from 'markdown-it-music/renderers/chord_library';
 import Toolbar from './Toolbar';
@@ -23,7 +24,7 @@ const Sandbox = () => (
     </p>
     <h3>Esus4 (200x200)</h3>
     <div dangerouslySetInnerHTML={
-      { __html: renderChordDiagram('o2 m1 m2 n3,2 n4,4 b5,6,5', 200, 200) }
+      { __html: renderChordDiagram(parseVoicing('o2 m1 m2 n3,2 n4,4 b5,6,5'), 200, 200) }
     } />
 
     <h2>Entire Chord Library</h2>
