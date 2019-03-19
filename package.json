@@ -48,6 +48,8 @@
     "not op_mini all"
   ],
   "devDependencies": {
+    "enzyme": "^3.9.0",
+    "enzyme-adapter-react-16": "^1.11.2",
     "eslint-config-google": "^0.12.0",
     "redux-devtools": "^3.5.0"
   }

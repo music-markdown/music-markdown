@@ -34,12 +34,11 @@ const RouterBreadcrumbs = ({ pathname, classes }) => {
   let currDir = '';
   for (let i = 0; i < subDirectoriesArr.length; i++) {
     const directory = subDirectoriesArr[i];
+    currDir = currDir.concat('/', directory);
 
     if (viewNames.indexOf(directory) !== -1) {
       continue;
     }
-
-    currDir = currDir.concat('/', directory);
 
     if (i === subDirectoriesArr.length - 1) {
       // Last item should be active
