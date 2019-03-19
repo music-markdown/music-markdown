@@ -7,40 +7,29 @@ import { Paper, withStyles } from '@material-ui/core';
 
 const styles = (theme) => ({
   paper: {
-    padding: `${theme.spacing.unit}px ${theme.spacing.unit * 2}px`,
+    padding: `${theme.spacing.unit}px`,
   },
   reactRouterHoverInherit: theme.reactRouterHoverInherit
 });
 
-/**
- * Returns a list of breadcrumbs based on current path of navigation
- * @param {string} pathname current URI pathname
- * @return {Array} List of BreadcrumbItems
- */
-const RouterBreadcrumbs = ({ pathname, classes }) => {
+function buildBreadcrumb(previousPath, classes) {
   const breadcrumbItems = [];
-  const viewNames = ['browser', 'viewer', 'editor', 'repos'];
+
+  // ignoreIndex matches the Route defined in App.js.
+  // Certain portions are not useful to user in the breadcrumb, so we remove them.
+  const ignoreIndex = [0/* /repos */, 3/* /:viewName(browser|viewer|editor) */];
   const keyBase = 'breadcrumb-item-';
 
-  const subDirectoriesArr = pathname.split('/');
-
-  // pathname starts with '/', so discard. Pathname will sometimes end with '/', so discard that as well.
-  subDirectoriesArr.shift();
-  if (subDirectoriesArr[subDirectoriesArr.length - 1] === '') {
-    subDirectoriesArr.pop();
-  }
-
-
   let currDir = '';
-  for (let i = 0; i < subDirectoriesArr.length; i++) {
-    const directory = subDirectoriesArr[i];
+  for (let i = 0; i < previousPath.length; i++) {
+    const directory = previousPath[i];
     currDir = currDir.concat('/', directory);
 
-    if (viewNames.indexOf(directory) !== -1) {
+    if (ignoreIndex.indexOf(i) !== -1) {
       continue;
     }
 
-    if (i === subDirectoriesArr.length - 1) {
+    if (i === previousPath.length - 1) {
       // Last item should be active
       breadcrumbItems.push(
         <Typography color="textPrimary" key={`${keyBase}${i}`}>
@@ -60,6 +49,21 @@ const RouterBreadcrumbs = ({ pathname, classes }) => {
       );
     }
   };
+
+  return breadcrumbItems;
+}
+
+/**
+ * Returns a list of breadcrumbs based on current path of navigation
+ * @param {string} pathname current URI pathname
+ * @return {Array} List of BreadcrumbItems
+ */
+const RouterBreadcrumbs = ({ pathname, classes }) => {
+  const keyBase = 'breadcrumb-item-';
+
+  const subDirectoriesArr = pathname.split('/').filter((value) => !!value);
+
+  const breadcrumbItems = buildBreadcrumb(subDirectoriesArr, classes);
 
   return (
     <Paper className={classes.paper}>
