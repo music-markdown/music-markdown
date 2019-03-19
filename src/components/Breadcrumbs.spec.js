@@ -1,9 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Breadcrumbs from './Breadcrumbs';
+import RouterBreadcrumbs from './RouterBreadcrumbs';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 
-describe('Breadcrumbs', () => {
+describe('RouterBreadcrumbs', () => {
   it('renders without crashing', () => {
     const div = document.createElement('div');
     ReactDOM.render(
@@ -11,7 +11,7 @@ describe('Breadcrumbs', () => {
         <Route
           path='/'
           exact
-          render={(props) => <Breadcrumbs {...props} pathname={'/test/path'} />}/>
+          render={(props) => <RouterBreadcrumbs {...props} pathname={'/test/path'} />}/>
       </Router>, div);
     ReactDOM.unmountComponentAtNode(div);
   });

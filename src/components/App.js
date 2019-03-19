@@ -21,6 +21,11 @@ const theme = createMuiTheme({
   palette: {
     type: 'dark',
   },
+  reactRouterHoverInherit: {
+    '&:hover': {
+      color: 'inherit'
+    },
+  },
 });
 
 const App = () => (
