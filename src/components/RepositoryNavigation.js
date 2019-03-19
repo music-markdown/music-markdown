@@ -1,8 +1,15 @@
 import React from 'react';
-import ListGroup from 'react-bootstrap/ListGroup';
 import NavigationListItem from './NavigationListItem';
 import Breadcrumbs from './Breadcrumbs';
 import { getContents } from '../lib/github';
+import { withStyles } from '@material-ui/core';
+import List from '@material-ui/core/List';
+
+const styles = (theme) => ({
+  root: {
+    backgroundColor: theme.palette.background.paper,
+  }
+});
 
 /**
  * A React component for rendering repository items when navigating the /repos resource
@@ -74,19 +81,19 @@ class RepositoryNavigation extends React.Component {
 
       const linkToContent = `/repos/${owner}/${repo}/${viewType}/${branch}/${item.path}`;
 
-      listGroupItems.push(<NavigationListItem to={linkToContent} key={key} action item={itemJsx} />);
+      listGroupItems.push(<NavigationListItem to={linkToContent} key={key} action itemName={itemJsx} />);
     });
 
     return (
       <>
         <h2>Repository Contents</h2>
-        <Breadcrumbs pathname={this.props.location.pathname} />
-        <ListGroup>
+        <RouterBreadcrumbs pathname={this.props.location.pathname} />
+        <List className={this.props.classes.root}>
           {listGroupItems}
-        </ListGroup>
+        </List>
       </>
     );
   }
 }
 
-export default RepositoryNavigation;
+export default withStyles(styles)(RepositoryNavigation);
