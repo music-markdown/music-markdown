@@ -3,7 +3,7 @@ import List from '@material-ui/core/List';
 import NavigationListItem from './NavigationListItem';
 import RouterBreadcrumbs from './RouterBreadcrumbs';
 import { getBranches } from '../lib/github';
-import { withStyles } from '@material-ui/core';
+import { withStyles, Typography } from '@material-ui/core';
 
 const styles = (theme) => ({
   root: {
@@ -80,7 +80,9 @@ class BranchNavigation extends React.Component {
 
       return (
         <>
-          <h2>Repository Contents</h2>
+          <Typography variant='h3'>
+            Branches
+          </Typography>
           <RouterBreadcrumbs pathname={this.props.location.pathname} />
           <List className={this.props.classes.root}>
             {listGroupItems}

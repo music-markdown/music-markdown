@@ -2,7 +2,7 @@ import React from 'react';
 import NavigationListItem from './NavigationListItem';
 import RouterBreadcrumbs from './RouterBreadcrumbs';
 import { getContents } from '../lib/github';
-import { withStyles } from '@material-ui/core';
+import { withStyles, Typography } from '@material-ui/core';
 import List from '@material-ui/core/List';
 
 const styles = (theme) => ({
@@ -86,7 +86,9 @@ class RepositoryNavigation extends React.Component {
 
     return (
       <>
-        <h2>Repository Contents</h2>
+        <Typography variant='h3'>
+          Repository Contents
+        </Typography>
         <RouterBreadcrumbs pathname={this.props.location.pathname} />
         <List className={this.props.classes.root}>
           {listGroupItems}
