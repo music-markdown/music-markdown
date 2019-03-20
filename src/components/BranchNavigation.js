@@ -69,12 +69,8 @@ class BranchNavigation extends React.Component {
 
         const linkToContent = `/repos/${owner}/${repo}/browser/${item.name}`;
 
-        listGroupItems.push((
-          <>
-            <Divider />
-            <NavigationListItem to={linkToContent} key={key} itemName={item.name} action />
-          </>)
-        );
+        listGroupItems.push(<Divider key={`navigation-divider-${item.name}`}/>);
+        listGroupItems.push(<NavigationListItem to={linkToContent} key={key} itemName={item.name} action />);
       });
 
       return (

@@ -75,12 +75,8 @@ class RepositoryNavigation extends React.Component {
 
       const linkToContent = `/repos/${owner}/${repo}/${viewType}/${branch}/${item.path}`;
 
-      listGroupItems.push((
-        <>
-          <Divider/>
-          <NavigationListItem to={linkToContent} key={key} action itemName={itemJsx} />
-        </>)
-      );
+      listGroupItems.push(<Divider key={`navigation-divider-${item.name}`}/>);
+      listGroupItems.push(<NavigationListItem to={linkToContent} key={key} action itemName={itemJsx} />);
     });
 
     return (
@@ -89,9 +85,9 @@ class RepositoryNavigation extends React.Component {
           Repository Contents
         </Typography>
         <RouterBreadcrumbs pathname={this.props.location.pathname} />
-        <List>
+        <List key={'repo-navigation-list'}>
           {listGroupItems}
-          <Divider/>
+          <Divider key={'end-of-list-divider'}/>
         </List>
       </>
     );
