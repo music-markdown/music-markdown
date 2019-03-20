@@ -1,6 +1,6 @@
 import React from 'react';
 import NavigationListItem from './NavigationListItem';
-import Breadcrumbs from './Breadcrumbs';
+import RouterBreadcrumbs from './RouterBreadcrumbs';
 import { getContents } from '../lib/github';
 import { withStyles } from '@material-ui/core';
 import List from '@material-ui/core/List';

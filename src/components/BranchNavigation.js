@@ -1,7 +1,7 @@
 import React from 'react';
 import List from '@material-ui/core/List';
 import NavigationListItem from './NavigationListItem';
-import Breadcrumbs from './Breadcrumbs';
+import RouterBreadcrumbs from './RouterBreadcrumbs';
 import { getBranches } from '../lib/github';
 import { withStyles } from '@material-ui/core';
 
