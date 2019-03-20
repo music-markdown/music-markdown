@@ -83,5 +83,6 @@ describe('<RouterBreadcrumbs />', () => {
     const finalItem = breadcrumbs.find(Typography)
       .map((node) => node.children().text());
 
-    expect(finalItem).toEqual(['path']);});
+    expect(finalItem).toEqual(['path']);
+  });
 });
