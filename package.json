@@ -10,17 +10,18 @@
     "@fortawesome/react-fontawesome": "^0.1.4",
     "@material-ui/core": "^3.9.2",
     "@material-ui/icons": "^3.0.2",
+    "@material-ui/lab": "^3.0.0-alpha.30",
     "abcjs": "^5.6.7",
     "bootstrap": "^4.3.1",
     "eslint-plugin-react": "^7.12.4",
-    "history": "^4.7.2",
+    "history": "^4.9.0",
     "jquery": "^3.3.1",
     "markdown-it": "^8.4.2",
     "markdown-it-music": "github:music-markdown/markdown-it-music",
     "node-sass": "^4.11.0",
     "normalize-url": "^4.2.0",
     "npm": "^6.9.0",
-    "query-string": "^6.3.0",
+    "query-string": "^6.4.0",
     "react": "^16.8.4",
     "react-bootstrap": "^1.0.0-beta.5",
     "react-container-dimensions": "^1.4.1",
@@ -47,6 +48,8 @@
     "not op_mini all"
   ],
   "devDependencies": {
+    "enzyme": "^3.9.0",
+    "enzyme-adapter-react-16": "^1.11.2",
     "eslint-config-google": "^0.12.0",
     "redux-devtools": "^3.5.0"
   }

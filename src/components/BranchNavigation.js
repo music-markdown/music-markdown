@@ -1,7 +1,7 @@
 import React from 'react';
 import ListGroup from 'react-bootstrap/ListGroup';
 import NavigationListItem from './NavigationListItem';
-import Breadcrumbs from './Breadcrumbs';
+import RouterBreadcrumbs from './RouterBreadcrumbs';
 import { getBranches } from '../lib/github';
 
 /**
@@ -74,7 +74,7 @@ class BranchNavigation extends React.Component {
       return (
         <>
           <h2>Repository Contents</h2>
-          <Breadcrumbs pathname={this.props.location.pathname} />
+          <RouterBreadcrumbs pathname={this.props.location.pathname} />
           <ListGroup>
             {listGroupItems}
           </ListGroup>

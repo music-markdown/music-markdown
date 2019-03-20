@@ -5,20 +5,15 @@ import Button from '@material-ui/core/Button';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import { withStyles } from '@material-ui/core/styles';
-import classNames from 'classnames';
 
 import React from 'react';
 import { NavLink, Link } from 'react-router-dom';
 import { getRepositories, addRepository } from '../lib/github';
 import { REPOS_LOCAL_STORAGE_KEY } from '../lib/constants';
 
-const styles = {
-  inheritHoverColor: {
-    '&:hover': {
-      color: 'inherit'
-    }
-  }
-};
+const styles = (theme) => ({
+  reactRouterHoverInherit: theme.reactRouterHoverInherit
+});
 
 const MusicMarkdownNavbar = (props) => {
   const { classes } = props;
@@ -27,16 +22,17 @@ const MusicMarkdownNavbar = (props) => {
     // TODO: sanitize this input when storing
     addRepository('music-markdown', 'almost-in-time', '/', 'master');
   }
+
   return (
     <AppBar position={'sticky'} key='top-navbar'>
       <Toolbar>
-        <Button className={classNames(classes.inheritHoverColor)} component={Link} to='/'>
-          <Typography variant='h6' color='inherit'>
+        <Button className={classes.reactRouterHoverInherit} component={Link} to='/'>
+          <Typography variant='h6'>
             Music Markdown
           </Typography>
         </Button>
         <RepositoriesNavDropdown {...props} />
-        <Button className={classNames(classes.inheritHoverColor)} component={NavLink} to='/sandbox'>
+        <Button className={classes.reactRouterHoverInherit} component={NavLink} to='/sandbox'>
           Sandbox
         </Button>
       </Toolbar>
@@ -77,7 +73,7 @@ class RepositoriesNavDropdown extends React.Component {
     const repoList = getRepositories();
 
     if (repoList.length > 0) {
-      const { inheritHoverColor } = this.props.classes;
+      const { reactRouterHoverInherit } = this.props.classes;
 
       repoList.forEach((repo) => {
         const repoId = `${repo.owner}/${repo.repo}/${repo.branch}${repo.path}`;
@@ -86,7 +82,7 @@ class RepositoriesNavDropdown extends React.Component {
             to={`/repos/${repo.owner}/${repo.repo}/browser/${repo.branch}${repo.path}`}
             key={`dropdown-item-${repoId}`}
             onClick={this.handleClose}
-            className={classNames(inheritHoverColor)}>
+            className={reactRouterHoverInherit}>
             {repoId}
           </MenuItem>);
       });

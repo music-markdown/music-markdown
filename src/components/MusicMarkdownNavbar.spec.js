@@ -1,15 +1,26 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
-import MusicMarkdownNavbar from './MusicMarkdownNavbar';
-import { BrowserRouter as Router, Route } from 'react-router-dom';
+import Enzyme from 'enzyme';
+import Adapter from 'enzyme-adapter-react-16';
+import { shallow } from 'enzyme';
+import { withStyles } from '@material-ui/core';
 
-describe('MusicMarkdownNavbar', () => {
-  it('renders without crashing', () => {
-    const div = document.createElement('div');
-    ReactDOM.render(
-      <Router>
-        <Route path='/' exact component={MusicMarkdownNavbar} />
-      </Router>, div);
-    ReactDOM.unmountComponentAtNode(div);
+import MusicMarkdownNavbar from './MusicMarkdownNavbar';
+
+Enzyme.configure({ adapter: new Adapter() });
+
+const style = {
+};
+
+const Composer = ({ classes }) => (
+  <MusicMarkdownNavbar classes={classes} />
+);
+
+const Composition = withStyles(style)(Composer);
+
+describe('<MusicMarkdownNavbar />', () => {
+  it('should render a styled MusicMarkdownNavbar', () => {
+    const wrapper = shallow(<Composition />);
+
+    expect(wrapper.dive().find(MusicMarkdownNavbar)).toHaveLength(1);
   });
 });
