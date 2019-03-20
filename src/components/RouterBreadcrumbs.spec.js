@@ -1,26 +1,48 @@
 import React from 'react';
 import Enzyme from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
-import { shallow } from 'enzyme';
-import { withStyles } from '@material-ui/core';
+import { shallow as mount } from 'enzyme';
+import { MuiThemeProvider, Typography } from '@material-ui/core';
+import Link from '@material-ui/core/Link';
 
 import RouterBreadcrumbs from './RouterBreadcrumbs';
 
 Enzyme.configure({ adapter: new Adapter() });
 
+// style must provide styles used by component
 const style = {
+  spacing: { unit: 1 },
+  reactRouterHoverInherit: {}
 };
-
-const Composer = ({ classes }) => (
-  <RouterBreadcrumbs classes={classes} />
-);
-
-const Composition = withStyles(style)(Composer);
 
 describe('<RouterBreadcrumbs />', () => {
   it('should render a styled RouterBreadcrumbs', () => {
-    const wrapper = shallow(<Composition />);
+    const wrapper = mount((
+      <MuiThemeProvider theme={style}>
+        <RouterBreadcrumbs pathname={'test/path'} />
+      </MuiThemeProvider>
+    ));
 
-    expect(wrapper.dive().find(RouterBreadcrumbs)).toHaveLength(1);
+    expect(wrapper.find(RouterBreadcrumbs)).toHaveLength(1);
+  });
+
+  it('should parse a path name into breadcrumb items', () => {
+    const wrapper = mount((
+      <MuiThemeProvider theme={style}>
+        <RouterBreadcrumbs pathname={'/repos/owner/repo/browser/master/path'} />
+      </MuiThemeProvider>
+    ));
+
+    const breadcrumbs = wrapper.dive().dive();
+
+    const breadcrumbPath = breadcrumbs.find(Link)
+      .map((node) => node.children().text());
+
+    expect(breadcrumbPath.join('/')).toEqual('Home/owner/repo/master');
+
+    const finalItem = breadcrumbs.find(Typography)
+      .map((node) => node.children().text());
+
+    expect(finalItem).toEqual(['path']);
   });
 });

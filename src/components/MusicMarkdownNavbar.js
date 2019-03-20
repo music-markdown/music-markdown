@@ -22,11 +22,12 @@ const MusicMarkdownNavbar = (props) => {
     // TODO: sanitize this input when storing
     addRepository('music-markdown', 'almost-in-time', '/', 'master');
   }
+
   return (
     <AppBar position={'sticky'} key='top-navbar'>
       <Toolbar>
         <Button className={classes.reactRouterHoverInherit} component={Link} to='/'>
-          <Typography variant='h6' color='inherit'>
+          <Typography variant='h6'>
             Music Markdown
           </Typography>
         </Button>
