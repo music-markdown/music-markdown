@@ -3,13 +3,7 @@ import List from '@material-ui/core/List';
 import NavigationListItem from './NavigationListItem';
 import RouterBreadcrumbs from './RouterBreadcrumbs';
 import { getBranches } from '../lib/github';
-import { withStyles, Typography } from '@material-ui/core';
-
-const styles = (theme) => ({
-  root: {
-    backgroundColor: theme.palette.background.paper,
-  }
-});
+import { Typography, Divider } from '@material-ui/core';
 
 /**
  * A React component for rendering repository items when navigating the /repos resource
@@ -75,7 +69,12 @@ class BranchNavigation extends React.Component {
 
         const linkToContent = `/repos/${owner}/${repo}/browser/${item.name}`;
 
-        listGroupItems.push(<NavigationListItem to={linkToContent} key={key} itemName={item.name} action />);
+        listGroupItems.push((
+          <>
+            <Divider />
+            <NavigationListItem to={linkToContent} key={key} itemName={item.name} action />
+          </>)
+        );
       });
 
       return (
@@ -84,8 +83,9 @@ class BranchNavigation extends React.Component {
             Branches
           </Typography>
           <RouterBreadcrumbs pathname={this.props.location.pathname} />
-          <List className={this.props.classes.root}>
+          <List>
             {listGroupItems}
+            <Divider />
           </List>
         </>
       );
@@ -93,4 +93,4 @@ class BranchNavigation extends React.Component {
   }
 }
 
-export default withStyles(styles)(BranchNavigation);
+export default BranchNavigation;
