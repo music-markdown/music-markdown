@@ -1,14 +1,15 @@
 import React from 'react';
-import ButtonToolbar from 'react-bootstrap/ButtonToolbar';
-import ButtonGroup from 'react-bootstrap/ButtonGroup';
 import Button from 'react-bootstrap/Button';
+import Grid from '@material-ui/core/Grid';
+import Toolbar from '@material-ui/core/Toolbar';
+import Typography from '@material-ui/core/Typography';
 import { connect } from 'react-redux';
 
 import { transpose } from '../redux/actions';
 import { updateColumnCount } from '../redux/actions';
 import { updateFontSize } from '../redux/actions';
 
-class Toolbar extends React.Component {
+class MusicToolbar extends React.Component {
   constructor(props) {
     super(props);
 
@@ -38,23 +39,29 @@ class Toolbar extends React.Component {
   render() {
     // TODO: Move dark theme to redux store.
     return (
-      <ButtonToolbar className='border justify-content-center bg-dark'>
-        <span className='padding bg-dark text-light my-auto'>Transpose</span>
-        <ButtonGroup>
-          <Button variant='dark' onClick={this.handleTransposeClick}>{this.decrease}</Button>
-          <Button variant='dark' onClick={this.handleTransposeClick}>{this.increase}</Button>
-        </ButtonGroup>
-        <span className='padding bg-dark text-light my-auto'>Columns</span>
-        <ButtonGroup>
-          <Button variant='dark' onClick={this.handleColumnClick}>{this.decrease}</Button>
-          <Button variant='dark' onClick={this.handleColumnClick}>{this.increase}</Button>
-        </ButtonGroup>
-        <span className='padding bg-dark text-light my-auto'>Font Size</span>
-        <ButtonGroup>
-          <Button variant='dark' onClick={this.handleFontClick}>{this.decrease}</Button>
-          <Button variant='dark' onClick={this.handleFontClick}>{this.increase}</Button>
-        </ButtonGroup>
-      </ButtonToolbar>
+      <Toolbar>
+        <Grid container direction='row' justify='center' alignItems='center' spacing={16}>
+          {[{ name: 'Transpose', clickCallback: this.handleTransposeClick },
+            { name: 'Column Count', clickCallback: this.handleColumnClick },
+            { name: 'Font Size', clickCallback: this.handleFontClick }].map(({ name, clickCallback }) => (
+            <React.Fragment key={name}>
+              <Grid item>
+                <Typography variant='h6'>{name}</Typography>
+              </Grid>
+              <Grid item>
+                <Button onClick={clickCallback}>
+                  <Typography>{this.decrease}</Typography>
+                </Button>
+              </Grid>
+              <Grid item>
+                <Button onClick={clickCallback}>
+                  <Typography>{this.increase}</Typography>
+                </Button>
+              </Grid>
+            </React.Fragment>
+          ))}
+        </Grid>
+      </Toolbar>
     );
   }
 }
@@ -62,4 +69,4 @@ class Toolbar extends React.Component {
 export default connect(
   undefined,
   { transpose, updateColumnCount, updateFontSize }
-)(Toolbar);
+)(MusicToolbar);
