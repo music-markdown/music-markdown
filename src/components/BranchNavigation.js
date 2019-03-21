@@ -3,7 +3,8 @@ import List from '@material-ui/core/List';
 import NavigationListItem from './NavigationListItem';
 import RouterBreadcrumbs from './RouterBreadcrumbs';
 import { getBranches } from '../lib/github';
-import { Typography, Divider } from '@material-ui/core';
+import Typography from '@material-ui/core/Typography';
+import Divider from '@material-ui/core/Divider';
 
 /**
  * A React component for rendering repository items when navigating the /repos resource

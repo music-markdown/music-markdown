@@ -2,7 +2,8 @@ import React from 'react';
 import NavigationListItem from './NavigationListItem';
 import RouterBreadcrumbs from './RouterBreadcrumbs';
 import { getContents } from '../lib/github';
-import { Typography, Divider } from '@material-ui/core';
+import Typography from '@material-ui/core/Typography';
+import Divider from '@material-ui/core/Dialog';
 import List from '@material-ui/core/List';
 
 /**
