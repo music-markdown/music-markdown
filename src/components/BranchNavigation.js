@@ -1,8 +1,10 @@
 import React from 'react';
-import ListGroup from 'react-bootstrap/ListGroup';
+import List from '@material-ui/core/List';
 import NavigationListItem from './NavigationListItem';
 import RouterBreadcrumbs from './RouterBreadcrumbs';
 import { getBranches } from '../lib/github';
+import Typography from '@material-ui/core/Typography';
+import Divider from '@material-ui/core/Divider';
 
 /**
  * A React component for rendering repository items when navigating the /repos resource
@@ -68,16 +70,20 @@ class BranchNavigation extends React.Component {
 
         const linkToContent = `/repos/${owner}/${repo}/browser/${item.name}`;
 
-        listGroupItems.push(<NavigationListItem to={linkToContent} key={key} item={item.name} action />);
+        listGroupItems.push(<Divider key={`navigation-divider-${item.name}`}/>);
+        listGroupItems.push(<NavigationListItem to={linkToContent} key={key} itemName={item.name} action />);
       });
 
       return (
         <>
-          <h2>Repository Contents</h2>
+          <Typography variant='h3'>
+            Branches
+          </Typography>
           <RouterBreadcrumbs pathname={this.props.location.pathname} />
-          <ListGroup>
+          <List>
             {listGroupItems}
-          </ListGroup>
+            <Divider />
+          </List>
         </>
       );
     }

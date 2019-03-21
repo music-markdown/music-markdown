@@ -1,7 +1,7 @@
 import React from 'react';
 import { HashRouter as Router, Route } from 'react-router-dom';
 import { Provider } from 'react-redux';
-import store from '../redux/store';
+import { CssBaseline, Typography } from '@material-ui/core';
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 
 import MarkdownMusicSourceFetcher from './MarkdownMusicSourceFetcher';
@@ -10,6 +10,7 @@ import ResponsiveContainer from './ResponsiveContainer';
 import RepositoryNavigation from './RepositoryNavigation';
 import BranchNavigation from './BranchNavigation';
 import Sandbox from './Sandbox.js';
+import store from '../redux/store';
 import './App.scss';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
@@ -30,6 +31,7 @@ const theme = createMuiTheme({
 
 const App = () => (
   <MuiThemeProvider theme={theme}>
+    <CssBaseline />
     <ResponsiveContainer children={[HomeRouter()]} />
   </MuiThemeProvider>
 );
@@ -52,7 +54,9 @@ const HomeRouter = () => (
 );
 
 const Navigation = () => (
-  <h1>Welcome to Music Markdown!</h1>
+  <Typography variant='h2'>
+    Welcome to Music Markdown!
+  </Typography>
 );
 
 export default App;
