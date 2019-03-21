@@ -2,7 +2,8 @@ import React from 'react';
 import Enzyme from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
 import { shallow as mount } from 'enzyme';
-import { MuiThemeProvider, Typography } from '@material-ui/core';
+import Typography from '@material-ui/core/Typography';
+import MuiThemeProvider from '@material-ui/core/styles/MuiThemeProvider';
 import Link from '@material-ui/core/Link';
 
 import RouterBreadcrumbs from './RouterBreadcrumbs';
