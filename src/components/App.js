@@ -1,8 +1,10 @@
 import React from 'react';
 import { HashRouter as Router, Route } from 'react-router-dom';
 import { Provider } from 'react-redux';
-import { CssBaseline, Typography } from '@material-ui/core';
-import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
+import CssBaseline from '@material-ui/core/CssBaseline';
+import Typography from '@material-ui/core/Typography';
+import MuiThemeProvider from '@material-ui/core/styles/MuiThemeProvider';
+import createMuiTheme from '@material-ui/core/styles/createMuiTheme';
 
 import MarkdownMusicSourceFetcher from './MarkdownMusicSourceFetcher';
 import MusicMarkdownNavbar from './MusicMarkdownNavbar';
@@ -20,7 +22,7 @@ const theme = createMuiTheme({
     useNextVariants: true,
   },
   palette: {
-    type: 'dark',
+    type: 'light',
   },
   reactRouterHoverInherit: {
     '&:hover': {
