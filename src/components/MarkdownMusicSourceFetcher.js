@@ -3,7 +3,6 @@ import queryString from 'query-string';
 import { connect } from 'react-redux';
 
 import MarkdownMusic from './MarkdownMusic';
-import Toolbar from './Toolbar';
 import { getContents } from '../lib/github';
 import { setTranspose, setColumnCount, setFontSize } from '../redux/actions';
 
@@ -46,7 +45,6 @@ class MarkdownMusicSourceFetcher extends React.Component {
     } else {
       return (
         <div className="Markdown">
-          <Toolbar></Toolbar>
           <MarkdownMusic source={markdown} />
         </div>
       );
