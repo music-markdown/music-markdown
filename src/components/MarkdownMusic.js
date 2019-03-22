@@ -6,6 +6,7 @@ import withStyles from '@material-ui/core/styles/withStyles';
 import jss from 'jss';
 
 import { YouTubeToggle } from './YouTube';
+import { updateYouTubeId } from '../redux/actions';
 
 const styles = (theme) => ({
   markdownBody: {
@@ -20,6 +21,10 @@ class MusicMarkdown extends React.Component {
 
     this.md = new MarkdownIt()
       .use(MarkdownItMusic);
+  }
+
+  componentDidMount() {
+    this.props.updateYouTubeId(this.md.meta.youTubeId);
   }
 
   render() {
@@ -38,7 +43,6 @@ class MusicMarkdown extends React.Component {
 
     return (
       <>
-        <YouTubeToggle youTubeId={this.md.meta.youTubeId} />
         <div dangerouslySetInnerHTML={{ __html: html }} className={classes.markdownBody}/>
       </>
     );
@@ -50,4 +54,4 @@ function mapStateToProps(state) {
   return { transposeAmount, columnCount, fontSize };
 }
 
-export default connect(mapStateToProps)(withStyles(styles, { withTheme: true })(MusicMarkdown));
+export default connect(mapStateToProps, { updateYouTubeId })(withStyles(styles, { withTheme: true })(MusicMarkdown));

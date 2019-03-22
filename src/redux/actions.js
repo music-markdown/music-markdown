@@ -1,12 +1,20 @@
 import {
   TRANSPOSE,
   UPDATE_COLUMN_COUNT,
-  UPDATE_FONT_SIZE
+  UPDATE_FONT_SIZE,
+  UPDATE_YOUTUBE_ID
 } from './actionTypes';
 
 let transposeAmount = 0;
 let columnCount = 1;
 let fontSize = 13;
+
+export const updateYouTubeId = (youtubeId) => ({
+  type: UPDATE_YOUTUBE_ID,
+  payload: {
+    youtubeId
+  }
+});
 
 export const transpose = (isIncreaseTransposeAmount) => ({
   type: TRANSPOSE,

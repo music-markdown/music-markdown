@@ -1,6 +1,7 @@
 import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faYoutube } from '@fortawesome/free-brands-svg-icons';
+import { connect } from 'react-redux';
 
 const YouTubePlayer = ({ youTubeId }) => (
   <div className="embed-responsive embed-responsive-16by9">
@@ -44,7 +45,9 @@ class YouTubeToggle extends React.Component {
   }
 }
 
+const ConnectedYouTubeToggle = connect((state) => ({ youTubeId: state.youTubeId }))(YouTubeToggle);
+
 export {
   YouTubePlayer,
-  YouTubeToggle
+  ConnectedYouTubeToggle as YouTubeToggle
 };
