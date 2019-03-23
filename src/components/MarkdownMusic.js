@@ -48,10 +48,8 @@ class MusicMarkdown extends React.Component {
     sheet.attach();
 
     return (
-      <>
-        <div dangerouslySetInnerHTML={{ __html: html }}
-          className={`${classes.markdownBody} ${sheet.classes.musicMarkdownTheme}`}/>
-      </>
+      <div dangerouslySetInnerHTML={{ __html: html }}
+        className={`${classes.markdownBody} ${sheet.classes.musicMarkdownTheme}`}/>
     );
   }
 }
