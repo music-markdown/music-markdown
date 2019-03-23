@@ -1,5 +1,5 @@
 import React from 'react';
-import Typography from '@material-ui/core/Typography'
+import Typography from '@material-ui/core/Typography';
 import MarkdownMusic from './MarkdownMusic';
 import { parseVoicing } from 'markdown-it-music/lib/voicing';
 import { renderChordDiagram } from 'markdown-it-music/renderers/chord_diagram';
