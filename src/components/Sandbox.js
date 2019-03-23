@@ -1,4 +1,5 @@
 import React from 'react';
+import Typography from '@material-ui/core/Typography';
 import MarkdownMusic from './MarkdownMusic';
 import { parseVoicing } from 'markdown-it-music/lib/voicing';
 import { renderChordDiagram } from 'markdown-it-music/renderers/chord_diagram';
@@ -6,20 +7,22 @@ import { guitarChordLibrary } from 'markdown-it-music/renderers/chord_library';
 
 const Sandbox = () => (
   <div>
-    <h1>Music Markdown Sandbox</h1>
-    <p>
+    <Typography variant='h2'>Music Markdown Sandbox</Typography>
+    <Typography>
       This page exercises various subcomponents of music-markdown and
       markdown-it-music.
-    </p>
+    </Typography>
 
-    <h2>Markdown Editor</h2>
+    <Typography variant='h3'>Markdown Editor</Typography>
     <MarkdownEditor/>
 
-    <h2>Chord Diagram Renderer</h2>
-    <p>
+    <Typography variant='h3'>
+      Chord Diagram Renderer
+    </Typography>
+    <Typography>
       This section exercises the Chord Diagram Renderer.
-    </p>
-    <h3>Esus4 (200x200)</h3>
+    </Typography>
+    <Typography variant='h4'>Esus4 (200x200)</Typography>
     <div dangerouslySetInnerHTML={
       { __html: renderChordDiagram(parseVoicing('o2 m1 m2 n3,2 n4,4 b5,6,5'), 200, 200) }
     } />
@@ -58,8 +61,7 @@ class MarkdownEditor extends React.Component {
   render() {
     const styles = { display: 'flex', width: '100%' };
     const editorStyles = {
-      minHeight: '500px', width: '50%', marginRight: '20px',
-      fontFamily: 'monospace', whiteSpace: 'pre'
+      minHeight: '500px', width: '50%', marginRight: '20px'
     };
 
     return <div style={styles}>

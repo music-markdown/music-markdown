@@ -1,6 +1,8 @@
 import React from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faYoutube } from '@fortawesome/free-brands-svg-icons';
+import { connect } from 'react-redux';
+import Popper from '@material-ui/core/Popper';
+import IconButton from '@material-ui/core/IconButton';
+import PlayArrowIcon from '@material-ui/icons/PlayArrow';
 
 const YouTubePlayer = ({ youTubeId }) => (
   <div className="embed-responsive embed-responsive-16by9">
@@ -17,9 +19,12 @@ const YouTubePlayer = ({ youTubeId }) => (
 class YouTubeToggle extends React.Component {
   constructor(props) {
     super(props);
+
     this.state = {
       visible: false
     };
+
+    this.anchorEl = undefined;
 
     this.handleToggle = this.handleToggle.bind(this);
   }
@@ -36,15 +41,34 @@ class YouTubeToggle extends React.Component {
     }
 
     return (
-      <div>
-        <FontAwesomeIcon icon={faYoutube} size='2x' onClick={this.handleToggle} />
-        {this.state.visible ? <YouTubePlayer youTubeId={this.props.youTubeId} /> : ''}
-      </div>
+      <>
+        <IconButton onClick={this.handleToggle} buttonRef={(node) => {
+          this.anchorEl = node;
+        }}>
+          <PlayArrowIcon />
+        </IconButton>
+        <Popper
+          id='youtube-player'
+          open={this.state.visible}
+          anchorEl={this.anchorEl}
+          placement='top'
+          disablePortal={false}
+          modifiers={{
+            flip: {
+              enabled: true,
+            }
+          }}
+        >
+          <YouTubePlayer youTubeId={this.props.youTubeId} />
+        </Popper>
+      </>
     );
   }
 }
 
+const ConnectedYouTubeToggle = connect((state) => ({ youTubeId: state.youTubeId }))(YouTubeToggle);
+
 export {
   YouTubePlayer,
-  YouTubeToggle
+  ConnectedYouTubeToggle as YouTubeToggle
 };

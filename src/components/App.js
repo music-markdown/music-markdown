@@ -14,7 +14,6 @@ import BranchNavigation from './BranchNavigation';
 import Sandbox from './Sandbox.js';
 import store from '../redux/store';
 import './App.scss';
-import 'bootstrap/dist/css/bootstrap.min.css';
 
 // TODO: Build button toggle for dark/light
 const theme = createMuiTheme({

@@ -1,17 +1,19 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { YouTubePlayer, YouTubeToggle } from './YouTube';
+import { Provider } from 'react-redux';
+import store from '../redux/store';
 
 describe('YouTubePlayer', () => {
   it('renders without youTubeId', () => {
     const div = document.createElement('div');
-    ReactDOM.render(<YouTubePlayer />, div);
+    ReactDOM.render(<Provider store={store}><YouTubePlayer /></Provider>, div);
     ReactDOM.unmountComponentAtNode(div);
   });
 
   it('renders with youTubeId', () => {
     const div = document.createElement('div');
-    ReactDOM.render(<YouTubePlayer youTubeId='abcd' />, div);
+    ReactDOM.render(<Provider store={store}><YouTubePlayer youTubeId='abcd' /></Provider>, div);
     ReactDOM.unmountComponentAtNode(div);
   });
 });
@@ -19,13 +21,13 @@ describe('YouTubePlayer', () => {
 describe('YouTubeToggle', () => {
   it('renders without youTubeId', () => {
     const div = document.createElement('div');
-    ReactDOM.render(<YouTubeToggle />, div);
+    ReactDOM.render(<Provider store={store}><YouTubeToggle /></Provider>, div);
     ReactDOM.unmountComponentAtNode(div);
   });
 
   it('renders with youTubeId', () => {
     const div = document.createElement('div');
-    ReactDOM.render(<YouTubeToggle youTubeId='abcd' />, div);
+    ReactDOM.render(<Provider store={store}><YouTubeToggle youTubeId='abcd' /></Provider>, div);
     ReactDOM.unmountComponentAtNode(div);
   });
 });

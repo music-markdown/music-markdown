@@ -8,6 +8,7 @@ import { connect } from 'react-redux';
 import { transpose } from '../redux/actions';
 import { updateColumnCount } from '../redux/actions';
 import { updateFontSize } from '../redux/actions';
+import { YouTubeToggle } from './YouTube';
 
 class MusicToolbar extends React.Component {
   constructor(props) {
@@ -60,6 +61,9 @@ class MusicToolbar extends React.Component {
               </Grid>
             </React.Fragment>
           ))}
+          <Grid item>
+            <YouTubeToggle youTubeId={this.props.youTubeId} />
+          </Grid>
         </Grid>
       </Toolbar>
     );
@@ -67,6 +71,6 @@ class MusicToolbar extends React.Component {
 }
 
 export default connect(
-  undefined,
+  (state) => ({ youTubeId: state.youTubeId }),
   { transpose, updateColumnCount, updateFontSize }
 )(MusicToolbar);
