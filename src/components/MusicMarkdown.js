@@ -28,13 +28,16 @@ class MusicMarkdown extends React.Component {
   }
 
   render() {
-    this.md.setTranspose(this.props.transposeAmount);
-    this.md.setColumnCount(this.props.columnCount);
-    this.md.setFontSize(this.props.fontSize);
-    this.md.setMaxWidth(this.props.width);
-    const html = this.md.render(this.props.source);
-
     const { classes, theme } = this.props;
+
+    const colorOrder = [theme.palette.text.primary];
+
+    this.md.setTranspose(this.props.transposeAmount)
+      .setColumnCount(this.props.columnCount)
+      .setFontSize(this.props.fontSize)
+      .setMaxWidth(this.props.width)
+      .setTheme({ pallete: theme.palette.type, colorOrder });
+    const html = this.md.render(this.props.source);
 
     // Create a style sheet for <path> and <text> tags, so that abcjs color will render in dark/light theme.
     const jss = create();

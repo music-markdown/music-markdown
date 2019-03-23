@@ -1,6 +1,6 @@
 import React from 'react';
 import Typography from '@material-ui/core/Typography';
-import MarkdownMusic from './MarkdownMusic';
+import MusicMarkdown from './MusicMarkdown';
 import { parseVoicing } from 'markdown-it-music/lib/voicing';
 import { renderChordDiagram } from 'markdown-it-music/renderers/chord_diagram';
 import { guitarChordLibrary } from 'markdown-it-music/renderers/chord_library';
@@ -67,7 +67,7 @@ class MarkdownEditor extends React.Component {
     return <div style={styles}>
       <textarea value={this.state.value} onChange={this.handleChange} style={editorStyles}></textarea>
       <div style={editorStyles}>
-        <MarkdownMusic source={this.state.value}></MarkdownMusic>
+        <MusicMarkdown source={this.state.value}></MusicMarkdown>
       </div>
     </div>;
   }
