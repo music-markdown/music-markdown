@@ -36,7 +36,7 @@ class MusicMarkdown extends React.Component {
 
     const { classes, theme } = this.props;
 
-    // Create a style sheet for <path> tag, so that abcjs color will render in dark/light theme.
+    // Create a style sheet for <path> and <text> tags, so that abcjs color will render in dark/light theme.
     const jss = create();
     jss.use(nested());
     const sheet = jss.createStyleSheet({
