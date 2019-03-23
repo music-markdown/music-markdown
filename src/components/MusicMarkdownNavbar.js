@@ -11,8 +11,7 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import withStyles from '@material-ui/core/styles/withStyles';
 
-import { getRepositories, addRepository } from '../lib/github';
-import { REPOS_LOCAL_STORAGE_KEY } from '../lib/constants';
+import { getRepositories } from '../lib/github';
 import MusicToolbar from './MusicToolbar';
 
 const styles = (theme) => ({
@@ -45,11 +44,6 @@ class MusicMarkdownNavbar extends React.Component {
   render() {
     const { classes } = this.props;
     const { open } = this.state;
-
-    if (!localStorage.getItem(REPOS_LOCAL_STORAGE_KEY)) {
-      // TODO: sanitize this input when storing
-      addRepository('music-markdown', 'almost-in-time', '/', 'master');
-    }
 
     return (
       <>
@@ -115,14 +109,13 @@ class RepositoriesNavDropdown extends React.Component {
       const { reactRouterHoverInherit } = this.props.classes;
 
       repoList.forEach((repo) => {
-        const repoId = `${repo.owner}/${repo.repo}/${repo.branch}${repo.path}`;
         repoDropdownItems.push(
           <MenuItem component={NavLink}
-            to={`/repos/${repo.owner}/${repo.repo}/browser/${repo.branch}${repo.path}`}
-            key={`dropdown-item-${repoId}`}
+            to={`/repos/${repo}`}
+            key={`dropdown-item-${repo}`}
             onClick={this.handleClose}
             className={reactRouterHoverInherit}>
-            {repoId}
+            {repo}
           </MenuItem>);
       });
     }
@@ -139,6 +132,14 @@ class RepositoriesNavDropdown extends React.Component {
 
         <Menu id='dropdown-menu' anchorEl={this.anchorEl} open={open} onClose={this.handleClose}>
           {repoDropdownItems}
+          <Divider />
+          <MenuItem component={NavLink}
+            to='/repos'
+            key='edit-repos'
+            onClick={this.handleClose}
+            className={this.props.classes.reactRouterHoverInherit}>
+            Edit Repositories
+          </MenuItem>
         </Menu>
       </>
     );
