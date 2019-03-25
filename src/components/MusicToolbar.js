@@ -1,14 +1,22 @@
 import React from 'react';
 import Button from '@material-ui/core/Button';
+import Badge from '@material-ui/core/Badge';
 import Grid from '@material-ui/core/Grid';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
+import withStyles from '@material-ui/core/styles/withStyles';
 import { connect } from 'react-redux';
 
 import { transpose } from '../redux/actions';
 import { updateColumnCount } from '../redux/actions';
 import { updateFontSize } from '../redux/actions';
 import { YouTubeToggle } from './YouTube';
+
+const styles = (theme) => ({
+  padding: {
+    padding: `0 ${theme.spacing.unit}px`,
+  }
+});
 
 class MusicToolbar extends React.Component {
   constructor(props) {
@@ -38,29 +46,33 @@ class MusicToolbar extends React.Component {
   }
 
   render() {
-    // TODO: Move dark theme to redux store.
+    const { transposeAmount, columnCount, fontSize, classes } = this.props;
+
     return (
       <Toolbar>
         <Grid container direction='row' justify='center' alignItems='center' spacing={16}>
-          {[{ name: 'Transpose', clickCallback: this.handleTransposeClick },
-            { name: 'Column Count', clickCallback: this.handleColumnClick },
-            { name: 'Font Size', clickCallback: this.handleFontClick }].map(({ name, clickCallback }) => (
-            <React.Fragment key={name}>
-              <Grid item>
-                <Typography variant='h6'>{name}</Typography>
-              </Grid>
-              <Grid item>
-                <Button onClick={clickCallback}>
-                  <Typography>{this.decrease}</Typography>
-                </Button>
-              </Grid>
-              <Grid item>
-                <Button onClick={clickCallback}>
-                  <Typography>{this.increase}</Typography>
-                </Button>
-              </Grid>
-            </React.Fragment>
-          ))}
+          {[{ name: 'Transpose', clickCallback: this.handleTransposeClick, value: transposeAmount },
+            { name: 'Column Count', clickCallback: this.handleColumnClick, value: columnCount },
+            { name: 'Font Size', clickCallback: this.handleFontClick, value: fontSize }]
+            .map(({ name, clickCallback, value }) => (
+              <React.Fragment key={name}>
+                <Grid item>
+                  <Badge color='primary' badgeContent={value}>
+                    <Typography variant='h6' className={classes.padding}>{name}</Typography>
+                  </Badge>
+                </Grid>
+                <Grid item>
+                  <Button onClick={clickCallback}>
+                    <Typography>{this.decrease}</Typography>
+                  </Button>
+                </Grid>
+                <Grid item>
+                  <Button onClick={clickCallback}>
+                    <Typography>{this.increase}</Typography>
+                  </Button>
+                </Grid>
+              </React.Fragment>
+            ))}
           <Grid item>
             <YouTubeToggle youTubeId={this.props.youTubeId} />
           </Grid>
@@ -70,7 +82,11 @@ class MusicToolbar extends React.Component {
   }
 }
 
+function mapStateToProps(state) {
+  const { youtubeId, transposeAmount, columnCount, fontSize } = state;
+  return { youtubeId, transposeAmount, columnCount, fontSize };
+}
+
 export default connect(
-  (state) => ({ youTubeId: state.youTubeId }),
-  { transpose, updateColumnCount, updateFontSize }
-)(MusicToolbar);
+  mapStateToProps,
+  { transpose, updateColumnCount, updateFontSize })(withStyles(styles)(MusicToolbar));
