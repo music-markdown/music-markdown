@@ -20,9 +20,9 @@ class RepositoryNavigation extends React.Component {
   }
 
   async componentDidMount() {
-    const { owner, repo, path, branch } = this.props.match.params;
+    const { repo, path, branch } = this.props.match.params;
 
-    const contents = await getContents(owner, repo, path, branch);
+    const contents = await getContents(repo, path, branch);
     this.setState({
       isLoaded: true,
       contents
@@ -34,11 +34,11 @@ class RepositoryNavigation extends React.Component {
    * @param {Object} prevProps Props before update
    */
   async componentDidUpdate(prevProps) {
-    const { owner: prevOwner, repo: prevRepo, path: prevPath, branch: prevBranch } = prevProps.match.params;
-    const { owner, repo, path, branch } = this.props.match.params;
+    const { repo: prevRepo, path: prevPath, branch: prevBranch } = prevProps.match.params;
+    const { repo, path, branch } = this.props.match.params;
 
-    if (prevOwner !== owner || prevRepo !== repo || prevPath !== path || prevBranch !== branch) {
-      const contents = await getContents(owner, repo, path, branch);
+    if (prevRepo !== repo || prevPath !== path || prevBranch !== branch) {
+      const contents = await getContents(repo, path, branch);
       this.setState({
         isLoaded: true,
         contents
@@ -61,7 +61,7 @@ class RepositoryNavigation extends React.Component {
     contents.forEach((item) => {
       const key = `list-group-item-${item.name}`;
 
-      const { owner, repo, branch } = this.props.match.params;
+      const { repo, branch } = this.props.match.params;
 
       let viewType = 'error';
       let itemJsx = <div>File type {item.type} not supported</div>;
@@ -74,7 +74,7 @@ class RepositoryNavigation extends React.Component {
         itemJsx = item.name;
       }
 
-      const linkToContent = `/repos/${owner}/${repo}/${viewType}/${branch}/${item.path}`;
+      const linkToContent = `/repos/${repo}/${viewType}/${branch}/${item.path}`;
 
       listGroupItems.push(<Divider key={`navigation-divider-${item.name}`}/>);
       listGroupItems.push(<NavigationListItem to={linkToContent} key={key} action itemName={itemJsx} />);

@@ -2,21 +2,23 @@
   "extends": "google",
   "parser": "babel-eslint",
   "rules": {
-      "linebreak-style": 0,
-      "require-jsdoc": 0,
-      "comma-dangle": 0,
-      "max-len": [2, {
-        "code": 120,
-        "tabWidth": 2,
-        "ignoreUrls": true
-      }],
-      "indent": ["error", 2, {
-          "MemberExpression": 1
-      }],
-      "object-curly-spacing": ["error", "always"],
-      "react/jsx-uses-react": "error",
-      "react/jsx-uses-vars": "error" ,
-      "new-cap": 0
+    "linebreak-style": 0,
+    "require-jsdoc": 0,
+    "comma-dangle": 0,
+    "max-len": [2, {
+      "code": 120,
+      "tabWidth": 2,
+      "ignoreUrls": true
+    }],
+    "indent": ["error", 2, {
+        "MemberExpression": 1
+    }],
+    "object-curly-spacing": ["error", "always"],
+    "react/jsx-uses-react": "error",
+    "react/jsx-uses-vars": "error" ,
+    "new-cap": 0,
+    "no-invalid-this": 0,
+    "babel/no-invalid-this": 1
   },
-  "plugins": ["react"]
+  "plugins": ["react", "babel"]
 }
