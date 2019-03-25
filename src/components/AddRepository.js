@@ -16,7 +16,7 @@ import SnackbarContent from '@material-ui/core/SnackbarContent';
 import { withStyles } from '@material-ui/core/styles';
 
 
-const styles2 = (theme) => ({
+const styles = (theme) => ({
   error: {
     backgroundColor: theme.palette.error.dark,
   },
@@ -36,16 +36,16 @@ const styles2 = (theme) => ({
   },
 });
 
-const ErrorSnackbar = (props) => (
+const ErrorSnackbar = ({ open, handleClose, classes, message }) => (
   <Snackbar anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
-    open={props.open} autoHideDuration={6000} onClose={props.handleClose}>
+    open={open} autoHideDuration={6000} onClose={handleClose}>
     <SnackbarContent
-      className={props.classes.error}
+      className={classes.error}
       aria-describedby="client-snackbar"
       message={
-        <span id="client-snackbar" className={props.classes.message}>
-          <ErrorIcon className={classNames(props.classes.icon, props.classes.iconVariant)} />
-          {props.message}
+        <span id="client-snackbar" className={classes.message}>
+          <ErrorIcon className={classNames(classes.icon, classes.iconVariant)} />
+          {message}
         </span>
       }
       action={[
@@ -53,17 +53,17 @@ const ErrorSnackbar = (props) => (
           key="close"
           aria-label="Close"
           color="inherit"
-          className={props.classes.close}
-          onClick={props.handleClose}
+          className={classes.close}
+          onClick={handleClose}
         >
-          <CloseIcon className={props.classes.icon} />
+          <CloseIcon className={classes.icon} />
         </IconButton>,
       ]}
     />
   </Snackbar>
 );
 
-const StyledErrorSnackbar = withStyles(styles2)(ErrorSnackbar);
+const StyledErrorSnackbar = withStyles(styles)(ErrorSnackbar);
 
 
 class AddRepository extends React.Component {

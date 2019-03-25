@@ -33,7 +33,6 @@ export function getRepositories() {
 async function verifyRepoExists(repo) {
   const apiUrl = getApiUrl(`/repos/${repo}`);
   const response = await fetch(apiUrl);
-  debugger;
   if (response.status === 404) {
     throw new Error(`"${repo}" not found on GitHub.`);
   }
