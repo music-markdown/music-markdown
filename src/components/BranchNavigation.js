@@ -23,9 +23,7 @@ class BranchNavigation extends React.Component {
    * When component first initializes, execute following lifecycle actions
    */
   async componentDidMount() {
-    const { owner, repo } = this.props.match.params;
-
-    const branches = await getBranches(owner, repo);
+    const branches = await getBranches(this.props.match.params.repo);
     this.setState({
       isLoaded: true,
       branches
@@ -37,11 +35,8 @@ class BranchNavigation extends React.Component {
    * @param {Object} prevProps Updated query string
    */
   async componentDidUpdate(prevProps) {
-    const { owner: prevOwner, repo: prevRepo } = prevProps.match.params;
-    const { owner, repo } = this.props.match.params;
-
-    if (prevOwner !== owner || prevRepo !== repo) {
-      const branches = await getBranches(owner, repo);
+    if (prevProps.match.params.repo !== this.props.match.params.repo) {
+      const branches = await getBranches(this.props.match.params.repo);
       this.setState({
         isLoaded: true,
         branches
@@ -65,11 +60,7 @@ class BranchNavigation extends React.Component {
 
       branches.forEach((item) => {
         const key = `list-group-item-${item.name}`;
-
-        const { owner, repo } = this.props.match.params;
-
-        const linkToContent = `/repos/${owner}/${repo}/browser/${item.name}`;
-
+        const linkToContent = `/repos/${this.props.match.params.repo}/browser/${item.name}`;
         listGroupItems.push(<Divider key={`navigation-divider-${item.name}`}/>);
         listGroupItems.push(<NavigationListItem to={linkToContent} key={key} itemName={item.name} action />);
       });
