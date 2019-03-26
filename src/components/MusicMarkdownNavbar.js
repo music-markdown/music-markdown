@@ -8,7 +8,6 @@ import Drawer from '@material-ui/core/Drawer';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
 import withStyles from '@material-ui/core/styles/withStyles';
 
 import { getRepositories } from '../lib/github';
@@ -50,9 +49,7 @@ class MusicMarkdownNavbar extends React.Component {
         <AppBar position={'sticky'} key='top-navbar'>
           <Toolbar>
             <Button className={classes.reactRouterHoverInherit} component={Link} to='/'>
-              <Typography variant='h6'>
-                Music Markdown
-              </Typography>
+              <img src="music-markdown.svg" width={50} alt="Music Markdown" />
             </Button>
             <RepositoriesNavDropdown {...this.props} />
             <Button className={classes.reactRouterHoverInherit} component={NavLink} to='/sandbox'>
