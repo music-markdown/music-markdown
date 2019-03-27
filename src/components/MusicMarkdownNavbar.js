@@ -68,7 +68,7 @@ class MusicMarkdownNavbar extends React.Component {
     const { classes } = this.props;
     const { toolbarOpen, settingsOpen, isDarkTheme } = this.state;
 
-    return (
+    const MusicMarkdownNavbar = () => (
       <>
         <AppBar position={'sticky'} key='top-navbar'>
           <Toolbar>
@@ -77,9 +77,6 @@ class MusicMarkdownNavbar extends React.Component {
                 src="music-markdown.svg" width={50} alt="Music Markdown" />
             </Button>
             <RepositoriesNavDropdown {...this.props} />
-            <Button className={classes.reactRouterHoverInherit} component={NavLink} to='/sandbox'>
-              Sandbox
-            </Button>
             <div className={classes.grow} />
             <Button onClick={this.handleDrawerOpen}>
               Toolbar
@@ -114,6 +111,29 @@ class MusicMarkdownNavbar extends React.Component {
         </Drawer>
       </>
     );
+
+    const BaseNavbar = () => (
+      <>
+        <AppBar position={'sticky'} key='top-navbar'>
+          <Toolbar>
+            <Button className={classes.reactRouterHoverInherit} component={Link} to='/'>
+              <img src="music-markdown.svg" width={50} alt="Music Markdown" />
+            </Button>
+            <RepositoriesNavDropdown {...this.props} />
+            <div className={classes.grow} />
+          </Toolbar>
+        </AppBar>
+      </>
+    );
+
+    const basePath = this.props.location.pathname.split('/')[1];
+
+    switch (basePath) {
+    case 'repos':
+      return MusicMarkdownNavbar();
+    default:
+      return BaseNavbar();
+    }
   }
 };
 

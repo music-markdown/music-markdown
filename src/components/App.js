@@ -1,6 +1,6 @@
 import React from 'react';
-import { HashRouter as Router, Route } from 'react-router-dom';
-import { Provider, connect } from 'react-redux';
+import { HashRouter as Router, Route, Switch } from 'react-router-dom';
+import { Provider } from 'react-redux';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Typography from '@material-ui/core/Typography';
 import MuiThemeProvider from '@material-ui/core/styles/MuiThemeProvider';
@@ -38,17 +38,19 @@ const ThemeProvider = connect(mapStateToProps)(({ theme }) => (
 const HomeRouter = () => (
   <Provider key="home-provider" store={store}>
     <Router key="home-router">
-      <div>
+      <>
         <Route component={MusicMarkdownNavbar} />
-        <Route exact path="/" component={Navigation} />
-        <Route excat path='/sandbox' component={Sandbox} />
-        <Route exact path='/repos' component={RepositoryEditor} />
-        <Route exact path={REPO_REGEX} component={BranchNavigation} />
-        <Route exact path={`${REPO_REGEX}/:view(viewer)/:branch/:path+`} component={MarkdownMusicSourceFetcher} />
-        <Route exact path={`${REPO_REGEX}/:view(browser)/:branch/:path*`} component={RepositoryNavigation} />
-        {/* TODO: Add editor component */}
-        <Route exact path={`${REPO_REGEX}/:view(editor)/:branch/:path+`} component={Sandbox} />
-      </div>
+        <Switch>
+          <Route exact path="/" component={Navigation} />
+          <Route path={`${REPO_REGEX}/viewer/:branch/:path+`} component={MarkdownMusicSourceFetcher} />
+          <Route path={`${REPO_REGEX}/browser/:branch/:path*`} component={RepositoryNavigation} />
+          {/* TODO: Add editor component */}
+          <Route path={`${REPO_REGEX}/editor/:branch/:path+`} component={Sandbox} />
+          <Route path={REPO_REGEX} component={BranchNavigation} />
+          <Route path='/repos' component={RepositoryEditor} />
+          <Route path='/sandbox' component={Sandbox} />
+        </Switch>
+      </>
     </Router>
   </Provider>
 );
