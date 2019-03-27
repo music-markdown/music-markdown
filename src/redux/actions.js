@@ -2,7 +2,8 @@ import {
   TRANSPOSE,
   UPDATE_COLUMN_COUNT,
   UPDATE_FONT_SIZE,
-  UPDATE_YOUTUBE_ID
+  UPDATE_YOUTUBE_ID,
+  SET_DARK_THEME
 } from './actionTypes';
 
 let transposeAmount = 0;
@@ -66,6 +67,15 @@ export const setFontSize = (newFontSize) => {
     type: UPDATE_FONT_SIZE,
     payload: {
       fontSize
+    }
+  };
+};
+
+export const setDarkTheme = (isDarkTheme) => {
+  return {
+    type: SET_DARK_THEME,
+    payload: {
+      isDarkTheme
     }
   };
 };
