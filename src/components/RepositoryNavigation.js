@@ -3,7 +3,10 @@ import Divider from '@material-ui/core/Divider';
 import List from '@material-ui/core/List';
 import Typography from '@material-ui/core/Typography';
 import NavigationListItem from './NavigationListItem';
-import RouterBreadcrumbs from './RouterBreadcrumbs';
+import DirectoryBreadcrumbs from './RouterBreadcrumbs';
+import FolderIcon from '@material-ui/icons/Folder';
+import DescriptionIcon from '@material-ui/icons/Description';
+import Grid from '@material-ui/core/Grid';
 import { getContents } from '../lib/github';
 
 /**
@@ -68,10 +71,20 @@ class RepositoryNavigation extends React.Component {
 
       if (item.type === 'dir') {
         viewType = 'browser';
-        itemJsx = <i>{`/${item.name}`}</i>;
+        itemJsx = <>
+          <Grid container spacing={24}>
+            <Grid item><FolderIcon /></Grid>
+            <Grid item><i>{`/${item.name}`}</i></Grid>
+          </Grid>
+        </>;
       } else if (item.type === 'file') {
         viewType = 'viewer';
-        itemJsx = item.name;
+        itemJsx = <>
+          <Grid container spacing={24}>
+            <Grid item><DescriptionIcon /></Grid>
+            <Grid item>{item.name}</Grid>
+          </Grid>
+        </>;
       }
 
       const linkToContent = `/repos/${repo}/${viewType}/${branch}/${item.path}`;
@@ -85,7 +98,7 @@ class RepositoryNavigation extends React.Component {
         <Typography variant='h3'>
           Repository Contents
         </Typography>
-        <RouterBreadcrumbs pathname={this.props.location.pathname} />
+        <DirectoryBreadcrumbs pathname={this.props.location.pathname} />
         <List key={'repo-navigation-list'}>
           {listGroupItems}
           <Divider key={'end-of-list-divider'}/>
