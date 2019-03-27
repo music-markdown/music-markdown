@@ -16,6 +16,7 @@ import Switch from '@material-ui/core/Switch';
 import Toolbar from '@material-ui/core/Toolbar';
 import withStyles from '@material-ui/core/styles/withStyles';
 import SettingsIcon from '@material-ui/icons/Settings';
+import SearchIcon from '@material-ui/icons/Search';
 
 import { getRepositories } from '../lib/github';
 import MusicToolbar from './MusicToolbar';
@@ -68,7 +69,24 @@ class MusicMarkdownNavbar extends React.Component {
     const { classes } = this.props;
     const { toolbarOpen, settingsOpen, isDarkTheme } = this.state;
 
-    const MusicMarkdownNavbar = () => (
+    const MusicNavbarToolbar = () => (
+      <>
+        {/* TODO: Placeholder for search functionality */}
+        <Button>
+          <SearchIcon />
+        </Button>
+        <Button onClick={this.handleDrawerOpen}>
+          Toolbar
+        </Button>
+
+        <Drawer open={toolbarOpen} variant={'persistent'} anchor={'bottom'}>
+          <Divider />
+          <MusicToolbar></MusicToolbar>
+        </Drawer>
+      </>
+    );
+
+    const BaseNavbar = (renderMusicNavbarToolbarFlag) => (
       <>
         <AppBar position={'sticky'} key='top-navbar'>
           <Toolbar>
@@ -78,9 +96,7 @@ class MusicMarkdownNavbar extends React.Component {
             </Button>
             <RepositoriesNavDropdown {...this.props} />
             <div className={classes.grow} />
-            <Button onClick={this.handleDrawerOpen}>
-              Toolbar
-            </Button>
+            {renderMusicNavbarToolbarFlag ? MusicNavbarToolbar() : null}
             <IconButton onClick={this.handleSettingsClick} buttonRef={(node) => {
               this.settingsAnchorEl = node;
             }}>
@@ -105,24 +121,6 @@ class MusicMarkdownNavbar extends React.Component {
             </Popper>
           </Toolbar>
         </AppBar>
-        <Drawer open={toolbarOpen} variant={'persistent'} anchor={'bottom'}>
-          <Divider />
-          <MusicToolbar></MusicToolbar>
-        </Drawer>
-      </>
-    );
-
-    const BaseNavbar = () => (
-      <>
-        <AppBar position={'sticky'} key='top-navbar'>
-          <Toolbar>
-            <Button className={classes.reactRouterHoverInherit} component={Link} to='/'>
-              <img src="music-markdown.svg" width={50} alt="Music Markdown" />
-            </Button>
-            <RepositoriesNavDropdown {...this.props} />
-            <div className={classes.grow} />
-          </Toolbar>
-        </AppBar>
       </>
     );
 
@@ -130,9 +128,9 @@ class MusicMarkdownNavbar extends React.Component {
 
     switch (basePath) {
     case 'repos':
-      return MusicMarkdownNavbar();
+      return BaseNavbar(true);
     default:
-      return BaseNavbar();
+      return BaseNavbar(false);
     }
   }
 };
