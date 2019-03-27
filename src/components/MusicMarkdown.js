@@ -7,7 +7,7 @@ import withStyles from '@material-ui/core/styles/withStyles';
 
 import { updateYouTubeId } from '../redux/actions';
 
-const styles = (theme) => ({
+const styles = () => ({
   markdownBody: {
     filter: 'invert(100%)'
   },
