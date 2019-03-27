@@ -3,6 +3,7 @@ import Avatar from '@material-ui/core/Avatar';
 import Book from '@material-ui/icons/Book';
 import Delete from '@material-ui/icons/Delete';
 import IconButton from '@material-ui/core/IconButton';
+import Link from 'react-router-dom/Link';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
@@ -41,7 +42,7 @@ class ListRepositories extends React.Component {
     <>
       <List>
         {this.state.repos.map((repo) => (
-          <ListItem button key={`repo-item-${repo}`}>
+          <ListItem button key={`repo-item-${repo}`} component={Link} to={`/repos/${repo}`}>
             <ListItemAvatar>
               <Avatar>
                 <Book />
