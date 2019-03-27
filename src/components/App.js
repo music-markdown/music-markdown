@@ -9,12 +9,14 @@ import createMuiTheme from '@material-ui/core/styles/createMuiTheme';
 import MarkdownMusicSourceFetcher from './MarkdownMusicSourceFetcher';
 import MusicMarkdownNavbar from './MusicMarkdownNavbar';
 import ResponsiveContainer from './ResponsiveContainer';
+import RepositoryEditor from './RepositoryEditor';
 import RepositoryNavigation from './RepositoryNavigation';
 import BranchNavigation from './BranchNavigation';
 import Sandbox from './Sandbox.js';
 import store from '../redux/store';
 import './App.scss';
 
+const REPO_REGEX = '/repos/:repo([^/]+/[^/]+)';
 const App = () => (
   <Provider key="home-provider" store={store}>
     <ThemeProvider />
@@ -34,18 +36,21 @@ const ThemeProvider = connect(mapStateToProps)(({ theme }) => (
 ));
 
 const HomeRouter = () => (
-  <Router key="home-router">
-    <div>
-      <Route component={MusicMarkdownNavbar} />
-      <Route exact path="/" component={Navigation} />
-      <Route excat path='/sandbox' component={Sandbox} />
-      <Route exact path='/repos/:owner/:repo' component={BranchNavigation} />
-      <Route exact path='/repos/:owner/:repo/:view(viewer)/:branch/:path+' component={MarkdownMusicSourceFetcher} />
-      <Route exact path='/repos/:owner/:repo/:view(browser)/:branch/:path*' component={RepositoryNavigation} />
-      {/* TODO: Add editor component */}
-      <Route exact path='/repos/:owner/:repo/:view(editor)/:branch/:path+' component={Sandbox} />
-    </div>
-  </Router>
+  <Provider key="home-provider" store={store}>
+    <Router key="home-router">
+      <div>
+        <Route component={MusicMarkdownNavbar} />
+        <Route exact path="/" component={Navigation} />
+        <Route excat path='/sandbox' component={Sandbox} />
+        <Route exact path='/repos' component={RepositoryEditor} />
+        <Route exact path={REPO_REGEX} component={BranchNavigation} />
+        <Route exact path={`${REPO_REGEX}/:view(viewer)/:branch/:path+`} component={MarkdownMusicSourceFetcher} />
+        <Route exact path={`${REPO_REGEX}/:view(browser)/:branch/:path*`} component={RepositoryNavigation} />
+        {/* TODO: Add editor component */}
+        <Route exact path={`${REPO_REGEX}/:view(editor)/:branch/:path+`} component={Sandbox} />
+      </div>
+    </Router>
+  </Provider>
 );
 
 const Navigation = () => (

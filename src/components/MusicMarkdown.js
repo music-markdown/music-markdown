@@ -1,3 +1,4 @@
+import ContainerDimensions from 'react-container-dimensions';
 import React from 'react';
 import { connect } from 'react-redux';
 import MarkdownIt from 'markdown-it';
@@ -15,7 +16,7 @@ const styles = (theme) => ({
   },
 });
 
-class MusicMarkdown extends React.Component {
+class MusicMarkdownRender extends React.Component {
   constructor(props) {
     super(props);
 
@@ -62,4 +63,13 @@ function mapStateToProps(state) {
   return { transposeAmount, columnCount, fontSize };
 }
 
-export default connect(mapStateToProps, { updateYouTubeId })(withStyles(styles, { withTheme: true })(MusicMarkdown));
+const ConnectMarkdownMusicRender =
+  connect(mapStateToProps, { updateYouTubeId })(withStyles(styles, { withTheme: true })(MusicMarkdownRender));
+
+const MusicMarkdown = ({ source }) => (
+  <ContainerDimensions>
+    <ConnectMarkdownMusicRender source={source} />
+  </ContainerDimensions>
+);
+
+export default MusicMarkdown;
