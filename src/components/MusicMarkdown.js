@@ -11,8 +11,7 @@ import { updateYouTubeId } from '../redux/actions';
 
 const styles = (theme) => ({
   markdownBody: {
-    backgroundColor: theme.palette.background.default,
-    color: theme.palette.text.primary
+    filter: 'invert(100%)'
   },
 });
 
@@ -31,29 +30,15 @@ class MusicMarkdownRender extends React.Component {
   render() {
     const { classes, theme } = this.props;
 
-    const colorOrder = [theme.palette.text.primary];
-
     this.md.setTranspose(this.props.transposeAmount)
       .setColumnCount(this.props.columnCount)
       .setFontSize(this.props.fontSize)
-      .setMaxWidth(this.props.width)
-      .setTheme({ pallete: theme.palette.type, colorOrder });
+      .setMaxWidth(this.props.width);
     const html = this.md.render(this.props.source);
-
-    // Create a style sheet for <path> and <text> tags, so that abcjs color will render in dark/light theme.
-    const jss = create();
-    jss.use(nested());
-    const sheet = jss.createStyleSheet({
-      musicMarkdownTheme: {
-        '& path': { fill: theme.palette.text.primary },
-        '& text': { fill: theme.palette.text.primary }
-      }
-    });
-    sheet.attach();
 
     return (
       <div dangerouslySetInnerHTML={{ __html: html }}
-        className={`${classes.markdownBody} ${sheet.classes.musicMarkdownTheme}`}/>
+        className={`${theme.palette.type === 'dark' ? classes.markdownBody : ''}`}/>
     );
   }
 }

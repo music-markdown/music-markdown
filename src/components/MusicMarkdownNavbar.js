@@ -28,6 +28,9 @@ const styles = (theme) => ({
   },
   grow: {
     flexGrow: 1
+  },
+  filter: {
+    filter: 'invert(100%)'
   }
 });
 
@@ -38,7 +41,7 @@ class MusicMarkdownNavbar extends React.Component {
     this.state = {
       toolbarOpen: false,
       settingsOpen: false,
-      isDarkTheme: false
+      isDarkTheme: props.theme.palette.type === 'dark'
     };
 
     this.settingsAnchorEl = undefined;
@@ -70,7 +73,7 @@ class MusicMarkdownNavbar extends React.Component {
         <AppBar position={'sticky'} key='top-navbar'>
           <Toolbar>
             <Button className={classes.reactRouterHoverInherit} component={Link} to='/'>
-              <img src="music-markdown.svg" width={50} alt="Music Markdown" />
+              <img className={isDarkTheme ? classes.filter : ''} src="music-markdown.svg" width={50} alt="Music Markdown" />
             </Button>
             <RepositoriesNavDropdown {...this.props} />
             <Button className={classes.reactRouterHoverInherit} component={NavLink} to='/sandbox'>
@@ -186,4 +189,4 @@ class RepositoriesNavDropdown extends React.Component {
   }
 };
 
-export default connect(undefined, { setDarkTheme })(withStyles(styles)(MusicMarkdownNavbar));
+export default connect(undefined, { setDarkTheme })(withStyles(styles, { withTheme: true })(MusicMarkdownNavbar));
