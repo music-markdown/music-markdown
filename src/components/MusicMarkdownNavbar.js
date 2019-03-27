@@ -81,13 +81,12 @@ class MusicMarkdownNavbar extends React.Component {
 
     const basePath = this.props.location.pathname.split('/')[1];
 
-    switch(basePath) {
-      case 'repos':
-        return MusicMarkdownNavbar();
-      default:
-        return BaseNavbar();
+    switch (basePath) {
+    case 'repos':
+      return MusicMarkdownNavbar();
+    default:
+      return BaseNavbar();
     }
-
   }
 };
 
