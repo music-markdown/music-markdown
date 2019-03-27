@@ -16,6 +16,7 @@ import Switch from '@material-ui/core/Switch';
 import Toolbar from '@material-ui/core/Toolbar';
 import withStyles from '@material-ui/core/styles/withStyles';
 import SettingsIcon from '@material-ui/icons/Settings';
+import SearchIcon from '@material-ui/icons/Search';
 
 import { getRepositories } from '../lib/github';
 import MusicToolbar from './MusicToolbar';
@@ -78,6 +79,9 @@ class MusicMarkdownNavbar extends React.Component {
             </Button>
             <RepositoriesNavDropdown {...this.props} />
             <div className={classes.grow} />
+            <Button>
+              <SearchIcon />
+            </Button>
             <Button onClick={this.handleDrawerOpen}>
               Toolbar
             </Button>
@@ -121,7 +125,30 @@ class MusicMarkdownNavbar extends React.Component {
             </Button>
             <RepositoriesNavDropdown {...this.props} />
             <div className={classes.grow} />
+            <IconButton onClick={this.handleSettingsClick} buttonRef={(node) => {
+              this.settingsAnchorEl = node;
+            }}>
+              <SettingsIcon/>
+            </IconButton>
+            <Popper
+              id='settings-popper'
+              open={settingsOpen}
+              anchorEl={this.settingsAnchorEl}
+              placement='bottom-end'>
+              <Paper className={classes.paper}>
+                <FormControlLabel
+                  control={
+                    <Switch
+                      defaultChecked={isDarkTheme}
+                      onChange={this.handleDarkThemeSwitch}
+                      value='darkTheme' />
+                  }
+                  label='Toggle Dark Mode?'
+                />
+              </Paper>
+            </Popper>
           </Toolbar>
+          
         </AppBar>
       </>
     );
