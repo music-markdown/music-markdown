@@ -73,7 +73,8 @@ class MusicMarkdownNavbar extends React.Component {
         <AppBar position={'sticky'} key='top-navbar'>
           <Toolbar>
             <Button className={classes.reactRouterHoverInherit} component={Link} to='/'>
-              <img className={isDarkTheme ? classes.filter : ''} src="music-markdown.svg" width={50} alt="Music Markdown" />
+              <img className={isDarkTheme ? classes.filter : ''}
+                src="music-markdown.svg" width={50} alt="Music Markdown" />
             </Button>
             <RepositoriesNavDropdown {...this.props} />
             <Button className={classes.reactRouterHoverInherit} component={NavLink} to='/sandbox'>

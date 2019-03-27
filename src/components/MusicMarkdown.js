@@ -4,8 +4,6 @@ import { connect } from 'react-redux';
 import MarkdownIt from 'markdown-it';
 import MarkdownItMusic from 'markdown-it-music';
 import withStyles from '@material-ui/core/styles/withStyles';
-import { create } from 'jss';
-import nested from 'jss-nested';
 
 import { updateYouTubeId } from '../redux/actions';
 
