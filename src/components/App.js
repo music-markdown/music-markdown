@@ -46,7 +46,7 @@ const HomeRouter = () => (
       <div>
         <Route component={MusicMarkdownNavbar} />
         <Route exact path="/" component={Navigation} />
-        <Route excat path='/sandbox' component={Sandbox} />
+        <Route exact path='/sandbox' component={Sandbox} />
         <Route exact path='/repos' component={RepositoryEditor} />
         <Route exact path={REPO_REGEX} component={BranchNavigation} />
         <Route exact path={`${REPO_REGEX}/:view(viewer)/:branch/:path+`} component={MarkdownMusicSourceFetcher} />

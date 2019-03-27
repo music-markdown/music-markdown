@@ -3,7 +3,7 @@ import Divider from '@material-ui/core/Divider';
 import List from '@material-ui/core/List';
 import Typography from '@material-ui/core/Typography';
 import NavigationListItem from './NavigationListItem';
-import RouterBreadcrumbs from './RouterBreadcrumbs';
+import DirectoryBreadcrumbs from './RouterBreadcrumbs';
 import { getBranches } from '../lib/github';
 
 /**
@@ -70,7 +70,7 @@ class BranchNavigation extends React.Component {
           <Typography variant='h3'>
             Branches
           </Typography>
-          <RouterBreadcrumbs pathname={this.props.location.pathname} />
+          <DirectoryBreadcrumbs pathname={this.props.location.pathname} />
           <List>
             {listGroupItems}
             <Divider />

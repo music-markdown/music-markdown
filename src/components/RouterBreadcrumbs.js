@@ -59,7 +59,7 @@ function buildBreadcrumb(previousPath, classes) {
  * @param {string} pathname current URI pathname
  * @return {Array} List of BreadcrumbItems
  */
-const RouterBreadcrumbs = ({ pathname, classes }) => {
+const DirectoryBreadcrumbs = ({ pathname, classes }) => {
   const keyBase = 'breadcrumb-item-';
 
   const subDirectoriesArr = pathname.split('/').filter((value) => !!value);
@@ -83,4 +83,4 @@ const RouterBreadcrumbs = ({ pathname, classes }) => {
   );
 };
 
-export default withStyles(styles)(RouterBreadcrumbs);
+export default withStyles(styles)(DirectoryBreadcrumbs);
