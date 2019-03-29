@@ -17,6 +17,7 @@
     "npm": "^6.9.0",
     "query-string": "^6.4.0",
     "react": "^16.8.5",
+    "react-ace": "^6.4.0",
     "react-container-dimensions": "^1.4.1",
     "react-dom": "^16.8.5",
     "react-redux": "^6.0.1",

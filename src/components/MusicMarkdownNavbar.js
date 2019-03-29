@@ -5,7 +5,6 @@ import { connect } from 'react-redux';
 import AppBar from '@material-ui/core/AppBar';
 import Button from '@material-ui/core/Button';
 import Divider from '@material-ui/core/Divider';
-import Drawer from '@material-ui/core/Drawer';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import IconButton from '@material-ui/core/IconButton';
 import Menu from '@material-ui/core/Menu';
@@ -16,11 +15,14 @@ import Switch from '@material-ui/core/Switch';
 import Toolbar from '@material-ui/core/Toolbar';
 import withStyles from '@material-ui/core/styles/withStyles';
 import SettingsIcon from '@material-ui/icons/Settings';
+import EditIcon from '@material-ui/icons/Edit';
+import DoneIcon from '@material-ui/icons/Done';
 import SearchIcon from '@material-ui/icons/Search';
 
 import { getRepositories } from '../lib/github';
 import MusicToolbar from './MusicToolbar';
 import { setDarkTheme } from '../redux/actions';
+import { ClickAwayListener } from '@material-ui/core';
 
 const styles = (theme) => ({
   reactRouterHoverInherit: theme.reactRouterHoverInherit,
@@ -35,6 +37,31 @@ const styles = (theme) => ({
   }
 });
 
+const ViewEditButton = ({ location }) => {
+  const parts = location.pathname.split('/');
+  const view = parts[4];
+
+  if (view === 'editor') {
+    parts[4] = 'viewer';
+    return (
+      <IconButton component={Link} to={parts.join('/')}>
+        <DoneIcon />
+      </IconButton>
+    );
+  }
+
+  if (view === 'viewer') {
+    parts[4] = 'editor';
+    return (
+      <IconButton component={Link} to={parts.join('/')}>
+        <EditIcon />
+      </IconButton>
+    );
+  }
+
+  return null;
+};
+
 class MusicMarkdownNavbar extends React.Component {
   constructor(props) {
     super(props);
@@ -46,6 +73,7 @@ class MusicMarkdownNavbar extends React.Component {
     };
 
     this.settingsAnchorEl = undefined;
+    this.toolbarAnchorEl = undefined;
 
     this.handleDrawerOpen = this.handleDrawerOpen.bind(this);
     this.handleSettingsClick = this.handleSettingsClick.bind(this);
@@ -66,8 +94,8 @@ class MusicMarkdownNavbar extends React.Component {
   }
 
   render() {
-    const { classes } = this.props;
     const { toolbarOpen, settingsOpen, isDarkTheme } = this.state;
+    const { classes, location } = this.props;
 
     const MusicNavbarToolbar = () => (
       <>
@@ -75,14 +103,23 @@ class MusicMarkdownNavbar extends React.Component {
         <Button>
           <SearchIcon />
         </Button>
-        <Button onClick={this.handleDrawerOpen}>
+        <Button onClick={this.handleDrawerOpen} buttonRef={(node) => {
+          this.toolbarAnchorEl = node;
+        }}>
           Toolbar
         </Button>
-
-        <Drawer open={toolbarOpen} variant={'persistent'} anchor={'bottom'}>
-          <Divider />
-          <MusicToolbar></MusicToolbar>
-        </Drawer>
+        <Popper
+          id='music-toolbar-popper'
+          open={toolbarOpen}
+          anchorEl={this.toolbarAnchorEl}
+          placement='bottom-end'>
+          <Paper className={classes.paper}>
+            <ClickAwayListener onClickAway={this.handleDrawerOpen}>
+              <MusicToolbar></MusicToolbar>
+            </ClickAwayListener>
+          </Paper>
+        </Popper>
+        <ViewEditButton location={location} />
       </>
     );
 
@@ -108,15 +145,17 @@ class MusicMarkdownNavbar extends React.Component {
               anchorEl={this.settingsAnchorEl}
               placement='bottom-end'>
               <Paper className={classes.paper}>
-                <FormControlLabel
-                  control={
-                    <Switch
-                      defaultChecked={isDarkTheme}
-                      onChange={this.handleDarkThemeSwitch}
-                      value='darkTheme' />
-                  }
-                  label='Toggle Dark Mode?'
-                />
+                <ClickAwayListener onClickAway={this.handleSettingsClick}>
+                  <FormControlLabel
+                    control={
+                      <Switch
+                        defaultChecked={isDarkTheme}
+                        onChange={this.handleDarkThemeSwitch}
+                        value='darkTheme' />
+                    }
+                    label='Toggle Dark Mode?'
+                  />
+                </ClickAwayListener>
               </Paper>
             </Popper>
           </Toolbar>

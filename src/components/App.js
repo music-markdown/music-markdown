@@ -5,7 +5,7 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import Typography from '@material-ui/core/Typography';
 import MuiThemeProvider from '@material-ui/core/styles/MuiThemeProvider';
 import createMuiTheme from '@material-ui/core/styles/createMuiTheme';
-
+import MarkdownEditor from './MarkdownEditor';
 import MarkdownMusicSourceFetcher from './MarkdownMusicSourceFetcher';
 import MusicMarkdownNavbar from './MusicMarkdownNavbar';
 import ResponsiveContainer from './ResponsiveContainer';
@@ -44,8 +44,7 @@ const HomeRouter = () => (
           <Route exact path="/" component={Navigation} />
           <Route path={`${REPO_REGEX}/viewer/:branch/:path+`} component={MarkdownMusicSourceFetcher} />
           <Route path={`${REPO_REGEX}/browser/:branch/:path*`} component={RepositoryNavigation} />
-          {/* TODO: Add editor component */}
-          <Route path={`${REPO_REGEX}/editor/:branch/:path+`} component={Sandbox} />
+          <Route path={`${REPO_REGEX}/editor/:branch/:path+`} component={MarkdownEditor} />
           <Route path={REPO_REGEX} component={BranchNavigation} />
           <Route path='/repos' component={RepositoryEditor} />
           <Route path='/sandbox' component={Sandbox} />

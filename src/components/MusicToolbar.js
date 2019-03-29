@@ -58,17 +58,17 @@ class MusicToolbar extends React.Component {
               <React.Fragment key={name}>
                 <Grid item>
                   <Badge color='primary' badgeContent={value}>
-                    <Typography variant='h6' className={classes.padding}>{name}</Typography>
+                    <Typography variant='body1' className={classes.padding}>{name}</Typography>
                   </Badge>
                 </Grid>
                 <Grid item>
                   <Button onClick={clickCallback}>
-                    <Typography>{this.decrease}</Typography>
+                    <Typography variant='body2'>{this.decrease}</Typography>
                   </Button>
                 </Grid>
                 <Grid item>
                   <Button onClick={clickCallback}>
-                    <Typography>{this.increase}</Typography>
+                    <Typography variant='body2'>{this.increase}</Typography>
                   </Button>
                 </Grid>
               </React.Fragment>
