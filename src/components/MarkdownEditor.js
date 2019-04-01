@@ -1,4 +1,7 @@
-import React from 'react';
+import 'brace/mode/markdown';
+import 'brace/theme/github';
+import 'brace/theme/monokai';
+import { getContents, putContents } from '../lib/github';
 import AceEditor from 'react-ace';
 import CheckIcon from '@material-ui/icons/Check';
 import CircularProgress from '@material-ui/core/CircularProgress';
@@ -7,14 +10,11 @@ import Grid from '@material-ui/core/Grid';
 import LinearProgress from '@material-ui/core/LinearProgress';
 import MusicMarkdown from './MusicMarkdown';
 import Paper from '@material-ui/core/Paper';
+import React from 'react';
 import SaveIcon from '@material-ui/icons/Save';
-import 'brace/mode/markdown';
-import 'brace/theme/github';
-import 'brace/theme/monokai';
+import classNames from 'classnames';
 import green from '@material-ui/core/colors/green';
 import withStyles from '@material-ui/core/styles/withStyles';
-import { getContents, putContents } from '../lib/github';
-import classNames from 'classnames';
 
 const styles = (theme) => ({
   root: {

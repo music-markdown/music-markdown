@@ -1,19 +1,19 @@
-import React from 'react';
-import { HashRouter as Router, Route, Switch } from 'react-router-dom';
+import './App.scss';
 import { Provider, connect } from 'react-redux';
+import { Route, HashRouter as Router, Switch } from 'react-router-dom';
+import BranchNavigation from './BranchNavigation';
 import CssBaseline from '@material-ui/core/CssBaseline';
-import MuiThemeProvider from '@material-ui/core/styles/MuiThemeProvider';
-import createMuiTheme from '@material-ui/core/styles/createMuiTheme';
 import MarkdownEditor from './MarkdownEditor';
 import MarkdownViewer from './MarkdownViewer';
+import MuiThemeProvider from '@material-ui/core/styles/MuiThemeProvider';
 import MusicMarkdownNavbar from './MusicMarkdownNavbar';
-import ResponsiveContainer from './ResponsiveContainer';
+import React from 'react';
 import RepositoryEditor from './RepositoryEditor';
 import RepositoryNavigation from './RepositoryNavigation';
-import BranchNavigation from './BranchNavigation';
+import ResponsiveContainer from './ResponsiveContainer';
 import Sandbox from './Sandbox.js';
+import createMuiTheme from '@material-ui/core/styles/createMuiTheme';
 import store from '../redux/store';
-import './App.scss';
 
 const REPO_REGEX = '/repos/:repo([^/]+/[^/]+)';
 const App = () => (

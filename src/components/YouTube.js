@@ -1,8 +1,8 @@
-import React from 'react';
-import { connect } from 'react-redux';
-import Popper from '@material-ui/core/Popper';
 import IconButton from '@material-ui/core/IconButton';
 import PlayArrowIcon from '@material-ui/icons/PlayArrow';
+import Popper from '@material-ui/core/Popper';
+import React from 'react';
+import { connect } from 'react-redux';
 
 const YouTubePlayer = ({ youTubeId }) => (
   <div className="embed-responsive embed-responsive-16by9">

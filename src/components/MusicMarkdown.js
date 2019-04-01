@@ -1,11 +1,11 @@
 import ContainerDimensions from 'react-container-dimensions';
-import React from 'react';
-import { connect } from 'react-redux';
 import MarkdownIt from 'markdown-it';
 import MarkdownItMusic from 'markdown-it-music';
+import React from 'react';
+import { connect } from 'react-redux';
+import { updateYouTubeId } from '../redux/actions';
 import withStyles from '@material-ui/core/styles/withStyles';
 
-import { updateYouTubeId } from '../redux/actions';
 
 const COLUMN_GAP = 20;
 

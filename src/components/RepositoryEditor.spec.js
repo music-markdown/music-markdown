@@ -1,9 +1,9 @@
+import { Route, BrowserRouter as Router } from 'react-router-dom';
+import { Provider } from 'react-redux';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import RepositoryEditor from './RepositoryEditor';
-import { Provider } from 'react-redux';
 import store from '../redux/store';
-import { BrowserRouter as Router, Route } from 'react-router-dom';
 
 describe('RepositoryEditor', () => {
   it('renders without crashing', () => {

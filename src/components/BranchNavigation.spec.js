@@ -1,7 +1,7 @@
+import { Route, BrowserRouter as Router } from 'react-router-dom';
+import BranchNavigation from './BranchNavigation';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import BranchNavigation from './BranchNavigation';
-import { BrowserRouter as Router, Route } from 'react-router-dom';
 
 describe('BranchNavigation', () => {
   it('renders without crashing', () => {

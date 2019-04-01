@@ -1,14 +1,14 @@
-import React from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import DescriptionIcon from '@material-ui/icons/Description';
 import DirectoryBreadcrumbs from './RouterBreadcrumbs';
 import FolderIcon from '@material-ui/icons/Folder';
 import LinearProgress from '@material-ui/core/LinearProgress';
+import { Link } from 'react-router-dom';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import ListItemText from '@material-ui/core/ListItemText';
-import { Link } from 'react-router-dom';
+import React from 'react';
 import { getContents } from '../lib/github';
 import withStyles from '@material-ui/core/styles/withStyles';
 

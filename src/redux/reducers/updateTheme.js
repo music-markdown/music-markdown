@@ -1,5 +1,5 @@
-import { SET_DARK_THEME } from '../actionTypes';
 import { MUSIC_MARKDOWN_LOCAL_STORAGE_NAMESPACE } from '../../lib/constants';
+import { SET_DARK_THEME } from '../actionTypes';
 
 const lightTheme = {
   typography: {

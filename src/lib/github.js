@@ -1,4 +1,4 @@
-import { REPOS_LOCAL_STORAGE_KEY, GITHUB_TOKEN_LOCAL_STORAGE_KEY, GITHUB_API_URL } from './constants';
+import { GITHUB_API_URL, GITHUB_TOKEN_LOCAL_STORAGE_KEY, REPOS_LOCAL_STORAGE_KEY } from './constants';
 
 /**
  * Returns a Promise of the contents of a file or directory in a GitHub repository.

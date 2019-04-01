@@ -1,10 +1,10 @@
-import React from 'react';
+import { setColumnCount, setFontSize, setTranspose } from '../redux/actions';
 import LinearProgress from '@material-ui/core/LinearProgress';
 import MusicMarkdown from './MusicMarkdown';
-import queryString from 'query-string';
+import React from 'react';
 import { connect } from 'react-redux';
 import { getContents } from '../lib/github';
-import { setTranspose, setColumnCount, setFontSize } from '../redux/actions';
+import queryString from 'query-string';
 import withStyles from '@material-ui/core/styles/withStyles';
 
 const styles = (theme) => ({

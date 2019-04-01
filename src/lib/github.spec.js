@@ -1,5 +1,5 @@
+import { addRepository, deleteRepository, getApiUrl, getRepositories } from './github';
 import { GITHUB_TOKEN_LOCAL_STORAGE_KEY } from './constants';
-import { getRepositories, deleteRepository, addRepository, getApiUrl } from './github';
 
 describe('GitHub API', () => {
   afterEach(() => {

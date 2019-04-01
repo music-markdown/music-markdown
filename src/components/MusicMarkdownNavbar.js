@@ -1,28 +1,22 @@
-import React from 'react';
-import { NavLink, Link } from 'react-router-dom';
-import { connect } from 'react-redux';
-
 import AppBar from '@material-ui/core/AppBar';
 import Button from '@material-ui/core/Button';
-import Divider from '@material-ui/core/Divider';
+import ClickAwayListener from '@material-ui/core/ClickAwayListener';
+import DoneIcon from '@material-ui/icons/Done';
+import EditIcon from '@material-ui/icons/Edit';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import IconButton from '@material-ui/core/IconButton';
-import Menu from '@material-ui/core/Menu';
-import MenuItem from '@material-ui/core/MenuItem';
-import Popper from '@material-ui/core/Popper';
+import { Link } from 'react-router-dom';
+import MusicToolbar from './MusicToolbar';
 import Paper from '@material-ui/core/Paper';
+import Popper from '@material-ui/core/Popper';
+import React from 'react';
+import SearchIcon from '@material-ui/icons/Search';
+import SettingsIcon from '@material-ui/icons/Settings';
 import Switch from '@material-ui/core/Switch';
 import Toolbar from '@material-ui/core/Toolbar';
-import withStyles from '@material-ui/core/styles/withStyles';
-import SettingsIcon from '@material-ui/icons/Settings';
-import EditIcon from '@material-ui/icons/Edit';
-import DoneIcon from '@material-ui/icons/Done';
-import SearchIcon from '@material-ui/icons/Search';
-
-import { getRepositories } from '../lib/github';
-import MusicToolbar from './MusicToolbar';
+import { connect } from 'react-redux';
 import { setDarkTheme } from '../redux/actions';
-import { ClickAwayListener } from '@material-ui/core';
+import withStyles from '@material-ui/core/styles/withStyles';
 
 const styles = (theme) => ({
   reactRouterHoverInherit: theme.reactRouterHoverInherit,
@@ -131,7 +125,6 @@ class MusicMarkdownNavbar extends React.Component {
               <img className={isDarkTheme ? classes.filter : ''}
                 src="music-markdown.svg" width={50} alt="Music Markdown" />
             </Button>
-            <RepositoriesNavDropdown {...this.props} />
             <div className={classes.grow} />
             {renderMusicNavbarToolbarFlag ? MusicNavbarToolbar() : null}
             <IconButton onClick={this.handleSettingsClick} buttonRef={(node) => {
@@ -173,79 +166,6 @@ class MusicMarkdownNavbar extends React.Component {
     default:
       return BaseNavbar(false);
     }
-  }
-};
-
-/**
- * For all added repositories, add it to the dropdown list
- */
-// TODO: List first x items, then put in dropdown item to expand full list
-class RepositoriesNavDropdown extends React.Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      open: false
-    };
-
-    this.handleClick = this.handleClick.bind(this);
-    this.handleClose = this.handleClose.bind(this);
-  }
-
-  handleClick() {
-    this.setState((state) => ({
-      open: !state.open
-    }));
-  }
-
-  handleClose() {
-    this.setState(() => ({
-      open: false
-    }));
-  }
-
-  render() {
-    const repoDropdownItems = [];
-    const repoList = getRepositories();
-
-    if (repoList.length > 0) {
-      const { reactRouterHoverInherit } = this.props.classes;
-
-      repoList.forEach((repo) => {
-        repoDropdownItems.push(
-          <MenuItem component={NavLink}
-            to={`/repos/${repo}`}
-            key={`dropdown-item-${repo}`}
-            onClick={this.handleClose}
-            className={reactRouterHoverInherit}>
-            {repo}
-          </MenuItem>);
-      });
-    }
-
-    const { open } = this.state;
-
-    return (
-      <>
-        <Button onClick={this.handleClick} buttonRef={(node) => {
-          this.anchorEl = node;
-        }}>
-          Music Repositories
-        </Button>
-
-        <Menu id='dropdown-menu' anchorEl={this.anchorEl} open={open} onClose={this.handleClose}>
-          {repoDropdownItems}
-          <Divider />
-          <MenuItem component={NavLink}
-            to='/repos'
-            key='edit-repos'
-            onClick={this.handleClose}
-            className={this.props.classes.reactRouterHoverInherit}>
-            Edit Repositories
-          </MenuItem>
-        </Menu>
-      </>
-    );
   }
 };
 

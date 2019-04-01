@@ -1,9 +1,9 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
+import { Route, BrowserRouter as Router } from 'react-router-dom';
 import MarkdownViewer from './MarkdownViewer';
 import { Provider } from 'react-redux';
+import React from 'react';
+import ReactDOM from 'react-dom';
 import store from '../redux/store';
-import { BrowserRouter as Router, Route } from 'react-router-dom';
 
 describe('MarkdownViewer', () => {
   it('renders without crashing', () => {

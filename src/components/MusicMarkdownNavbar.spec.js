@@ -1,10 +1,9 @@
-import React from 'react';
-import Enzyme from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
+import Enzyme from 'enzyme';
+import MusicMarkdownNavbar from './MusicMarkdownNavbar';
+import React from 'react';
 import { shallow } from 'enzyme';
 import withStyles from '@material-ui/core/styles/withStyles';
-
-import MusicMarkdownNavbar from './MusicMarkdownNavbar';
 
 Enzyme.configure({ adapter: new Adapter() });
 
