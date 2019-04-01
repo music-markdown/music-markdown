@@ -1,13 +1,23 @@
 import React from 'react';
+import MusicMarkdown from './MusicMarkdown';
+import Paper from '@material-ui/core/Paper';
 import queryString from 'query-string';
 import { connect } from 'react-redux';
-
-import MusicMarkdown from './MusicMarkdown';
 import { getContents } from '../lib/github';
 import { setTranspose, setColumnCount, setFontSize } from '../redux/actions';
+import withStyles from '@material-ui/core/styles/withStyles';
 
-// TODO: Decouple retrieval of source markdown and controlling arguments to MarkdownMusic.
-// https://github.com/music-markdown/music-markdown/pull/25#discussion_r259598474
+const styles = (theme) => ({
+  root: {
+    flexGrow: 1,
+    padding: 12,
+  },
+  paper: {
+    padding: theme.spacing.unit * 2,
+  },
+});
+
+// TODO: Rename to MarkdownViewer
 class MarkdownMusicSourceFetcher extends React.Component {
   constructor(props) {
     super(props);
@@ -34,25 +44,25 @@ class MarkdownMusicSourceFetcher extends React.Component {
     });
   }
 
-  // TODO: Separate the UI component with the fetch logic, we don't necessarily need the fetcher
-  // to be a React Component
   render() {
     const { isLoaded, markdown } = this.state;
+    const { classes } = this.props;
+
     if (!isLoaded) {
       return (
-        <div className="Markdown">Loading...</div>
+        <div className={classes.root}>Loading...</div>
       );
     } else {
       return (
-        <div className="Markdown">
-          <MusicMarkdown source={markdown} />
+        <div className={classes.root}>
+          <Paper className={classes.paper}>
+            <MusicMarkdown source={markdown} />
+          </Paper>
         </div>
       );
     }
   }
 }
 
-export default connect(
-  undefined,
-  { setTranspose, setColumnCount, setFontSize }
-)(MarkdownMusicSourceFetcher);
+export default connect(undefined, { setTranspose, setColumnCount, setFontSize })(
+  withStyles(styles, { withTheme: true })(MarkdownMusicSourceFetcher));

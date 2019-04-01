@@ -13,8 +13,19 @@ export async function getContents(repo, path, branch) {
     path = '';
   }
   const apiUrl = getApiUrl(`/repos/${repo}/contents/${path}`, branch);
-  const response = await fetch(apiUrl);
+  const response = await fetch(apiUrl, { cache: 'no-cache' });
   return response.json();
+}
+
+export async function putContents(repo, path, content, sha, branch) {
+  const apiUrl = getApiUrl(`/repos/${repo}/contents/${path}`, branch);
+  const body = JSON.stringify({
+    message: `Music Markdown published ${path}`,
+    sha: sha,
+    content: content
+  });
+
+  return fetch(apiUrl, { method: 'PUT', mode: 'cors', body: body });
 }
 
 /**

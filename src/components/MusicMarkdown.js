@@ -41,18 +41,20 @@ class MusicMarkdownRender extends React.Component {
   }
 }
 
+const ContainerizedMusicMarkdown = (props) => (
+  <div>
+    <ContainerDimensions>
+      <MusicMarkdownRender {...props} />
+    </ContainerDimensions>
+  </div>
+);
+
 function mapStateToProps(state) {
   const { transposeAmount, columnCount, fontSize } = state;
   return { transposeAmount, columnCount, fontSize };
 }
 
-const ConnectMarkdownMusicRender =
-  connect(mapStateToProps, { updateYouTubeId })(withStyles(styles, { withTheme: true })(MusicMarkdownRender));
-
-const MusicMarkdown = ({ source }) => (
-  <ContainerDimensions>
-    <ConnectMarkdownMusicRender source={source} />
-  </ContainerDimensions>
-);
+const MusicMarkdown =
+  connect(mapStateToProps, { updateYouTubeId })(withStyles(styles, { withTheme: true })(ContainerizedMusicMarkdown));
 
 export default MusicMarkdown;

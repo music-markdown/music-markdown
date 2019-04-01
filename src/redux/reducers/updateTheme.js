@@ -1,7 +1,7 @@
 import { SET_DARK_THEME } from '../actionTypes';
 import { MUSIC_MARKDOWN_LOCAL_STORAGE_NAMESPACE } from '../../lib/constants';
 
-const defaultTheme = {
+const lightTheme = {
   typography: {
     useNextVariants: true,
   },
@@ -11,20 +11,34 @@ const defaultTheme = {
     },
   },
   palette: {
-    type: window.localStorage.getItem(`${MUSIC_MARKDOWN_LOCAL_STORAGE_NAMESPACE}:palette-type`) || 'light',
-  }
+    type: 'light',
+  },
 };
 
-const theme = (state = defaultTheme, action) => {
+const darkTheme = {
+  typography: {
+    useNextVariants: true,
+  },
+  reactRouterHoverInherit: {
+    '&:hover': {
+      color: 'inherit'
+    },
+  },
+  palette: {
+    type: 'dark',
+  },
+};
+
+const initialTheme = (window.localStorage.getItem(`${MUSIC_MARKDOWN_LOCAL_STORAGE_NAMESPACE}:palette-type`) === 'dark'
+  ? darkTheme : lightTheme);
+
+
+const theme = (state = initialTheme, action) => {
   switch (action.type) {
   case SET_DARK_THEME: {
-    const newTheme = JSON.parse(JSON.stringify(state));
-    const paletteType = action.payload.isDarkTheme ? 'dark' : 'light';
-
-    newTheme.palette.type = paletteType;
-    window.localStorage.setItem(`${MUSIC_MARKDOWN_LOCAL_STORAGE_NAMESPACE}:palette-type`, paletteType);
-
-    return newTheme;
+    window.localStorage.setItem(`${MUSIC_MARKDOWN_LOCAL_STORAGE_NAMESPACE}:palette-type`, action.payload.isDarkTheme
+      ? 'dark' : 'light');
+    return action.payload.isDarkTheme ? darkTheme : lightTheme;
   }
   default: {
     return state;
