@@ -2,7 +2,6 @@ import React from 'react';
 import { HashRouter as Router, Route, Switch } from 'react-router-dom';
 import { Provider, connect } from 'react-redux';
 import CssBaseline from '@material-ui/core/CssBaseline';
-import Typography from '@material-ui/core/Typography';
 import MuiThemeProvider from '@material-ui/core/styles/MuiThemeProvider';
 import createMuiTheme from '@material-ui/core/styles/createMuiTheme';
 import MarkdownEditor from './MarkdownEditor';
@@ -41,23 +40,16 @@ const HomeRouter = () => (
       <>
         <Route component={MusicMarkdownNavbar} />
         <Switch>
-          <Route exact path="/" component={Navigation} />
           <Route path={`${REPO_REGEX}/viewer/:branch/:path+`} component={MarkdownMusicSourceFetcher} />
           <Route path={`${REPO_REGEX}/browser/:branch/:path*`} component={RepositoryNavigation} />
           <Route path={`${REPO_REGEX}/editor/:branch/:path+`} component={MarkdownEditor} />
           <Route path={REPO_REGEX} component={BranchNavigation} />
-          <Route path='/repos' component={RepositoryEditor} />
           <Route path='/sandbox' component={Sandbox} />
+          <Route path='/' component={RepositoryEditor} />
         </Switch>
       </>
     </Router>
   </Provider>
-);
-
-const Navigation = () => (
-  <Typography variant='h2'>
-    Welcome to Music Markdown!
-  </Typography>
 );
 
 export default App;

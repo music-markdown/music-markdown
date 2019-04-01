@@ -4,6 +4,8 @@ import CheckIcon from '@material-ui/icons/Check';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Fab from '@material-ui/core/Fab';
 import Grid from '@material-ui/core/Grid';
+import LinearProgress from '@material-ui/core/LinearProgress';
+import MusicMarkdown from './MusicMarkdown';
 import Paper from '@material-ui/core/Paper';
 import SaveIcon from '@material-ui/icons/Save';
 import 'brace/mode/markdown';
@@ -11,42 +13,38 @@ import 'brace/theme/github';
 import 'brace/theme/monokai';
 import green from '@material-ui/core/colors/green';
 import withStyles from '@material-ui/core/styles/withStyles';
-
-import MusicMarkdown from './MusicMarkdown';
 import { getContents, putContents } from '../lib/github';
 import classNames from 'classnames';
 
-const styles = (theme) => (
-  {
-    root: {
-      flexGrow: 1,
-      padding: 12,
+const styles = (theme) => ({
+  root: {
+    flexGrow: 1,
+    padding: 8,
+  },
+  fabProgress: {
+    color: green[500],
+    position: 'absolute',
+    top: -6,
+    left: -6,
+    zIndex: 1,
+  },
+  editor: {
+    marginLeft: theme.spacing.unit,
+    marginRight: theme.spacing.unit,
+    height: '100%',
+    width: '100%',
+  },
+  paper: {
+    padding: theme.spacing.unit * 2,
+    height: '100%',
+  },
+  buttonSuccess: {
+    'backgroundColor': green[500],
+    '&:hover': {
+      backgroundColor: green[700],
     },
-    fabProgress: {
-      color: green[500],
-      position: 'absolute',
-      top: -6,
-      left: -6,
-      zIndex: 1,
-    },
-    editor: {
-      marginLeft: theme.spacing.unit,
-      marginRight: theme.spacing.unit,
-      height: '100%',
-      width: '100%',
-    },
-    paper: {
-      padding: theme.spacing.unit * 2,
-      height: '100%',
-    },
-    buttonSuccess: {
-      'backgroundColor': green[500],
-      '&:hover': {
-        backgroundColor: green[700],
-      },
-    },
-  }
-);
+  },
+});
 
 class MarkdownEditor extends React.Component {
   state = {
@@ -90,16 +88,22 @@ class MarkdownEditor extends React.Component {
   }
 
   render = () => {
-    const { saving, success } = this.state;
+    const { saving, success, isLoaded } = this.state;
     const { classes, theme } = this.props;
 
     const buttonClassname = classNames({
       [classes.buttonSuccess]: success,
     });
 
+    if (!isLoaded) {
+      return (
+        <LinearProgress />
+      );
+    }
+
     return (
       <div className={classes.root}>
-        <Grid container spacing={24}>
+        <Grid container spacing={8}>
           <Grid item xs={12}>
             <Paper className={classes.paper}>
               <Fab className={buttonClassname} onClick={this.handleButtonClick}>

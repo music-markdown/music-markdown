@@ -1,6 +1,6 @@
 import React from 'react';
+import LinearProgress from '@material-ui/core/LinearProgress';
 import MusicMarkdown from './MusicMarkdown';
-import Paper from '@material-ui/core/Paper';
 import queryString from 'query-string';
 import { connect } from 'react-redux';
 import { getContents } from '../lib/github';
@@ -10,7 +10,7 @@ import withStyles from '@material-ui/core/styles/withStyles';
 const styles = (theme) => ({
   root: {
     flexGrow: 1,
-    padding: 12,
+    padding: 8,
   },
   paper: {
     padding: theme.spacing.unit * 2,
@@ -50,17 +50,15 @@ class MarkdownMusicSourceFetcher extends React.Component {
 
     if (!isLoaded) {
       return (
-        <div className={classes.root}>Loading...</div>
-      );
-    } else {
-      return (
-        <div className={classes.root}>
-          <Paper className={classes.paper}>
-            <MusicMarkdown source={markdown} />
-          </Paper>
-        </div>
+        <LinearProgress />
       );
     }
+
+    return (
+      <div className={classes.root}>
+        <MusicMarkdown source={markdown} />
+      </div>
+    );
   }
 }
 

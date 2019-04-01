@@ -1,13 +1,23 @@
 import React from 'react';
-import Divider from '@material-ui/core/Divider';
-import List from '@material-ui/core/List';
-import Typography from '@material-ui/core/Typography';
-import NavigationListItem from './NavigationListItem';
+import Avatar from '@material-ui/core/Avatar';
+import DescriptionIcon from '@material-ui/icons/Description';
 import DirectoryBreadcrumbs from './RouterBreadcrumbs';
 import FolderIcon from '@material-ui/icons/Folder';
-import DescriptionIcon from '@material-ui/icons/Description';
-import Grid from '@material-ui/core/Grid';
+import LinearProgress from '@material-ui/core/LinearProgress';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemAvatar from '@material-ui/core/ListItemAvatar';
+import ListItemText from '@material-ui/core/ListItemText';
+import { Link } from 'react-router-dom';
 import { getContents } from '../lib/github';
+import withStyles from '@material-ui/core/styles/withStyles';
+
+const styles = () => ({
+  root: {
+    flexGrow: 1,
+    padding: 8,
+  },
+});
 
 /**
  * A React component for rendering repository items when navigating the /repos resource
@@ -50,62 +60,40 @@ class RepositoryNavigation extends React.Component {
   }
 
   render() {
+    const { repo, branch } = this.props.match.params;
     const { isLoaded, contents } = this.state;
+    const { classes } = this.props;
+
     if (!isLoaded) {
-      return <div className="Markdown">Loading...</div>;
+      return (
+        <LinearProgress />
+      );
     }
-
-    if (!contents.forEach) {
-      return <div>{contents.message}</div>;
-    }
-
-    const listGroupItems = [];
-
-    contents.forEach((item) => {
-      const key = `list-group-item-${item.name}`;
-
-      const { repo, branch } = this.props.match.params;
-
-      let viewType = 'error';
-      let itemJsx = <div>File type {item.type} not supported</div>;
-
-      if (item.type === 'dir') {
-        viewType = 'browser';
-        itemJsx = <>
-          <Grid container spacing={24}>
-            <Grid item><FolderIcon /></Grid>
-            <Grid item><i>{`/${item.name}`}</i></Grid>
-          </Grid>
-        </>;
-      } else if (item.type === 'file') {
-        viewType = 'viewer';
-        itemJsx = <>
-          <Grid container spacing={24}>
-            <Grid item><DescriptionIcon /></Grid>
-            <Grid item>{item.name}</Grid>
-          </Grid>
-        </>;
-      }
-
-      const linkToContent = `/repos/${repo}/${viewType}/${branch}/${item.path}`;
-
-      listGroupItems.push(<Divider key={`navigation-divider-${item.name}`}/>);
-      listGroupItems.push(<NavigationListItem to={linkToContent} key={key} action itemName={itemJsx} />);
-    });
 
     return (
       <>
-        <Typography variant='h3'>
-          Repository Contents
-        </Typography>
         <DirectoryBreadcrumbs pathname={this.props.location.pathname} />
-        <List key={'repo-navigation-list'}>
-          {listGroupItems}
-          <Divider key={'end-of-list-divider'}/>
-        </List>
+        <div className={classes.root}>
+          <List key={'repo-navigation-list'}>
+            {
+              contents.map((item) => (
+                <ListItem button component={Link}
+                  key={`list-group-item-${item.name}`}
+                  to={`/repos/${repo}/${item.type === 'dir' ? 'browser' : 'viewer'}/${branch}/${item.path}`}>
+                  <ListItemAvatar>
+                    <Avatar>
+                      {item.type === 'dir' ? <FolderIcon /> : <DescriptionIcon /> }
+                    </Avatar>
+                  </ListItemAvatar>
+                  <ListItemText primary={item.type === 'dir' ? <i>{item.name}</i> : item.name}></ListItemText>
+                </ListItem>
+              ))
+            }
+          </List>
+        </div>
       </>
     );
   }
 }
 
-export default RepositoryNavigation;
+export default withStyles(styles, { withTheme: true })(RepositoryNavigation);
