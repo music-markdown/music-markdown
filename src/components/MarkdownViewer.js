@@ -17,8 +17,7 @@ const styles = (theme) => ({
   },
 });
 
-// TODO: Rename to MarkdownViewer
-class MarkdownMusicSourceFetcher extends React.Component {
+class MarkdownViewer extends React.Component {
   constructor(props) {
     super(props);
 
@@ -63,4 +62,4 @@ class MarkdownMusicSourceFetcher extends React.Component {
 }
 
 export default connect(undefined, { setTranspose, setColumnCount, setFontSize })(
-  withStyles(styles, { withTheme: true })(MarkdownMusicSourceFetcher));
+  withStyles(styles, { withTheme: true })(MarkdownViewer));
