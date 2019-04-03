@@ -8,7 +8,9 @@ import LinearProgress from '@material-ui/core/LinearProgress';
 import MusicMarkdown from './MusicMarkdown';
 import Paper from '@material-ui/core/Paper';
 import React from 'react';
+import { Redirect } from 'react-router';
 import SaveIcon from '@material-ui/icons/Save';
+import TextField from '@material-ui/core/TextField';
 import classNames from 'classnames';
 import green from '@material-ui/core/colors/green';
 import withStyles from '@material-ui/core/styles/withStyles';
@@ -34,6 +36,11 @@ const styles = (theme) => ({
     height: '100%',
     width: '100%',
   },
+  textField: {
+    marginLeft: theme.spacing.unit,
+    marginRight: theme.spacing.unit,
+    width: 200,
+  },
   paper: {
     padding: theme.spacing.unit * 2,
     height: '100%',
@@ -48,14 +55,16 @@ const styles = (theme) => ({
 
 class MarkdownEditor extends React.Component {
   state = {
+    filename: undefined,
     markdown: '',
     sha: null,
     saving: false,
-    success: false
+    success: false,
+    isDirty: false
   };
 
   handleChange = (value) => {
-    this.setState({ markdown: value });
+    this.setState({ markdown: value, isDirty: true });
   };
 
   handleButtonClick = async () => {
@@ -76,19 +85,23 @@ class MarkdownEditor extends React.Component {
     }
   };
 
+  handleFileNameChange = (event) => {
+    this.setState({ filename: event.target.value });
+  }
+
   componentDidMount = async () => {
     const { repo, path } = this.props.match.params;
 
     const json = await getContents(repo, path);
     this.setState({
       isLoaded: true,
-      markdown: atob(json.content),
+      markdown: json.content ? atob(json.content) : '',
       sha: json.sha
     });
   }
 
   render = () => {
-    const { saving, success, isLoaded } = this.state;
+    const { saving, success, isLoaded, isDirty } = this.state;
     const { classes, theme } = this.props;
 
     const buttonClassname = classNames({
@@ -101,15 +114,29 @@ class MarkdownEditor extends React.Component {
       );
     }
 
+    if (this.state.filename) {
+      return (
+        <Redirect to={this.state.filename}/>
+      );
+    }
+
     return (
       <div className={classes.root}>
         <Grid container spacing={8}>
           <Grid item xs={12}>
             <Paper className={classes.paper}>
-              <Fab className={buttonClassname} onClick={this.handleButtonClick}>
+              <Fab disabled={isDirty} className={buttonClassname} onClick={this.handleButtonClick}>
                 {success ? <CheckIcon /> : <SaveIcon />}
               </Fab>
               {saving && <CircularProgress size={68} className={classes.fabProgress} />}
+              <TextField
+                id="file-name"
+                label="File Name"
+                className={classes.textField}
+                value={this.state.filename}
+                onChange={this.handleFileNameChange}
+                margin="normal"
+              />
             </Paper>
           </Grid>
           <Grid item xs={6}>

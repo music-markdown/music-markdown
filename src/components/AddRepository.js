@@ -6,6 +6,7 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import ErrorIcon from '@material-ui/icons/Error';
+import Fab from '@material-ui/core/Fab';
 import Grid from '@material-ui/core/Grid';
 import IconButton from '@material-ui/core/IconButton';
 import React from 'react';
@@ -123,9 +124,9 @@ class AddRepository extends React.Component {
   render = () => (
     <>
       <Grid container direction='row' justify='flex-end' alignItems='flex-end'>
-        <IconButton aria-label='Add' onClick={this.handleDialogOpen}>
+        <Fab aria-label='Add' onClick={this.handleDialogOpen}>
           <Add />
-        </IconButton>
+        </Fab>
         <Dialog open={this.state.open} aria-labelledby='add-repository-dialog'>
           <DialogTitle id='add-repository-dialog-title'>Add Repository</DialogTitle>
           <DialogContent>
