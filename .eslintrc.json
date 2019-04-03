@@ -18,7 +18,8 @@
     "react/jsx-uses-vars": "error" ,
     "new-cap": 0,
     "no-invalid-this": 0,
-    "babel/no-invalid-this": 1
+    "babel/no-invalid-this": 1,
+    "sort-imports": "error"
   },
   "plugins": ["react", "babel"]
 }

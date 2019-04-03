@@ -1,15 +1,23 @@
 import ContainerDimensions from 'react-container-dimensions';
-import React from 'react';
-import { connect } from 'react-redux';
 import MarkdownIt from 'markdown-it';
 import MarkdownItMusic from 'markdown-it-music';
+import React from 'react';
+import { connect } from 'react-redux';
+import { updateYouTubeId } from '../redux/actions';
 import withStyles from '@material-ui/core/styles/withStyles';
 
-import { updateYouTubeId } from '../redux/actions';
 
-const styles = () => ({
+const COLUMN_GAP = 20;
+
+const styles = (theme) => ({
   markdownBody: {
     filter: 'invert(100%)'
+  },
+  columns: {
+    columnGap: `${COLUMN_GAP}px`,
+    columnRuleWidth: '1px',
+    columnRuleStyle: 'dashed',
+    columnRuleColor: theme.palette.text.secondary,
   },
 });
 
@@ -26,12 +34,11 @@ class MusicMarkdownRender extends React.Component {
   }
 
   render() {
-    const { classes, theme } = this.props;
+    const { classes, theme, width, columnCount } = this.props;
 
     this.md.setTranspose(this.props.transposeAmount)
-      .setColumnCount(this.props.columnCount)
       .setFontSize(this.props.fontSize)
-      .setMaxWidth(this.props.width);
+      .setMaxWidth((width - COLUMN_GAP * (columnCount - 1)) / columnCount);
     const html = this.md.render(this.props.source);
 
     return (
@@ -42,7 +49,7 @@ class MusicMarkdownRender extends React.Component {
 }
 
 const ContainerizedMusicMarkdown = (props) => (
-  <div>
+  <div className={props.classes.columns} style={{ columnCount: props.columnCount }}>
     <ContainerDimensions>
       <MusicMarkdownRender {...props} />
     </ContainerDimensions>

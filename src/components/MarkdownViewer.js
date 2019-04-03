@@ -1,24 +1,23 @@
-import React from 'react';
+import { setColumnCount, setFontSize, setTranspose } from '../redux/actions';
+import LinearProgress from '@material-ui/core/LinearProgress';
 import MusicMarkdown from './MusicMarkdown';
-import Paper from '@material-ui/core/Paper';
-import queryString from 'query-string';
+import React from 'react';
 import { connect } from 'react-redux';
 import { getContents } from '../lib/github';
-import { setTranspose, setColumnCount, setFontSize } from '../redux/actions';
+import queryString from 'query-string';
 import withStyles from '@material-ui/core/styles/withStyles';
 
 const styles = (theme) => ({
   root: {
     flexGrow: 1,
-    padding: 12,
+    padding: 8,
   },
   paper: {
     padding: theme.spacing.unit * 2,
   },
 });
 
-// TODO: Rename to MarkdownViewer
-class MarkdownMusicSourceFetcher extends React.Component {
+class MarkdownViewer extends React.Component {
   constructor(props) {
     super(props);
 
@@ -50,19 +49,17 @@ class MarkdownMusicSourceFetcher extends React.Component {
 
     if (!isLoaded) {
       return (
-        <div className={classes.root}>Loading...</div>
-      );
-    } else {
-      return (
-        <div className={classes.root}>
-          <Paper className={classes.paper}>
-            <MusicMarkdown source={markdown} />
-          </Paper>
-        </div>
+        <LinearProgress />
       );
     }
+
+    return (
+      <div className={classes.root}>
+        <MusicMarkdown source={markdown} />
+      </div>
+    );
   }
 }
 
 export default connect(undefined, { setTranspose, setColumnCount, setFontSize })(
-  withStyles(styles, { withTheme: true })(MarkdownMusicSourceFetcher));
+  withStyles(styles, { withTheme: true })(MarkdownViewer));

@@ -1,20 +1,19 @@
-import React from 'react';
-import { HashRouter as Router, Route, Switch } from 'react-router-dom';
+import './App.scss';
 import { Provider, connect } from 'react-redux';
+import { Route, HashRouter as Router, Switch } from 'react-router-dom';
+import BranchNavigation from './BranchNavigation';
 import CssBaseline from '@material-ui/core/CssBaseline';
-import Typography from '@material-ui/core/Typography';
-import MuiThemeProvider from '@material-ui/core/styles/MuiThemeProvider';
-import createMuiTheme from '@material-ui/core/styles/createMuiTheme';
 import MarkdownEditor from './MarkdownEditor';
-import MarkdownMusicSourceFetcher from './MarkdownMusicSourceFetcher';
+import MarkdownViewer from './MarkdownViewer';
+import MuiThemeProvider from '@material-ui/core/styles/MuiThemeProvider';
 import MusicMarkdownNavbar from './MusicMarkdownNavbar';
-import ResponsiveContainer from './ResponsiveContainer';
+import React from 'react';
 import RepositoryEditor from './RepositoryEditor';
 import RepositoryNavigation from './RepositoryNavigation';
-import BranchNavigation from './BranchNavigation';
+import ResponsiveContainer from './ResponsiveContainer';
 import Sandbox from './Sandbox.js';
+import createMuiTheme from '@material-ui/core/styles/createMuiTheme';
 import store from '../redux/store';
-import './App.scss';
 
 const REPO_REGEX = '/repos/:repo([^/]+/[^/]+)';
 const App = () => (
@@ -41,23 +40,16 @@ const HomeRouter = () => (
       <>
         <Route component={MusicMarkdownNavbar} />
         <Switch>
-          <Route exact path="/" component={Navigation} />
-          <Route path={`${REPO_REGEX}/viewer/:branch/:path+`} component={MarkdownMusicSourceFetcher} />
+          <Route path={`${REPO_REGEX}/viewer/:branch/:path+`} component={MarkdownViewer} />
           <Route path={`${REPO_REGEX}/browser/:branch/:path*`} component={RepositoryNavigation} />
           <Route path={`${REPO_REGEX}/editor/:branch/:path+`} component={MarkdownEditor} />
           <Route path={REPO_REGEX} component={BranchNavigation} />
-          <Route path='/repos' component={RepositoryEditor} />
           <Route path='/sandbox' component={Sandbox} />
+          <Route path='/' component={RepositoryEditor} />
         </Switch>
       </>
     </Router>
   </Provider>
-);
-
-const Navigation = () => (
-  <Typography variant='h2'>
-    Welcome to Music Markdown!
-  </Typography>
 );
 
 export default App;

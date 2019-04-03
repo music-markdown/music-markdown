@@ -1,9 +1,9 @@
 import {
+  SET_DARK_THEME,
   TRANSPOSE,
   UPDATE_COLUMN_COUNT,
   UPDATE_FONT_SIZE,
-  UPDATE_YOUTUBE_ID,
-  SET_DARK_THEME
+  UPDATE_YOUTUBE_ID
 } from './actionTypes';
 
 let transposeAmount = 0;

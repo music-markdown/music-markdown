@@ -1,7 +1,7 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
 import { YouTubePlayer, YouTubeToggle } from './YouTube';
 import { Provider } from 'react-redux';
+import React from 'react';
+import ReactDOM from 'react-dom';
 import store from '../redux/store';
 
 describe('YouTubePlayer', () => {

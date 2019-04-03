@@ -1,7 +1,7 @@
+import { Route, BrowserRouter as Router } from 'react-router-dom';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import RepositoryNavigation from './RepositoryNavigation';
-import { BrowserRouter as Router, Route } from 'react-router-dom';
 
 describe('RepositoryNavigation', () => {
   it('renders without crashing', () => {

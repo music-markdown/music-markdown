@@ -1,9 +1,9 @@
+import MusicMarkdown from './MusicMarkdown';
 import React from 'react';
 import Typography from '@material-ui/core/Typography';
-import MusicMarkdown from './MusicMarkdown';
+import { guitarChordLibrary } from 'markdown-it-music/renderers/chord_library';
 import { parseVoicing } from 'markdown-it-music/lib/voicing';
 import { renderChordDiagram } from 'markdown-it-music/renderers/chord_diagram';
-import { guitarChordLibrary } from 'markdown-it-music/renderers/chord_library';
 
 const Sandbox = () => (
   <div>

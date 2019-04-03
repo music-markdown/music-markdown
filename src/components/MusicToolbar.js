@@ -1,16 +1,16 @@
-import React from 'react';
-import Button from '@material-ui/core/Button';
 import Badge from '@material-ui/core/Badge';
+import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
+import React from 'react';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
-import withStyles from '@material-ui/core/styles/withStyles';
+import { YouTubeToggle } from './YouTube';
 import { connect } from 'react-redux';
-
 import { transpose } from '../redux/actions';
 import { updateColumnCount } from '../redux/actions';
 import { updateFontSize } from '../redux/actions';
-import { YouTubeToggle } from './YouTube';
+import withStyles from '@material-ui/core/styles/withStyles';
+
 
 const styles = (theme) => ({
   padding: {

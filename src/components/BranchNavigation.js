@@ -1,10 +1,22 @@
-import React from 'react';
-import Divider from '@material-ui/core/Divider';
-import List from '@material-ui/core/List';
-import Typography from '@material-ui/core/Typography';
-import NavigationListItem from './NavigationListItem';
+import Avatar from '@material-ui/core/Avatar';
+import CallSplit from '@material-ui/icons/CallSplit';
 import DirectoryBreadcrumbs from './RouterBreadcrumbs';
+import LinearProgress from '@material-ui/core/LinearProgress';
+import { Link } from 'react-router-dom';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemAvatar from '@material-ui/core/ListItemAvatar';
+import ListItemText from '@material-ui/core/ListItemText';
+import React from 'react';
 import { getBranches } from '../lib/github';
+import withStyles from '@material-ui/core/styles/withStyles';
+
+const styles = () => ({
+  root: {
+    flexGrow: 1,
+    padding: 8,
+  },
+});
 
 /**
  * A React component for rendering repository items when navigating the /repos resource
@@ -45,40 +57,39 @@ class BranchNavigation extends React.Component {
   }
 
   render() {
-    const { isLoaded } = this.state;
+    const { isLoaded, branches } = this.state;
+    const { classes } = this.props;
+
     if (!isLoaded) {
       return (
-        <div className="Markdown">Loading...</div>
-      );
-    } else {
-      const listGroupItems = [];
-      const { branches } = this.state;
-
-      if (!branches.forEach) {
-        return <div>{branches.message}</div>;
-      }
-
-      branches.forEach((item) => {
-        const key = `list-group-item-${item.name}`;
-        const linkToContent = `/repos/${this.props.match.params.repo}/browser/${item.name}`;
-        listGroupItems.push(<Divider key={`navigation-divider-${item.name}`}/>);
-        listGroupItems.push(<NavigationListItem to={linkToContent} key={key} itemName={item.name} action />);
-      });
-
-      return (
-        <>
-          <Typography variant='h3'>
-            Branches
-          </Typography>
-          <DirectoryBreadcrumbs pathname={this.props.location.pathname} />
-          <List>
-            {listGroupItems}
-            <Divider />
-          </List>
-        </>
+        <LinearProgress />
       );
     }
+
+    return (
+      <>
+        <DirectoryBreadcrumbs pathname={this.props.location.pathname} />
+        <div className={classes.root}>
+          <List>
+            {
+              branches.map((item) => (
+                <ListItem button component={Link}
+                  key={`list-group-item-${item.name}`}
+                  to={`/repos/${this.props.match.params.repo}/browser/${item.name}`}>
+                  <ListItemAvatar>
+                    <Avatar>
+                      <CallSplit />
+                    </Avatar>
+                  </ListItemAvatar>
+                  <ListItemText primary={item.name}></ListItemText>
+                </ListItem>
+              ))
+            }
+          </List>
+        </div>
+      </>
+    );
   }
 }
 
-export default BranchNavigation;
+export default withStyles(styles, { withTheme: true })(BranchNavigation);
