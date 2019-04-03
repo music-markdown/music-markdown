@@ -1,6 +1,3 @@
-import 'brace/mode/markdown';
-import 'brace/theme/github';
-import 'brace/theme/monokai';
 import { getContents, putContents } from '../lib/github';
 import AceEditor from 'react-ace';
 import CheckIcon from '@material-ui/icons/Check';
@@ -15,6 +12,9 @@ import SaveIcon from '@material-ui/icons/Save';
 import classNames from 'classnames';
 import green from '@material-ui/core/colors/green';
 import withStyles from '@material-ui/core/styles/withStyles';
+import 'brace/mode/markdown'; // eslint-disable-line sort-imports
+import 'brace/theme/github'; // eslint-disable-line sort-imports
+import 'brace/theme/monokai'; // eslint-disable-line sort-imports
 
 const styles = (theme) => ({
   root: {
