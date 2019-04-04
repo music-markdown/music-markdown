@@ -33,6 +33,7 @@ class RepositoryNavigation extends React.Component {
     const { repo, path, branch } = this.props.match.params;
 
     const contents = await getContents(repo, path, branch);
+    this.sortDir(contents);
     this.setState({
       isLoaded: true,
       contents
@@ -49,11 +50,31 @@ class RepositoryNavigation extends React.Component {
 
     if (prevRepo !== repo || prevPath !== path || prevBranch !== branch) {
       const contents = await getContents(repo, path, branch);
+      this.sortDir(contents);
       this.setState({
         isLoaded: true,
         contents
       });
     }
+  }
+
+  /**
+   * Sorts the contents of a GitHub directory. Lists directories first then files, each in alphabetical order.
+   * @param {Object[]} contents GitHub directory contents. Contains files and directories.
+   */
+  sortDir(contents) {
+    contents.sort((a, b) => {
+      if (a.type === 'file') {
+        if (b.type === 'file') {
+          return a.name - b.name;
+        }
+        return 1;
+      }
+      if (b.type === 'file') {
+        return -1;
+      }
+      return a.name - b.name;
+    });
   }
 
   render() {
