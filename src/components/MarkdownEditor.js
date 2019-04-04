@@ -132,7 +132,7 @@ class MarkdownEditor extends React.Component {
         <Grid container spacing={8}>
           <Grid item xs={12}>
             <Paper className={classes.toolbar}>
-              <Fab disabled={!isDirty} className={buttonClassname} onClick={this.handleSave}>
+              <Fab disabled={!isDirty} className={`${buttonClassname} ${classes.fab}`} onClick={this.handleSave}>
                 {success ? <CheckIcon /> : <SaveIcon />}
                 {saving && <CircularProgress size={68} className={classes.fabProgress} />}
               </Fab>
