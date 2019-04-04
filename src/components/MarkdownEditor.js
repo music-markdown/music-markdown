@@ -8,9 +8,8 @@ import LinearProgress from '@material-ui/core/LinearProgress';
 import MusicMarkdown from './MusicMarkdown';
 import Paper from '@material-ui/core/Paper';
 import React from 'react';
-import { Redirect } from 'react-router';
 import SaveIcon from '@material-ui/icons/Save';
-import TextField from '@material-ui/core/TextField';
+import Typography from '@material-ui/core/Typography';
 import classNames from 'classnames';
 import green from '@material-ui/core/colors/green';
 import withStyles from '@material-ui/core/styles/withStyles';
@@ -30,18 +29,22 @@ const styles = (theme) => ({
     left: -6,
     zIndex: 1,
   },
+  wrapper: {
+    position: 'relative',
+  },
   editor: {
     marginLeft: theme.spacing.unit,
     marginRight: theme.spacing.unit,
     height: '100%',
     width: '100%',
   },
-  textField: {
+  filename: {
+    flexGrow: 1,
     marginLeft: theme.spacing.unit,
-    marginRight: theme.spacing.unit,
-    width: 200,
+    marginRight: theme.spacing.unit
   },
   paper: {
+    display: 'flex',
     padding: theme.spacing.unit * 2,
     height: '100%',
   },
@@ -64,10 +67,10 @@ class MarkdownEditor extends React.Component {
   };
 
   handleChange = (value) => {
-    this.setState({ markdown: value, isDirty: true });
+    this.setState({ markdown: value, isDirty: true, success: false });
   };
 
-  handleButtonClick = async () => {
+  handleSave = async () => {
     if (!this.state.saving) {
       this.setState({ success: false, saving: true });
 
@@ -90,9 +93,9 @@ class MarkdownEditor extends React.Component {
   }
 
   componentDidMount = async () => {
-    const { repo, path } = this.props.match.params;
+    const { repo, path, branch } = this.props.match.params;
 
-    const json = await getContents(repo, path);
+    const json = await getContents(repo, path, branch);
     this.setState({
       isLoaded: true,
       markdown: json.content ? atob(json.content) : '',
@@ -114,29 +117,22 @@ class MarkdownEditor extends React.Component {
       );
     }
 
-    if (this.state.filename) {
-      return (
-        <Redirect to={this.state.filename}/>
-      );
-    }
+    const { path } = this.props.match.params;
+    const splitPath = path.split('/');
+    const filename = splitPath[splitPath.length - 1];
 
     return (
       <div className={classes.root}>
         <Grid container spacing={8}>
-          <Grid item xs={12}>
+          <Grid item xs={12} >
             <Paper className={classes.paper}>
-              <Fab disabled={isDirty} className={buttonClassname} onClick={this.handleButtonClick}>
-                {success ? <CheckIcon /> : <SaveIcon />}
-              </Fab>
-              {saving && <CircularProgress size={68} className={classes.fabProgress} />}
-              <TextField
-                id="file-name"
-                label="File Name"
-                className={classes.textField}
-                value={this.state.filename}
-                onChange={this.handleFileNameChange}
-                margin="normal"
-              />
+              <Typography className={classes.filename} variant='h3'>{filename}</Typography>
+              <div className={classes.wrapper}>
+                <Fab disabled={!isDirty} className={buttonClassname} onClick={this.handleSave}>
+                  {success ? <CheckIcon /> : <SaveIcon />}
+                </Fab>
+                {saving && <CircularProgress size={68} className={classes.fabProgress} />}
+              </div>
             </Paper>
           </Grid>
           <Grid item xs={6}>

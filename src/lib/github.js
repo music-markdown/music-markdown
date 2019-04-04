@@ -18,11 +18,12 @@ export async function getContents(repo, path, branch) {
 }
 
 export async function putContents(repo, path, content, sha, branch) {
-  const apiUrl = getApiUrl(`/repos/${repo}/contents/${path}`, branch);
+  const apiUrl = getApiUrl(`/repos/${repo}/contents/${path}`);
 
   const body = {
     message: `Music Markdown published ${path}`,
-    content: content
+    content: content,
+    branch
   };
 
   if (sha) {

@@ -1,71 +1,14 @@
 import Add from '@material-ui/icons/Add';
 import Button from '@material-ui/core/Button';
-import CloseIcon from '@material-ui/icons/Close';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
-import ErrorIcon from '@material-ui/icons/Error';
+import ErrorSnackbar from './ErrorSnackbar';
 import Fab from '@material-ui/core/Fab';
 import Grid from '@material-ui/core/Grid';
-import IconButton from '@material-ui/core/IconButton';
 import React from 'react';
-import Snackbar from '@material-ui/core/Snackbar';
-import SnackbarContent from '@material-ui/core/SnackbarContent';
 import TextField from '@material-ui/core/TextField';
-import classNames from 'classnames';
-import { withStyles } from '@material-ui/core/styles';
-
-
-const styles = (theme) => ({
-  error: {
-    backgroundColor: theme.palette.error.dark,
-  },
-  icon: {
-    fontSize: 20,
-  },
-  iconVariant: {
-    opacity: 0.9,
-    marginRight: theme.spacing.unit,
-  },
-  message: {
-    display: 'flex',
-    alignItems: 'center',
-  },
-  margin: {
-    margin: theme.spacing.unit,
-  },
-});
-
-const ErrorSnackbar = ({ open, handleClose, classes, message }) => (
-  <Snackbar anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
-    open={open} autoHideDuration={6000} onClose={handleClose}>
-    <SnackbarContent
-      className={classes.error}
-      aria-describedby="client-snackbar"
-      message={
-        <span id="client-snackbar" className={classes.message}>
-          <ErrorIcon className={classNames(classes.icon, classes.iconVariant)} />
-          {message}
-        </span>
-      }
-      action={[
-        <IconButton
-          key="close"
-          aria-label="Close"
-          color="inherit"
-          className={classes.close}
-          onClick={handleClose}
-        >
-          <CloseIcon className={classes.icon} />
-        </IconButton>,
-      ]}
-    />
-  </Snackbar>
-);
-
-const StyledErrorSnackbar = withStyles(styles)(ErrorSnackbar);
-
 
 class AddRepository extends React.Component {
   state = {
@@ -154,7 +97,7 @@ class AddRepository extends React.Component {
           </DialogActions>
         </Dialog>
       </Grid>
-      <StyledErrorSnackbar
+      <ErrorSnackbar
         message={this.state.message}
         open={this.state.error}
         handleClose={this.handleClearError} />
