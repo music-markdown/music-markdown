@@ -7,9 +7,10 @@ import Grid from '@material-ui/core/Grid';
 import LinearProgress from '@material-ui/core/LinearProgress';
 import MusicMarkdown from './MusicMarkdown';
 import Paper from '@material-ui/core/Paper';
+import PhotoFilterIcon from '@material-ui/icons/PhotoFilter';
 import React from 'react';
 import SaveIcon from '@material-ui/icons/Save';
-import Typography from '@material-ui/core/Typography';
+import asciiTabConvert from '../tools/asciitab';
 import classNames from 'classnames';
 import green from '@material-ui/core/colors/green';
 import withStyles from '@material-ui/core/styles/withStyles';
@@ -29,14 +30,14 @@ const styles = (theme) => ({
     left: -6,
     zIndex: 1,
   },
-  wrapper: {
-    position: 'relative',
-  },
   editor: {
     marginLeft: theme.spacing.unit,
     marginRight: theme.spacing.unit,
     height: '100%',
     width: '100%',
+  },
+  fab: {
+    margin: theme.spacing.unit,
   },
   filename: {
     flexGrow: 1,
@@ -45,7 +46,7 @@ const styles = (theme) => ({
   },
   toolbar: {
     display: 'flex',
-    padding: theme.spacing.unit * 2,
+    padding: theme.spacing.unit,
   },
   paper: {
     padding: theme.spacing.unit * 2,
@@ -95,6 +96,12 @@ class MarkdownEditor extends React.Component {
     this.setState({ filename: event.target.value });
   }
 
+  handleAutoFormat = () => {
+    this.setState((state) => ({
+      markdown: asciiTabConvert(state.markdown)
+    }));
+  }
+
   componentDidMount = async () => {
     const { repo, path, branch } = this.props.match.params;
 
@@ -120,22 +127,18 @@ class MarkdownEditor extends React.Component {
       );
     }
 
-    const { path } = this.props.match.params;
-    const splitPath = path.split('/');
-    const filename = splitPath[splitPath.length - 1];
-
     return (
       <div className={classes.root}>
         <Grid container spacing={8}>
           <Grid item xs={12}>
             <Paper className={classes.toolbar}>
-              <Typography className={classes.filename} variant='h3'>{filename}</Typography>
-              <div className={classes.wrapper}>
-                <Fab disabled={!isDirty} className={buttonClassname} onClick={this.handleSave}>
-                  {success ? <CheckIcon /> : <SaveIcon />}
-                </Fab>
+              <Fab disabled={!isDirty} className={buttonClassname} onClick={this.handleSave}>
+                {success ? <CheckIcon /> : <SaveIcon />}
                 {saving && <CircularProgress size={68} className={classes.fabProgress} />}
-              </div>
+              </Fab>
+              <Fab className={classes.fab} onClick={this.handleAutoFormat}>
+                <PhotoFilterIcon />
+              </Fab>
             </Paper>
           </Grid>
           <Grid item xs={6}>

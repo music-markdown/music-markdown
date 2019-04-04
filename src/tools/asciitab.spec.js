@@ -1,10 +1,8 @@
-'use strict';
-
-const { convert } = require('./asciitab.js');
+import asciiTabConvert from '../tools/asciitab';
 
 describe('ASCII Tab Converter transforms', () => {
   test('two phrase verse', () => {
-    const actual = convert([
+    const actual = asciiTabConvert([
       '                   Am     G  F          G      Esus4  E',
       'All the leaves are brown        and the sky is gray',
       'F               C     E  Am       F        Esus4  E',
@@ -25,7 +23,7 @@ describe('ASCII Tab Converter transforms', () => {
   });
 
   test('single phrase verse with two voices', () => {
-    const actual = convert([
+    const actual = asciiTabConvert([
       'Am                    G       Am',
       'Tell her to make me a cambric shirt',
       '                    On the side of a hill in the deep forest green'
@@ -43,17 +41,17 @@ describe('ASCII Tab Converter transforms', () => {
   });
 
   test('headers ending with :', () => {
-    const actual = convert('Verse 1:');
+    const actual = asciiTabConvert('Verse 1:');
     expect(actual).toEqual('## Verse 1');
   });
 
   test('headers contained in []', () => {
-    const actual = convert('[Verse 1]');
+    const actual = asciiTabConvert('[Verse 1]');
     expect(actual).toEqual('## Verse 1');
   });
 
   test('header following a verse', () => {
-    const actual = convert([
+    const actual = asciiTabConvert([
       '                   Am     G  F          G      Esus4  E',
       'All the leaves are brown        and the sky is gray',
       '',

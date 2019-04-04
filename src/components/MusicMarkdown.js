@@ -53,7 +53,7 @@ class MusicMarkdownRender extends React.Component {
       .setMaxWidth((width - COLUMN_GAP * (columnCount - 1)) / columnCount);
 
     try {
-      this.setState({ html: this.md.render(source) });
+      this.setState({ html: this.md.render(source), error: false });
     } catch (err) {
       this.setState({ html: `<pre>${source}</pre>`, message: err.message, error: true });
     }
