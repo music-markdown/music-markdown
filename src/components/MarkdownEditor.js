@@ -41,10 +41,13 @@ const styles = (theme) => ({
   filename: {
     flexGrow: 1,
     marginLeft: theme.spacing.unit,
-    marginRight: theme.spacing.unit
+    marginRight: theme.spacing.unit,
+  },
+  toolbar: {
+    display: 'flex',
+    padding: theme.spacing.unit * 2,
   },
   paper: {
-    display: 'flex',
     padding: theme.spacing.unit * 2,
     height: '100%',
   },
@@ -124,8 +127,8 @@ class MarkdownEditor extends React.Component {
     return (
       <div className={classes.root}>
         <Grid container spacing={8}>
-          <Grid item xs={12} >
-            <Paper className={classes.paper}>
+          <Grid item xs={12}>
+            <Paper className={classes.toolbar}>
               <Typography className={classes.filename} variant='h3'>{filename}</Typography>
               <div className={classes.wrapper}>
                 <Fab disabled={!isDirty} className={buttonClassname} onClick={this.handleSave}>

@@ -1,4 +1,5 @@
 import ContainerDimensions from 'react-container-dimensions';
+import ErrorSnackbar from './ErrorSnackbar';
 import MarkdownIt from 'markdown-it';
 import MarkdownItMusic from 'markdown-it-music';
 import React from 'react';
@@ -27,23 +28,61 @@ class MusicMarkdownRender extends React.Component {
 
     this.md = new MarkdownIt()
       .use(MarkdownItMusic);
+
+    this.state = {
+      html: '',
+      message: null,
+      error: false,
+    };
   }
 
-  componentDidMount() {
+  handleClearError = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+    this.setState({ error: false });
+  }
+
+  update = () => {
+    const { source, width, columnCount, transposeAmount, fontSize } = this.props;
+
     this.props.updateYouTubeId(this.md.meta.youTubeId);
+
+    this.md.setTranspose(transposeAmount)
+      .setFontSize(fontSize)
+      .setMaxWidth((width - COLUMN_GAP * (columnCount - 1)) / columnCount);
+
+    try {
+      this.setState({ html: this.md.render(source) });
+    } catch (err) {
+      this.setState({ html: `<pre>${source}</pre>`, message: err.message, error: true });
+    }
   }
 
-  render() {
-    const { classes, theme, width, columnCount } = this.props;
+  componentDidMount = () => {
+    this.update();
+  }
 
-    this.md.setTranspose(this.props.transposeAmount)
-      .setFontSize(this.props.fontSize)
-      .setMaxWidth((width - COLUMN_GAP * (columnCount - 1)) / columnCount);
-    const html = this.md.render(this.props.source);
+  componentDidUpdate = (prevProps) => {
+    const { source, width, columnCount, transposeAmount, fontSize } = this.props;
+    if (prevProps.source === source && prevProps.width === width && prevProps.columnCount === columnCount
+        && prevProps.transposeAmount === transposeAmount && prevProps.fontSize === fontSize) {
+      return;
+    }
+    this.update();
+  }
 
+  render = () => {
+    const { classes, theme } = this.props;
     return (
-      <div dangerouslySetInnerHTML={{ __html: html }}
-        className={`${theme.palette.type === 'dark' ? classes.markdownBody : ''}`}/>
+      <>
+        <div dangerouslySetInnerHTML={{ __html: this.state.html }}
+          className={`${theme.palette.type === 'dark' ? classes.markdownBody : ''}`}/>
+        <ErrorSnackbar
+          message={this.state.message}
+          open={this.state.error}
+          handleClose={this.handleClearError} />
+      </>
     );
   }
 }
