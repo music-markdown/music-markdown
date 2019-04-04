@@ -63,7 +63,6 @@ class AddRepository extends React.Component {
     this.setState({ name: event.target.value });
   }
 
-  // TODO: style to add margin on right.
   render = () => (
     <>
       <Grid container direction='row' justify='flex-end' alignItems='flex-end'>
