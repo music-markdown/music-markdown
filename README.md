@@ -2,3 +2,5 @@
 
 # music-markdown
 React app that demos the functionality of the markdown-it-music plugin.
+
+Deployed version can be found at http://music-markdown.github.io.
