@@ -34,12 +34,12 @@ class MarkdownViewer extends React.Component {
   }
 
   async componentDidMount() {
-    const { repo, path } = this.props.match.params;
+    const { repo, path, branch } = this.props.match.params;
 
-    const json = await getContents(repo, path);
+    const json = await getContents(repo, path, branch);
     this.setState({
       isLoaded: true,
-      markdown: atob(json.content)
+      markdown: json.content ? atob(json.content) : ''
     });
   }
 
