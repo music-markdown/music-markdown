@@ -109,7 +109,7 @@ class MusicMarkdownNavbar extends React.Component {
           anchorEl={this.toolbarAnchorEl}
           placement='bottom-end'>
           <Paper className={classes.paper}>
-            <ClickAwayListener onClickAway={this.handleMusicToolbarClose}>
+            <ClickAwayListener onClickAway={this.handleMusicToolbarOpen}>
               <MusicToolbar></MusicToolbar>
             </ClickAwayListener>
           </Paper>
