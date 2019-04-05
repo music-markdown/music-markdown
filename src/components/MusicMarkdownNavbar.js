@@ -4,6 +4,7 @@ import ClickAwayListener from '@material-ui/core/ClickAwayListener';
 import EditIcon from '@material-ui/icons/Edit';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import IconButton from '@material-ui/core/IconButton';
+import LibraryMusic from '@material-ui/icons/LibraryMusic';
 import { Link } from 'react-router-dom';
 import MusicToolbar from './MusicToolbar';
 import Paper from '@material-ui/core/Paper';
@@ -59,12 +60,12 @@ class MusicMarkdownNavbar extends React.Component {
     this.settingsAnchorEl = undefined;
     this.toolbarAnchorEl = undefined;
 
-    this.handleDrawerOpen = this.handleDrawerOpen.bind(this);
+    this.handleMusicToolbarOpen = this.handleMusicToolbarOpen.bind(this);
     this.handleSettingsClick = this.handleSettingsClick.bind(this);
     this.handleDarkThemeSwitch = this.handleDarkThemeSwitch.bind(this);
   }
 
-  handleDrawerOpen() {
+  handleMusicToolbarOpen() {
     this.setState({ toolbarOpen: !this.state.toolbarOpen });
   };
 
@@ -87,18 +88,18 @@ class MusicMarkdownNavbar extends React.Component {
         <Button>
           <SearchIcon />
         </Button>
-        <Button onClick={this.handleDrawerOpen} buttonRef={(node) => {
+        <IconButton onClick={this.handleMusicToolbarOpen} buttonRef={(node) => {
           this.toolbarAnchorEl = node;
         }}>
-          Toolbar
-        </Button>
+          <LibraryMusic />
+        </IconButton>
         <Popper
           id='music-toolbar-popper'
           open={toolbarOpen}
           anchorEl={this.toolbarAnchorEl}
           placement='bottom-end'>
           <Paper className={classes.paper}>
-            <ClickAwayListener onClickAway={this.handleDrawerOpen}>
+            <ClickAwayListener onClickAway={this.handleMusicToolbarOpen}>
               <MusicToolbar></MusicToolbar>
             </ClickAwayListener>
           </Paper>
