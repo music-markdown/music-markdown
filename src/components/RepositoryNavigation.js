@@ -1,3 +1,4 @@
+import AddNewFile from './AddNewFile';
 import Avatar from '@material-ui/core/Avatar';
 import DescriptionIcon from '@material-ui/icons/Description';
 import DirectoryBreadcrumbs from './RouterBreadcrumbs';
@@ -23,19 +24,16 @@ const styles = () => ({
  * A React component for rendering repository items when navigating the /repos resource
  */
 class RepositoryNavigation extends React.Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      isLoaded: false,
-      contents: []
-    };
-  }
+  state = {
+    isLoaded: false,
+    contents: [],
+  };
 
   async componentDidMount() {
     const { repo, path, branch } = this.props.match.params;
 
     const contents = await getContents(repo, path, branch);
+    this.sortDir(contents);
     this.setState({
       isLoaded: true,
       contents
@@ -52,11 +50,31 @@ class RepositoryNavigation extends React.Component {
 
     if (prevRepo !== repo || prevPath !== path || prevBranch !== branch) {
       const contents = await getContents(repo, path, branch);
+      this.sortDir(contents);
       this.setState({
         isLoaded: true,
         contents
       });
     }
+  }
+
+  /**
+   * Sorts the contents of a GitHub directory. Lists directories first then files, each in alphabetical order.
+   * @param {Object[]} contents GitHub directory contents. Contains files and directories.
+   */
+  sortDir(contents) {
+    contents.sort((a, b) => {
+      if (a.type === 'file') {
+        if (b.type === 'file') {
+          return a.name - b.name;
+        }
+        return 1;
+      }
+      if (b.type === 'file') {
+        return -1;
+      }
+      return a.name - b.name;
+    });
   }
 
   render() {
@@ -79,7 +97,7 @@ class RepositoryNavigation extends React.Component {
               contents.map((item) => (
                 <ListItem button component={Link}
                   key={`list-group-item-${item.name}`}
-                  to={`/repos/${repo}/${item.type === 'dir' ? 'browser' : 'viewer'}/${branch}/${item.path}`}>
+                  to={`/repos/${repo}/${item.type === 'dir' ? 'browser' : 'viewer'}/${branch}/${item.path}/`}>
                   <ListItemAvatar>
                     <Avatar>
                       {item.type === 'dir' ? <FolderIcon /> : <DescriptionIcon /> }
@@ -90,6 +108,7 @@ class RepositoryNavigation extends React.Component {
               ))
             }
           </List>
+          <AddNewFile {...this.props} />
         </div>
       </>
     );

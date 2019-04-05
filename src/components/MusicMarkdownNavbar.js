@@ -1,7 +1,6 @@
 import AppBar from '@material-ui/core/AppBar';
 import Button from '@material-ui/core/Button';
 import ClickAwayListener from '@material-ui/core/ClickAwayListener';
-import DoneIcon from '@material-ui/icons/Done';
 import EditIcon from '@material-ui/icons/Edit';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import IconButton from '@material-ui/core/IconButton';
@@ -32,18 +31,9 @@ const styles = (theme) => ({
   }
 });
 
-const ViewEditButton = ({ location }) => {
+const EditButton = ({ location }) => {
   const parts = location.pathname.split('/');
   const view = parts[4];
-
-  if (view === 'editor') {
-    parts[4] = 'viewer';
-    return (
-      <IconButton component={Link} to={parts.join('/')}>
-        <DoneIcon />
-      </IconButton>
-    );
-  }
 
   if (view === 'viewer') {
     parts[4] = 'editor';
@@ -114,7 +104,7 @@ class MusicMarkdownNavbar extends React.Component {
             </ClickAwayListener>
           </Paper>
         </Popper>
-        <ViewEditButton location={location} />
+        <EditButton location={location} />
       </>
     );
 

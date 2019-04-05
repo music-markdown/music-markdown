@@ -1,6 +1,3 @@
-#!/usr/bin/env node
-'use strict';
-
 const { isChord } = require('markdown-it-music/lib/chord');
 
 const State = {
@@ -32,7 +29,7 @@ function getMaybeChords(line) {
   return `c1: ${line}`;
 }
 
-function convert(input) {
+function asciiTabConvert(input) {
   let state = State.DEFAULT;
   let voiceIndex = 1;
   const lines = input.split(/\n/);
@@ -103,13 +100,11 @@ async function read(stream) {
 }
 
 async function main() {
-  console.log(convert(await read(process.stdin)));
+  console.log(asciiTabConvert(await read(process.stdin)));
 }
 
-if (typeof require != 'undefined' && require.main == module) {
+if (typeof require !== 'undefined' && require.main === module) {
   main();
 }
 
-module.exports = {
-  convert
-};
+export default asciiTabConvert;
