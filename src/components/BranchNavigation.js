@@ -75,7 +75,7 @@ class BranchNavigation extends React.Component {
               branches.map((item) => (
                 <ListItem button component={Link}
                   key={`list-group-item-${item.name}`}
-                  to={`/repos/${this.props.match.params.repo}/browser/${item.name}`}>
+                  to={`/repos/${this.props.match.params.repo}/browser/${item.name}/`}>
                   <ListItemAvatar>
                     <Avatar>
                       <CallSplit />
