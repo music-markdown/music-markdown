@@ -55,6 +55,7 @@ class MusicMarkdownRender extends React.Component {
     try {
       this.setState({ html: this.md.render(source), error: false });
     } catch (err) {
+      console.log(err);
       this.setState({ html: `<pre>${source}</pre>`, message: err.message, error: true });
     }
   }
