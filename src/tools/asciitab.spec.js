@@ -10,13 +10,11 @@ describe('ASCII Tab Converter transforms', () => {
     ].join('\n'));
 
     const expected = [
-      '```chords',
       'c1:                    Am     G  F          G      Esus4  E',
       'l1: All the leaves are brown        and the sky is gray',
       '',
       'c1: F               C     E  Am       F        Esus4  E',
       `l1: I've been for a walk         on a winter's day`,
-      '```'
     ].join('\n');
 
     expect(actual).toEqual(expected);
@@ -30,11 +28,9 @@ describe('ASCII Tab Converter transforms', () => {
     ].join('\n'));
 
     const expected = [
-      '```chords',
       'c1: Am                    G       Am',
       'l1: Tell her to make me a cambric shirt',
       'l2:                     On the side of a hill in the deep forest green',
-      '```'
     ].join('\n');
 
     expect(actual).toEqual(expected);
@@ -59,10 +55,8 @@ describe('ASCII Tab Converter transforms', () => {
     ].join('\n'));
 
     const expected = [
-      '```chords',
       'c1:                    Am     G  F          G      Esus4  E',
       'l1: All the leaves are brown        and the sky is gray',
-      '```',
       '',
       '## Verse 2'
     ].join('\n');

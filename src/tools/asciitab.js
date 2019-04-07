@@ -46,7 +46,6 @@ function asciiTabConvert(input) {
       const maybeChords = getMaybeChords(line);
       if (maybeChords) {
         state = State.VERSE;
-        output.push('```chords');
         output.push(maybeChords);
         voiceIndex = 1;
         continue;
@@ -60,7 +59,6 @@ function asciiTabConvert(input) {
       const maybeHeading = getMaybeHeading(line);
       if (maybeHeading) {
         state = State.DEFAULT;
-        output.push('```');
         output.push('');
         output.push(maybeHeading);
         continue;
@@ -82,10 +80,6 @@ function asciiTabConvert(input) {
       voiceIndex += 1;
       continue;
     }
-  }
-
-  if (state === State.VERSE) {
-    output.push('```');
   }
 
   return output.join('\n');
