@@ -78,7 +78,7 @@ class AddNewFile extends React.Component {
     this.setState({ error: false });
   }
 
-  isValidFileName = () => (!!this.state.newFileName.match(/^[^<>:"\/\\|?*]+$/))
+  isValidFileName = () => (!!this.state.newFileName.match(/^[^<>:"/\\|?*]+$/))
 
   getTemplateContents = () => (`---\n---\n\n# ${this.state.newFileName}`);
 
