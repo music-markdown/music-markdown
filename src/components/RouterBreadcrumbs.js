@@ -63,6 +63,7 @@ const DirectoryBreadcrumbs = ({ pathname, classes }) => {
   const keyBase = 'breadcrumb-item-';
 
   const subDirectoriesArr = pathname.split('/').filter((value) => !!value);
+  subDirectoriesArr[3] = 'browser';
 
   const breadcrumbItems = buildBreadcrumb(subDirectoriesArr, classes);
 

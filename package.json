@@ -11,7 +11,7 @@
     "history": "^4.9.0",
     "jquery": "^3.3.1",
     "markdown-it": "^8.4.2",
-    "markdown-it-music": "github:music-markdown/markdown-it-music",
+    "markdown-it-music": "^0.0.4",
     "node-sass": "^4.11.0",
     "normalize-url": "^4.2.0",
     "npm": "^6.9.0",
