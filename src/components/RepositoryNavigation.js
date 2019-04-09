@@ -97,7 +97,7 @@ class RepositoryNavigation extends React.Component {
               contents.map((item) => (
                 <ListItem button component={Link}
                   key={`list-group-item-${item.name}`}
-                  to={item === 'dir'
+                  to={item.type === 'dir'
                     ? `/repos/${repo}/browser/${branch}/${item.path}/`
                     : `/repos/${repo}/viewer/${branch}/${item.path}`}>
                   <ListItemAvatar>

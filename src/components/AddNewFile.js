@@ -48,13 +48,11 @@ class AddNewFile extends React.Component {
   }
 
   handleAddNewFile = async () => {
-    const { repo, branch, path } = this.props.match.params;
-    const { newFileName } = this.state;
-
-    const pathName = path ? `${path}/${newFileName}.md` : `${newFileName}.md`;
+    const { repo, branch } = this.props.match.params;
+    const path = this.getNewFilePath();
     const content = btoa(this.getTemplateContents());
 
-    const response = await putContents(repo, pathName, content, undefined, branch);
+    const response = await putContents(repo, path, content, undefined, branch);
 
     if (response.status !== 201) {
       this.handleShowError(`${response.status}: ${response.statusText}`);
@@ -79,15 +77,20 @@ class AddNewFile extends React.Component {
   }
 
   isValidFileName = () => (!!this.state.newFileName.match(/^[^<>:"/\\|?*]+$/))
-
-  getTemplateContents = () => (`---\n---\n\n# ${this.state.newFileName}`);
+  getTemplateContents = () => (`---\n---\n\n# ${this.state.newFileName}`)
+  getNewFilePath = () => {
+    const file = this.state.newFileName;
+    const path = this.props.match.params.path;
+    return path ? `${path}/${file}.md` : `${file}`;
+  }
 
   render() {
-    const { newFileOpen, toEditor, newFileName } = this.state;
     const { classes, location } = this.props;
-    const parts = location.pathname.split('/');
+    const { newFileOpen, toEditor, newFileName } = this.state;
+    const { repo, branch } = this.props.match.params;
 
     if (toEditor) {
+      const parts = location.pathname.split('/');
       parts[4] = 'editor';
       return <Redirect to={`${parts.join('/')}${newFileName}.md`} />;
     }
@@ -122,7 +125,7 @@ class AddNewFile extends React.Component {
                 error={!this.isValidFileName()}
                 helperText={!this.isValidFileName()
                   ? 'Invalid file name'
-                  : <div>{parts[2]}/{parts[3]}/{parts[5]}/{parts.slice(6).join('/')}{newFileName}.md</div>}
+                  : <div>{repo}/{branch}/{this.getNewFilePath()}</div>}
                 InputProps={{
                   endAdornment: <InputAdornment position="end">.md</InputAdornment>
                 }}
