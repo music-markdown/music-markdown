@@ -1,10 +1,10 @@
 import Add from '@material-ui/icons/Add';
 import Button from '@material-ui/core/Button';
 import Card from '@material-ui/core/Card';
+import CardContent from '@material-ui/core/CardContent';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import ErrorSnackbar from './ErrorSnackbar';
 import Fab from '@material-ui/core/Fab';
@@ -21,6 +21,9 @@ const styles = () => ({
   previewCard: {
     padding: 12,
   },
+  whitespacePre: {
+    whiteSpace: 'pre-line'
+  }
 });
 
 class AddNewFile extends React.Component {
@@ -102,16 +105,16 @@ class AddNewFile extends React.Component {
           <Dialog open={newFileOpen} aria-labelledby='add-new-file-dialog' fullWidth={true}>
             <DialogTitle id='add-new-file-dialog-title'>Create New Music Markdown File</DialogTitle>
             <DialogContent>
-              <DialogContentText>
-                <Card className={classes.previewCard}>
+              <Card className={classes.previewCard}>
+                <CardContent>
                   <Typography variant="caption" color="textSecondary" gutterBottom>
                     Preview
                   </Typography>
-                  <Typography variant="body1" color="textPrimary">
-                    <pre>{this.getTemplateContents()}</pre>
+                  <Typography variant="body1" color="textPrimary" className={classes.whitespacePre}>
+                    {this.getTemplateContents()}
                   </Typography>
-                </Card>
-              </DialogContentText>
+                </CardContent>
+              </Card>
               <TextField
                 autoFocus
                 margin='dense'
@@ -123,7 +126,7 @@ class AddNewFile extends React.Component {
                 error={!this.isValidFileName()}
                 helperText={!this.isValidFileName()
                   ? 'Invalid file name'
-                  : <div>{repo}/{branch}/{this.getNewFilePath()}</div>}
+                  : <>{repo}/{branch}/{this.getNewFilePath()}</>}
                 InputProps={{
                   endAdornment: <InputAdornment position="end">.md</InputAdornment>
                 }}
