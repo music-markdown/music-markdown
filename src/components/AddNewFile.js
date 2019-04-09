@@ -81,7 +81,7 @@ class AddNewFile extends React.Component {
   getNewFilePath = () => {
     const file = this.state.newFileName;
     const path = this.props.match.params.path;
-    return path ? `${path}/${file}.md` : `${file}`;
+    return path ? `${path}/${file}.md` : `${file}.md`;
   }
 
   render() {
