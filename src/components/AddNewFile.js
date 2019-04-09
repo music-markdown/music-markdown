@@ -81,18 +81,16 @@ class AddNewFile extends React.Component {
   getNewFilePath = () => {
     const file = this.state.newFileName;
     const path = this.props.match.params.path;
-    return path ? `${path}/${file}.md` : `${file}`;
+    return path ? `${path}/${file}.md` : `${file}.md`;
   }
 
   render() {
-    const { classes, location } = this.props;
-    const { newFileOpen, toEditor, newFileName } = this.state;
+    const { classes } = this.props;
+    const { newFileOpen, toEditor } = this.state;
     const { repo, branch } = this.props.match.params;
 
     if (toEditor) {
-      const parts = location.pathname.split('/');
-      parts[4] = 'editor';
-      return <Redirect to={`${parts.join('/')}${newFileName}.md`} />;
+      return <Redirect to={`/repos/${repo}/editor/${branch}/${this.getNewFilePath()}`} />;
     }
 
     return (
