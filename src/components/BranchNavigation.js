@@ -58,7 +58,7 @@ class BranchNavigation extends React.Component {
 
   render() {
     const { isLoaded, branches } = this.state;
-    const { classes } = this.props;
+    const { classes, location, match } = this.props;
 
     if (!isLoaded) {
       return (
@@ -68,14 +68,14 @@ class BranchNavigation extends React.Component {
 
     return (
       <>
-        <DirectoryBreadcrumbs pathname={this.props.location.pathname} />
+        <DirectoryBreadcrumbs pathname={location.pathname} />
         <div className={classes.root}>
           <List>
             {
               branches.map((item) => (
                 <ListItem button component={Link}
                   key={`list-group-item-${item.name}`}
-                  to={`/repos/${this.props.match.params.repo}/browser/${item.name}/`}>
+                  to={`/repos/${match.params.repo}/browser/${item.name}/`}>
                   <ListItemAvatar>
                     <Avatar>
                       <CallSplit />
