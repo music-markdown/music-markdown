@@ -112,7 +112,7 @@ class RepositoryNavigation extends React.Component {
               ))
             }
           </List>
-          <AddNewFile {...this.props} />
+          <AddNewFile location={this.props.location} match={this.props.match} />
         </div>
       </>
     );
