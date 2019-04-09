@@ -74,7 +74,8 @@ class MarkdownEditor extends React.Component {
   };
 
   handleChange = (value) => {
-    this.setState({ markdown: value, isDirty: true, success: false });
+    clearTimeout(this.timer);
+    this.timer = setTimeout(() => this.setState({ markdown: value, isDirty: true, success: false }), 250);
   };
 
   handleSave = async () => {
