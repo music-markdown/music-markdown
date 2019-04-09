@@ -18,11 +18,9 @@ import { putContents } from '../lib/github';
 import withStyles from '@material-ui/core/styles/withStyles';
 
 const styles = () => ({
-  previewCard: {
-    padding: 12,
-  },
   whitespacePre: {
-    whiteSpace: 'pre-line'
+    whiteSpace: 'pre-line',
+    fontFamily: 'monospace',
   }
 });
 
