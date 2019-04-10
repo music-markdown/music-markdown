@@ -26,7 +26,7 @@ class MusicMarkdownRender extends React.Component {
   constructor(props) {
     super(props);
 
-    this.md = new MarkdownIt()
+    this.md = new MarkdownIt({ html: true })
       .use(MarkdownItMusic);
 
     this.state = {
