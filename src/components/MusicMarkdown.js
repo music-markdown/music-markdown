@@ -69,7 +69,13 @@ class MusicMarkdownRender extends React.Component {
         && prevProps.transposeAmount === transposeAmount && prevProps.fontSize === fontSize) {
       return;
     }
-    this.update();
+
+    clearTimeout(this.timer);
+    this.timer = setTimeout(this.update, 200);
+  }
+
+  componentWillUnmount = () => {
+    clearTimeout(this.timer);
   }
 
   render = () => {
