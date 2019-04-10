@@ -46,14 +46,13 @@ class MusicMarkdownRender extends React.Component {
   update = () => {
     const { source, width, columnCount, transposeAmount, fontSize } = this.props;
 
-    this.props.updateYouTubeId(this.md.meta.youTubeId);
-
     this.md.setTranspose(transposeAmount)
       .setFontSize(fontSize)
       .setMaxWidth((width - COLUMN_GAP * (columnCount - 1)) / columnCount);
 
     try {
       this.setState({ html: this.md.render(source), error: false });
+      this.props.updateYouTubeId(this.md.meta.youTubeId);
     } catch (err) {
       console.log(err);
       this.setState({ html: `<pre>${source}</pre>`, message: err.message, error: true });
