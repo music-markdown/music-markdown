@@ -1,4 +1,4 @@
-import IconButton from '@material-ui/core/IconButton';
+import Button from '@material-ui/core/Button';
 import PlayArrowIcon from '@material-ui/icons/PlayArrow';
 import Popper from '@material-ui/core/Popper';
 import React from 'react';
@@ -42,11 +42,11 @@ class YouTubeToggle extends React.Component {
 
     return (
       <>
-        <IconButton onClick={this.handleToggle} buttonRef={(node) => {
+        <Button onClick={this.handleToggle} buttonRef={(node) => {
           this.anchorEl = node;
         }}>
           <PlayArrowIcon />
-        </IconButton>
+        </Button>
         <Popper
           id='youtube-player'
           open={this.state.visible}

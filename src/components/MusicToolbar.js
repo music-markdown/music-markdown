@@ -27,11 +27,15 @@ const styles = (theme) => ({
   },
   flexWithWidth: {
     display: 'flex',
-    maxWidth: '65vw',
+    maxWidth: '60vw',
     overflowX: 'hidden'
   },
   scrollButton: {
-    margin: 8
+    margin: `0 8px`,
+    height: 56
+  },
+  scrollHide: {
+    visibility: 'hidden',
   }
 });
 
@@ -84,6 +88,11 @@ class MusicToolbar extends React.Component {
     this.toolbarRef = undefined;
   }
 
+  state = {
+    canScrollLeft: false,
+    canScrollRight: false
+  }
+
   handleTransposeClick = (event) => {
     // TODO: Update history with new transposeAmount
     this.props.transpose(event.target.textContent === this.increase);
@@ -108,26 +117,69 @@ class MusicToolbar extends React.Component {
   }
 
   handleMoveScroll = (delta) => {
-    animate('scrollLeft', this.toolbarRef, this.toolbarRef.scrollLeft + delta);
+    // Adapted from Material-UI's animate for consistency.
+    // https://github.com/mui-org/material-ui/blob/next/packages/material-ui/src/internal/animate.js
+    const ease = (time) => (1 + Math.sin(Math.PI * time - Math.PI / 2)) / 2;
+    const duration = 300;
+
+    let start = undefined;
+    const from = this.toolbarRef.scrollLeft;
+    let cancelled = false;
+
+    const cancel = () => {
+      cancelled = true;
+    };
+
+    const step = (timestamp) => {
+      if (cancelled) {
+        return;
+      }
+
+      if (start === undefined) {
+        start = timestamp;
+      }
+      const time = Math.min(1, (timestamp - start) / duration);
+
+      this.toolbarRef.scrollLeft = ease(time) * (delta) + from;
+
+      if (time >= 1) {
+        this.setState({
+          canScrollLeft: this.toolbarRef.scrollLeft > 0,
+          canScrollRight: this.toolbarRef.scrollLeft + delta < this.toolbarRef.scrollWidth
+        });
+        return;
+      }
+
+      requestAnimationFrame(step);
+    };
+
+    if (from === this.toolbarRef.scrollLeft + delta) {
+      return cancel;
+    }
+
+    requestAnimationFrame(step);
+    return cancel;
   }
 
   handleToolbarRef = (ref) => {
     this.toolbarRef = ref;
+    this.setState({ canScrollRight: ref ? ref.scrollWidth > ref.clientWidth : false });
   }
 
   render() {
     const { transposeAmount, columnCount, fontSize, classes } = this.props;
+    const { canScrollLeft, canScrollRight } = this.state;
 
     return (
-      <Toolbar>
-        { this.toolbarRef && this.toolbarRef.scrollLeft > 0 ?
-          <Button onClick={this.handleLeftScroll} className={classes.scrollButton}>
-            <KeyboardArrowLeft />
-          </Button> :
-          undefined }
+      <Toolbar disableGutters={true}>
+        <Button
+          onClick={this.handleLeftScroll}
+          className={`${classes.scrollButton} ${!canScrollLeft ? classes.scrollHide : ''}`}>
+          <KeyboardArrowLeft />
+        </Button>
         <Grid container direction='row' justify='center' alignItems='center' spacing={16}>
           <div ref={this.handleToolbarRef} className={classes.flexWithWidth}>
-            <Grid item>
+            <Grid item className={classes.option} >
               <YouTubeToggle youTubeId={this.props.youTubeId} />
             </Grid>
             {[{ name: 'Transpose', clickCallback: this.handleTransposeClick, value: transposeAmount },
@@ -154,7 +206,9 @@ class MusicToolbar extends React.Component {
               ))}
           </div>
         </Grid>
-        <Button onClick={this.handleRightScroll} className={classes.scrollButton}>
+        <Button
+          onClick={this.handleRightScroll}
+          className={`${classes.scrollButton} ${!canScrollRight ? classes.scrollHide : ''}`}>
           <KeyboardArrowRight />
         </Button>
       </Toolbar>
