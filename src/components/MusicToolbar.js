@@ -4,6 +4,7 @@ import Grid from '@material-ui/core/Grid';
 import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft';
 import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
 import React from 'react';
+import ReactResizeDetector from 'react-resize-detector';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import { YouTubeToggle } from './YouTube';
@@ -39,46 +40,6 @@ const styles = (theme) => ({
   }
 });
 
-function animate(prop, element, to) {
-  const ease = (time) => (1 + Math.sin(Math.PI * time - Math.PI / 2)) / 2;
-  const duration = 300;
-
-  let start = null;
-  const from = element[prop];
-  let cancelled = false;
-
-  const cancel = () => {
-    cancelled = true;
-  };
-
-  const step = (timestamp) => {
-    if (cancelled) {
-      return;
-    }
-
-    if (start === null) {
-      start = timestamp;
-    }
-    const time = Math.min(1, (timestamp - start) / duration);
-
-    element[prop] = ease(time) * (to - from) + from;
-
-    if (time >= 1) {
-      requestAnimationFrame(() => {});
-      return;
-    }
-
-    requestAnimationFrame(step);
-  };
-
-  if (from === to) {
-    return cancel;
-  }
-
-  requestAnimationFrame(step);
-  return cancel;
-}
-
 class MusicToolbar extends React.Component {
   constructor(props) {
     super(props);
@@ -91,6 +52,13 @@ class MusicToolbar extends React.Component {
   state = {
     canScrollLeft: false,
     canScrollRight: false
+  }
+
+  updateOnResize = () => {
+    this.setState({
+      canScrollLeft: this.toolbarRef.scrollLeft > 0,
+      canScrollRight: this.toolbarRef.scrollLeft + this.toolbarRef.clientWidth < this.toolbarRef.scrollWidth
+    });
   }
 
   handleTransposeClick = (event) => {
@@ -171,47 +139,49 @@ class MusicToolbar extends React.Component {
     const { canScrollLeft, canScrollRight } = this.state;
 
     return (
-      <Toolbar disableGutters={true}>
-        <Button
-          onClick={this.handleLeftScroll}
-          className={`${classes.scrollButton} ${!canScrollLeft ? classes.scrollHide : ''}`}>
-          <KeyboardArrowLeft />
-        </Button>
-        <Grid container direction='row' justify='center' alignItems='center' spacing={16}>
-          <div ref={this.handleToolbarRef} className={classes.flexWithWidth}>
-            <Grid item className={classes.option} >
-              <YouTubeToggle youTubeId={this.props.youTubeId} />
-            </Grid>
-            {[{ name: 'Transpose', clickCallback: this.handleTransposeClick, value: transposeAmount },
-              { name: 'Column Count', clickCallback: this.handleColumnClick, value: columnCount },
-              { name: 'Font Size', clickCallback: this.handleFontClick, value: fontSize }]
-              .map(({ name, clickCallback, value }) => (
-                <div key={name} className={classes.option}>
-                  <Grid item className={classes.words}>
-                    <Badge color='primary' badgeContent={value}>
-                      <Typography variant='body1' className={classes.padding}>{name}</Typography>
-                    </Badge>
-                  </Grid>
-                  <Grid item>
-                    <Button onClick={clickCallback}>
-                      <Typography variant='body2'>{this.decrease}</Typography>
-                    </Button>
-                  </Grid>
-                  <Grid item>
-                    <Button onClick={clickCallback}>
-                      <Typography variant='body2'>{this.increase}</Typography>
-                    </Button>
-                  </Grid>
-                </div>
-              ))}
-          </div>
-        </Grid>
-        <Button
-          onClick={this.handleRightScroll}
-          className={`${classes.scrollButton} ${!canScrollRight ? classes.scrollHide : ''}`}>
-          <KeyboardArrowRight />
-        </Button>
-      </Toolbar>
+      <ReactResizeDetector handleWidth refreshMode='debounce' refreshRate={200} onResize={this.updateOnResize}>
+        <Toolbar disableGutters={true}>
+          <Button
+            onClick={this.handleLeftScroll}
+            className={`${classes.scrollButton} ${!canScrollLeft ? classes.scrollHide : ''}`}>
+            <KeyboardArrowLeft />
+          </Button>
+          <Grid container direction='row' justify='center' alignItems='center' spacing={16}>
+            <div ref={this.handleToolbarRef} className={classes.flexWithWidth}>
+              <Grid item className={classes.option} >
+                <YouTubeToggle youTubeId={this.props.youTubeId} />
+              </Grid>
+              {[{ name: 'Transpose', clickCallback: this.handleTransposeClick, value: transposeAmount },
+                { name: 'Column Count', clickCallback: this.handleColumnClick, value: columnCount },
+                { name: 'Font Size', clickCallback: this.handleFontClick, value: fontSize }]
+                .map(({ name, clickCallback, value }) => (
+                  <div key={name} className={classes.option}>
+                    <Grid item className={classes.words}>
+                      <Badge color='primary' badgeContent={value}>
+                        <Typography variant='body1' className={classes.padding}>{name}</Typography>
+                      </Badge>
+                    </Grid>
+                    <Grid item>
+                      <Button onClick={clickCallback}>
+                        <Typography variant='body2'>{this.decrease}</Typography>
+                      </Button>
+                    </Grid>
+                    <Grid item>
+                      <Button onClick={clickCallback}>
+                        <Typography variant='body2'>{this.increase}</Typography>
+                      </Button>
+                    </Grid>
+                  </div>
+                ))}
+            </div>
+          </Grid>
+          <Button
+            onClick={this.handleRightScroll}
+            className={`${classes.scrollButton} ${!canScrollRight ? classes.scrollHide : ''}`}>
+            <KeyboardArrowRight />
+          </Button>
+        </Toolbar>
+      </ReactResizeDetector>
     );
   }
 }
