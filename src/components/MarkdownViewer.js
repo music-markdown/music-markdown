@@ -1,4 +1,4 @@
-import { setColumnCount, setFontSize, setTranspose } from '../redux/actions';
+import { setFontSize, setTranspose } from '../redux/actions';
 import LinearProgress from '@material-ui/core/LinearProgress';
 import MusicMarkdown from './MusicMarkdown';
 import React from 'react';
@@ -24,7 +24,6 @@ class MarkdownViewer extends React.Component {
     this.queryParams = queryString.parse(this.props.location.search);
 
     this.props.setTranspose(parseInt(this.queryParams.transpose, 10) || 0);
-    this.props.setColumnCount(parseInt(this.queryParams.columnCount, 10) || 1);
     this.props.setFontSize(parseInt(this.queryParams.fontSize, 10) || 13);
 
     this.state = {
@@ -45,7 +44,10 @@ class MarkdownViewer extends React.Component {
 
   render() {
     const { isLoaded, markdown } = this.state;
-    const { classes } = this.props;
+    const { classes, location } = this.props;
+
+    const params = queryString.parse(location.search);
+    const columnCount = params.columnCount || 1;
 
     if (!isLoaded) {
       return (
@@ -55,11 +57,11 @@ class MarkdownViewer extends React.Component {
 
     return (
       <div className={classes.root}>
-        <MusicMarkdown source={markdown} />
+        <MusicMarkdown source={markdown} columnCount={columnCount} />
       </div>
     );
   }
 }
 
-export default connect(undefined, { setTranspose, setColumnCount, setFontSize })(
+export default connect(undefined, { setTranspose, setFontSize })(
   withStyles(styles, { withTheme: true })(MarkdownViewer));

@@ -102,8 +102,8 @@ const ContainerizedMusicMarkdown = (props) => (
 );
 
 function mapStateToProps(state) {
-  const { transposeAmount, columnCount, fontSize } = state;
-  return { transposeAmount, columnCount, fontSize };
+  const { transposeAmount, fontSize } = state;
+  return { transposeAmount, fontSize };
 }
 
 const MusicMarkdown =

@@ -2,19 +2,25 @@ import AppBar from '@material-ui/core/AppBar';
 import Button from '@material-ui/core/Button';
 import ClickAwayListener from '@material-ui/core/ClickAwayListener';
 import EditIcon from '@material-ui/icons/Edit';
+import FormControl from '@material-ui/core/FormControl';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import IconButton from '@material-ui/core/IconButton';
+import InputLabel from '@material-ui/core/InputLabel';
 import LibraryMusic from '@material-ui/icons/LibraryMusic';
 import { Link } from 'react-router-dom';
 import MusicToolbar from './MusicToolbar';
 import Paper from '@material-ui/core/Paper';
 import Popper from '@material-ui/core/Popper';
+import { REPO_REGEX } from '../lib/constants';
 import React from 'react';
+import { Route } from 'react-router-dom';
 import SearchIcon from '@material-ui/icons/Search';
+import Select from '@material-ui/core/Select';
 import SettingsIcon from '@material-ui/icons/Settings';
 import Switch from '@material-ui/core/Switch';
 import Toolbar from '@material-ui/core/Toolbar';
 import { connect } from 'react-redux';
+import queryString from 'query-string';
 import { setDarkTheme } from '../redux/actions';
 import withStyles from '@material-ui/core/styles/withStyles';
 
@@ -28,7 +34,7 @@ const styles = (theme) => ({
   },
   filter: {
     filter: 'invert(100%)'
-  }
+  },
 });
 
 const EditButton = ({ location }) => {
@@ -45,6 +51,39 @@ const EditButton = ({ location }) => {
   }
 
   return null;
+};
+
+class ColumnCountSelector extends React.Component {
+  handleUpdateColumnCount = (event) => {
+    const params = queryString.parse(this.props.location.search);
+    if (event.target.value === '1') {
+      delete params.columnCount;
+    } else {
+      params.columnCount = event.target.value;
+    }
+    this.props.history.push({ search: queryString.stringify(params) });
+  }
+
+  render() {
+    const params = queryString.parse(this.props.location.search);
+    const columnCount = params.columnCount || 1;
+
+    return (
+      <FormControl>
+        <InputLabel>Columns</InputLabel>
+        <Select native value={columnCount} onChange={this.handleUpdateColumnCount}>
+          <option value={1}>1</option>
+          <option value={2}>2</option>
+          <option value={3}>3</option>
+          <option value={4}>4</option>
+          <option value={5}>5</option>
+          <option value={6}>6</option>
+          <option value={7}>7</option>
+          <option value={8}>8</option>
+        </Select>
+      </FormControl>
+    );
+  }
 };
 
 class MusicMarkdownNavbar extends React.Component {
@@ -118,6 +157,8 @@ class MusicMarkdownNavbar extends React.Component {
             </Button>
             <div className={classes.grow} />
             {renderMusicNavbarToolbarFlag ? MusicNavbarToolbar() : null}
+            <Route path={['/sandbox', `${REPO_REGEX}/:mode(viewer|editor)/:branch/:path*`]}
+              component={ColumnCountSelector} />
             <IconButton onClick={this.handleSettingsClick} buttonRef={(node) => {
               this.settingsAnchorEl = node;
             }}>

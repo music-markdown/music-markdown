@@ -7,7 +7,6 @@ import Typography from '@material-ui/core/Typography';
 import { YouTubeToggle } from './YouTube';
 import { connect } from 'react-redux';
 import { transpose } from '../redux/actions';
-import { updateColumnCount } from '../redux/actions';
 import { updateFontSize } from '../redux/actions';
 import withStyles from '@material-ui/core/styles/withStyles';
 
@@ -23,7 +22,6 @@ class MusicToolbar extends React.Component {
     super(props);
 
     this.handleTransposeClick = this.handleTransposeClick.bind(this);
-    this.handleColumnClick = this.handleColumnClick.bind(this);
     this.handleFontClick = this.handleFontClick.bind(this);
 
     this.increase = '+1';
@@ -35,24 +33,18 @@ class MusicToolbar extends React.Component {
     this.props.transpose(event.target.textContent === this.increase);
   }
 
-  handleColumnClick(event) {
-    // TODO: Update history with new columnCount
-    this.props.updateColumnCount(event.target.textContent === this.increase);
-  }
-
   handleFontClick(event) {
     // TODO: Update history with new fontSize
     this.props.updateFontSize(event.target.textContent === this.increase);
   }
 
   render() {
-    const { transposeAmount, columnCount, fontSize, classes } = this.props;
+    const { transposeAmount, fontSize, classes } = this.props;
 
     return (
       <Toolbar>
         <Grid container direction='row' justify='center' alignItems='center' spacing={16}>
           {[{ name: 'Transpose', clickCallback: this.handleTransposeClick, value: transposeAmount },
-            { name: 'Column Count', clickCallback: this.handleColumnClick, value: columnCount },
             { name: 'Font Size', clickCallback: this.handleFontClick, value: fontSize }]
             .map(({ name, clickCallback, value }) => (
               <React.Fragment key={name}>
@@ -83,10 +75,10 @@ class MusicToolbar extends React.Component {
 }
 
 function mapStateToProps(state) {
-  const { youtubeId, transposeAmount, columnCount, fontSize } = state;
-  return { youtubeId, transposeAmount, columnCount, fontSize };
+  const { youtubeId, transposeAmount, fontSize } = state;
+  return { youtubeId, transposeAmount, fontSize };
 }
 
 export default connect(
   mapStateToProps,
-  { transpose, updateColumnCount, updateFontSize })(withStyles(styles)(MusicToolbar));
+  { transpose, updateFontSize })(withStyles(styles)(MusicToolbar));
