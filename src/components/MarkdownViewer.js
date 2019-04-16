@@ -1,4 +1,5 @@
 import { setFontSize, setTranspose } from '../redux/actions';
+import { COLUMN_COUNT_QUERY_KEY } from '../lib/constants';
 import LinearProgress from '@material-ui/core/LinearProgress';
 import MusicMarkdown from './MusicMarkdown';
 import React from 'react';
@@ -47,7 +48,7 @@ class MarkdownViewer extends React.Component {
     const { classes, location } = this.props;
 
     const params = queryString.parse(location.search);
-    const columnCount = params.columnCount || 1;
+    const columnCount = params[COLUMN_COUNT_QUERY_KEY] || 1;
 
     if (!isLoaded) {
       return (
