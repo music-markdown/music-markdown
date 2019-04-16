@@ -37,43 +37,42 @@ const styles = (theme) => ({
   },
 });
 
+const handleUpdateQuery = (props, event, primary) => {
+  const params = queryString.parse(props.location.search);
+  if (event.target.value === primary) {
+    delete params[event.target.name];
+  } else {
+    params[event.target.name] = event.target.value;
+  }
+  props.history.push({ search: queryString.stringify(params) });
+};
+
 const EditButton = ({ match }) => (
   <IconButton component={Link} to={`/repos/${match.params.repo}/editor/${match.params.branch}/${match.params.path}`}>
     <EditIcon />
   </IconButton>
 );
 
-class ColumnCountSelector extends React.Component {
-  handleUpdateColumnCount = (event) => {
-    const params = queryString.parse(this.props.location.search);
-    if (event.target.value === '1') {
-      delete params[COLUMN_COUNT_QUERY_KEY];
-    } else {
-      params[COLUMN_COUNT_QUERY_KEY] = event.target.value;
-    }
-    this.props.history.push({ search: queryString.stringify(params) });
-  }
+const ColumnCountSelector = (props) => {
+  const params = queryString.parse(props.location.search);
+  const columnCount = params[COLUMN_COUNT_QUERY_KEY] || 1;
 
-  render() {
-    const params = queryString.parse(this.props.location.search);
-    const columnCount = params[COLUMN_COUNT_QUERY_KEY] || 1;
-
-    return (
-      <FormControl>
-        <InputLabel>Columns</InputLabel>
-        <Select native value={columnCount} onChange={this.handleUpdateColumnCount}>
-          <option value={1}>1</option>
-          <option value={2}>2</option>
-          <option value={3}>3</option>
-          <option value={4}>4</option>
-          <option value={5}>5</option>
-          <option value={6}>6</option>
-          <option value={7}>7</option>
-          <option value={8}>8</option>
-        </Select>
-      </FormControl>
-    );
-  }
+  return (
+    <FormControl>
+      <InputLabel>Columns</InputLabel>
+      <Select native name={COLUMN_COUNT_QUERY_KEY} value={columnCount}
+        onChange={(event) => handleUpdateQuery(props, event, '1')}>
+        <option value={1}>1</option>
+        <option value={2}>2</option>
+        <option value={3}>3</option>
+        <option value={4}>4</option>
+        <option value={5}>5</option>
+        <option value={6}>6</option>
+        <option value={7}>7</option>
+        <option value={8}>8</option>
+      </Select>
+    </FormControl>
+  );
 };
 
 class MusicMarkdownNavbar extends React.Component {
