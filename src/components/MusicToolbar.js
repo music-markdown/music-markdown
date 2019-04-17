@@ -24,12 +24,12 @@ const styles = (theme) => ({
   },
   slider: {
     width: 150
-  }
+  },
 });
 
-const handleUpdateQuery = (props, name, value, primary) => {
+const handleUpdateQuery = (props, name, value, original) => {
   const params = queryString.parse(props.location.search);
-  if (value === primary) {
+  if (value === original) {
     delete params[name];
   } else {
     params[name] = value;
@@ -40,19 +40,17 @@ const handleUpdateQuery = (props, name, value, primary) => {
 class UnstyledColumnCountSelector extends React.Component {
   state = {
     anchorEl: undefined,
-    open: false
   };
 
   handleClick = (event) => {
     this.setState({
       anchorEl: event.currentTarget,
-      open: !this.state.open
     });
   };
 
   handleClickAway = () => {
     this.setState({
-      open: false
+      anchorEl: undefined
     });
   };
 
@@ -60,7 +58,7 @@ class UnstyledColumnCountSelector extends React.Component {
     const params = queryString.parse(this.props.location.search);
     const columnCount = params[COLUMN_COUNT_QUERY_KEY] || '1';
     const { classes } = this.props;
-    const { anchorEl, open } = this.state;
+    const { anchorEl } = this.state;
 
     return (
       <>
@@ -70,17 +68,15 @@ class UnstyledColumnCountSelector extends React.Component {
           </Badge>
         </IconButton>
 
-        <Popper className={classes.popper} open={open} anchorEl={anchorEl}>
+        <Popper className={classes.popper} open={!!anchorEl} anchorEl={anchorEl}>
           <ClickAwayListener onClickAway={this.handleClickAway}>
             <ToggleButtonGroup value={columnCount} exclusive
               onChange={(event, value) => handleUpdateQuery(this.props, COLUMN_COUNT_QUERY_KEY, value, '1')}>
-              {
-                ['1', '2', '3', '4', '5', '6', '7', '8'].map((columnCount) => (
-                  <ToggleButton value={columnCount} key={columnCount}>
-                    {columnCount}
-                  </ToggleButton>
-                ))
-              }
+              {['1', '2', '3', '4', '5', '6', '7', '8'].map((columnCount) => (
+                <ToggleButton value={columnCount} key={columnCount}>
+                  {columnCount}
+                </ToggleButton>
+              ))}
             </ToggleButtonGroup>
           </ClickAwayListener>
         </Popper>
@@ -94,25 +90,21 @@ const ColumnCountSelector = withStyles(styles, { withTheme: true })(UnstyledColu
 class UnstyledTransposeSelector extends React.Component {
   state = {
     anchorEl: undefined,
-    open: false,
   }
 
   handleTransposeOpen = (event) => {
-    this.setState({
-      anchorEl: event.currentTarget,
-      open: !this.state.open
-    });
+    this.setState({ anchorEl: event.currentTarget });
   }
 
-  handleClickAway = (event) => {
-    this.setState({ open: false });
+  handleClickAway = () => {
+    this.setState({ anchorEl: undefined });
   }
 
   render() {
     const params = queryString.parse(this.props.location.search);
     const transpose = params[TRANSPOSE_QUERY_KEY] || '0';
     const { classes } = this.props;
-    const { open, anchorEl } = this.state;
+    const { anchorEl } = this.state;
 
     return (
       <>
@@ -121,7 +113,7 @@ class UnstyledTransposeSelector extends React.Component {
             <LowPriorityIcon />
           </Badge>
         </IconButton>
-        <Popper className={classes.popper} open={open} anchorEl={anchorEl}>
+        <Popper className={classes.popper} open={!!anchorEl} anchorEl={anchorEl}>
           <ClickAwayListener onClickAway={this.handleClickAway}>
             <Paper className={classes.paper}>
               <Slider
@@ -130,8 +122,7 @@ class UnstyledTransposeSelector extends React.Component {
                 min={-12}
                 max={12}
                 step={1}
-                onChange={(event, value) => handleUpdateQuery(this.props, TRANSPOSE_QUERY_KEY, String(value), '0')}
-              />
+                onChange={(event, value) => handleUpdateQuery(this.props, TRANSPOSE_QUERY_KEY, String(value), '0')} />
             </Paper>
           </ClickAwayListener>
         </Popper>
