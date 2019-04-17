@@ -1,4 +1,2 @@
-export const TRANSPOSE = 'TRANSPOSE';
-export const UPDATE_FONT_SIZE = 'UPDATE_FONT_SIZE';
 export const UPDATE_YOUTUBE_ID = 'UPDATE_YOUTUBE_ID';
 export const SET_DARK_THEME = 'SET_DARK_THEME';

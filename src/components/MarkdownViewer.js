@@ -1,9 +1,7 @@
-import { setFontSize, setTranspose } from '../redux/actions';
-import { COLUMN_COUNT_QUERY_KEY } from '../lib/constants';
+import { COLUMN_COUNT_QUERY_KEY, TRANSPOSE_QUERY_KEY } from '../lib/constants';
 import LinearProgress from '@material-ui/core/LinearProgress';
 import MusicMarkdown from './MusicMarkdown';
 import React from 'react';
-import { connect } from 'react-redux';
 import { getContents } from '../lib/github';
 import queryString from 'query-string';
 import withStyles from '@material-ui/core/styles/withStyles';
@@ -23,9 +21,6 @@ class MarkdownViewer extends React.Component {
     super(props);
 
     this.queryParams = queryString.parse(this.props.location.search);
-
-    this.props.setTranspose(parseInt(this.queryParams.transpose, 10) || 0);
-    this.props.setFontSize(parseInt(this.queryParams.fontSize, 10) || 13);
 
     this.state = {
       isLoaded: false,
@@ -48,7 +43,8 @@ class MarkdownViewer extends React.Component {
     const { classes, location } = this.props;
 
     const params = queryString.parse(location.search);
-    const columnCount = params[COLUMN_COUNT_QUERY_KEY] || 1;
+    const columnCount = params[COLUMN_COUNT_QUERY_KEY] || '1';
+    const transposeAmount = Number(params[TRANSPOSE_QUERY_KEY]) || 0;
 
     if (!isLoaded) {
       return (
@@ -58,11 +54,10 @@ class MarkdownViewer extends React.Component {
 
     return (
       <div className={classes.root}>
-        <MusicMarkdown source={markdown} columnCount={columnCount} />
+        <MusicMarkdown source={markdown} columnCount={columnCount} transposeAmount={transposeAmount} />
       </div>
     );
   }
 }
 
-export default connect(undefined, { setTranspose, setFontSize })(
-  withStyles(styles, { withTheme: true })(MarkdownViewer));
+export default withStyles(styles, { withTheme: true })(MarkdownViewer);

@@ -1,26 +1,21 @@
-import { COLUMN_COUNT_QUERY_KEY, REPO_REGEX } from '../lib/constants';
 import AppBar from '@material-ui/core/AppBar';
 import Button from '@material-ui/core/Button';
 import ClickAwayListener from '@material-ui/core/ClickAwayListener';
 import EditIcon from '@material-ui/icons/Edit';
-import FormControl from '@material-ui/core/FormControl';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import IconButton from '@material-ui/core/IconButton';
-import InputLabel from '@material-ui/core/InputLabel';
-import LibraryMusic from '@material-ui/icons/LibraryMusic';
 import { Link } from 'react-router-dom';
 import MusicToolbar from './MusicToolbar';
 import Paper from '@material-ui/core/Paper';
 import Popper from '@material-ui/core/Popper';
+import { REPO_REGEX } from '../lib/constants';
 import React from 'react';
 import { Route } from 'react-router-dom';
 import SearchIcon from '@material-ui/icons/Search';
-import Select from '@material-ui/core/Select';
 import SettingsIcon from '@material-ui/icons/Settings';
 import Switch from '@material-ui/core/Switch';
 import Toolbar from '@material-ui/core/Toolbar';
 import { connect } from 'react-redux';
-import queryString from 'query-string';
 import { setDarkTheme } from '../redux/actions';
 import withStyles from '@material-ui/core/styles/withStyles';
 
@@ -37,50 +32,17 @@ const styles = (theme) => ({
   },
 });
 
-const handleUpdateQuery = (props, event, primary) => {
-  const params = queryString.parse(props.location.search);
-  if (event.target.value === primary) {
-    delete params[event.target.name];
-  } else {
-    params[event.target.name] = event.target.value;
-  }
-  props.history.push({ search: queryString.stringify(params) });
-};
-
 const EditButton = ({ match }) => (
   <IconButton component={Link} to={`/repos/${match.params.repo}/editor/${match.params.branch}/${match.params.path}`}>
     <EditIcon />
   </IconButton>
 );
 
-const ColumnCountSelector = (props) => {
-  const params = queryString.parse(props.location.search);
-  const columnCount = params[COLUMN_COUNT_QUERY_KEY] || 1;
-
-  return (
-    <FormControl>
-      <InputLabel>Columns</InputLabel>
-      <Select native name={COLUMN_COUNT_QUERY_KEY} value={columnCount}
-        onChange={(event) => handleUpdateQuery(props, event, '1')}>
-        <option value={1}>1</option>
-        <option value={2}>2</option>
-        <option value={3}>3</option>
-        <option value={4}>4</option>
-        <option value={5}>5</option>
-        <option value={6}>6</option>
-        <option value={7}>7</option>
-        <option value={8}>8</option>
-      </Select>
-    </FormControl>
-  );
-};
-
 class MusicMarkdownNavbar extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      toolbarOpen: false,
       settingsOpen: false,
       isDarkTheme: props.theme.palette.type === 'dark'
     };
@@ -88,14 +50,9 @@ class MusicMarkdownNavbar extends React.Component {
     this.settingsAnchorEl = undefined;
     this.toolbarAnchorEl = undefined;
 
-    this.handleMusicToolbarOpen = this.handleMusicToolbarOpen.bind(this);
     this.handleSettingsClick = this.handleSettingsClick.bind(this);
     this.handleDarkThemeSwitch = this.handleDarkThemeSwitch.bind(this);
   }
-
-  handleMusicToolbarOpen() {
-    this.setState({ toolbarOpen: !this.state.toolbarOpen });
-  };
 
   handleSettingsClick() {
     this.setState({ settingsOpen: !this.state.settingsOpen });
@@ -107,31 +64,15 @@ class MusicMarkdownNavbar extends React.Component {
   }
 
   render() {
-    const { toolbarOpen, settingsOpen, isDarkTheme } = this.state;
+    const { settingsOpen, isDarkTheme } = this.state;
     const { classes } = this.props;
 
     const MusicNavbarToolbar = () => (
       <>
         {/* TODO: Placeholder for search functionality */}
-        <Button>
+        <IconButton>
           <SearchIcon />
-        </Button>
-        <IconButton onClick={this.handleMusicToolbarOpen} buttonRef={(node) => {
-          this.toolbarAnchorEl = node;
-        }}>
-          <LibraryMusic />
         </IconButton>
-        <Popper
-          id='music-toolbar-popper'
-          open={toolbarOpen}
-          anchorEl={this.toolbarAnchorEl}
-          placement='bottom-end'>
-          <Paper className={classes.paper}>
-            <ClickAwayListener onClickAway={this.handleMusicToolbarOpen}>
-              <MusicToolbar></MusicToolbar>
-            </ClickAwayListener>
-          </Paper>
-        </Popper>
       </>
     );
 
@@ -146,7 +87,7 @@ class MusicMarkdownNavbar extends React.Component {
             <div className={classes.grow} />
             {renderMusicNavbarToolbarFlag ? MusicNavbarToolbar() : null}
             <Route path={['/sandbox', `${REPO_REGEX}/:mode(viewer|editor)/:branch/:path*`]}
-              component={ColumnCountSelector} />
+              component={MusicToolbar} />
             <Route path={`${REPO_REGEX}/viewer/:branch/:path*`} component={EditButton} />
             <IconButton onClick={this.handleSettingsClick} buttonRef={(node) => {
               this.settingsAnchorEl = node;
