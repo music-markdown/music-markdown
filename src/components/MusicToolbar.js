@@ -130,7 +130,7 @@ class UnstyledTransposeSelector extends React.Component {
                 min={-12}
                 max={12}
                 step={1}
-                onChange={(event, value) => handleUpdateQuery(this.props, TRANSPOSE_QUERY_KEY, value, '0')}
+                onChange={(event, value) => handleUpdateQuery(this.props, TRANSPOSE_QUERY_KEY, String(value), '0')}
               />
             </Paper>
           </ClickAwayListener>
