@@ -92,7 +92,7 @@ class UnstyledTransposeSelector extends React.Component {
     anchorEl: undefined,
   }
 
-  handleTransposeOpen = (event) => {
+  handleClick = (event) => {
     this.setState({ anchorEl: event.currentTarget });
   }
 
@@ -108,7 +108,7 @@ class UnstyledTransposeSelector extends React.Component {
 
     return (
       <>
-        <IconButton onClick={this.handleTransposeOpen}>
+        <IconButton onClick={this.handleClick}>
           <Badge badgeContent={transpose === '0' ? '' : transpose} color="secondary">
             <LowPriorityIcon />
           </Badge>
