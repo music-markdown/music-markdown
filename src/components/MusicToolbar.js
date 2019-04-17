@@ -1,7 +1,6 @@
 import { COLUMN_COUNT_QUERY_KEY, TRANSPOSE_QUERY_KEY } from '../lib/constants';
 import Badge from '@material-ui/core/Badge';
 import ClickAwayListener from '@material-ui/core/ClickAwayListener';
-import { connect } from 'react-redux';
 import IconButton from '@material-ui/core/IconButton';
 import LowPriorityIcon from '@material-ui/icons/LowPriority';
 import Paper from '@material-ui/core/Paper';
@@ -11,6 +10,8 @@ import Slider from '@material-ui/lab/Slider';
 import ToggleButton from '@material-ui/lab/ToggleButton';
 import ToggleButtonGroup from '@material-ui/lab/ToggleButtonGroup';
 import ViewColumn from '@material-ui/icons/ViewColumn';
+import { YouTubeToggle } from './YouTube';
+import { connect } from 'react-redux';
 import queryString from 'query-string';
 import withStyles from '@material-ui/core/styles/withStyles';
 
@@ -143,6 +144,7 @@ const TransposeSelector = withStyles(styles, { withTheme: true })(UnstyledTransp
 
 const MusicToolbar = (props) => (
   <>
+    <YouTubeToggle youTubeId={props.youTubeId} />
     <TransposeSelector {...props} />
     <ColumnCountSelector {...props} />
   </>
