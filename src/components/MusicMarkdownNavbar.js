@@ -2,6 +2,7 @@ import AppBar from '@material-ui/core/AppBar';
 import Button from '@material-ui/core/Button';
 import ClickAwayListener from '@material-ui/core/ClickAwayListener';
 import EditIcon from '@material-ui/icons/Edit';
+import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import IconButton from '@material-ui/core/IconButton';
 import { Link } from 'react-router-dom';
@@ -38,6 +39,12 @@ const EditButton = ({ match }) => (
   </IconButton>
 );
 
+const ViewButton = ({ match }) => (
+  <IconButton component={Link} to={`/repos/${match.params.repo}/viewer/${match.params.branch}/${match.params.path}`}>
+    <ExitToAppIcon />
+  </IconButton>
+);
+
 // TODO: Placeholder for search functionality
 const SearchToolbar = () => (
   <IconButton>
@@ -55,17 +62,13 @@ class MusicMarkdownNavbar extends React.Component {
     };
 
     this.settingsAnchorEl = undefined;
-    this.toolbarAnchorEl = undefined;
-
-    this.handleSettingsClick = this.handleSettingsClick.bind(this);
-    this.handleDarkThemeSwitch = this.handleDarkThemeSwitch.bind(this);
   }
 
-  handleSettingsClick() {
+  handleSettingsClick = () => {
     this.setState({ settingsOpen: !this.state.settingsOpen });
   }
 
-  handleDarkThemeSwitch() {
+  handleDarkThemeSwitch = () => {
     this.props.setDarkTheme(!this.state.isDarkTheme);
     this.setState({ isDarkTheme: !this.state.isDarkTheme });
   }
@@ -86,6 +89,7 @@ class MusicMarkdownNavbar extends React.Component {
           <Route path={`${REPO_REGEX}/:mode/:branch/:path*`} component={SearchToolbar} />
           <Route path={['/sandbox', `${REPO_REGEX}/:mode(viewer|editor)/:branch/:path*`]} component={MusicToolbar} />
           <Route path={`${REPO_REGEX}/viewer/:branch/:path*`} component={EditButton} />
+          <Route path={`${REPO_REGEX}/editor/:branch/:path*`} component={ViewButton} />
 
           <IconButton onClick={this.handleSettingsClick} buttonRef={(node) => {
             this.settingsAnchorEl = node;
