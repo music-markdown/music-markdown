@@ -42,16 +42,18 @@ class UnstyledColumnCountSelector extends React.Component {
     anchorEl: undefined,
   };
 
-  handleClick = (event) => {
+  handleToggle = (event) => {
     this.setState({
-      anchorEl: event.currentTarget,
+      anchorEl: !this.state.anchorEl ? event.currentTarget : undefined,
     });
   };
 
-  handleClickAway = () => {
-    this.setState({
-      anchorEl: undefined
-    });
+  handleClickAway = (event) => {
+    if (this.state.anchorEl.contains(event.target)) {
+      return;
+    }
+
+    this.setState({ anchorEl: undefined });
   };
 
   render() {
@@ -62,7 +64,7 @@ class UnstyledColumnCountSelector extends React.Component {
 
     return (
       <>
-        <IconButton onClick={this.handleClick}>
+        <IconButton onClick={this.handleToggle}>
           <Badge badgeContent={columnCount === '1' ? '' : columnCount} color="secondary">
             <ViewColumn />
           </Badge>
@@ -92,13 +94,19 @@ class UnstyledTransposeSelector extends React.Component {
     anchorEl: undefined,
   }
 
-  handleClick = (event) => {
-    this.setState({ anchorEl: event.currentTarget });
-  }
+  handleToggle = (event) => {
+    this.setState({
+      anchorEl: !this.state.anchorEl ? event.currentTarget : undefined,
+    });
+  };
 
-  handleClickAway = () => {
+  handleClickAway = (event) => {
+    if (this.state.anchorEl.contains(event.target)) {
+      return;
+    }
+
     this.setState({ anchorEl: undefined });
-  }
+  };
 
   render() {
     const params = queryString.parse(this.props.location.search);
@@ -108,7 +116,7 @@ class UnstyledTransposeSelector extends React.Component {
 
     return (
       <>
-        <IconButton onClick={this.handleClick}>
+        <IconButton onClick={this.handleToggle}>
           <Badge badgeContent={transpose === '0' ? '' : transpose} color="secondary">
             <LowPriorityIcon />
           </Badge>

@@ -22,16 +22,18 @@ class YouTubeToggle extends React.Component {
     anchorEl: undefined,
   }
 
-  handleClick = (event) => {
+  handleToggle = (event) => {
     this.setState({
-      anchorEl: event.currentTarget,
+      anchorEl: !this.state.anchorEl ? event.currentTarget : undefined,
     });
-  }
+  };
 
-  handleClickAway = () => {
-    this.setState({
-      anchorEl: undefined,
-    });
+  handleClickAway = (event) => {
+    if (this.state.anchorEl.contains(event.target)) {
+      return;
+    }
+
+    this.setState({ anchorEl: undefined });
   };
 
   render() {
@@ -41,7 +43,7 @@ class YouTubeToggle extends React.Component {
 
     return (
       <>
-        <IconButton onClick={this.handleClick} buttonRef={(node) => {
+        <IconButton onClick={this.handleToggle} buttonRef={(node) => {
           this.anchorEl = node;
         }}>
           <PlayArrowIcon />
