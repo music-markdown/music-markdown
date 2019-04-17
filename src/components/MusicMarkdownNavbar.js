@@ -38,6 +38,13 @@ const EditButton = ({ match }) => (
   </IconButton>
 );
 
+// TODO: Placeholder for search functionality
+const SearchToolbar = () => (
+  <IconButton>
+    <SearchIcon />
+  </IconButton>
+);
+
 class MusicMarkdownNavbar extends React.Component {
   constructor(props) {
     super(props);
@@ -67,67 +74,46 @@ class MusicMarkdownNavbar extends React.Component {
     const { settingsOpen, isDarkTheme } = this.state;
     const { classes } = this.props;
 
-    const MusicNavbarToolbar = () => (
-      <>
-        {/* TODO: Placeholder for search functionality */}
-        <IconButton>
-          <SearchIcon />
-        </IconButton>
-      </>
+    return (
+      <AppBar position={'sticky'} key='top-navbar'>
+        <Toolbar>
+          <Button className={classes.reactRouterHoverInherit} component={Link} to='/'>
+            <img className={isDarkTheme ? classes.filter : ''}
+              src="music-markdown.svg" width={50} alt="Music Markdown" />
+          </Button>
+          <div className={classes.grow} />
+
+          <Route path={`${REPO_REGEX}/:mode/:branch/:path*`} component={SearchToolbar} />
+          <Route path={['/sandbox', `${REPO_REGEX}/:mode(viewer|editor)/:branch/:path*`]} component={MusicToolbar} />
+          <Route path={`${REPO_REGEX}/viewer/:branch/:path*`} component={EditButton} />
+
+          <IconButton onClick={this.handleSettingsClick} buttonRef={(node) => {
+            this.settingsAnchorEl = node;
+          }}>
+            <SettingsIcon/>
+          </IconButton>
+          <Popper
+            id='settings-popper'
+            open={settingsOpen}
+            anchorEl={this.settingsAnchorEl}
+            placement='bottom-end'>
+            <Paper className={classes.paper}>
+              <ClickAwayListener onClickAway={this.handleSettingsClick}>
+                <FormControlLabel
+                  control={
+                    <Switch
+                      defaultChecked={isDarkTheme}
+                      onChange={this.handleDarkThemeSwitch}
+                      value='darkTheme' />
+                  }
+                  label='Toggle Dark Mode?'
+                />
+              </ClickAwayListener>
+            </Paper>
+          </Popper>
+        </Toolbar>
+      </AppBar>
     );
-
-    const BaseNavbar = (renderMusicNavbarToolbarFlag) => (
-      <>
-        <AppBar position={'sticky'} key='top-navbar'>
-          <Toolbar>
-            <Button className={classes.reactRouterHoverInherit} component={Link} to='/'>
-              <img className={isDarkTheme ? classes.filter : ''}
-                src="music-markdown.svg" width={50} alt="Music Markdown" />
-            </Button>
-            <div className={classes.grow} />
-            {renderMusicNavbarToolbarFlag ? MusicNavbarToolbar() : null}
-            <Route path={['/sandbox', `${REPO_REGEX}/:mode(viewer|editor)/:branch/:path*`]}
-              component={MusicToolbar} />
-            <Route path={`${REPO_REGEX}/viewer/:branch/:path*`} component={EditButton} />
-            <IconButton onClick={this.handleSettingsClick} buttonRef={(node) => {
-              this.settingsAnchorEl = node;
-            }}>
-              <SettingsIcon/>
-            </IconButton>
-            <Popper
-              id='settings-popper'
-              open={settingsOpen}
-              anchorEl={this.settingsAnchorEl}
-              placement='bottom-end'>
-              <Paper className={classes.paper}>
-                <ClickAwayListener onClickAway={this.handleSettingsClick}>
-                  <FormControlLabel
-                    control={
-                      <Switch
-                        defaultChecked={isDarkTheme}
-                        onChange={this.handleDarkThemeSwitch}
-                        value='darkTheme' />
-                    }
-                    label='Toggle Dark Mode?'
-                  />
-                </ClickAwayListener>
-              </Paper>
-            </Popper>
-          </Toolbar>
-        </AppBar>
-      </>
-    );
-
-    const basePath = this.props.location.pathname.split('/')[4];
-
-    switch (basePath) {
-    case 'viewer':
-    case 'editor':
-    case 'sandbox':
-      return BaseNavbar(true);
-    default:
-      return BaseNavbar(false);
-    }
   }
 };
 
