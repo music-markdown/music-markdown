@@ -44,10 +44,9 @@ class MusicMarkdownRender extends React.Component {
   }
 
   update = () => {
-    const { source, width, columnCount, transposeAmount, fontSize } = this.props;
+    const { source, width, columnCount, transposeAmount } = this.props;
 
     this.md.setTranspose(transposeAmount)
-      .setFontSize(fontSize)
       .setMaxWidth((width - COLUMN_GAP * (columnCount - 1)) / columnCount);
 
     try {
@@ -64,9 +63,9 @@ class MusicMarkdownRender extends React.Component {
   }
 
   componentDidUpdate = (prevProps) => {
-    const { source, width, columnCount, transposeAmount, fontSize } = this.props;
+    const { source, width, columnCount, transposeAmount } = this.props;
     if (prevProps.source === source && prevProps.width === width && prevProps.columnCount === columnCount
-        && prevProps.transposeAmount === transposeAmount && prevProps.fontSize === fontSize) {
+        && prevProps.transposeAmount === transposeAmount) {
       return;
     }
 
@@ -101,12 +100,7 @@ const ContainerizedMusicMarkdown = (props) => (
   </div>
 );
 
-function mapStateToProps(state) {
-  const { transposeAmount, columnCount, fontSize } = state;
-  return { transposeAmount, columnCount, fontSize };
-}
-
 const MusicMarkdown =
-  connect(mapStateToProps, { updateYouTubeId })(withStyles(styles, { withTheme: true })(ContainerizedMusicMarkdown));
+  connect(undefined, { updateYouTubeId })(withStyles(styles, { withTheme: true })(ContainerizedMusicMarkdown));
 
 export default MusicMarkdown;

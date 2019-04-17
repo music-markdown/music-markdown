@@ -1,3 +1,4 @@
+import ClickAwayListener from '@material-ui/core/ClickAwayListener';
 import IconButton from '@material-ui/core/IconButton';
 import PlayArrowIcon from '@material-ui/icons/PlayArrow';
 import Popper from '@material-ui/core/Popper';
@@ -17,27 +18,27 @@ const YouTubePlayer = ({ youTubeId }) => (
 );
 
 class YouTubeToggle extends React.Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      visible: false
-    };
-
-    this.anchorEl = undefined;
-
-    this.handleToggle = this.handleToggle.bind(this);
+  state = {
+    anchorEl: undefined,
   }
 
-  handleToggle() {
-    this.setState((state) => ({
-      visible: !state.visible
-    }));
-  }
+  handleToggle = (event) => {
+    this.setState({
+      anchorEl: !this.state.anchorEl ? event.currentTarget : undefined,
+    });
+  };
+
+  handleClickAway = (event) => {
+    if (this.state.anchorEl.contains(event.target)) {
+      return;
+    }
+
+    this.setState({ anchorEl: undefined });
+  };
 
   render() {
     if (!this.props.youTubeId) {
-      return <div></div>;
+      return null;
     }
 
     return (
@@ -49,17 +50,12 @@ class YouTubeToggle extends React.Component {
         </IconButton>
         <Popper
           id='youtube-player'
-          open={this.state.visible}
-          anchorEl={this.anchorEl}
-          placement='top'
-          disablePortal={false}
-          modifiers={{
-            flip: {
-              enabled: true,
-            }
-          }}
-        >
-          <YouTubePlayer youTubeId={this.props.youTubeId} />
+          open={!!this.state.anchorEl}
+          anchorEl={this.state.anchorEl}
+          placement='top'>
+          <ClickAwayListener onClickAway={this.handleClickAway}>
+            <YouTubePlayer youTubeId={this.props.youTubeId} />
+          </ClickAwayListener>
         </Popper>
       </>
     );
