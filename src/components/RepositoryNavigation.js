@@ -1,3 +1,5 @@
+import { getContents, refreshIndexedContents } from '../lib/github';
+
 import AddNewFile from './AddNewFile';
 import Avatar from '@material-ui/core/Avatar';
 import DescriptionIcon from '@material-ui/icons/Description';
@@ -10,7 +12,6 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import ListItemText from '@material-ui/core/ListItemText';
 import React from 'react';
-import { getContents } from '../lib/github';
 import withStyles from '@material-ui/core/styles/withStyles';
 
 const styles = () => ({
@@ -38,6 +39,7 @@ class RepositoryNavigation extends React.Component {
       isLoaded: true,
       contents
     });
+    await refreshIndexedContents();
   }
 
   /**
@@ -56,6 +58,7 @@ class RepositoryNavigation extends React.Component {
         contents
       });
     }
+    await refreshIndexedContents();
   }
 
   /**

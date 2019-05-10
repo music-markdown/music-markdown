@@ -1,4 +1,5 @@
 import { addRepository, deleteRepository, getRepositories } from '../lib/github';
+
 import AddRepository from './AddRepository';
 import Avatar from '@material-ui/core/Avatar';
 import Book from '@material-ui/icons/Book';
@@ -30,7 +31,7 @@ class ListRepositories extends React.Component {
     this.loadRepositories();
   }
 
-  handleDeleteRepository = (repo) => {
+  handleDeleteRepository = async (repo) => {
     deleteRepository(repo);
     this.loadRepositories();
   }

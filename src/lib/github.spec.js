@@ -1,3 +1,5 @@
+import './MockGithubResponses.js';
+
 import { addRepository, deleteRepository, getApiUrl, getRepositories } from './github';
 
 describe('GitHub API', () => {
@@ -38,6 +40,16 @@ describe('GitHub API', () => {
     localStorage.setItem('music-markdown:github_token', 'music-markdown-github-token');
     const actualUrl = getApiUrl('/some/path');
     expect(actualUrl.searchParams.get('access_token')).toEqual('music-markdown-github-token');
+  });
+
+  test('getBranchContents returns correct contents', () => {
+    // const githubSpy = jest.fn();
+    const branchesResponse = mockGetBranchesResponse;
+    print(branchesResponse);
+  });
+
+  test('refreshIndexedContents indexes files in localStorage when called for a repo', () => {
+
   });
 
   // TODO: Write tests for getBranches
