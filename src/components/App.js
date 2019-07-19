@@ -7,6 +7,7 @@ import MarkdownEditor from './MarkdownEditor';
 import MarkdownViewer from './MarkdownViewer';
 import MuiThemeProvider from '@material-ui/core/styles/MuiThemeProvider';
 import MusicMarkdownNavbar from './MusicMarkdownNavbar';
+import { REPO_REGEX } from '../lib/constants';
 import React from 'react';
 import RepositoryEditor from './RepositoryEditor';
 import RepositoryNavigation from './RepositoryNavigation';
@@ -15,7 +16,6 @@ import Sandbox from './Sandbox.js';
 import createMuiTheme from '@material-ui/core/styles/createMuiTheme';
 import store from '../redux/store';
 
-const REPO_REGEX = '/repos/:repo([^/]+/[^/]+)';
 const App = () => (
   <Provider key="home-provider" store={store}>
     <ThemeProvider />

@@ -1,5 +1,4 @@
 import { addRepository, deleteRepository, getApiUrl, getRepositories } from './github';
-import { GITHUB_TOKEN_LOCAL_STORAGE_KEY } from './constants';
 
 describe('GitHub API', () => {
   afterEach(() => {
@@ -36,7 +35,7 @@ describe('GitHub API', () => {
   });
 
   test('getApiUrl returns API url with access token when localStorage contains github token', () => {
-    localStorage.setItem(GITHUB_TOKEN_LOCAL_STORAGE_KEY, 'music-markdown-github-token');
+    localStorage.setItem('music-markdown:github_token', 'music-markdown-github-token');
     const actualUrl = getApiUrl('/some/path');
     expect(actualUrl.searchParams.get('access_token')).toEqual('music-markdown-github-token');
   });

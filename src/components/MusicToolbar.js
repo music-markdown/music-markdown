@@ -1,92 +1,158 @@
+import { COLUMN_COUNT_QUERY_KEY, TRANSPOSE_QUERY_KEY } from '../lib/constants';
 import Badge from '@material-ui/core/Badge';
-import Button from '@material-ui/core/Button';
-import Grid from '@material-ui/core/Grid';
+import ClickAwayListener from '@material-ui/core/ClickAwayListener';
+import IconButton from '@material-ui/core/IconButton';
+import LowPriorityIcon from '@material-ui/icons/LowPriority';
+import Paper from '@material-ui/core/Paper';
+import Popper from '@material-ui/core/Popper';
 import React from 'react';
-import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
+import Slider from '@material-ui/lab/Slider';
+import ToggleButton from '@material-ui/lab/ToggleButton';
+import ToggleButtonGroup from '@material-ui/lab/ToggleButtonGroup';
+import ViewColumn from '@material-ui/icons/ViewColumn';
 import { YouTubeToggle } from './YouTube';
 import { connect } from 'react-redux';
-import { transpose } from '../redux/actions';
-import { updateColumnCount } from '../redux/actions';
-import { updateFontSize } from '../redux/actions';
+import queryString from 'query-string';
 import withStyles from '@material-ui/core/styles/withStyles';
 
-
 const styles = (theme) => ({
-  padding: {
-    padding: `0 ${theme.spacing.unit}px`,
-  }
+  popper: {
+    zIndex: 9999
+  },
+  paper: {
+    padding: theme.spacing.unit * 2,
+  },
+  slider: {
+    width: 150
+  },
 });
 
-class MusicToolbar extends React.Component {
-  constructor(props) {
-    super(props);
-
-    this.handleTransposeClick = this.handleTransposeClick.bind(this);
-    this.handleColumnClick = this.handleColumnClick.bind(this);
-    this.handleFontClick = this.handleFontClick.bind(this);
-
-    this.increase = '+1';
-    this.decrease = '-1';
+const handleUpdateQuery = (props, name, value, original) => {
+  const params = queryString.parse(props.location.search);
+  if (value === original) {
+    delete params[name];
+  } else {
+    params[name] = value;
   }
+  props.history.push({ search: queryString.stringify(params) });
+};
 
-  handleTransposeClick(event) {
-    // TODO: Update history with new transposeAmount
-    this.props.transpose(event.target.textContent === this.increase);
-  }
+class UnstyledColumnCountSelector extends React.Component {
+  state = {
+    anchorEl: undefined,
+  };
 
-  handleColumnClick(event) {
-    // TODO: Update history with new columnCount
-    this.props.updateColumnCount(event.target.textContent === this.increase);
-  }
+  handleToggle = (event) => {
+    this.setState({
+      anchorEl: !this.state.anchorEl ? event.currentTarget : undefined,
+    });
+  };
 
-  handleFontClick(event) {
-    // TODO: Update history with new fontSize
-    this.props.updateFontSize(event.target.textContent === this.increase);
-  }
+  handleClickAway = (event) => {
+    if (this.state.anchorEl.contains(event.target)) {
+      return;
+    }
+
+    this.setState({ anchorEl: undefined });
+  };
 
   render() {
-    const { transposeAmount, columnCount, fontSize, classes } = this.props;
+    const params = queryString.parse(this.props.location.search);
+    const columnCount = params[COLUMN_COUNT_QUERY_KEY] || '1';
+    const { classes } = this.props;
+    const { anchorEl } = this.state;
 
     return (
-      <Toolbar>
-        <Grid container direction='row' justify='center' alignItems='center' spacing={16}>
-          {[{ name: 'Transpose', clickCallback: this.handleTransposeClick, value: transposeAmount },
-            { name: 'Column Count', clickCallback: this.handleColumnClick, value: columnCount },
-            { name: 'Font Size', clickCallback: this.handleFontClick, value: fontSize }]
-            .map(({ name, clickCallback, value }) => (
-              <React.Fragment key={name}>
-                <Grid item>
-                  <Badge color='primary' badgeContent={value}>
-                    <Typography variant='body1' className={classes.padding}>{name}</Typography>
-                  </Badge>
-                </Grid>
-                <Grid item>
-                  <Button onClick={clickCallback}>
-                    <Typography variant='body2'>{this.decrease}</Typography>
-                  </Button>
-                </Grid>
-                <Grid item>
-                  <Button onClick={clickCallback}>
-                    <Typography variant='body2'>{this.increase}</Typography>
-                  </Button>
-                </Grid>
-              </React.Fragment>
-            ))}
-          <Grid item>
-            <YouTubeToggle youTubeId={this.props.youTubeId} />
-          </Grid>
-        </Grid>
-      </Toolbar>
+      <>
+        <IconButton onClick={this.handleToggle}>
+          <Badge badgeContent={columnCount === '1' ? '' : columnCount} color="secondary">
+            <ViewColumn />
+          </Badge>
+        </IconButton>
+
+        <Popper className={classes.popper} open={!!anchorEl} anchorEl={anchorEl}>
+          <ClickAwayListener onClickAway={this.handleClickAway}>
+            <ToggleButtonGroup value={columnCount} exclusive
+              onChange={(event, value) => handleUpdateQuery(this.props, COLUMN_COUNT_QUERY_KEY, value, '1')}>
+              {['1', '2', '3', '4', '5', '6', '7', '8'].map((columnCount) => (
+                <ToggleButton value={columnCount} key={columnCount}>
+                  {columnCount}
+                </ToggleButton>
+              ))}
+            </ToggleButtonGroup>
+          </ClickAwayListener>
+        </Popper>
+      </>
+    );
+  }
+};
+
+const ColumnCountSelector = withStyles(styles, { withTheme: true })(UnstyledColumnCountSelector);
+
+class UnstyledTransposeSelector extends React.Component {
+  state = {
+    anchorEl: undefined,
+  }
+
+  handleToggle = (event) => {
+    this.setState({
+      anchorEl: !this.state.anchorEl ? event.currentTarget : undefined,
+    });
+  };
+
+  handleClickAway = (event) => {
+    if (this.state.anchorEl.contains(event.target)) {
+      return;
+    }
+
+    this.setState({ anchorEl: undefined });
+  };
+
+  render() {
+    const params = queryString.parse(this.props.location.search);
+    const transpose = params[TRANSPOSE_QUERY_KEY] || '0';
+    const { classes } = this.props;
+    const { anchorEl } = this.state;
+
+    return (
+      <>
+        <IconButton onClick={this.handleToggle}>
+          <Badge badgeContent={transpose === '0' ? '' : transpose} color="secondary">
+            <LowPriorityIcon />
+          </Badge>
+        </IconButton>
+        <Popper className={classes.popper} open={!!anchorEl} anchorEl={anchorEl}>
+          <ClickAwayListener onClickAway={this.handleClickAway}>
+            <Paper className={classes.paper}>
+              <Slider
+                className={classes.slider}
+                value={Number(transpose)}
+                min={-12}
+                max={12}
+                step={1}
+                onChange={(event, value) => handleUpdateQuery(this.props, TRANSPOSE_QUERY_KEY, String(value), '0')} />
+            </Paper>
+          </ClickAwayListener>
+        </Popper>
+      </>
     );
   }
 }
 
+const TransposeSelector = withStyles(styles, { withTheme: true })(UnstyledTransposeSelector);
+
+const MusicToolbar = (props) => (
+  <>
+    <YouTubeToggle youTubeId={props.youTubeId} />
+    <TransposeSelector {...props} />
+    <ColumnCountSelector {...props} />
+  </>
+);
+
+
 function mapStateToProps(state) {
-  const { youtubeId, transposeAmount, columnCount, fontSize } = state;
-  return { youtubeId, transposeAmount, columnCount, fontSize };
+  const { youtubeId } = state;
+  return { youtubeId };
 }
 
-export default connect(
-  mapStateToProps,
-  { transpose, updateColumnCount, updateFontSize })(withStyles(styles)(MusicToolbar));
+export default connect(mapStateToProps)(withStyles(styles)(MusicToolbar));

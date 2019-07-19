@@ -1,4 +1,8 @@
-import { GITHUB_API_URL, GITHUB_TOKEN_LOCAL_STORAGE_KEY, REPOS_LOCAL_STORAGE_KEY } from './constants';
+import { LOCAL_STORAGE_NAMESPACE } from './constants';
+
+const GITHUB_TOKEN_LOCAL_STORAGE_KEY = `${LOCAL_STORAGE_NAMESPACE}:github_token`;
+const REPOS_LOCAL_STORAGE_KEY = `${LOCAL_STORAGE_NAMESPACE}:repositories`;
+const GITHUB_API_URL = 'https://api.github.com';
 
 /**
  * Returns a Promise of the contents of a file or directory in a GitHub repository.
