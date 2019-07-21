@@ -16,6 +16,8 @@ import SearchIcon from '@material-ui/icons/Search';
 import SettingsIcon from '@material-ui/icons/Settings';
 import Switch from '@material-ui/core/Switch';
 import Toolbar from '@material-ui/core/Toolbar';
+import Tooltip from '@material-ui/core/Tooltip';
+import ViewListIcon from '@material-ui/icons/ViewList';
 import { connect } from 'react-redux';
 import { setDarkTheme } from '../redux/actions';
 import withStyles from '@material-ui/core/styles/withStyles';
@@ -33,16 +35,28 @@ const styles = (theme) => ({
   },
 });
 
+const BrowseButton = ({ match }) => (
+  <Tooltip title="Song List View">
+    <IconButton component={Link} to={`/repos/${match.params.repo}/browser/${match.params.branch}/`}>
+      <ViewListIcon />
+    </IconButton>
+  </Tooltip>
+);
+
 const EditButton = ({ match }) => (
-  <IconButton component={Link} to={`/repos/${match.params.repo}/editor/${match.params.branch}/${match.params.path}`}>
-    <EditIcon />
-  </IconButton>
+  <Tooltip title="Edit Song">
+    <IconButton component={Link} to={`/repos/${match.params.repo}/editor/${match.params.branch}/${match.params.path}`}>
+      <EditIcon />
+    </IconButton>
+  </Tooltip>
 );
 
 const ViewButton = ({ match }) => (
-  <IconButton component={Link} to={`/repos/${match.params.repo}/viewer/${match.params.branch}/${match.params.path}`}>
-    <ExitToAppIcon />
-  </IconButton>
+  <Tooltip title="Markdown View">
+    <IconButton component={Link} to={`/repos/${match.params.repo}/viewer/${match.params.branch}/${match.params.path}`}>
+      <ExitToAppIcon />
+    </IconButton>
+  </Tooltip>
 );
 
 // TODO: Placeholder for search functionality
@@ -88,6 +102,7 @@ class MusicMarkdownNavbar extends React.Component {
 
           <Route path={`${REPO_REGEX}/:mode/:branch/:path*`} component={SearchToolbar} />
           <Route path={['/sandbox', `${REPO_REGEX}/:mode(viewer|editor)/:branch/:path*`]} component={MusicToolbar} />
+          <Route path={`${REPO_REGEX}/:mode(viewer|editor)/:branch/:path*`} component={BrowseButton} />
           <Route path={`${REPO_REGEX}/viewer/:branch/:path*`} component={EditButton} />
           <Route path={`${REPO_REGEX}/editor/:branch/:path*`} component={ViewButton} />
 

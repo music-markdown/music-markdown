@@ -9,6 +9,7 @@ import React from 'react';
 import Slider from '@material-ui/lab/Slider';
 import ToggleButton from '@material-ui/lab/ToggleButton';
 import ToggleButtonGroup from '@material-ui/lab/ToggleButtonGroup';
+import Tooltip from '@material-ui/core/Tooltip';
 import ViewColumn from '@material-ui/icons/ViewColumn';
 import { YouTubeToggle } from './YouTube';
 import { connect } from 'react-redux';
@@ -64,11 +65,13 @@ class UnstyledColumnCountSelector extends React.Component {
 
     return (
       <>
-        <IconButton onClick={this.handleToggle}>
-          <Badge badgeContent={columnCount === '1' ? '' : columnCount} color="secondary">
-            <ViewColumn />
-          </Badge>
-        </IconButton>
+        <Tooltip title="Set Number of Columns">
+          <IconButton onClick={this.handleToggle}>
+            <Badge badgeContent={columnCount === '1' ? '' : columnCount} color="secondary">
+              <ViewColumn />
+            </Badge>
+          </IconButton>
+        </Tooltip>
 
         <Popper className={classes.popper} open={!!anchorEl} anchorEl={anchorEl}>
           <ClickAwayListener onClickAway={this.handleClickAway}>
@@ -116,11 +119,14 @@ class UnstyledTransposeSelector extends React.Component {
 
     return (
       <>
-        <IconButton onClick={this.handleToggle}>
-          <Badge badgeContent={transpose === '0' ? '' : transpose} color="secondary">
-            <LowPriorityIcon />
-          </Badge>
-        </IconButton>
+        <Tooltip title="Transpose Up / Down">
+          <IconButton onClick={this.handleToggle}>
+            <Badge badgeContent={transpose === '0' ? '' : transpose} color="secondary">
+              <LowPriorityIcon />
+            </Badge>
+          </IconButton>
+        </Tooltip>
+
         <Popper className={classes.popper} open={!!anchorEl} anchorEl={anchorEl}>
           <ClickAwayListener onClickAway={this.handleClickAway}>
             <Paper className={classes.paper}>
