@@ -42,11 +42,6 @@ const styles = (theme) => ({
   fab: {
     margin: theme.spacing.unit,
   },
-  filename: {
-    flexGrow: 1,
-    marginLeft: theme.spacing.unit,
-    marginRight: theme.spacing.unit,
-  },
   toolbar: {
     display: 'flex',
     padding: theme.spacing.unit,
