@@ -12,7 +12,7 @@ const COLUMN_GAP = 20;
 
 const styles = (theme) => ({
   markdownBody: {
-    filter: 'invert(100%)'
+    filter: theme.palette.type === 'dark' ? 'invert(100%)' : '',
   },
   columns: {
     columnGap: `${COLUMN_GAP}px`,
@@ -78,11 +78,10 @@ class MusicMarkdownRender extends React.Component {
   }
 
   render = () => {
-    const { classes, theme } = this.props;
+    const { classes } = this.props;
     return (
       <>
-        <div dangerouslySetInnerHTML={{ __html: this.state.html }}
-          className={`${theme.palette.type === 'dark' ? classes.markdownBody : ''}`}/>
+        <div className={classes.markdownBody} dangerouslySetInnerHTML={{ __html: this.state.html }}/>
         <ErrorSnackbar
           message={this.state.message}
           open={this.state.error}

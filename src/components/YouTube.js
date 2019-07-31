@@ -3,6 +3,7 @@ import IconButton from '@material-ui/core/IconButton';
 import PlayArrowIcon from '@material-ui/icons/PlayArrow';
 import Popper from '@material-ui/core/Popper';
 import React from 'react';
+import { Tooltip } from '@material-ui/core';
 import { connect } from 'react-redux';
 
 const YouTubePlayer = ({ youTubeId }) => (
@@ -43,11 +44,14 @@ class YouTubeToggle extends React.Component {
 
     return (
       <>
-        <IconButton onClick={this.handleToggle} buttonRef={(node) => {
-          this.anchorEl = node;
-        }}>
-          <PlayArrowIcon />
-        </IconButton>
+        <Tooltip title="Play YouTube Video">
+          <IconButton onClick={this.handleToggle} buttonRef={(node) => {
+            this.anchorEl = node;
+          }}>
+            <PlayArrowIcon />
+          </IconButton>
+        </Tooltip>
+
         <Popper
           id='youtube-player'
           open={!!this.state.anchorEl}

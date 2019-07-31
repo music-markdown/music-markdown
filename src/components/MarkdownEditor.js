@@ -13,6 +13,7 @@ import Paper from '@material-ui/core/Paper';
 import PhotoFilterIcon from '@material-ui/icons/PhotoFilter';
 import React from 'react';
 import SaveIcon from '@material-ui/icons/Save';
+import Tooltip from '@material-ui/core/Tooltip';
 import asciiTabConvert from '../tools/asciitab';
 import classNames from 'classnames';
 import green from '@material-ui/core/colors/green';
@@ -41,11 +42,6 @@ const styles = (theme) => ({
   },
   fab: {
     margin: theme.spacing.unit,
-  },
-  filename: {
-    flexGrow: 1,
-    marginLeft: theme.spacing.unit,
-    marginRight: theme.spacing.unit,
   },
   toolbar: {
     display: 'flex',
@@ -141,16 +137,22 @@ class MarkdownEditor extends React.Component {
           <Grid container spacing={8}>
             <Grid item xs={12}>
               <Paper className={classes.toolbar}>
-                <Fab disabled={!isDirty} className={`${buttonClassname} ${classes.fab}`} onClick={this.handleSave}>
-                  {success ? <CheckIcon /> : <SaveIcon />}
-                  {saving && <CircularProgress size={68} className={classes.fabProgress} />}
-                </Fab>
-                <Fab className={classes.fab} onClick={this.handleAutoFormat}>
-                  <PhotoFilterIcon />
-                </Fab>
-                <Fab component={Link} to={viewerLink} className={classes.fab}>
-                  <ExitToAppIcon />
-                </Fab>
+                <Tooltip title="Save">
+                  <Fab disabled={!isDirty} className={`${buttonClassname} ${classes.fab}`} onClick={this.handleSave}>
+                    {success ? <CheckIcon /> : <SaveIcon />}
+                    {saving && <CircularProgress size={68} className={classes.fabProgress} />}
+                  </Fab>
+                </Tooltip>
+                <Tooltip title="Auto Format">
+                  <Fab className={classes.fab} onClick={this.handleAutoFormat}>
+                    <PhotoFilterIcon />
+                  </Fab>
+                </Tooltip>
+                <Tooltip title="Return to Markdown View">
+                  <Fab component={Link} to={viewerLink} className={classes.fab}>
+                    <ExitToAppIcon />
+                  </Fab>
+                </Tooltip>
               </Paper>
             </Grid>
             <Grid item xs={6}>
