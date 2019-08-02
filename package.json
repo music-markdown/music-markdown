@@ -11,7 +11,7 @@
     "history": "^4.9.0",
     "jquery": "^3.4.1",
     "markdown-it": "^8.4.2",
-    "markdown-it-music": "~0.0.8",
+    "markdown-it-music": "~0.0.9",
     "node-sass": "^4.11.0",
     "normalize-url": "^4.2.0",
     "npm": "^6.10.1",
@@ -22,7 +22,7 @@
     "react-dom": "^16.8.5",
     "react-redux": "^6.0.1",
     "react-router-dom": "^5.0.0",
-    "react-scripts": "^2.1.8",
+    "react-scripts": "^3.0.1",
     "redux": "^4.0.1",
     "typescript": "^3.3.4000"
   },

@@ -2,7 +2,8 @@ const { isChord } = require('markdown-it-music/lib/chord');
 
 const State = {
   DEFAULT: 1,
-  VERSE: 2
+  VERSE: 2,
+  FENCE: 3
 };
 
 function getMaybeHeading(line) {
@@ -36,6 +37,12 @@ function asciiTabConvert(input) {
   const output = [];
 
   for (const line of lines) {
+    if (line.startsWith(':::')) {
+      state = State.FENCE;
+      output.push(line);
+      continue;
+    }
+
     if (state === State.DEFAULT) {
       const maybeHeading = getMaybeHeading(line);
       if (maybeHeading) {
@@ -78,6 +85,15 @@ function asciiTabConvert(input) {
 
       output.push(`l${voiceIndex}: ${line}`);
       voiceIndex += 1;
+      continue;
+    }
+
+    if (state === State.FENCE) {
+      if (line === ':::') {
+        state = State.DEFAULT;
+      }
+
+      output.push(line);
       continue;
     }
   }

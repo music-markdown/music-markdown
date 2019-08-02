@@ -36,6 +36,18 @@ describe('ASCII Tab Converter transforms', () => {
     expect(actual).toEqual(expected);
   });
 
+  test('fenced section is untouched', () => {
+    const expected = [
+      ':::abc',
+      '[header fake]',
+      'header fake 2:',
+      'some abc notation',
+      ':::'
+    ].join('\n');
+    const actual = asciiTabConvert(expected);
+    expect(actual).toEqual(expected);
+  });
+
   test('headers ending with :', () => {
     const actual = asciiTabConvert('Verse 1:');
     expect(actual).toEqual('## Verse 1');
