@@ -1,5 +1,5 @@
-import { LOCAL_STORAGE_NAMESPACE } from '../../lib/constants';
 import { SET_DARK_THEME } from '../actionTypes';
+import { WINDOW_STORAGE_NAMESPACE } from '../../lib/constants';
 
 const lightTheme = {
   typography: {
@@ -29,14 +29,14 @@ const darkTheme = {
   },
 };
 
-const initialTheme = (window.localStorage.getItem(`${LOCAL_STORAGE_NAMESPACE}:palette-type`) === 'dark'
+const initialTheme = (window.localStorage.getItem(`${WINDOW_STORAGE_NAMESPACE}:palette-type`) === 'dark'
   ? darkTheme : lightTheme);
 
 
 const theme = (state = initialTheme, action) => {
   switch (action.type) {
   case SET_DARK_THEME: {
-    window.localStorage.setItem(`${LOCAL_STORAGE_NAMESPACE}:palette-type`, action.payload.isDarkTheme
+    window.localStorage.setItem(`${WINDOW_STORAGE_NAMESPACE}:palette-type`, action.payload.isDarkTheme
       ? 'dark' : 'light');
     return action.payload.isDarkTheme ? darkTheme : lightTheme;
   }
