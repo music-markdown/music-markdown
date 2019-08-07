@@ -39,7 +39,7 @@ export async function putContents(repo, path, content, sha, branch) {
 }
 
 /**
- * Returns list of repos stored in localStoragee
+ * Returns list of repos stored in localStorage.
  * @return {Array} Array of JSON dictionaries of repos
  */
 export function getRepositories() {

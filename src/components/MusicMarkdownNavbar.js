@@ -46,7 +46,8 @@ const BrowseButton = ({ match }) => (
 
 const EditButton = ({ match }) => (
   <Tooltip title="Edit Song">
-    <IconButton component={Link} to={`/editor/${REPOS_RESOURCE}/${match.params.repo}/${match.params.branch}/${match.params.path}`}>
+    <IconButton component={Link}
+      to={`/editor/${REPOS_RESOURCE}/${match.params.repo}/${match.params.branch}/${match.params.path}`}>
       <EditIcon />
     </IconButton>
   </Tooltip>
@@ -54,7 +55,8 @@ const EditButton = ({ match }) => (
 
 const ViewButton = ({ match }) => (
   <Tooltip title="Markdown View">
-    <IconButton component={Link} to={`/viewer/${REPOS_RESOURCE}/${match.params.repo}/${match.params.branch}/${match.params.path}`}>
+    <IconButton component={Link}
+      to={`/viewer/${REPOS_RESOURCE}/${match.params.repo}/${match.params.branch}/${match.params.path}`}>
       <ExitToAppIcon />
     </IconButton>
   </Tooltip>
