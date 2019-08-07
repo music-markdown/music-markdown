@@ -1,5 +1,3 @@
-import { getContents, refreshIndexedContents } from '../lib/github';
-
 import AddNewFile from './AddNewFile';
 import Avatar from '@material-ui/core/Avatar';
 import DescriptionIcon from '@material-ui/icons/Description';
@@ -11,8 +9,8 @@ import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import ListItemText from '@material-ui/core/ListItemText';
-import { REPOS_RESOURCE } from '../lib/constants';
 import React from 'react';
+import { getContents } from '../lib/github';
 import withStyles from '@material-ui/core/styles/withStyles';
 
 const styles = () => ({
@@ -40,7 +38,6 @@ class RepositoryNavigation extends React.Component {
       isLoaded: true,
       contents
     });
-    await refreshIndexedContents();
   }
 
   /**
@@ -58,7 +55,6 @@ class RepositoryNavigation extends React.Component {
         isLoaded: true,
         contents
       });
-      await refreshIndexedContents();
     }
   }
 
@@ -102,8 +98,8 @@ class RepositoryNavigation extends React.Component {
                 <ListItem button component={Link}
                   key={`list-group-item-${item.name}`}
                   to={item.type === 'dir'
-                    ? `/${REPOS_RESOURCE}/${repo}/${branch}/${item.path}/browse`
-                    : `/${REPOS_RESOURCE}/${repo}/${branch}/${item.path}/view`}>
+                    ? `/repos/${repo}/browser/${branch}/${item.path}/`
+                    : `/repos/${repo}/viewer/${branch}/${item.path}`}>
                   <ListItemAvatar>
                     <Avatar>
                       {item.type === 'dir' ? <FolderIcon /> : <DescriptionIcon /> }

@@ -45,7 +45,7 @@ const BrowseButton = ({ match }) => (
 
 const EditButton = ({ match }) => (
   <Tooltip title="Edit Song">
-    <IconButton component={Link} to={`/repos/${match.params.repo}/${match.params.branch}/${match.params.path}/edit`}>
+    <IconButton component={Link} to={`/repos/${match.params.repo}/editor/${match.params.branch}/${match.params.path}`}>
       <EditIcon />
     </IconButton>
   </Tooltip>
@@ -53,7 +53,7 @@ const EditButton = ({ match }) => (
 
 const ViewButton = ({ match }) => (
   <Tooltip title="Markdown View">
-    <IconButton component={Link} to={`/repos/${match.params.repo}/${match.params.branch}/${match.params.path}/view`}>
+    <IconButton component={Link} to={`/repos/${match.params.repo}/viewer/${match.params.branch}/${match.params.path}`}>
       <ExitToAppIcon />
     </IconButton>
   </Tooltip>
@@ -61,11 +61,9 @@ const ViewButton = ({ match }) => (
 
 // TODO: Placeholder for search functionality
 const SearchToolbar = () => (
-  <Tooltip title="Song Search">
-    <IconButton>
-      <SearchIcon />
-    </IconButton>
-  </Tooltip>
+  <IconButton>
+    <SearchIcon />
+  </IconButton>
 );
 
 class MusicMarkdownNavbar extends React.Component {
@@ -102,16 +100,16 @@ class MusicMarkdownNavbar extends React.Component {
           </Button>
           <div className={classes.grow} />
 
-          <Route path={`${REPO_REGEX}`} component={SearchToolbar} />
+          <Route path={`${REPO_REGEX}/:mode/:branch/:path*`} component={SearchToolbar} />
           <Route path={['/sandbox', `${REPO_REGEX}/:mode(viewer|editor)/:branch/:path*`]} component={MusicToolbar} />
-          <Route path={`${REPO_REGEX}/:branch/:path*/:mode(view|edit)/`} component={BrowseButton} />
-          <Route path={`${REPO_REGEX}/:branch/:path*/view`} component={EditButton} />
-          <Route path={`${REPO_REGEX}/:branch/:path*/edit`} component={ViewButton} />
+          <Route path={`${REPO_REGEX}/:mode(viewer|editor)/:branch/:path*`} component={BrowseButton} />
+          <Route path={`${REPO_REGEX}/viewer/:branch/:path*`} component={EditButton} />
+          <Route path={`${REPO_REGEX}/editor/:branch/:path*`} component={ViewButton} />
 
           <IconButton onClick={this.handleSettingsClick} buttonRef={(node) => {
             this.settingsAnchorEl = node;
           }}>
-            <SettingsIcon />
+            <SettingsIcon/>
           </IconButton>
           <Popper
             id='settings-popper'
