@@ -1,4 +1,5 @@
 import { addRepository, deleteRepository, getRepositories } from '../lib/github';
+
 import AddRepository from './AddRepository';
 import Avatar from '@material-ui/core/Avatar';
 import Book from '@material-ui/icons/Book';
@@ -10,6 +11,7 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import ListItemText from '@material-ui/core/ListItemText';
+import { REPOS_RESOURCE } from '../lib/constants';
 import React from 'react';
 import withStyles from '@material-ui/core/styles/withStyles';
 
@@ -51,7 +53,7 @@ class ListRepositories extends React.Component {
       <div className={classes.root}>
         <List>
           {this.state.repos.map((repo) => (
-            <ListItem button key={`repo-item-${repo}`} component={Link} to={`/repos/${repo}/`}>
+            <ListItem button key={`repo-item-${repo}`} component={Link} to={`/${REPOS_RESOURCE}/${repo}/branches`}>
               <ListItemAvatar>
                 <Avatar>
                   <Book />
