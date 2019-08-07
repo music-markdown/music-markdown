@@ -7,6 +7,7 @@ import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import ListItemText from '@material-ui/core/ListItemText';
+import { REPOS_RESOURCE } from '../lib/constants';
 import React from 'react';
 import { getBranches } from '../lib/github';
 import withStyles from '@material-ui/core/styles/withStyles';
@@ -75,7 +76,7 @@ class BranchNavigation extends React.Component {
               branches.map((item) => (
                 <ListItem button component={Link}
                   key={`list-group-item-${item.name}`}
-                  to={`/repos/${match.params.repo}/browser/${item.name}/`}>
+                  to={`/${REPOS_RESOURCE}/${match.params.repo}/${item.name}/browse`}>
                   <ListItemAvatar>
                     <Avatar>
                       <CallSplit />

@@ -1,6 +1,8 @@
 import './App.scss';
+
 import { Provider, connect } from 'react-redux';
 import { Route, HashRouter as Router, Switch } from 'react-router-dom';
+
 import BranchNavigation from './BranchNavigation';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import MarkdownEditor from './MarkdownEditor';
@@ -40,10 +42,10 @@ const HomeRouter = () => (
       <>
         <Route component={MusicMarkdownNavbar} />
         <Switch>
-          <Route path={`${REPO_REGEX}/viewer/:branch/:path+`} component={MarkdownViewer} />
-          <Route path={`${REPO_REGEX}/browser/:branch/:path*`} component={RepositoryNavigation} />
-          <Route path={`${REPO_REGEX}/editor/:branch/:path*`} component={MarkdownEditor} />
-          <Route path={REPO_REGEX} component={BranchNavigation} />
+          <Route path={`/${REPO_REGEX}/:branch/:path+/view`} component={MarkdownViewer} />
+          <Route path={`/${REPO_REGEX}/:branch/:path*/browse`} component={RepositoryNavigation} />
+          <Route path={`/${REPO_REGEX}/:branch/:path*/edit`} component={MarkdownEditor} />
+          <Route path={`/${REPO_REGEX}/branches`} component={BranchNavigation} />
           <Route path='/sandbox' component={Sandbox} />
           <Route path='/' component={RepositoryEditor} />
         </Switch>

@@ -1,7 +1,8 @@
-import { LOCAL_STORAGE_NAMESPACE } from './constants';
+import { WINDOW_STORAGE_NAMESPACE } from './constants';
 
-const GITHUB_TOKEN_LOCAL_STORAGE_KEY = `${LOCAL_STORAGE_NAMESPACE}:github_token`;
-const REPOS_LOCAL_STORAGE_KEY = `${LOCAL_STORAGE_NAMESPACE}:repositories`;
+const GITHUB_TOKEN_LOCAL_STORAGE_KEY = `${WINDOW_STORAGE_NAMESPACE}:github_token`;
+const REPOS_LOCAL_STORAGE_KEY = `${WINDOW_STORAGE_NAMESPACE}:repositories`;
+const REPOS_CONTENTS_TREE_STORAGE_KEY = `${WINDOW_STORAGE_NAMESPACE}:indexed-contents`;
 const GITHUB_API_URL = 'https://api.github.com';
 
 /**
@@ -38,7 +39,7 @@ export async function putContents(repo, path, content, sha, branch) {
 }
 
 /**
- * Returns list of repos stored in localStorage.
+ * Returns list of repos stored in localStoragee
  * @return {Array} Array of JSON dictionaries of repos
  */
 export function getRepositories() {
@@ -117,4 +118,55 @@ export function getApiUrl(url, branch) {
   }
 
   return url;
+}
+
+/**
+ * Indexes all contents from stored repositories for searching
+ * TODO: Consider when a full refresh should be called. Currently, it's invoked when
+ * a repository is first accessed. However, there should be a manual trigger to allow
+ * a manual refresh of external repos.
+ */
+export async function refreshIndexedContents() {
+  const repos = await getRepositories();
+  let reposContents = [];
+  for (let i = 0; i < repos.length; i++) {
+    const repoContents = await getRepoContents(repos[i]);
+    reposContents = reposContents.concat(repoContents);
+  };
+  localStorage.setItem(REPOS_CONTENTS_TREE_STORAGE_KEY, reposContents);
+}
+
+/**
+ * Returns all file contents in a particular github repo for all branches
+ * @param {string} repo The owner and repo in the form :owner/:repo
+ * @return {string|Array} List of contents in a repo
+ */
+export async function getRepoContents(repo) {
+  let repoContents = [];
+  const branches = await getBranches(repo);
+  for (let i = 0; i < branches.length; i++) {
+    const branchContents = await getBranchContents(repo, '/', branches[i].name);
+    repoContents = repoContents.concat(branchContents);
+  };
+  return repoContents;
+}
+
+/**
+ * Returns all file contents from a repo's specific branch
+ * @param {string} repo The owner and repo in the form :owner/:repo
+ * @param {string} path Subdirectory in repo to traverse
+ * @param {string} branch Name of branch in repo to traverse
+ * @return {Array<string>} Array of file contents paths
+ */
+async function getBranchContents(repo, path, branch) {
+  let branchContents = [];
+  const contents = await getContents(repo, path, branch);
+  contents.forEach(async (item) => {
+    if (item.type === 'file') {
+      branchContents.push(`${repo}/${branch}/${item.path}`);
+    } else if (item.type === 'dir') {
+      branchContents = branchContents.concat(await getBranchContents(repo, item.path, branch));
+    }
+  });
+  return branchContents;
 }
