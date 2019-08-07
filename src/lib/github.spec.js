@@ -1,4 +1,12 @@
-import { addRepository, deleteRepository, getApiUrl, getRepositories } from './github';
+import { addRepository, deleteRepository, getApiUrl, getRepositories, refreshIndexedContents } from './github';
+import {
+  mockGetBranchesResponse,
+  mockMasterGetContentsResponse,
+  mockSubdirectoryTestResponse,
+  mockVinceTestGetContentsResponse
+} from './MockGithubResponses';
+
+import { WINDOW_STORAGE_NAMESPACE } from './constants';
 
 describe('GitHub API', () => {
   afterEach(() => {
@@ -40,6 +48,22 @@ describe('GitHub API', () => {
     expect(actualUrl.searchParams.get('access_token')).toEqual('music-markdown-github-token');
   });
 
-  // TODO: Write tests for getBranches
-  // TODO: Write tests for getContents
+  test('refreshIndexedContents returns correct contents', async () => {
+    fetch.mockResponses(
+      [JSON.stringify({})],
+      [JSON.stringify(mockGetBranchesResponse)],
+      [JSON.stringify(mockMasterGetContentsResponse)],
+      [JSON.stringify(mockVinceTestGetContentsResponse)],
+      [JSON.stringify(mockSubdirectoryTestResponse)]
+    );
+
+    await addRepository('music-markdown/almost-in-time');
+    await refreshIndexedContents();
+    const indexedContents = localStorage.getItem(`${WINDOW_STORAGE_NAMESPACE}:indexed-contents`);
+    const expectedArr = [];
+    expectedArr.push('music-markdown/almost-in-time/master/A Bar in Amsterdam - Katzenjammer.md');
+    expectedArr.push('music-markdown/almost-in-time/subdirectory-test/A Thousand Years - Christina Perri.md');
+    expectedArr.push('music-markdown/almost-in-time/vince-test/Always Remember Us This Way - Lady Gaga .md');
+    expect(indexedContents).toEqual(expectedArr.toString());
+  });
 });
