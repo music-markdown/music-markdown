@@ -106,10 +106,10 @@ class MusicMarkdownNavbar extends React.Component {
           <div className={classes.grow} />
 
           <Route path={`/`} component={SearchToolbar} />
-          <Route path={['/sandbox', `/:mode(viewer|editer)/${REPO_REGEX}/:branch/:path*`]} component={MusicToolbar} />
-          <Route path={`/:mode(viewer|editer)/${REPO_REGEX}/:branch/:path*`} component={BrowseButton} />
+          <Route path={['/sandbox', `/:mode(viewer|editor)/${REPO_REGEX}/:branch/:path*`]} component={MusicToolbar} />
+          <Route path={`/:mode(viewer|editor)/${REPO_REGEX}/:branch/:path*`} component={BrowseButton} />
           <Route path={`/viewer/${REPO_REGEX}/:branch/:path*`} component={EditButton} />
-          <Route path={`/editer/${REPO_REGEX}/:branch/:path*`} component={ViewButton} />
+          <Route path={`/editor/${REPO_REGEX}/:branch/:path*`} component={ViewButton} />
 
           <IconButton onClick={this.handleSettingsClick} buttonRef={(node) => {
             this.settingsAnchorEl = node;

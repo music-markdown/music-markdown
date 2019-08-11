@@ -45,7 +45,7 @@ const HomeRouter = () => (
           <Route path={`/viewer/${REPO_REGEX}/:branch/:path+`} component={MarkdownViewer} />
           <Route path={`/browser/${REPO_REGEX}/:branch/:path*`} component={RepositoryNavigation} />
           <Route path={`/editor/${REPO_REGEX}/:branch/:path*`} component={MarkdownEditor} />
-          <Route path={`/${REPO_REGEX}/branches`} component={BranchNavigation} />
+          <Route path={`/browser/${REPO_REGEX}`} component={BranchNavigation} />
           <Route path='/sandbox' component={Sandbox} />
           <Route path='/' component={RepositoryEditor} />
         </Switch>
