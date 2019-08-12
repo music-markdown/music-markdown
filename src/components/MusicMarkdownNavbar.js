@@ -38,7 +38,7 @@ const styles = (theme) => ({
 
 const BrowseButton = ({ match }) => (
   <Tooltip title="Song List View">
-    <IconButton component={Link} to={`/browser/${REPOS_RESOURCE}/${match.params.repo}/browser/${match.params.branch}`}>
+    <IconButton component={Link} to={`/browser/${REPOS_RESOURCE}/${match.params.repo}/${match.params.branch}`}>
       <ViewListIcon />
     </IconButton>
   </Tooltip>
