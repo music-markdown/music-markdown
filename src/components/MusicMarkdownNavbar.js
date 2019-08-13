@@ -1,5 +1,3 @@
-import { REPOS_RESOURCE, REPO_REGEX } from '../lib/constants';
-
 import AppBar from '@material-ui/core/AppBar';
 import Button from '@material-ui/core/Button';
 import ClickAwayListener from '@material-ui/core/ClickAwayListener';
@@ -11,6 +9,7 @@ import { Link } from 'react-router-dom';
 import MusicToolbar from './MusicToolbar';
 import Paper from '@material-ui/core/Paper';
 import Popper from '@material-ui/core/Popper';
+import { REPO_REGEX } from '../lib/constants';
 import React from 'react';
 import { Route } from 'react-router-dom';
 import SearchIcon from '@material-ui/icons/Search';
@@ -38,7 +37,7 @@ const styles = (theme) => ({
 
 const BrowseButton = ({ match }) => (
   <Tooltip title="Song List View">
-    <IconButton component={Link} to={`/browser/${REPOS_RESOURCE}/${match.params.repo}/${match.params.branch}`}>
+    <IconButton component={Link} to={`/browser/repos/${match.params.repo}/${match.params.branch}`}>
       <ViewListIcon />
     </IconButton>
   </Tooltip>
@@ -47,7 +46,7 @@ const BrowseButton = ({ match }) => (
 const EditButton = ({ match }) => (
   <Tooltip title="Edit Song">
     <IconButton component={Link}
-      to={`/editor/${REPOS_RESOURCE}/${match.params.repo}/${match.params.branch}/${match.params.path}`}>
+      to={`/editor/repos/${match.params.repo}/${match.params.branch}/${match.params.path}`}>
       <EditIcon />
     </IconButton>
   </Tooltip>
@@ -56,7 +55,7 @@ const EditButton = ({ match }) => (
 const ViewButton = ({ match }) => (
   <Tooltip title="Markdown View">
     <IconButton component={Link}
-      to={`/viewer/${REPOS_RESOURCE}/${match.params.repo}/${match.params.branch}/${match.params.path}`}>
+      to={`/viewer/repos/${match.params.repo}/${match.params.branch}/${match.params.path}`}>
       <ExitToAppIcon />
     </IconButton>
   </Tooltip>

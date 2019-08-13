@@ -11,7 +11,6 @@ import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import ListItemText from '@material-ui/core/ListItemText';
-import { REPOS_RESOURCE } from '../lib/constants';
 import React from 'react';
 import withStyles from '@material-ui/core/styles/withStyles';
 
@@ -102,8 +101,8 @@ class RepositoryNavigation extends React.Component {
                 <ListItem button component={Link}
                   key={`list-group-item-${item.name}`}
                   to={item.type === 'dir'
-                    ? `/browser/${REPOS_RESOURCE}/${repo}/${branch}/${item.path}`
-                    : `/viewer/${REPOS_RESOURCE}/${repo}/${branch}/${item.path}`}>
+                    ? `/browser/repos/${repo}/${branch}/${item.path}`
+                    : `/viewer/repos/${repo}/${branch}/${item.path}`}>
                   <ListItemAvatar>
                     <Avatar>
                       {item.type === 'dir' ? <FolderIcon /> : <DescriptionIcon /> }
