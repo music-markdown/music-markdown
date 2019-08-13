@@ -15,11 +15,11 @@ const styles = (theme) => ({
     padding: 8,
   },
   chordSourcePaper: {
-    margin: theme.spacing.unit,
-    padding: theme.spacing.unit * 2,
+    margin: theme.spacing(1),
+    padding: theme.spacing(2),
   },
   chordCategoryPaper: {
-    margin: theme.spacing.unit,
+    margin: theme.spacing(1),
     textAlign: 'center',
   },
   chordCategoryTypography: {
@@ -28,7 +28,7 @@ const styles = (theme) => ({
   },
   chordVariantPaper: {
     display: 'inline-block',
-    margin: theme.spacing.unit,
+    margin: theme.spacing(1),
     textAlign: 'center',
   },
   chordVariantTypography: {

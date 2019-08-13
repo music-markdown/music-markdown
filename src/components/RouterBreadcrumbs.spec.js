@@ -34,7 +34,7 @@ describe('<RouterBreadcrumbs />', () => {
       </MuiThemeProvider>
     ));
 
-    const breadcrumbs = wrapper.dive().dive();
+    const breadcrumbs = wrapper.find(RouterBreadcrumbs).dive().dive();
 
     const breadcrumbPath = breadcrumbs.find(Link)
       .map((node) => node.children().text());
@@ -54,7 +54,7 @@ describe('<RouterBreadcrumbs />', () => {
       </MuiThemeProvider>
     ));
 
-    const breadcrumbs = wrapper.dive().dive();
+    const breadcrumbs = wrapper.find(RouterBreadcrumbs).dive().dive();
 
     const breadcrumbPath = breadcrumbs.find(Link)
       .map((node) => node.children().text());
@@ -74,7 +74,7 @@ describe('<RouterBreadcrumbs />', () => {
       </MuiThemeProvider>
     ));
 
-    const breadcrumbs = wrapper.dive().dive();
+    const breadcrumbs = wrapper.find(RouterBreadcrumbs).dive().dive();
 
     const breadcrumbPath = breadcrumbs.find(Link)
       .map((node) => node.children().text());

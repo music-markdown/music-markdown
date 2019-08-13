@@ -35,20 +35,20 @@ const styles = (theme) => ({
     zIndex: 1,
   },
   editor: {
-    marginLeft: theme.spacing.unit,
-    marginRight: theme.spacing.unit,
+    marginLeft: theme.spacing(1),
+    marginRight: theme.spacing(1),
     height: '100%',
     width: '100%',
   },
   fab: {
-    margin: theme.spacing.unit,
+    margin: theme.spacing(1),
   },
   toolbar: {
     display: 'flex',
-    padding: theme.spacing.unit,
+    padding: theme.spacing(1),
   },
   paper: {
-    padding: theme.spacing.unit * 2,
+    padding: theme.spacing(2),
     height: '100%',
   },
   buttonSuccess: {
@@ -134,7 +134,7 @@ class MarkdownEditor extends React.Component {
       <>
         <DirectoryBreadcrumbs pathname={this.props.location.pathname} />
         <div className={classes.root}>
-          <Grid container spacing={8}>
+          <Grid container spacing={1}>
             <Grid item xs={12}>
               <Paper className={classes.toolbar}>
                 <Tooltip title="Save">

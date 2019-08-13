@@ -1,4 +1,4 @@
-import Breadcrumbs from '@material-ui/lab/Breadcrumbs';
+import Breadcrumbs from '@material-ui/core/Breadcrumbs';
 import Link from '@material-ui/core/Link';
 import Paper from '@material-ui/core/Paper';
 import React from 'react';
@@ -8,7 +8,7 @@ import withStyles from '@material-ui/core/styles/withStyles';
 
 const styles = (theme) => ({
   paper: {
-    padding: `${theme.spacing.unit}px`,
+    padding: `${theme.spacing(1)}px`,
   },
   reactRouterHoverInherit: theme.reactRouterHoverInherit
 });
