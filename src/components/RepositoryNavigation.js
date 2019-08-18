@@ -22,7 +22,7 @@ const styles = () => ({
 });
 
 /**
- * A React component for rendering repository items when navigating the /repos resource
+ * A React component for rendering repository items when navigating repositories
  */
 class RepositoryNavigation extends React.Component {
   state = {
@@ -101,8 +101,8 @@ class RepositoryNavigation extends React.Component {
                 <ListItem button component={Link}
                   key={`list-group-item-${item.name}`}
                   to={item.type === 'dir'
-                    ? `/browser/repos/${repo}/${branch}/${item.path}`
-                    : `/viewer/repos/${repo}/${branch}/${item.path}`}>
+                    ? `/browser/${repo}/${branch}/${item.path}`
+                    : `/viewer/${repo}/${branch}/${item.path}`}>
                   <ListItemAvatar>
                     <Avatar>
                       {item.type === 'dir' ? <FolderIcon /> : <DescriptionIcon /> }

@@ -91,7 +91,7 @@ class AddNewFile extends React.Component {
     const { repo, branch } = this.props.match.params;
 
     if (toEditor) {
-      return <Redirect to={`/repos/${repo}/editor/${branch}/${this.getNewFilePath()}`} />;
+      return <Redirect to={`/editor/${repo}/${branch}/${this.getNewFilePath()}`} />;
     }
 
     return (

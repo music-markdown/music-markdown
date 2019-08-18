@@ -7,7 +7,6 @@ import RouterBreadcrumbs from './RouterBreadcrumbs';
 import Typography from '@material-ui/core/Typography';
 import { shallow as mount } from 'enzyme';
 
-
 Enzyme.configure({ adapter: new Adapter() });
 
 // style must provide styles used by component
@@ -30,7 +29,7 @@ describe('<RouterBreadcrumbs />', () => {
   it('should parse a path name into breadcrumb items', () => {
     const wrapper = mount((
       <MuiThemeProvider theme={style}>
-        <RouterBreadcrumbs pathname={'/repos/owner/repo/browser/master/path'} />
+        <RouterBreadcrumbs pathname={'/browser/owner/repo/master/path'} />
       </MuiThemeProvider>
     ));
 
@@ -39,7 +38,7 @@ describe('<RouterBreadcrumbs />', () => {
     const breadcrumbPath = breadcrumbs.find(Link)
       .map((node) => node.children().text());
 
-    expect(breadcrumbPath.join('/')).toEqual('Home/owner/repo/master');
+    expect(breadcrumbPath.join('/')).toEqual('browser/owner/repo/master');
 
     const finalItem = breadcrumbs.find(Typography)
       .map((node) => node.children().text());
@@ -50,7 +49,7 @@ describe('<RouterBreadcrumbs />', () => {
   it('should parse breadcrumbs even if path contains viewName', () => {
     const wrapper = mount((
       <MuiThemeProvider theme={style}>
-        <RouterBreadcrumbs pathname={'/repos/owner/repo/browser/master/browser/viewer/editor'} />
+        <RouterBreadcrumbs pathname={'/browser/owner/repo/master/viewer/editor'} />
       </MuiThemeProvider>
     ));
 
@@ -59,7 +58,7 @@ describe('<RouterBreadcrumbs />', () => {
     const breadcrumbPath = breadcrumbs.find(Link)
       .map((node) => node.children().text());
 
-    expect(breadcrumbPath.join('/')).toEqual('Home/owner/repo/master/browser/viewer');
+    expect(breadcrumbPath.join('/')).toEqual('browser/owner/repo/master/viewer');
 
     const finalItem = breadcrumbs.find(Typography)
       .map((node) => node.children().text());
@@ -70,7 +69,7 @@ describe('<RouterBreadcrumbs />', () => {
   it('should parse breadcrumbs even if there are multiple /', () => {
     const wrapper = mount((
       <MuiThemeProvider theme={style}>
-        <RouterBreadcrumbs pathname={'/repos//owner/repo//browser/master/path///'} />
+        <RouterBreadcrumbs pathname={'/browser//owner/repo//master/path///'} />
       </MuiThemeProvider>
     ));
 
@@ -79,7 +78,7 @@ describe('<RouterBreadcrumbs />', () => {
     const breadcrumbPath = breadcrumbs.find(Link)
       .map((node) => node.children().text());
 
-    expect(breadcrumbPath.join('/')).toEqual('Home/owner/repo/master');
+    expect(breadcrumbPath.join('/')).toEqual('browser/owner/repo/master');
 
     const finalItem = breadcrumbs.find(Typography)
       .map((node) => node.children().text());

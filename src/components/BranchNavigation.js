@@ -19,7 +19,7 @@ const styles = () => ({
 });
 
 /**
- * A React component for rendering repository items when navigating the /repos resource
+ * A React component for rendering repository items when navigating repositories
  */
 class BranchNavigation extends React.Component {
   constructor(props) {
@@ -75,7 +75,7 @@ class BranchNavigation extends React.Component {
               branches.map((item) => (
                 <ListItem button component={Link}
                   key={`list-group-item-${item.name}`}
-                  to={`/browser/repos/${match.params.repo}/${item.name}`}>
+                  to={`/browser/${match.params.repo}/${item.name}`}>
                   <ListItemAvatar>
                     <Avatar>
                       <CallSplit />

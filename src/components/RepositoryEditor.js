@@ -52,7 +52,7 @@ class ListRepositories extends React.Component {
       <div className={classes.root}>
         <List>
           {this.state.repos.map((repo) => (
-            <ListItem button key={`repo-item-${repo}`} component={Link} to={`/browser/repos/${repo}`}>
+            <ListItem button key={`repo-item-${repo}`} component={Link} to={`/browser/${repo}`}>
               <ListItemAvatar>
                 <Avatar>
                   <Book />
