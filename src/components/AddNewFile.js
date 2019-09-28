@@ -51,7 +51,7 @@ class AddNewFile extends React.Component {
   handleAddNewFile = async () => {
     const { repo, branch } = this.props.match.params;
     const path = this.getNewFilePath();
-    const content = btoa(this.getTemplateContents());
+    const content = this.getTemplateContents();
 
     const response = await putContents(repo, path, content, undefined, branch);
 
