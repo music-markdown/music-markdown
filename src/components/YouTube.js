@@ -1,31 +1,49 @@
+import { Paper, Tooltip } from '@material-ui/core';
+import Draggable from 'react-draggable';
 import IconButton from '@material-ui/core/IconButton';
 import PlayArrowIcon from '@material-ui/icons/PlayArrow';
-import Popper from '@material-ui/core/Popper';
 import React from 'react';
-import { Tooltip } from '@material-ui/core';
 import { connect } from 'react-redux';
+import withStyles from '@material-ui/core/styles/withStyles';
 
-const YouTubePlayer = ({ youTubeId }) => (
-  <div className="embed-responsive embed-responsive-16by9">
-    <iframe
-      title={youTubeId}
-      className='embed-responsive-item'
-      src={`https://www.youtube.com/embed/${youTubeId}`}
-      allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
-      allowFullScreen>
-    </iframe>
-  </div>
+const styles = (theme) => ({
+  paper: {
+    position: 'fixed',
+    bottom: theme.spacing(1),
+    right: theme.spacing(1),
+    padding: theme.spacing(2),
+    cursor: 'move',
+  },
+});
+
+const UnstyledYouTubePlayer = ({ classes, youTubeId, visible }) => (
+  <Draggable>
+    <Paper className={classes.paper} style={{ display: visible ? 'block': 'none' }}>
+      <iframe
+        title={youTubeId}
+        style={{ border: 0 }}
+        src={`https://www.youtube.com/embed/${youTubeId}`}
+        allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+        allowFullScreen>
+      </iframe>
+    </Paper>
+  </Draggable>
 );
 
+const YouTubePlayer = withStyles(styles, { withTheme: true })(UnstyledYouTubePlayer);
+
 class YouTubeToggle extends React.Component {
-  state = {
-    anchorEl: undefined,
+  constructor(props) {
+    super(props);
+    this.state = {
+      visible: !props.youTubeId,
+    };
   }
 
   handleToggle = (event) => {
-    this.setState({
-      anchorEl: !this.state.anchorEl ? event.currentTarget : undefined,
-    });
+    this.setState((state) => ({
+      visible: !state.visible,
+    }));
   };
 
   render() {
@@ -35,21 +53,13 @@ class YouTubeToggle extends React.Component {
 
     return (
       <>
-        <Tooltip title="Play YouTube Video">
-          <IconButton onClick={this.handleToggle} buttonRef={(node) => {
-            this.anchorEl = node;
-          }}>
+        <Tooltip title="Show / Hide YouTube Player">
+          <IconButton color={this.state.visible ? 'secondary' : 'default'} onClick={this.handleToggle}>
             <PlayArrowIcon />
           </IconButton>
         </Tooltip>
 
-        <Popper
-          id='youtube-player'
-          open={!!this.state.anchorEl}
-          anchorEl={this.state.anchorEl}
-          placement='top'>
-          <YouTubePlayer youTubeId={this.props.youTubeId} />
-        </Popper>
+        <YouTubePlayer youTubeId={this.props.youTubeId} visible={this.state.visible} />
       </>
     );
   }
