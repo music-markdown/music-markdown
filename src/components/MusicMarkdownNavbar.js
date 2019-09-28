@@ -25,7 +25,7 @@ import withStyles from '@material-ui/core/styles/withStyles';
 const styles = (theme) => ({
   reactRouterHoverInherit: theme.reactRouterHoverInherit,
   paper: {
-    padding: `${theme.spacing.unit}px`,
+    padding: `${theme.spacing(1)}px`,
   },
   grow: {
     flexGrow: 1

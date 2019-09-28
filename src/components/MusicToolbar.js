@@ -6,7 +6,7 @@ import LowPriorityIcon from '@material-ui/icons/LowPriority';
 import Paper from '@material-ui/core/Paper';
 import Popper from '@material-ui/core/Popper';
 import React from 'react';
-import Slider from '@material-ui/lab/Slider';
+import Slider from '@material-ui/core/Slider';
 import ToggleButton from '@material-ui/lab/ToggleButton';
 import ToggleButtonGroup from '@material-ui/lab/ToggleButtonGroup';
 import Tooltip from '@material-ui/core/Tooltip';
@@ -21,10 +21,10 @@ const styles = (theme) => ({
     zIndex: 9999
   },
   paper: {
-    padding: theme.spacing.unit * 2,
+    padding: theme.spacing(2),
   },
   slider: {
-    width: 150
+    width: 300
   },
 });
 
@@ -67,7 +67,7 @@ class UnstyledColumnCountSelector extends React.Component {
       <>
         <Tooltip title="Set Number of Columns">
           <IconButton onClick={this.handleToggle}>
-            <Badge badgeContent={columnCount === '1' ? '' : columnCount} color="secondary">
+            <Badge badgeContent={columnCount} invisible={columnCount === '1'} color="secondary">
               <ViewColumn />
             </Badge>
           </IconButton>
@@ -121,7 +121,7 @@ class UnstyledTransposeSelector extends React.Component {
       <>
         <Tooltip title="Transpose Up / Down">
           <IconButton onClick={this.handleToggle}>
-            <Badge badgeContent={transpose === '0' ? '' : transpose} color="secondary">
+            <Badge badgeContent={transpose} invisible={transpose === '0'} color="secondary">
               <LowPriorityIcon />
             </Badge>
           </IconButton>
@@ -136,6 +136,7 @@ class UnstyledTransposeSelector extends React.Component {
                 min={-12}
                 max={12}
                 step={1}
+                marks={true}
                 onChange={(event, value) => handleUpdateQuery(this.props, TRANSPOSE_QUERY_KEY, String(value), '0')} />
             </Paper>
           </ClickAwayListener>

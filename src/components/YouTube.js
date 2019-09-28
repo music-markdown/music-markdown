@@ -1,4 +1,3 @@
-import ClickAwayListener from '@material-ui/core/ClickAwayListener';
 import IconButton from '@material-ui/core/IconButton';
 import PlayArrowIcon from '@material-ui/icons/PlayArrow';
 import Popper from '@material-ui/core/Popper';
@@ -29,14 +28,6 @@ class YouTubeToggle extends React.Component {
     });
   };
 
-  handleClickAway = (event) => {
-    if (this.state.anchorEl.contains(event.target)) {
-      return;
-    }
-
-    this.setState({ anchorEl: undefined });
-  };
-
   render() {
     if (!this.props.youTubeId) {
       return null;
@@ -57,9 +48,7 @@ class YouTubeToggle extends React.Component {
           open={!!this.state.anchorEl}
           anchorEl={this.state.anchorEl}
           placement='top'>
-          <ClickAwayListener onClickAway={this.handleClickAway}>
-            <YouTubePlayer youTubeId={this.props.youTubeId} />
-          </ClickAwayListener>
+          <YouTubePlayer youTubeId={this.props.youTubeId} />
         </Popper>
       </>
     );
