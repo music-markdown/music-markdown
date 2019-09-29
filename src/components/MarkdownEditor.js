@@ -79,8 +79,8 @@ class MarkdownEditor extends React.Component {
 
       const { repo, path, branch } = this.props.match.params;
       const { markdown, sha } = this.state;
-      const contents = btoa(markdown);
-      const response = await putContents(repo, path, contents, sha, branch);
+      const content = markdown;
+      const response = await putContents(repo, path, content, sha, branch);
       const json = await response.json();
 
       if (response.status === 200) {
@@ -107,7 +107,7 @@ class MarkdownEditor extends React.Component {
     const json = await getContents(repo, path, branch);
     this.setState({
       isLoaded: true,
-      markdown: json.content ? atob(json.content) : '',
+      markdown: json.content,
       sha: json.sha
     });
   }

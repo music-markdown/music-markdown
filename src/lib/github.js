@@ -1,3 +1,4 @@
+import { Base64 } from 'js-base64';
 import { WINDOW_STORAGE_NAMESPACE } from './constants';
 
 const GITHUB_TOKEN_LOCAL_STORAGE_KEY = `${WINDOW_STORAGE_NAMESPACE}:github_token`;
@@ -19,7 +20,9 @@ export async function getContents(repo, path, branch) {
   }
   const apiUrl = getApiUrl(`/repos/${repo}/contents/${path}`, branch);
   const response = await fetch(apiUrl, { cache: 'no-cache' });
-  return response.json();
+  const json = await response.json();
+  json.content = json.content ? Base64.decode(json.content) : '';
+  return json;
 }
 
 export async function putContents(repo, path, content, sha, branch) {
@@ -27,7 +30,7 @@ export async function putContents(repo, path, content, sha, branch) {
 
   const body = {
     message: `Music Markdown published ${path}`,
-    content: content,
+    content: Base64.encode(content),
     branch
   };
 
