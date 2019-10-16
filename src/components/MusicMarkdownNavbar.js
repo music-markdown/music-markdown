@@ -4,6 +4,7 @@ import ClickAwayListener from '@material-ui/core/ClickAwayListener';
 import EditIcon from '@material-ui/icons/Edit';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
+import { GlobalStateContext } from './GlobalState';
 import IconButton from '@material-ui/core/IconButton';
 import { Link } from 'react-router-dom';
 import MusicToolbar from './MusicToolbar';
@@ -18,8 +19,6 @@ import Switch from '@material-ui/core/Switch';
 import Toolbar from '@material-ui/core/Toolbar';
 import Tooltip from '@material-ui/core/Tooltip';
 import ViewListIcon from '@material-ui/icons/ViewList';
-import { connect } from 'react-redux';
-import { setDarkTheme } from '../redux/actions';
 import withStyles from '@material-ui/core/styles/withStyles';
 
 const styles = (theme) => ({
@@ -31,7 +30,7 @@ const styles = (theme) => ({
     flexGrow: 1
   },
   filter: {
-    filter: 'invert(100%)'
+    filter: theme.palette.type === 'dark' ? 'invert(100%)' : '',
   },
 });
 
@@ -67,12 +66,13 @@ const SearchToolbar = () => (
 );
 
 class MusicMarkdownNavbar extends React.Component {
+  static contextType = GlobalStateContext;
+
   constructor(props) {
     super(props);
 
     this.state = {
       settingsOpen: false,
-      isDarkTheme: props.theme.palette.type === 'dark'
     };
 
     this.settingsAnchorEl = undefined;
@@ -83,19 +83,18 @@ class MusicMarkdownNavbar extends React.Component {
   }
 
   handleDarkThemeSwitch = () => {
-    this.props.setDarkTheme(!this.state.isDarkTheme);
-    this.setState({ isDarkTheme: !this.state.isDarkTheme });
+    this.context.toggleTheme();
   }
 
   render() {
-    const { settingsOpen, isDarkTheme } = this.state;
+    const { settingsOpen } = this.state;
     const { classes } = this.props;
 
     return (
       <AppBar position={'sticky'} key='top-navbar'>
         <Toolbar>
           <Button className={classes.reactRouterHoverInherit} component={Link} to='/'>
-            <img className={isDarkTheme ? classes.filter : ''}
+            <img className={classes.filter}
               src="music-markdown.svg" width={50} alt="Music Markdown" />
           </Button>
           <div className={classes.grow} />
@@ -121,7 +120,7 @@ class MusicMarkdownNavbar extends React.Component {
                 <FormControlLabel
                   control={
                     <Switch
-                      defaultChecked={isDarkTheme}
+                      defaultChecked={this.context.isDarkTheme()}
                       onChange={this.handleDarkThemeSwitch}
                       value='darkTheme' />
                   }
@@ -136,4 +135,4 @@ class MusicMarkdownNavbar extends React.Component {
   }
 };
 
-export default connect(undefined, { setDarkTheme })(withStyles(styles, { withTheme: true })(MusicMarkdownNavbar));
+export default withStyles(styles, { withTheme: true })(MusicMarkdownNavbar);

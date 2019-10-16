@@ -1,19 +1,18 @@
 import { YouTubePlayer, YouTubeToggle } from './YouTube';
-import { Provider } from 'react-redux';
+import { GlobalStateProvider } from './GlobalState';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import store from '../redux/store';
 
 describe('YouTubePlayer', () => {
   it('renders without youTubeId', () => {
     const div = document.createElement('div');
-    ReactDOM.render(<Provider store={store}><YouTubePlayer /></Provider>, div);
+    ReactDOM.render(<GlobalStateProvider><YouTubePlayer /></GlobalStateProvider>, div);
     ReactDOM.unmountComponentAtNode(div);
   });
 
   it('renders with youTubeId', () => {
     const div = document.createElement('div');
-    ReactDOM.render(<Provider store={store}><YouTubePlayer youTubeId='abcd' /></Provider>, div);
+    ReactDOM.render(<GlobalStateProvider><YouTubePlayer youTubeId='abcd' /></GlobalStateProvider>, div);
     ReactDOM.unmountComponentAtNode(div);
   });
 });
@@ -21,13 +20,13 @@ describe('YouTubePlayer', () => {
 describe('YouTubeToggle', () => {
   it('renders without youTubeId', () => {
     const div = document.createElement('div');
-    ReactDOM.render(<Provider store={store}><YouTubeToggle /></Provider>, div);
+    ReactDOM.render(<GlobalStateProvider><YouTubeToggle /></GlobalStateProvider>, div);
     ReactDOM.unmountComponentAtNode(div);
   });
 
   it('renders with youTubeId', () => {
     const div = document.createElement('div');
-    ReactDOM.render(<Provider store={store}><YouTubeToggle youTubeId='abcd' /></Provider>, div);
+    ReactDOM.render(<GlobalStateProvider><YouTubeToggle youTubeId='abcd' /></GlobalStateProvider>, div);
     ReactDOM.unmountComponentAtNode(div);
   });
 });

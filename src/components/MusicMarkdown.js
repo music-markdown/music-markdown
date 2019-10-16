@@ -1,12 +1,10 @@
 import ContainerDimensions from 'react-container-dimensions';
 import ErrorSnackbar from './ErrorSnackbar';
+import { GlobalStateContext } from './GlobalState';
 import MarkdownIt from 'markdown-it';
 import MarkdownItMusic from 'markdown-it-music';
 import React from 'react';
-import { connect } from 'react-redux';
-import { updateYouTubeId } from '../redux/actions';
 import withStyles from '@material-ui/core/styles/withStyles';
-
 
 const COLUMN_GAP = 20;
 
@@ -23,6 +21,8 @@ const styles = (theme) => ({
 });
 
 class MusicMarkdownRender extends React.Component {
+  static contextType = GlobalStateContext;
+
   constructor(props) {
     super(props);
 
@@ -51,7 +51,7 @@ class MusicMarkdownRender extends React.Component {
 
     try {
       this.setState({ html: this.md.render(source), error: false });
-      this.props.updateYouTubeId(this.md.meta.youTubeId);
+      this.context.setYouTubeId(this.md.meta.youTubeId);
     } catch (err) {
       console.log(err);
       this.setState({ html: `<pre>${source}</pre>`, message: err.message, error: true });
@@ -64,8 +64,8 @@ class MusicMarkdownRender extends React.Component {
 
   componentDidUpdate = (prevProps) => {
     const { source, width, columnCount, transposeAmount } = this.props;
-    if (prevProps.source === source && prevProps.width === width && prevProps.columnCount === columnCount
-        && prevProps.transposeAmount === transposeAmount) {
+    if (prevProps.source === source && prevProps.width === width && prevProps.columnCount === columnCount &&
+      prevProps.transposeAmount === transposeAmount) {
       return;
     }
 
@@ -99,7 +99,6 @@ const ContainerizedMusicMarkdown = (props) => (
   </div>
 );
 
-const MusicMarkdown =
-  connect(undefined, { updateYouTubeId })(withStyles(styles, { withTheme: true })(ContainerizedMusicMarkdown));
+const MusicMarkdown = withStyles(styles, { withTheme: true })(ContainerizedMusicMarkdown);
 
 export default MusicMarkdown;

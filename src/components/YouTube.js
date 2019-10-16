@@ -1,9 +1,9 @@
 import { Paper, Tooltip } from '@material-ui/core';
 import Draggable from 'react-draggable';
+import { GlobalStateContext } from './GlobalState';
 import IconButton from '@material-ui/core/IconButton';
 import PlayArrowIcon from '@material-ui/icons/PlayArrow';
 import React from 'react';
-import { connect } from 'react-redux';
 import withStyles from '@material-ui/core/styles/withStyles';
 
 const styles = (theme) => ({
@@ -16,9 +16,9 @@ const styles = (theme) => ({
   },
 });
 
-const UnstyledYouTubePlayer = ({ classes, youTubeId, visible }) => (
+const UnstyledYouTubePlayer = ({ classes, youTubeId }) => (
   <Draggable>
-    <Paper className={classes.paper} style={{ display: visible ? 'block': 'none' }}>
+    <Paper className={classes.paper}>
       <iframe
         title={youTubeId}
         style={{ border: 0 }}
@@ -33,12 +33,18 @@ const UnstyledYouTubePlayer = ({ classes, youTubeId, visible }) => (
 const YouTubePlayer = withStyles(styles, { withTheme: true })(UnstyledYouTubePlayer);
 
 class YouTubeToggle extends React.Component {
+  static contextType = GlobalStateContext;
+
   constructor(props) {
     super(props);
     this.state = {
-      visible: !props.youTubeId,
+      visible: false,
     };
   }
+
+  componentDidMount = () => {
+    this.setState({ visible: !this.context.data.youTubeId });
+  };
 
   handleToggle = (event) => {
     this.setState((state) => ({
@@ -47,7 +53,7 @@ class YouTubeToggle extends React.Component {
   };
 
   render() {
-    if (!this.props.youTubeId) {
+    if (!this.context.data.youTubeId) {
       return null;
     }
 
@@ -58,16 +64,13 @@ class YouTubeToggle extends React.Component {
             <PlayArrowIcon />
           </IconButton>
         </Tooltip>
-
-        <YouTubePlayer youTubeId={this.props.youTubeId} visible={this.state.visible} />
+        {this.state.visible ? <YouTubePlayer youTubeId={this.context.data.youTubeId} /> : ''}
       </>
     );
   }
 }
 
-const ConnectedYouTubeToggle = connect((state) => ({ youTubeId: state.youTubeId }))(YouTubeToggle);
-
 export {
   YouTubePlayer,
-  ConnectedYouTubeToggle as YouTubeToggle
+  YouTubeToggle,
 };

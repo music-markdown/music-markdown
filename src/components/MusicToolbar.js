@@ -12,7 +12,6 @@ import ToggleButtonGroup from '@material-ui/lab/ToggleButtonGroup';
 import Tooltip from '@material-ui/core/Tooltip';
 import ViewColumn from '@material-ui/icons/ViewColumn';
 import { YouTubeToggle } from './YouTube';
-import { connect } from 'react-redux';
 import queryString from 'query-string';
 import withStyles from '@material-ui/core/styles/withStyles';
 
@@ -156,10 +155,4 @@ const MusicToolbar = (props) => (
   </>
 );
 
-
-function mapStateToProps(state) {
-  const { youtubeId } = state;
-  return { youtubeId };
-}
-
-export default connect(mapStateToProps)(withStyles(styles)(MusicToolbar));
+export default withStyles(styles)(MusicToolbar);

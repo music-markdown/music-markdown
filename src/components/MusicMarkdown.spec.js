@@ -1,14 +1,13 @@
+import { GlobalStateProvider } from './GlobalState';
 import MusicMarkdown from './MusicMarkdown';
-import { Provider } from 'react-redux';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import store from '../redux/store';
 
 describe('MusicMarkdown', () => {
   it('renders without crashing', () => {
     ReactDOM.render(
-      <Provider store={store}>
+      <GlobalStateProvider>
         <MusicMarkdown source='' />
-      </Provider>, document.createElement('div'));
+      </GlobalStateProvider>, document.createElement('div'));
   });
 });

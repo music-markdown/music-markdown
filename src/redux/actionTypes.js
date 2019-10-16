@@ -1,2 +1,0 @@
-export const UPDATE_YOUTUBE_ID = 'UPDATE_YOUTUBE_ID';
-export const SET_DARK_THEME = 'SET_DARK_THEME';

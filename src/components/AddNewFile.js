@@ -122,9 +122,9 @@ class AddNewFile extends React.Component {
                 onChange={(e) => this.handleUpdateFileName(e)}
                 fullWidth
                 error={!this.isValidFileName()}
-                helperText={!this.isValidFileName()
-                  ? 'Invalid file name'
-                  : <>{repo}/{branch}/{this.getNewFilePath()}</>}
+                helperText={!this.isValidFileName() ?
+                  'Invalid file name' :
+                  <>{repo}/{branch}/{this.getNewFilePath()}</>}
                 InputProps={{
                   endAdornment: <InputAdornment position="end">.md</InputAdornment>
                 }}
