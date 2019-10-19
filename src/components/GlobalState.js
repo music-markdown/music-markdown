@@ -52,7 +52,9 @@ export const GlobalStateProvider = (props) => {
         setState({ ...state, theme });
       },
       setYouTubeId: (youTubeId) => {
-        setState({ ...state, youTubeId });
+        if (youTubeId !== state.youTubeId) {
+          setState({ ...state, youTubeId });
+        }
       },
     }}>
       {props.children}

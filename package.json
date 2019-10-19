@@ -11,7 +11,7 @@
     "jquery": "^3.4.1",
     "js-base64": "^2.5.1",
     "markdown-it": "^10.0.0",
-    "markdown-it-music": "~0.0.9",
+    "markdown-it-music": "~0.0.10",
     "node-sass": "^4.12.0",
     "query-string": "^6.8.3",
     "react": "^16.10.1",
