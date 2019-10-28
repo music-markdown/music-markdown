@@ -1,41 +1,47 @@
-import CloseIcon from '@material-ui/icons/Close';
-import ErrorIcon from '@material-ui/icons/Error';
-import IconButton from '@material-ui/core/IconButton';
-import React from 'react';
-import Snackbar from '@material-ui/core/Snackbar';
-import SnackbarContent from '@material-ui/core/SnackbarContent';
-import classNames from 'classnames';
-import { withStyles } from '@material-ui/core/styles';
+import CloseIcon from "@material-ui/icons/Close";
+import ErrorIcon from "@material-ui/icons/Error";
+import IconButton from "@material-ui/core/IconButton";
+import React from "react";
+import Snackbar from "@material-ui/core/Snackbar";
+import SnackbarContent from "@material-ui/core/SnackbarContent";
+import classNames from "classnames";
+import { withStyles } from "@material-ui/core/styles";
 
-const styles = (theme) => ({
+const styles = theme => ({
   error: {
-    backgroundColor: theme.palette.error.dark,
+    backgroundColor: theme.palette.error.dark
   },
   icon: {
-    fontSize: 20,
+    fontSize: 20
   },
   iconVariant: {
     opacity: 0.9,
-    marginRight: theme.spacing(1),
+    marginRight: theme.spacing(1)
   },
   message: {
-    display: 'flex',
-    alignItems: 'center',
+    display: "flex",
+    alignItems: "center"
   },
   margin: {
-    margin: theme.spacing(1),
-  },
+    margin: theme.spacing(1)
+  }
 });
 
 const ErrorSnackbar = ({ open, handleClose, classes, message }) => (
-  <Snackbar anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
-    open={open} autoHideDuration={6000} onClose={handleClose}>
+  <Snackbar
+    anchorOrigin={{ vertical: "top", horizontal: "center" }}
+    open={open}
+    autoHideDuration={6000}
+    onClose={handleClose}
+  >
     <SnackbarContent
       className={classes.error}
       aria-describedby="client-snackbar"
       message={
         <span id="client-snackbar" className={classes.message}>
-          <ErrorIcon className={classNames(classes.icon, classes.iconVariant)} />
+          <ErrorIcon
+            className={classNames(classes.icon, classes.iconVariant)}
+          />
           {message}
         </span>
       }
@@ -48,7 +54,7 @@ const ErrorSnackbar = ({ open, handleClose, classes, message }) => (
           onClick={handleClose}
         >
           <CloseIcon className={classes.icon} />
-        </IconButton>,
+        </IconButton>
       ]}
     />
   </Snackbar>

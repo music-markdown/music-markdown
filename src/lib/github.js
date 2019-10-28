@@ -1,9 +1,9 @@
-import { Base64 } from 'js-base64';
-import { LOCAL_STORAGE_NAMESPACE } from './constants';
+import { Base64 } from "js-base64";
+import { LOCAL_STORAGE_NAMESPACE } from "./constants";
 
 const GITHUB_TOKEN_LOCAL_STORAGE_KEY = `${LOCAL_STORAGE_NAMESPACE}:github_token`;
 const REPOS_LOCAL_STORAGE_KEY = `${LOCAL_STORAGE_NAMESPACE}:repositories`;
-const GITHUB_API_URL = 'https://api.github.com';
+const GITHUB_API_URL = "https://api.github.com";
 
 /**
  * Returns a Promise of the contents of a file or directory in a GitHub repository.
@@ -15,12 +15,12 @@ const GITHUB_API_URL = 'https://api.github.com';
  */
 export async function getContents(repo, path, branch) {
   if (path === undefined || path.length === 0) {
-    path = '';
+    path = "";
   }
   const apiUrl = getApiUrl(`/repos/${repo}/contents/${path}`, branch);
-  const response = await fetch(apiUrl, { cache: 'no-cache' });
+  const response = await fetch(apiUrl, { cache: "no-cache" });
   const json = await response.json();
-  json.content = json.content ? Base64.decode(json.content) : '';
+  json.content = json.content ? Base64.decode(json.content) : "";
   return json;
 }
 
@@ -37,7 +37,11 @@ export async function putContents(repo, path, content, sha, branch) {
     body.sha = sha;
   }
 
-  return fetch(apiUrl, { method: 'PUT', mode: 'cors', body: JSON.stringify(body) });
+  return fetch(apiUrl, {
+    method: "PUT",
+    mode: "cors",
+    body: JSON.stringify(body)
+  });
 }
 
 /**
@@ -96,7 +100,7 @@ export async function getBranches(repo) {
  * @param {string} repo The owner and repo in the form :owner/:repo
  */
 export function deleteRepository(repo) {
-  const repos = getRepositories().filter((r) => r !== repo);
+  const repos = getRepositories().filter(r => r !== repo);
   localStorage.setItem(REPOS_LOCAL_STORAGE_KEY, JSON.stringify(repos));
 }
 
@@ -112,11 +116,11 @@ export function getApiUrl(url, branch) {
 
   const githubToken = localStorage.getItem(GITHUB_TOKEN_LOCAL_STORAGE_KEY);
   if (githubToken) {
-    url.searchParams.set('access_token', githubToken);
+    url.searchParams.set("access_token", githubToken);
   }
 
   if (branch) {
-    url.searchParams.set('ref', branch);
+    url.searchParams.set("ref", branch);
   }
 
   return url;

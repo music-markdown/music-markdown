@@ -1,19 +1,19 @@
-import { COLUMN_COUNT_QUERY_KEY, TRANSPOSE_QUERY_KEY } from '../lib/constants';
-import LinearProgress from '@material-ui/core/LinearProgress';
-import MusicMarkdown from './MusicMarkdown';
-import React from 'react';
-import { getContents } from '../lib/github';
-import queryString from 'query-string';
-import withStyles from '@material-ui/core/styles/withStyles';
+import { COLUMN_COUNT_QUERY_KEY, TRANSPOSE_QUERY_KEY } from "../lib/constants";
+import LinearProgress from "@material-ui/core/LinearProgress";
+import MusicMarkdown from "./MusicMarkdown";
+import React from "react";
+import { getContents } from "../lib/github";
+import queryString from "query-string";
+import withStyles from "@material-ui/core/styles/withStyles";
 
-const styles = (theme) => ({
+const styles = theme => ({
   root: {
     flexGrow: 1,
-    padding: 8,
+    padding: 8
   },
   paper: {
-    padding: theme.spacing(2),
-  },
+    padding: theme.spacing(2)
+  }
 });
 
 class MarkdownViewer extends React.Component {
@@ -24,7 +24,7 @@ class MarkdownViewer extends React.Component {
 
     this.state = {
       isLoaded: false,
-      markdown: null,
+      markdown: null
     };
   }
 
@@ -43,18 +43,20 @@ class MarkdownViewer extends React.Component {
     const { classes, location } = this.props;
 
     const params = queryString.parse(location.search);
-    const columnCount = params[COLUMN_COUNT_QUERY_KEY] || '1';
+    const columnCount = params[COLUMN_COUNT_QUERY_KEY] || "1";
     const transposeAmount = Number(params[TRANSPOSE_QUERY_KEY]) || 0;
 
     if (!isLoaded) {
-      return (
-        <LinearProgress />
-      );
+      return <LinearProgress />;
     }
 
     return (
       <div className={classes.root}>
-        <MusicMarkdown source={markdown} columnCount={columnCount} transposeAmount={transposeAmount} />
+        <MusicMarkdown
+          source={markdown}
+          columnCount={columnCount}
+          transposeAmount={transposeAmount}
+        />
       </div>
     );
   }

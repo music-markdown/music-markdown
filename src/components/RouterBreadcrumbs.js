@@ -1,14 +1,14 @@
-import Breadcrumbs from '@material-ui/core/Breadcrumbs';
-import Link from '@material-ui/core/Link';
-import Paper from '@material-ui/core/Paper';
-import React from 'react';
-import { Link as RouterLink } from 'react-router-dom';
-import Typography from '@material-ui/core/Typography';
-import withStyles from '@material-ui/core/styles/withStyles';
+import Breadcrumbs from "@material-ui/core/Breadcrumbs";
+import Link from "@material-ui/core/Link";
+import Paper from "@material-ui/core/Paper";
+import React from "react";
+import { Link as RouterLink } from "react-router-dom";
+import Typography from "@material-ui/core/Typography";
+import withStyles from "@material-ui/core/styles/withStyles";
 
-const styles = (theme) => ({
+const styles = theme => ({
   paper: {
-    padding: `${theme.spacing(1)}px`,
+    padding: `${theme.spacing(1)}px`
   },
   reactRouterHoverInherit: theme.reactRouterHoverInherit
 });
@@ -18,13 +18,16 @@ function buildBreadcrumb(previousPath, classes) {
 
   // ignoreIndex matches the Route defined in App.js.
   // Certain portions are not useful to user in the breadcrumb, so we remove them.
-  const ignoreIndex = [0/* /repos */, 3/* /:viewName(browser|viewer|editor) */];
-  const keyBase = 'breadcrumb-item-';
+  const ignoreIndex = [
+    0 /* /repos */,
+    3 /* /:viewName(browser|viewer|editor) */
+  ];
+  const keyBase = "breadcrumb-item-";
 
-  let currDir = '';
+  let currDir = "";
   for (let i = 0; i < previousPath.length; i++) {
     const directory = previousPath[i];
-    currDir = currDir.concat('/', directory);
+    currDir = currDir.concat("/", directory);
 
     if (ignoreIndex.indexOf(i) !== -1) {
       continue;
@@ -43,13 +46,14 @@ function buildBreadcrumb(previousPath, classes) {
           component={RouterLink}
           to={`${currDir}/`}
           key={`${keyBase}${i}`}
-          color='inherit'
-          className={classes.reactRouterHoverInherit}>
+          color="inherit"
+          className={classes.reactRouterHoverInherit}
+        >
           {directory}
         </Link>
       );
     }
-  };
+  }
 
   return breadcrumbItems;
 }
@@ -60,10 +64,10 @@ function buildBreadcrumb(previousPath, classes) {
  * @return {Array} List of BreadcrumbItems
  */
 const DirectoryBreadcrumbs = ({ pathname, classes }) => {
-  const keyBase = 'breadcrumb-item-';
+  const keyBase = "breadcrumb-item-";
 
-  const subDirectoriesArr = pathname.split('/').filter((value) => !!value);
-  subDirectoriesArr[3] = 'browser';
+  const subDirectoriesArr = pathname.split("/").filter(value => !!value);
+  subDirectoriesArr[3] = "browser";
 
   const breadcrumbItems = buildBreadcrumb(subDirectoriesArr, classes);
 
@@ -74,8 +78,9 @@ const DirectoryBreadcrumbs = ({ pathname, classes }) => {
           component={RouterLink}
           to={`/`}
           key={`${keyBase}Home`}
-          color='inherit'
-          className={classes.reactRouterHoverInherit}>
+          color="inherit"
+          className={classes.reactRouterHoverInherit}
+        >
           Home
         </Link>
         {breadcrumbItems}

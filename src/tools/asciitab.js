@@ -1,4 +1,4 @@
-const { isChord } = require('markdown-it-music/lib/chord');
+const { isChord } = require("markdown-it-music/lib/chord");
 
 const State = {
   DEFAULT: 1,
@@ -7,11 +7,11 @@ const State = {
 };
 
 function getMaybeHeading(line) {
-  if (line.endsWith(':')) {
+  if (line.endsWith(":")) {
     return `## ${line.slice(0, -1)}`;
   }
 
-  if (line.startsWith('[') && line.endsWith(']')) {
+  if (line.startsWith("[") && line.endsWith("]")) {
     return `## ${line.slice(1, -1)}`;
   }
 
@@ -37,7 +37,7 @@ function asciiTabConvert(input) {
   const output = [];
 
   for (const line of lines) {
-    if (line.startsWith(':::')) {
+    if (line.startsWith(":::")) {
       state = State.FENCE;
       output.push(line);
       continue;
@@ -66,20 +66,20 @@ function asciiTabConvert(input) {
       const maybeHeading = getMaybeHeading(line);
       if (maybeHeading) {
         state = State.DEFAULT;
-        output.push('');
+        output.push("");
         output.push(maybeHeading);
         continue;
       }
 
       const maybeChords = getMaybeChords(line);
       if (maybeChords) {
-        output.push('');
+        output.push("");
         output.push(maybeChords);
         voiceIndex = 1;
         continue;
       }
 
-      if (line.trim() === '') {
+      if (line.trim() === "") {
         continue;
       }
 
@@ -89,7 +89,7 @@ function asciiTabConvert(input) {
     }
 
     if (state === State.FENCE) {
-      if (line === ':::') {
+      if (line === ":::") {
         state = State.DEFAULT;
       }
 
@@ -98,7 +98,7 @@ function asciiTabConvert(input) {
     }
   }
 
-  return output.join('\n');
+  return output.join("\n");
 }
 
 async function read(stream) {
@@ -106,14 +106,14 @@ async function read(stream) {
   for await (const chunk of stream) {
     buffer = Buffer.concat([buffer, chunk]);
   }
-  return buffer.toString('utf8');
+  return buffer.toString("utf8");
 }
 
 async function main() {
   console.log(asciiTabConvert(await read(process.stdin)));
 }
 
-if (typeof require !== 'undefined' && require.main === module) {
+if (typeof require !== "undefined" && require.main === module) {
   main();
 }
 

@@ -1,21 +1,21 @@
-import Avatar from '@material-ui/core/Avatar';
-import CallSplit from '@material-ui/icons/CallSplit';
-import DirectoryBreadcrumbs from './RouterBreadcrumbs';
-import LinearProgress from '@material-ui/core/LinearProgress';
-import { Link } from 'react-router-dom';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemAvatar from '@material-ui/core/ListItemAvatar';
-import ListItemText from '@material-ui/core/ListItemText';
-import React from 'react';
-import { getBranches } from '../lib/github';
-import withStyles from '@material-ui/core/styles/withStyles';
+import Avatar from "@material-ui/core/Avatar";
+import CallSplit from "@material-ui/icons/CallSplit";
+import DirectoryBreadcrumbs from "./RouterBreadcrumbs";
+import LinearProgress from "@material-ui/core/LinearProgress";
+import { Link } from "react-router-dom";
+import List from "@material-ui/core/List";
+import ListItem from "@material-ui/core/ListItem";
+import ListItemAvatar from "@material-ui/core/ListItemAvatar";
+import ListItemText from "@material-ui/core/ListItemText";
+import React from "react";
+import { getBranches } from "../lib/github";
+import withStyles from "@material-ui/core/styles/withStyles";
 
 const styles = () => ({
   root: {
     flexGrow: 1,
-    padding: 8,
-  },
+    padding: 8
+  }
 });
 
 /**
@@ -61,9 +61,7 @@ class BranchNavigation extends React.Component {
     const { classes, location, match } = this.props;
 
     if (!isLoaded) {
-      return (
-        <LinearProgress />
-      );
+      return <LinearProgress />;
     }
 
     return (
@@ -71,20 +69,21 @@ class BranchNavigation extends React.Component {
         <DirectoryBreadcrumbs pathname={location.pathname} />
         <div className={classes.root}>
           <List>
-            {
-              branches.map((item) => (
-                <ListItem button component={Link}
-                  key={`list-group-item-${item.name}`}
-                  to={`/repos/${match.params.repo}/browser/${item.name}/`}>
-                  <ListItemAvatar>
-                    <Avatar>
-                      <CallSplit />
-                    </Avatar>
-                  </ListItemAvatar>
-                  <ListItemText primary={item.name}></ListItemText>
-                </ListItem>
-              ))
-            }
+            {branches.map(item => (
+              <ListItem
+                button
+                component={Link}
+                key={`list-group-item-${item.name}`}
+                to={`/repos/${match.params.repo}/browser/${item.name}/`}
+              >
+                <ListItemAvatar>
+                  <Avatar>
+                    <CallSplit />
+                  </Avatar>
+                </ListItemAvatar>
+                <ListItemText primary={item.name}></ListItemText>
+              </ListItem>
+            ))}
           </List>
         </div>
       </>

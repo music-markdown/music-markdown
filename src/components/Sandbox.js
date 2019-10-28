@@ -1,109 +1,193 @@
-import { COLUMN_COUNT_QUERY_KEY, TRANSPOSE_QUERY_KEY } from '../lib/constants';
-import { Link, Route } from 'react-router-dom';
-import MusicMarkdown from './MusicMarkdown';
-import Paper from '@material-ui/core/Paper';
-import React from 'react';
-import Typography from '@material-ui/core/Typography';
-import { guitarChordbook } from 'markdown-it-music/lib/chordbook';
-import queryString from 'query-string';
-import { renderChordDiagram } from 'markdown-it-music/renderers/chord_diagram';
-import withStyles from '@material-ui/core/styles/withStyles';
+import { COLUMN_COUNT_QUERY_KEY, TRANSPOSE_QUERY_KEY } from "../lib/constants";
+import { Link, Route } from "react-router-dom";
+import MusicMarkdown from "./MusicMarkdown";
+import Paper from "@material-ui/core/Paper";
+import React from "react";
+import Typography from "@material-ui/core/Typography";
+import { guitarChordbook } from "markdown-it-music/lib/chordbook";
+import queryString from "query-string";
+import { renderChordDiagram } from "markdown-it-music/renderers/chord_diagram";
+import withStyles from "@material-ui/core/styles/withStyles";
 
-const styles = (theme) => ({
+const styles = theme => ({
   root: {
     flexGrow: 1,
-    padding: 8,
+    padding: 8
   },
   chordSourcePaper: {
     margin: theme.spacing(1),
-    padding: theme.spacing(2),
+    padding: theme.spacing(2)
   },
   chordCategoryPaper: {
     margin: theme.spacing(1),
-    textAlign: 'center',
+    textAlign: "center"
   },
   chordCategoryTypography: {
     color: theme.palette.text.primary,
-    textAlign: 'center',
+    textAlign: "center"
   },
   chordVariantPaper: {
-    display: 'inline-block',
+    display: "inline-block",
     margin: theme.spacing(1),
-    textAlign: 'center',
+    textAlign: "center"
   },
   chordVariantTypography: {
-    color: theme.palette.text.secondary,
+    color: theme.palette.text.secondary
   },
   chordDiagram: {
-    filter: theme.palette.type === 'dark' ? 'invert(100%)' : '',
+    filter: theme.palette.type === "dark" ? "invert(100%)" : ""
   }
 });
 
 const Sandbox = ({ classes, location, match }) => (
   <div className={classes.root}>
-    <Typography variant='h2'>Sandbox</Typography>
+    <Typography variant="h2">Sandbox</Typography>
 
     <ul>
-      <li><Link to={`${match.url}/all-features-in-one-place`}>All the Features in One Place</Link></li>
-      <li><Link to={`${match.url}/guitar-chordbook`}>Guitar Chordbook</Link></li>
+      <li>
+        <Link to={`${match.url}/all-features-in-one-place`}>
+          All the Features in One Place
+        </Link>
+      </li>
+      <li>
+        <Link to={`${match.url}/guitar-chordbook`}>Guitar Chordbook</Link>
+      </li>
     </ul>
 
-    <Route path={`${match.path}/all-features-in-one-place`}
-      component={() => <MarkdownViewer location={location} source={allFeaturesSource} />} />
-    <Route path={`${match.path}/guitar-chordbook`} component={AllGuitarChords} />
+    <Route
+      path={`${match.path}/all-features-in-one-place`}
+      component={() => (
+        <MarkdownViewer location={location} source={allFeaturesSource} />
+      )}
+    />
+    <Route
+      path={`${match.path}/guitar-chordbook`}
+      component={AllGuitarChords}
+    />
   </div>
 );
 
 const MarkdownViewer = ({ source, location }) => {
   const params = queryString.parse(location.search);
-  const columnCount = params[COLUMN_COUNT_QUERY_KEY] || '1';
+  const columnCount = params[COLUMN_COUNT_QUERY_KEY] || "1";
   const transposeAmount = Number(params[TRANSPOSE_QUERY_KEY]) || 0;
 
-  return <MusicMarkdown source={source} columnCount={columnCount} transposeAmount={transposeAmount} />;
+  return (
+    <MusicMarkdown
+      source={source}
+      columnCount={columnCount}
+      transposeAmount={transposeAmount}
+    />
+  );
 };
 
-const roots = ['C', 'C#', 'Db', 'D', 'D#', 'Eb', 'E', 'F', 'F#', 'Gb', 'G', 'G#', 'Ab', 'A', 'A#', 'Bb', 'B'];
-
-const qualities = [
-  '', 'm', '6', 'm6', '7', 'maj7', 'm7', '9', 'dim', 'aug', 'sus2', '7sus2', 'sus4', '7sus4', '5', 'dim5', 'dim7',
-  '7b5', 'm7b5', '7#5', '7b9', '7#9', '7b9#5', '7/6', '9b5', '9#5', 'maj9', 'm9', '9/6', 'm9/6', 'add9', '11', 'm11',
-  '11aug', '13', '13b9', '13b9b5'
+const roots = [
+  "C",
+  "C#",
+  "Db",
+  "D",
+  "D#",
+  "Eb",
+  "E",
+  "F",
+  "F#",
+  "Gb",
+  "G",
+  "G#",
+  "Ab",
+  "A",
+  "A#",
+  "Bb",
+  "B"
 ];
 
-const AllGuitarChords = withStyles(styles, { withTheme: true })(({ classes, location }) => (
-  <>
-    <Typography variant='h3'>Guitar Chordbook</Typography>
-    <Paper className={classes.chordSourcePaper}>
-      <MarkdownViewer source={allChordsSource} location={location} />
-    </Paper>
-    {roots.map((category, index) => (
-      <Paper key={`category-${index}`} className={classes.chordCategoryPaper}>
-        <Typography className={classes.chordCategoryTypography} variant='h4'>{category} Chords</Typography>
-        <ChordCategory category={category} />
-      </Paper>
-    ))}
-  </>
-));
+const qualities = [
+  "",
+  "m",
+  "6",
+  "m6",
+  "7",
+  "maj7",
+  "m7",
+  "9",
+  "dim",
+  "aug",
+  "sus2",
+  "7sus2",
+  "sus4",
+  "7sus4",
+  "5",
+  "dim5",
+  "dim7",
+  "7b5",
+  "m7b5",
+  "7#5",
+  "7b9",
+  "7#9",
+  "7b9#5",
+  "7/6",
+  "9b5",
+  "9#5",
+  "maj9",
+  "m9",
+  "9/6",
+  "m9/6",
+  "add9",
+  "11",
+  "m11",
+  "11aug",
+  "13",
+  "13b9",
+  "13b9b5"
+];
 
-const ChordCategory = withStyles(styles, { withTheme: true })(({ classes, category }) => (
-  Array.from(guitarChordbook.keys())
-    .filter((chord) => chord.match(/^[CDEFGAB](?:#|b)?|N\.C\./)[0] === category)
-    .map((chord, index) => (
-      <Paper key={`chord-${index}`} className={classes.chordVariantPaper}>
-        {guitarChordbook.get(chord)
-          .map((variant, index) => (
-            <span className={classes.chordDiagram} key={`variant-${index}`}
-              dangerouslySetInnerHTML={{ __html: renderChordDiagram(variant) }} />
-          ))}
-        <Typography className={classes.chordVariantTypography} variant='h5'>{chord}</Typography>
+const AllGuitarChords = withStyles(styles, { withTheme: true })(
+  ({ classes, location }) => (
+    <>
+      <Typography variant="h3">Guitar Chordbook</Typography>
+      <Paper className={classes.chordSourcePaper}>
+        <MarkdownViewer source={allChordsSource} location={location} />
       </Paper>
-    ))
-));
+      {roots.map((category, index) => (
+        <Paper key={`category-${index}`} className={classes.chordCategoryPaper}>
+          <Typography className={classes.chordCategoryTypography} variant="h4">
+            {category} Chords
+          </Typography>
+          <ChordCategory category={category} />
+        </Paper>
+      ))}
+    </>
+  )
+);
+
+const ChordCategory = withStyles(styles, { withTheme: true })(
+  ({ classes, category }) =>
+    Array.from(guitarChordbook.keys())
+      .filter(chord => chord.match(/^[CDEFGAB](?:#|b)?|N\.C\./)[0] === category)
+      .map((chord, index) => (
+        <Paper key={`chord-${index}`} className={classes.chordVariantPaper}>
+          {guitarChordbook.get(chord).map((variant, index) => (
+            <span
+              className={classes.chordDiagram}
+              key={`variant-${index}`}
+              dangerouslySetInnerHTML={{ __html: renderChordDiagram(variant) }}
+            />
+          ))}
+          <Typography className={classes.chordVariantTypography} variant="h5">
+            {chord}
+          </Typography>
+        </Paper>
+      ))
+);
 
 const allChordsSource = `---
 ---
-${roots.map((root) => `## ${root} Chords
-c1: ${qualities.map((quality) => root + quality).join(' ')}`).join('\n\n')}
+${roots
+  .map(
+    root => `## ${root} Chords
+c1: ${qualities.map(quality => root + quality).join(" ")}`
+  )
+  .join("\n\n")}
 `;
 
 const allFeaturesSource = `---

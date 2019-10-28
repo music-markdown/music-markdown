@@ -1,25 +1,20 @@
 {
-  "extends": "google",
-  "parser": "babel-eslint",
-  "rules": {
-    "linebreak-style": 0,
-    "require-jsdoc": 0,
-    "comma-dangle": 0,
-    "max-len": [2, {
-      "code": 120,
-      "tabWidth": 2,
-      "ignoreUrls": true
-    }],
-    "indent": ["error", 2, {
-        "MemberExpression": 1
-    }],
-    "object-curly-spacing": ["error", "always"],
-    "react/jsx-uses-react": "error",
-    "react/jsx-uses-vars": "error" ,
-    "new-cap": 0,
-    "no-invalid-this": 0,
-    "babel/no-invalid-this": 1,
-    "sort-imports": "error"
+  "env": {
+    "browser": true,
+    "node": true,
+    "jest": true
   },
-  "plugins": ["react", "babel"]
+  "extends": [
+    "eslint:recommended",
+    "plugin:react/recommended",
+    "plugin:prettier/recommended"
+  ],
+  "parser": "babel-eslint",
+  "plugins": ["babel", "prettier", "react"],
+  "rules": {
+    "react/jsx-uses-react": "error",
+    "react/jsx-uses-vars": "error",
+    "react/prop-types": 0,
+    "sort-imports": "error"
+  }
 }

@@ -1,19 +1,19 @@
-import { Paper, Tooltip } from '@material-ui/core';
-import Draggable from 'react-draggable';
-import { GlobalStateContext } from './GlobalState';
-import IconButton from '@material-ui/core/IconButton';
-import PlayArrowIcon from '@material-ui/icons/PlayArrow';
-import React from 'react';
-import withStyles from '@material-ui/core/styles/withStyles';
+import { Paper, Tooltip } from "@material-ui/core";
+import Draggable from "react-draggable";
+import { GlobalStateContext } from "./GlobalState";
+import IconButton from "@material-ui/core/IconButton";
+import PlayArrowIcon from "@material-ui/icons/PlayArrow";
+import React from "react";
+import withStyles from "@material-ui/core/styles/withStyles";
 
-const styles = (theme) => ({
+const styles = theme => ({
   paper: {
-    position: 'fixed',
+    position: "fixed",
     bottom: theme.spacing(1),
     right: theme.spacing(1),
     padding: theme.spacing(2),
-    cursor: 'move',
-  },
+    cursor: "move"
+  }
 });
 
 const UnstyledYouTubePlayer = ({ classes, youTubeId }) => (
@@ -24,13 +24,15 @@ const UnstyledYouTubePlayer = ({ classes, youTubeId }) => (
         style={{ border: 0 }}
         src={`https://www.youtube.com/embed/${youTubeId}`}
         allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
-        allowFullScreen>
-      </iframe>
+        allowFullScreen
+      ></iframe>
     </Paper>
   </Draggable>
 );
 
-const YouTubePlayer = withStyles(styles, { withTheme: true })(UnstyledYouTubePlayer);
+const YouTubePlayer = withStyles(styles, { withTheme: true })(
+  UnstyledYouTubePlayer
+);
 
 class YouTubeToggle extends React.Component {
   static contextType = GlobalStateContext;
@@ -38,7 +40,7 @@ class YouTubeToggle extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      visible: false,
+      visible: false
     };
   }
 
@@ -46,9 +48,9 @@ class YouTubeToggle extends React.Component {
     this.setState({ visible: !this.context.data.youTubeId });
   };
 
-  handleToggle = (event) => {
-    this.setState((state) => ({
-      visible: !state.visible,
+  handleToggle = () => {
+    this.setState(state => ({
+      visible: !state.visible
     }));
   };
 
@@ -60,17 +62,21 @@ class YouTubeToggle extends React.Component {
     return (
       <>
         <Tooltip title="Show / Hide YouTube Player">
-          <IconButton color={this.state.visible ? 'secondary' : 'default'} onClick={this.handleToggle}>
+          <IconButton
+            color={this.state.visible ? "secondary" : "default"}
+            onClick={this.handleToggle}
+          >
             <PlayArrowIcon />
           </IconButton>
         </Tooltip>
-        {this.state.visible ? <YouTubePlayer youTubeId={this.context.data.youTubeId} /> : ''}
+        {this.state.visible ? (
+          <YouTubePlayer youTubeId={this.context.data.youTubeId} />
+        ) : (
+          ""
+        )}
       </>
     );
   }
 }
 
-export {
-  YouTubePlayer,
-  YouTubeToggle,
-};
+export { YouTubePlayer, YouTubeToggle };

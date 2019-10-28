@@ -1,23 +1,23 @@
-import AddNewFile from './AddNewFile';
-import Avatar from '@material-ui/core/Avatar';
-import DescriptionIcon from '@material-ui/icons/Description';
-import DirectoryBreadcrumbs from './RouterBreadcrumbs';
-import FolderIcon from '@material-ui/icons/Folder';
-import LinearProgress from '@material-ui/core/LinearProgress';
-import { Link } from 'react-router-dom';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemAvatar from '@material-ui/core/ListItemAvatar';
-import ListItemText from '@material-ui/core/ListItemText';
-import React from 'react';
-import { getContents } from '../lib/github';
-import withStyles from '@material-ui/core/styles/withStyles';
+import AddNewFile from "./AddNewFile";
+import Avatar from "@material-ui/core/Avatar";
+import DescriptionIcon from "@material-ui/icons/Description";
+import DirectoryBreadcrumbs from "./RouterBreadcrumbs";
+import FolderIcon from "@material-ui/icons/Folder";
+import LinearProgress from "@material-ui/core/LinearProgress";
+import { Link } from "react-router-dom";
+import List from "@material-ui/core/List";
+import ListItem from "@material-ui/core/ListItem";
+import ListItemAvatar from "@material-ui/core/ListItemAvatar";
+import ListItemText from "@material-ui/core/ListItemText";
+import React from "react";
+import { getContents } from "../lib/github";
+import withStyles from "@material-ui/core/styles/withStyles";
 
 const styles = () => ({
   root: {
     flexGrow: 1,
-    padding: 8,
-  },
+    padding: 8
+  }
 });
 
 /**
@@ -26,7 +26,7 @@ const styles = () => ({
 class RepositoryNavigation extends React.Component {
   state = {
     isLoaded: false,
-    contents: [],
+    contents: []
   };
 
   async componentDidMount() {
@@ -45,7 +45,11 @@ class RepositoryNavigation extends React.Component {
    * @param {Object} prevProps Props before update
    */
   async componentDidUpdate(prevProps) {
-    const { repo: prevRepo, path: prevPath, branch: prevBranch } = prevProps.match.params;
+    const {
+      repo: prevRepo,
+      path: prevPath,
+      branch: prevBranch
+    } = prevProps.match.params;
     const { repo, path, branch } = this.props.match.params;
 
     if (prevRepo !== repo || prevPath !== path || prevBranch !== branch) {
@@ -64,13 +68,13 @@ class RepositoryNavigation extends React.Component {
    */
   sortDir(contents) {
     contents.sort((a, b) => {
-      if (a.type === 'file') {
-        if (b.type === 'file') {
+      if (a.type === "file") {
+        if (b.type === "file") {
           return a.name - b.name;
         }
         return 1;
       }
-      if (b.type === 'file') {
+      if (b.type === "file") {
         return -1;
       }
       return a.name - b.name;
@@ -83,34 +87,37 @@ class RepositoryNavigation extends React.Component {
     const { classes } = this.props;
 
     if (!isLoaded) {
-      return (
-        <LinearProgress />
-      );
+      return <LinearProgress />;
     }
 
     return (
       <>
         <DirectoryBreadcrumbs pathname={this.props.location.pathname} />
         <div className={classes.root}>
-          <List key={'repo-navigation-list'}>
-            {
-              contents.map((item) => (
-                <ListItem button component={Link}
-                  key={`list-group-item-${item.name}`}
-                  to={item.type === 'dir' ?
-                    `/repos/${repo}/browser/${branch}/${item.path}/` :
-                    `/repos/${repo}/viewer/${branch}/${item.path}`}>
-                  <ListItemAvatar>
-                    <Avatar>
-                      {item.type === 'dir' ? <FolderIcon /> : <DescriptionIcon /> }
-                    </Avatar>
-                  </ListItemAvatar>
-                  {item.type === 'dir' ?
-                    <ListItemText secondary={item.name}></ListItemText> :
-                    <ListItemText primary={item.name}></ListItemText>}
-                </ListItem>
-              ))
-            }
+          <List key={"repo-navigation-list"}>
+            {contents.map(item => (
+              <ListItem
+                button
+                component={Link}
+                key={`list-group-item-${item.name}`}
+                to={
+                  item.type === "dir"
+                    ? `/repos/${repo}/browser/${branch}/${item.path}/`
+                    : `/repos/${repo}/viewer/${branch}/${item.path}`
+                }
+              >
+                <ListItemAvatar>
+                  <Avatar>
+                    {item.type === "dir" ? <FolderIcon /> : <DescriptionIcon />}
+                  </Avatar>
+                </ListItemAvatar>
+                {item.type === "dir" ? (
+                  <ListItemText secondary={item.name}></ListItemText>
+                ) : (
+                  <ListItemText primary={item.name}></ListItemText>
+                )}
+              </ListItem>
+            ))}
           </List>
           <AddNewFile location={this.props.location} match={this.props.match} />
         </div>
