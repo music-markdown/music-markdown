@@ -1,5 +1,5 @@
 import Avatar from "@material-ui/core/Avatar";
-import CallSplit from "@material-ui/icons/CallSplit";
+import CallSplitIcon from "@material-ui/icons/CallSplit";
 import DirectoryBreadcrumbs from "./RouterBreadcrumbs";
 import LinearProgress from "@material-ui/core/LinearProgress";
 import { Link } from "react-router-dom";
@@ -78,7 +78,7 @@ class BranchNavigation extends React.Component {
               >
                 <ListItemAvatar>
                   <Avatar>
-                    <CallSplit />
+                    <CallSplitIcon />
                   </Avatar>
                 </ListItemAvatar>
                 <ListItemText primary={item.name}></ListItemText>

@@ -2,7 +2,10 @@ import {
   addRepository,
   deleteRepository,
   getApiUrl,
-  getRepositories
+  getGithubToken,
+  getRepositories,
+  isValidGithubToken,
+  setGithubToken
 } from "./github";
 
 describe("GitHub API", () => {
@@ -48,6 +51,62 @@ describe("GitHub API", () => {
     expect(actualUrl.searchParams.get("access_token")).toEqual(
       "music-markdown-github-token"
     );
+  });
+
+  test("getGithubToken returns token from localStorage", () => {
+    const expectedToken = "music-markdown-github-token";
+    localStorage.setItem("music-markdown:github_token", expectedToken);
+    const actualToken = getGithubToken();
+    expect(actualToken).toEqual(expectedToken);
+  });
+
+  test("getGithubToken returns null when token is not set", () => {
+    const expectedToken = null;
+    const actualToken = getGithubToken();
+    expect(actualToken).toEqual(expectedToken);
+  });
+
+  test("setGithubToken saves the token to localStorage", () => {
+    const expectedToken = "music-markdown-github-token";
+    setGithubToken(expectedToken);
+    const actualToken = localStorage.getItem("music-markdown:github_token");
+    expect(actualToken).toEqual(expectedToken);
+  });
+
+  test("setGithubToken with empty string clears the token from localStorage", () => {
+    setGithubToken("");
+    const actualToken = localStorage.getItem("music-markdown:github_token");
+    expect(actualToken).toEqual(null);
+  });
+
+  test("isValidGithubToken returns true on valid token", () => {
+    const token = "ff34885a8624460a855540c6592698d2f1812843";
+    expect(isValidGithubToken(token)).toEqual(true);
+  });
+
+  test("isValidGithubToken returns false when token is null", () => {
+    const token = null;
+    expect(isValidGithubToken(token)).toEqual(false);
+  });
+
+  test("isValidGithubToken returns false when token is empty", () => {
+    const token = "";
+    expect(isValidGithubToken(token)).toEqual(false);
+  });
+
+  test("isValidGithubToken returns false when token is less than 40 chars long", () => {
+    const token = "ff34885a8624460a855540c6592698d2f181284";
+    expect(isValidGithubToken(token)).toEqual(false);
+  });
+
+  test("isValidGithubToken returns false when token is more than 40 chars long", () => {
+    const token = "ff34885a8624460a855540c6592698d2f18128433";
+    expect(isValidGithubToken(token)).toEqual(false);
+  });
+
+  test("isValidGithubToken returns false when token contains non hex char", () => {
+    const token = "ff34885a8624460a855540c6592698d2f181284g";
+    expect(isValidGithubToken(token)).toEqual(false);
   });
 
   // TODO: Write tests for getBranches

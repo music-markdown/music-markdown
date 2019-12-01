@@ -1,4 +1,9 @@
 import React, { useContext, useState } from "react";
+import {
+  getGithubToken,
+  isValidGithubToken,
+  setGithubToken
+} from "../lib/github";
 import { LOCAL_STORAGE_NAMESPACE } from "../lib/constants";
 
 const lightTheme = {
@@ -41,6 +46,7 @@ export const useGlobalStateContext = () => useContext(GlobalStateContext);
 
 export const GlobalStateProvider = props => {
   const [state, setState] = useState({
+    githubToken: getGithubToken(),
     theme: initialTheme,
     youTubeId: null
   });
@@ -49,6 +55,13 @@ export const GlobalStateProvider = props => {
     <GlobalStateContext.Provider
       value={{
         data: state,
+        isValidGithubToken: () => isValidGithubToken(state.githubToken),
+        setGithubToken: githubToken => {
+          if (githubToken !== state.githubToken) {
+            setState({ ...state, githubToken });
+            setGithubToken(githubToken);
+          }
+        },
         isDarkTheme: () => state.theme.palette.type === "dark",
         toggleTheme: () => {
           const theme =

@@ -1,10 +1,12 @@
 import { getContents, putContents } from "../lib/github";
+
 import AceEditor from "react-ace";
 import CheckIcon from "@material-ui/icons/Check";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import DirectoryBreadcrumbs from "./RouterBreadcrumbs";
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 import Fab from "@material-ui/core/Fab";
+import { GlobalStateContext } from "./GlobalState";
 import Grid from "@material-ui/core/Grid";
 import LinearProgress from "@material-ui/core/LinearProgress";
 import { Link } from "react-router-dom";
@@ -18,6 +20,7 @@ import asciiTabConvert from "../tools/asciitab";
 import classNames from "classnames";
 import green from "@material-ui/core/colors/green";
 import withStyles from "@material-ui/core/styles/withStyles";
+
 import "brace/mode/markdown"; // eslint-disable-line sort-imports
 import "brace/theme/github"; // eslint-disable-line sort-imports
 import "brace/theme/monokai"; // eslint-disable-line sort-imports
@@ -60,6 +63,8 @@ const styles = theme => ({
 });
 
 class MarkdownEditor extends React.Component {
+  static contextType = GlobalStateContext;
+
   state = {
     filename: undefined,
     markdown: "",
@@ -135,20 +140,28 @@ class MarkdownEditor extends React.Component {
           <Grid container spacing={1}>
             <Grid item xs={12}>
               <Paper className={classes.toolbar}>
-                <Tooltip title="Save">
-                  <Fab
-                    disabled={!isDirty}
-                    className={`${buttonClassname} ${classes.fab}`}
-                    onClick={this.handleSave}
-                  >
-                    {success ? <CheckIcon /> : <SaveIcon />}
-                    {saving && (
-                      <CircularProgress
-                        size={68}
-                        className={classes.fabProgress}
-                      />
-                    )}
-                  </Fab>
+                <Tooltip
+                  title={
+                    this.context.isValidGithubToken()
+                      ? "Save"
+                      : "Add a GitHub Token to Enable Saving"
+                  }
+                >
+                  <span>
+                    <Fab
+                      disabled={!isDirty || !this.context.isValidGithubToken()}
+                      className={`${buttonClassname} ${classes.fab}`}
+                      onClick={this.handleSave}
+                    >
+                      {success ? <CheckIcon /> : <SaveIcon />}
+                      {saving && (
+                        <CircularProgress
+                          size={68}
+                          className={classes.fabProgress}
+                        />
+                      )}
+                    </Fab>
+                  </span>
                 </Tooltip>
                 <Tooltip title="Auto Format">
                   <Fab className={classes.fab} onClick={this.handleAutoFormat}>

@@ -5,8 +5,8 @@ import {
 } from "../lib/github";
 import AddRepository from "./AddRepository";
 import Avatar from "@material-ui/core/Avatar";
-import Book from "@material-ui/icons/Book";
-import Delete from "@material-ui/icons/Delete";
+import BookIcon from "@material-ui/icons/Book";
+import DeleteIcon from "@material-ui/icons/Delete";
 import IconButton from "@material-ui/core/IconButton";
 import { Link } from "react-router-dom";
 import List from "@material-ui/core/List";
@@ -63,7 +63,7 @@ class ListRepositories extends React.Component {
             >
               <ListItemAvatar>
                 <Avatar>
-                  <Book />
+                  <BookIcon />
                 </Avatar>
               </ListItemAvatar>
               <ListItemText primary={repo} />
@@ -72,7 +72,7 @@ class ListRepositories extends React.Component {
                   aria-label="Delete"
                   onClick={() => this.handleDeleteRepository(repo)}
                 >
-                  <Delete />
+                  <DeleteIcon />
                 </IconButton>
               </ListItemSecondaryAction>
             </ListItem>

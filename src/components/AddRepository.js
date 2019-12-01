@@ -1,4 +1,4 @@
-import Add from "@material-ui/icons/Add";
+import AddIcon from "@material-ui/icons/Add";
 import Button from "@material-ui/core/Button";
 import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
@@ -9,6 +9,15 @@ import Fab from "@material-ui/core/Fab";
 import Grid from "@material-ui/core/Grid";
 import React from "react";
 import TextField from "@material-ui/core/TextField";
+import withStyles from "@material-ui/core/styles/withStyles";
+
+const styles = theme => ({
+  grid: {
+    position: "fixed",
+    bottom: theme.spacing(2),
+    right: theme.spacing(2)
+  }
+});
 
 class AddRepository extends React.Component {
   state = {
@@ -65,48 +74,61 @@ class AddRepository extends React.Component {
     this.setState({ name: event.target.value });
   };
 
-  render = () => (
-    <>
-      <Grid container direction="row" justify="flex-end" alignItems="flex-end">
-        <Fab aria-label="Add" onClick={this.handleDialogOpen}>
-          <Add />
-        </Fab>
-        <Dialog open={this.state.open} aria-labelledby="add-repository-dialog">
-          <DialogTitle id="add-repository-dialog-title">
-            Add Repository
-          </DialogTitle>
-          <DialogContent>
-            <TextField
-              autoFocus
-              margin="dense"
-              id="owner"
-              label="Repository Owner"
-              value={this.state.owner}
-              onChange={e => this.handleUpdateOwner(e)}
-              fullWidth
-            />
-            <TextField
-              margin="dense"
-              id="name"
-              label="Repository Name"
-              value={this.state.name}
-              onChange={e => this.handleUpdateName(e)}
-              fullWidth
-            />
-          </DialogContent>
-          <DialogActions>
-            <Button onClick={this.handleDialogClose}>Cancel</Button>
-            <Button onClick={this.handleDialogAdd}>Add</Button>
-          </DialogActions>
-        </Dialog>
-      </Grid>
-      <ErrorSnackbar
-        message={this.state.message}
-        open={this.state.error}
-        handleClose={this.handleClearError}
-      />
-    </>
-  );
+  render = () => {
+    const { classes } = this.props;
+
+    return (
+      <>
+        <Grid
+          container
+          className={classes.grid}
+          direction="row"
+          justify="flex-end"
+          alignItems="flex-end"
+        >
+          <Fab aria-label="Add" onClick={this.handleDialogOpen}>
+            <AddIcon />
+          </Fab>
+          <Dialog
+            open={this.state.open}
+            aria-labelledby="add-repository-dialog"
+          >
+            <DialogTitle id="add-repository-dialog-title">
+              Add Repository
+            </DialogTitle>
+            <DialogContent>
+              <TextField
+                autoFocus
+                margin="dense"
+                id="owner"
+                label="Repository Owner"
+                value={this.state.owner}
+                onChange={e => this.handleUpdateOwner(e)}
+                fullWidth
+              />
+              <TextField
+                margin="dense"
+                id="name"
+                label="Repository Name"
+                value={this.state.name}
+                onChange={e => this.handleUpdateName(e)}
+                fullWidth
+              />
+            </DialogContent>
+            <DialogActions>
+              <Button onClick={this.handleDialogClose}>Cancel</Button>
+              <Button onClick={this.handleDialogAdd}>Add</Button>
+            </DialogActions>
+          </Dialog>
+        </Grid>
+        <ErrorSnackbar
+          message={this.state.message}
+          open={this.state.error}
+          handleClose={this.handleClearError}
+        />
+      </>
+    );
+  };
 }
 
-export default AddRepository;
+export default withStyles(styles, { withTheme: true })(AddRepository);

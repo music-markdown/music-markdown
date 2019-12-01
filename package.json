@@ -3,24 +3,24 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@material-ui/core": "^4.4.3",
-    "@material-ui/icons": "^4.4.3",
-    "@material-ui/lab": "^4.0.0-alpha.27",
-    "abcjs": "^5.8.1",
+    "@material-ui/core": "^4.7.0",
+    "@material-ui/icons": "^4.5.1",
+    "@material-ui/lab": "^4.0.0-alpha.33",
+    "abcjs": "^5.10.3",
     "classnames": "^2.2.6",
     "jquery": "^3.4.1",
     "js-base64": "^2.5.1",
     "markdown-it": "^10.0.0",
     "markdown-it-music": "~0.0.10",
-    "node-sass": "^4.12.0",
-    "query-string": "^6.8.3",
-    "react": "^16.10.1",
-    "react-ace": "^7.0.4",
+    "node-sass": "^4.13.0",
+    "query-string": "^6.9.0",
+    "react": "^16.12.0",
+    "react-ace": "^7.0.5",
     "react-container-dimensions": "^1.4.1",
-    "react-dom": "^16.10.1",
-    "react-draggable": "^4.0.3",
+    "react-dom": "^16.12.0",
+    "react-draggable": "^4.1.0",
     "react-router-dom": "^5.1.2",
-    "react-scripts": "^3.1.2"
+    "react-scripts": "^3.2.0"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -37,15 +37,15 @@
     "not op_mini all"
   ],
   "devDependencies": {
-    "@babel/core": "^7.6.2",
+    "@babel/core": "^7.7.4",
     "enzyme": "^3.10.0",
-    "enzyme-adapter-react-16": "^1.14.0",
-    "eslint-config-prettier": "^6.5.0",
+    "enzyme-adapter-react-16": "^1.15.1",
+    "eslint-config-prettier": "^6.7.0",
     "eslint-plugin-babel": "^5.3.0",
     "eslint-plugin-prettier": "^3.1.1",
-    "eslint-plugin-react": "^7.15.0",
+    "eslint-plugin-react": "^7.17.0",
     "jest-fetch-mock": "^2.1.2",
-    "prettier": "^1.18.2",
-    "typescript": "^3.6.3"
+    "prettier": "^1.19.1",
+    "typescript": "^3.7.2"
   }
 }

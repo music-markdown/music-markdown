@@ -1,11 +1,13 @@
 import "./App.scss";
+
 import { GlobalStateProvider, useGlobalStateContext } from "./GlobalState";
 import { Route, HashRouter as Router, Switch } from "react-router-dom";
+
 import BranchNavigation from "./BranchNavigation";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import MarkdownEditor from "./MarkdownEditor";
 import MarkdownViewer from "./MarkdownViewer";
-import MuiThemeProvider from "@material-ui/core/styles/MuiThemeProvider";
+import { ThemeProvider as MuiThemeProvider } from "@material-ui/core/styles";
 import MusicMarkdownNavbar from "./MusicMarkdownNavbar";
 import { REPO_REGEX } from "../lib/constants";
 import React from "react";

@@ -1,4 +1,4 @@
-import Add from "@material-ui/icons/Add";
+import AddIcon from "@material-ui/icons/Add";
 import Button from "@material-ui/core/Button";
 import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
@@ -8,23 +8,32 @@ import DialogContent from "@material-ui/core/DialogContent";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import ErrorSnackbar from "./ErrorSnackbar";
 import Fab from "@material-ui/core/Fab";
+import { GlobalStateContext } from "./GlobalState";
 import Grid from "@material-ui/core/Grid";
 import InputAdornment from "@material-ui/core/InputAdornment";
 import React from "react";
 import { Redirect } from "react-router-dom";
 import TextField from "@material-ui/core/TextField";
+import Tooltip from "@material-ui/core/Tooltip";
 import Typography from "@material-ui/core/Typography";
 import { putContents } from "../lib/github";
 import withStyles from "@material-ui/core/styles/withStyles";
 
-const styles = () => ({
+const styles = theme => ({
   whitespacePre: {
     whiteSpace: "pre-line",
     fontFamily: "monospace"
+  },
+  grid: {
+    position: "fixed",
+    bottom: theme.spacing(2),
+    right: theme.spacing(2)
   }
 });
 
 class AddNewFile extends React.Component {
+  static contextType = GlobalStateContext;
+
   state = {
     newFileName: "",
     newFileOpen: false,
@@ -102,13 +111,28 @@ class AddNewFile extends React.Component {
       <>
         <Grid
           container
+          className={classes.grid}
           direction="row"
           justify="flex-end"
           alignItems="flex-end"
         >
-          <Fab aria-label="Add" onClick={this.handleAddNewFileOpen}>
-            <Add />
-          </Fab>
+          <Tooltip
+            title={
+              this.context.isValidGithubToken()
+                ? "Add Song"
+                : "Add a GitHub Token to Enable Editing"
+            }
+          >
+            <span>
+              <Fab
+                aria-label="Add"
+                disabled={!this.context.isValidGithubToken()}
+                onClick={this.handleAddNewFileOpen}
+              >
+                <AddIcon />
+              </Fab>
+            </span>
+          </Tooltip>
           <Dialog
             open={newFileOpen}
             aria-labelledby="add-new-file-dialog"

@@ -114,7 +114,7 @@ export function deleteRepository(repo) {
 export function getApiUrl(url, branch) {
   url = new URL(url, GITHUB_API_URL);
 
-  const githubToken = localStorage.getItem(GITHUB_TOKEN_LOCAL_STORAGE_KEY);
+  const githubToken = getGithubToken();
   if (githubToken) {
     url.searchParams.set("access_token", githubToken);
   }
@@ -124,4 +124,20 @@ export function getApiUrl(url, branch) {
   }
 
   return url;
+}
+
+export function getGithubToken() {
+  return localStorage.getItem(GITHUB_TOKEN_LOCAL_STORAGE_KEY);
+}
+
+export function isValidGithubToken(githubToken = getGithubToken()) {
+  return !!githubToken && !!githubToken.match(/^[0-9a-f]{40}$/);
+}
+
+export function setGithubToken(githubToken) {
+  if (githubToken) {
+    localStorage.setItem(GITHUB_TOKEN_LOCAL_STORAGE_KEY, githubToken);
+  } else {
+    localStorage.removeItem(GITHUB_TOKEN_LOCAL_STORAGE_KEY);
+  }
 }

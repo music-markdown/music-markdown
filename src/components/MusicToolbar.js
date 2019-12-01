@@ -10,7 +10,7 @@ import Slider from "@material-ui/core/Slider";
 import ToggleButton from "@material-ui/lab/ToggleButton";
 import ToggleButtonGroup from "@material-ui/lab/ToggleButtonGroup";
 import Tooltip from "@material-ui/core/Tooltip";
-import ViewColumn from "@material-ui/icons/ViewColumn";
+import ViewColumnIcon from "@material-ui/icons/ViewColumn";
 import { YouTubeToggle } from "./YouTube";
 import queryString from "query-string";
 import withStyles from "@material-ui/core/styles/withStyles";
@@ -71,7 +71,7 @@ class UnstyledColumnCountSelector extends React.Component {
               invisible={columnCount === "1"}
               color="secondary"
             >
-              <ViewColumn />
+              <ViewColumnIcon />
             </Badge>
           </IconButton>
         </Tooltip>

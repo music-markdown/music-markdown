@@ -4,9 +4,12 @@ import ClickAwayListener from "@material-ui/core/ClickAwayListener";
 import EditIcon from "@material-ui/icons/Edit";
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
+import GithubTokenDialog from "./GithubTokenDialog";
 import { GlobalStateContext } from "./GlobalState";
 import IconButton from "@material-ui/core/IconButton";
 import { Link } from "react-router-dom";
+import MenuItem from "@material-ui/core/MenuItem";
+import MenuList from "@material-ui/core/MenuList";
 import MusicToolbar from "./MusicToolbar";
 import Paper from "@material-ui/core/Paper";
 import Popper from "@material-ui/core/Popper";
@@ -47,12 +50,14 @@ const BrowseButton = ({ match }) => (
 
 const EditButton = ({ match }) => (
   <Tooltip title="Edit Song">
-    <IconButton
-      component={Link}
-      to={`/repos/${match.params.repo}/editor/${match.params.branch}/${match.params.path}`}
-    >
-      <EditIcon />
-    </IconButton>
+    <span>
+      <IconButton
+        component={Link}
+        to={`/repos/${match.params.repo}/editor/${match.params.branch}/${match.params.path}`}
+      >
+        <EditIcon />
+      </IconButton>
+    </span>
   </Tooltip>
 );
 
@@ -81,14 +86,23 @@ class MusicMarkdownNavbar extends React.Component {
     super(props);
 
     this.state = {
+      apiKeyDialogOpen: false,
       settingsOpen: false
     };
 
     this.settingsAnchorEl = undefined;
   }
 
-  handleSettingsClick = () => {
+  handleSettingsToggle = () => {
     this.setState({ settingsOpen: !this.state.settingsOpen });
+  };
+
+  handleApiKeyDialogOpen = () => {
+    this.setState({ apiKeyDialogOpen: true, settingsOpen: false });
+  };
+
+  handleApiKeyDialogClose = () => {
+    this.setState({ apiKeyDialogOpen: false, settingsOpen: false });
   };
 
   handleDarkThemeSwitch = () => {
@@ -96,7 +110,7 @@ class MusicMarkdownNavbar extends React.Component {
   };
 
   render() {
-    const { settingsOpen } = this.state;
+    const { apiKeyDialogOpen, settingsOpen } = this.state;
     const { classes } = this.props;
 
     return (
@@ -141,7 +155,7 @@ class MusicMarkdownNavbar extends React.Component {
           />
 
           <IconButton
-            onClick={this.handleSettingsClick}
+            onClick={this.handleSettingsToggle}
             buttonRef={node => {
               this.settingsAnchorEl = node;
             }}
@@ -155,21 +169,32 @@ class MusicMarkdownNavbar extends React.Component {
             placement="bottom-end"
           >
             <Paper className={classes.paper}>
-              <ClickAwayListener onClickAway={this.handleSettingsClick}>
-                <FormControlLabel
-                  control={
-                    <Switch
-                      defaultChecked={this.context.isDarkTheme()}
-                      onChange={this.handleDarkThemeSwitch}
-                      value="darkTheme"
+              <ClickAwayListener onClickAway={this.handleSettingsToggle}>
+                <MenuList>
+                  <MenuItem>
+                    <FormControlLabel
+                      control={
+                        <Switch
+                          defaultChecked={this.context.isDarkTheme()}
+                          onChange={this.handleDarkThemeSwitch}
+                          value="darkTheme"
+                        />
+                      }
+                      label="Toggle Dark Mode?"
                     />
-                  }
-                  label="Toggle Dark Mode?"
-                />
+                  </MenuItem>
+                  <MenuItem onClick={this.handleApiKeyDialogOpen}>
+                    Set GitHub Token
+                  </MenuItem>
+                </MenuList>
               </ClickAwayListener>
             </Paper>
           </Popper>
         </Toolbar>
+        <GithubTokenDialog
+          open={apiKeyDialogOpen}
+          handleClose={this.handleApiKeyDialogClose}
+        ></GithubTokenDialog>
       </AppBar>
     );
   }
