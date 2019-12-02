@@ -99,7 +99,7 @@ The prefix letter `c` has the special meaning of marking chord voice. All other 
 
 A single phrase would be formatted as follows:
 
-```markdown
+```music-markdown
 c1:                    Am
 l1: All the leaves are brown
 ```
@@ -110,7 +110,7 @@ In this case, the "Am" chord is attached to the lyric "brown".
 
 A verse consists of multiple phrases. Each phrase is separated by one or more empty lines, for example:
 
-```markdown
+```music-markdown
 c1:                    Am     G  F          G      Esus4  E
 l1: All the leaves are brown        and the sky is gray
 
@@ -122,7 +122,7 @@ l1: I've been for a walk         on a winter's day
 
 So far, we've seen exactly two voices per phrase, however, we can have as many voices as we want:
 
-```markdown
+```music-markdown
 c1: Dm                    Am                G
 l2: They don't know how   long it  takes
 l1:            They don't know how long  it takes
@@ -142,7 +142,7 @@ To attach a YouTube video to a Music Markdown file:
 
 Example:
 
-```markdown
+```music-markdown
 ---
 youTubeId: acvIVA9-FMQ
 ---
@@ -152,7 +152,7 @@ youTubeId: acvIVA9-FMQ
 
 ABC notation can be added to a Music Markdown file by fencing it off in a `:::abc` block. For example, the following will render the C major scale:
 
-```markdown
+```music-markdown
 :::abc
 C D E F G A B c
 :::
@@ -164,7 +164,7 @@ We use the [abcjs](https://www.abcjs.net/) library to render ABC notation. See t
 
 VexTab notation can be added to a Music Markdown file by fencing it off in a `:::vextab` block. For example:
 
-```markdown
+```music-markdown
 :::vextab
 options space=20
 
@@ -186,22 +186,22 @@ To get started developing for Music Markdown, do the standard stuff:
 
 1. Clone the repo:
 
-    ```bash
-    git clone https://github.com/music-markdown/music-markdown.git
-    ```
+   ```bash
+   git clone https://github.com/music-markdown/music-markdown.git
+   ```
 
 1. Install the dependencies:
 
-    ```bash
-    cd music-markdown
-    npm install
-    ```
+   ```bash
+   cd music-markdown
+   npm install
+   ```
 
 1. Start the dev server:
 
-    ```bash
-    npm start
-    ```
+   ```bash
+   npm start
+   ```
 
 ### Recommended Plugins for Visual Studio Code
 
