@@ -2,7 +2,7 @@
 
 [![Build Status](https://travis-ci.com/music-markdown/music-markdown.svg?branch=master)](https://travis-ci.com/music-markdown/music-markdown)
 
-Deployed version available at [music-markdown.github.io](https://music-markdown.github.io).
+Hosted at [music-markdown.github.io](https://music-markdown.github.io).
 
 ## Intro
 
@@ -13,26 +13,26 @@ Music Markdown is a Web App that renders markdown with embedded music from files
 Features:
 
 - Full support for Markdown syntax using [markdown-it](https://markdown-it.github.io/).
-- Custom syntax for expressing multiple lines of lyrics and chords.
+- Custom syntax for rendering phrases of lyrics and chords.
 - Rendering support for:
-  - [Guitar chord diagrams.](https://www.guitar-chord.org/chart.html)
-  - [ABC music notation.](https://en.wikipedia.org/wiki/ABC_notation)
-  - [VexTab music notation.](http://vexflow.com/vextab/)
-  - Multiple columns.
-- Playback of YouTube videos.
-- [Transpose music up / down.](<https://en.wikipedia.org/wiki/Transposition_(music)>)
+  - Multiple columns
+  - [Guitar chord diagrams](https://www.guitar-chord.org/chart.html)
+  - [ABC music notation](https://en.wikipedia.org/wiki/ABC_notation)
+  - [VexTab music notation](http://vexflow.com/vextab/)
+- Read and write Music Markdown files from your own GitHub repository.
+  - Automatically convert existing guitar tablature to Music Markdown.
+- Rehearse along with YouTube videos.
+- [Transpose music](<https://en.wikipedia.org/wiki/Transposition_(music)>) up and down.
 
 ## Mission Statement
 
-Music Markdown is a toil of love.
+Our goal is to provide a tool that enables bands to be able to rehearse together. The source is freely available and released in the unencumbered ISC license.
 
-Our goal is to provide a tool that enables bands to be able to practice together. The source is freely available and released in the unencumbered ISC license.
-
-We are aware that our tool is not as easy to use as it could be, but we're working on it!
+Music Markdown is a toil of love. We are aware that it is not as easy to use as it could be, but we're working on it, and we would gratefully accept feature suggestions and source contributions.
 
 ## Users Guide
 
-Music Markdown is [hosted on GitHub](https://music-markdown.github.io) and also reads markdown files from GitHub.
+Music Markdown is [hosted on GitHub](https://music-markdown.github.io) and the web app reads music markdown files from GitHub repositories. This enables bands to have their own repositories of music that they maintain for themselves.
 
 ### Setup
 
@@ -50,7 +50,7 @@ To use Music Markdown, you will need:
 1. In the **Add Repository** dialog box, fill in the:
    - Repository Owner - typically, your user name.
      - E.g. `music-markdown`
-   - Repostiroy Name - this is the name of the repository you created in the previous section.
+   - Repository Name - this is the name of the repository you created in the previous section.
      - E.g. `almost-in-time`
 1. Click **Add**.
 
@@ -64,7 +64,7 @@ Currently, Music Markdown uses GitHub tokens to gain access to write to GitHub r
 
 1. Go to GitHub [Personal access tokens](https://github.com/settings/tokens).
 1. Click **Generate new token**.
-1. Under Note, type a name for the token, for example, `Music Markdown`.
+1. Under **Note**, type a name for the token, for example, `Music Markdown`.
 1. Under **scopes** grant **repo** permissions.
 1. Scroll to the bottom and click **Generate token**.
 1. Copy the token to the clipboard.
@@ -95,7 +95,7 @@ The basic syntax of Music Markdown is, as you might expect, markdown. We use the
 
 A lyric and chord phrase is formatted as a sequence of lines, each prefixed with a letter and a number, called a voice.
 
-The prefix letter `c` has the special meaning of marking chord voice. All other letters have no special meaning. Typically, we use the prefix letter `l` is used to identify lyric voices.
+The prefix letter `c` has the special meaning of marking chord voice. All other letters have no special meaning. Typically, we use the prefix letter `l` to identify lyric voices.
 
 A single phrase would be formatted as follows:
 
@@ -128,7 +128,7 @@ l2: They don't know how   long it  takes
 l1:            They don't know how long  it takes
 ```
 
-In this case, we have two lyric voices and one chord voice. Music Markdown will render each voice with its own color making it easier to distinguish each voice during practice.
+In this case, we have two lyric voices and one chord voice. Music Markdown will render each voice with its own color making it easier to distinguish each voice during rehearsal.
 
 #### Advanced Syntax
 
@@ -177,6 +177,8 @@ tabstave
   text :w, |#segno, ,|, :hd, , #tr
 :::
 ```
+
+See the [VexTab tutorial](http://vexflow.com/vextab/tutorial.html) to learn how to write VexTab code.
 
 ## Developers Guide
 
