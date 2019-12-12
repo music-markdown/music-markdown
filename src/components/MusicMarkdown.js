@@ -9,9 +9,6 @@ import withStyles from "@material-ui/core/styles/withStyles";
 const COLUMN_GAP = 20;
 
 const styles = theme => ({
-  markdownBody: {
-    filter: theme.palette.type === "dark" ? "invert(100%)" : ""
-  },
   columns: {
     columnGap: `${COLUMN_GAP}px`,
     columnRuleWidth: "1px",
@@ -86,11 +83,11 @@ class MusicMarkdownRender extends React.Component {
   };
 
   render = () => {
-    const { classes } = this.props;
+    const { theme } = this.props;
     return (
       <>
         <div
-          className={classes.markdownBody}
+          className={`mmd-${theme.palette.type}`}
           dangerouslySetInnerHTML={{ __html: this.state.html }}
         />
         <ErrorSnackbar

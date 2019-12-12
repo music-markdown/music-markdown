@@ -1,1 +1,73 @@
 @import "../../node_modules/markdown-it-music/renderers/renderer.css";
+
+.chart {
+  font-family: "Monaco", "Menlo", "Consolas", monospace;
+}
+
+/* Light Theme */
+
+.mmd-light {
+  color: black;
+}
+
+.mmd-light .c1 {
+  color: darkblue;
+}
+
+.mmd-light .c2 {
+  color: darkorange;
+}
+
+.mmd-light .l1 {
+  color: black;
+}
+
+.mmd-light .l2 {
+  color: darkgreen;
+}
+
+.mmd-light .l3 {
+  color: darkmagenta;
+}
+
+.mmd-light .l4 {
+  color: darkred;
+}
+
+/* Dark Theme */
+
+.mmd-dark {
+  color: white;
+}
+
+.mmd-dark .c1 {
+  color: #8bacf9;
+}
+
+.mmd-dark .c2 {
+  color: #fe7f29;
+}
+
+.mmd-dark .l1 {
+  color: #fefefe;
+}
+
+.mmd-dark .l2 {
+  color: #009a2a;
+}
+
+.mmd-dark .l3 {
+  color: #ff9fb0;
+}
+
+.mmd-dark .l4 {
+  color: #fcdb95;
+}
+
+.mmd-dark svg {
+  filter: invert(100%);
+}
+
+.mmd-dark .diagram svg {
+  filter: invert(0%);
+}
