@@ -1,4 +1,4 @@
-import "./App.scss";
+import "./App.css";
 
 import { GlobalStateProvider, useGlobalStateContext } from "./GlobalState";
 import { Route, HashRouter as Router, Switch } from "react-router-dom";

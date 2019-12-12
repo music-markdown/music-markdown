@@ -21,9 +21,9 @@ import classNames from "classnames";
 import green from "@material-ui/core/colors/green";
 import withStyles from "@material-ui/core/styles/withStyles";
 
-import "brace/mode/markdown"; // eslint-disable-line sort-imports
-import "brace/theme/github"; // eslint-disable-line sort-imports
-import "brace/theme/monokai"; // eslint-disable-line sort-imports
+import "ace-builds/src-noconflict/mode-markdown"; // eslint-disable-line sort-imports
+import "ace-builds/src-noconflict/theme-textmate"; // eslint-disable-line sort-imports
+import "ace-builds/src-noconflict/theme-twilight"; // eslint-disable-line sort-imports
 
 const styles = theme => ({
   root: {
@@ -178,9 +178,10 @@ class MarkdownEditor extends React.Component {
             <Grid item xs={6}>
               <Paper className={classes.paper}>
                 <AceEditor
-                  name="brace-editor"
                   mode="markdown"
-                  theme={theme.palette.type === "dark" ? "monokai" : "github"}
+                  theme={
+                    theme.palette.type === "dark" ? "twilight" : "textmate"
+                  }
                   width="100%"
                   maxLines={Infinity}
                   className={classes.editor}
