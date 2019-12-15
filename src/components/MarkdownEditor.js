@@ -6,6 +6,7 @@ import CircularProgress from "@material-ui/core/CircularProgress";
 import DirectoryBreadcrumbs from "./RouterBreadcrumbs";
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 import Fab from "@material-ui/core/Fab";
+import GitHubIcon from "@material-ui/icons/GitHub";
 import { GlobalStateContext } from "./GlobalState";
 import Grid from "@material-ui/core/Grid";
 import LinearProgress from "@material-ui/core/LinearProgress";
@@ -129,6 +130,9 @@ class MarkdownEditor extends React.Component {
     parts[4] = "viewer";
     const viewerLink = parts.join("/");
 
+    const githubParts = [parts[2], parts[3], "blob"].concat(parts.slice(5));
+    const githubLink = `https://github.com/${githubParts.join("/")}`;
+
     if (!isLoaded) {
       return <LinearProgress />;
     }
@@ -171,6 +175,15 @@ class MarkdownEditor extends React.Component {
                 <Tooltip title="Return to Markdown View">
                   <Fab component={Link} to={viewerLink} className={classes.fab}>
                     <ExitToAppIcon />
+                  </Fab>
+                </Tooltip>
+                <Tooltip title="Open in GitHub">
+                  <Fab
+                    href={githubLink}
+                    target="_blank"
+                    className={classes.fab}
+                  >
+                    <GitHubIcon />
                   </Fab>
                 </Tooltip>
               </Paper>
