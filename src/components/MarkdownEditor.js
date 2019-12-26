@@ -1,4 +1,6 @@
+import React, { useEffect, useState } from "react";
 import { getContents, putContents } from "../lib/github";
+import { makeStyles, useTheme } from "@material-ui/core/styles";
 
 import AceEditor from "react-ace";
 import CheckIcon from "@material-ui/icons/Check";
@@ -7,26 +9,25 @@ import DirectoryBreadcrumbs from "./RouterBreadcrumbs";
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 import Fab from "@material-ui/core/Fab";
 import GitHubIcon from "@material-ui/icons/GitHub";
-import { GlobalStateContext } from "./GlobalState";
 import Grid from "@material-ui/core/Grid";
 import LinearProgress from "@material-ui/core/LinearProgress";
 import { Link } from "react-router-dom";
 import MusicMarkdown from "./MusicMarkdown";
 import Paper from "@material-ui/core/Paper";
 import PhotoFilterIcon from "@material-ui/icons/PhotoFilter";
-import React from "react";
 import SaveIcon from "@material-ui/icons/Save";
 import Tooltip from "@material-ui/core/Tooltip";
 import asciiTabConvert from "../tools/asciitab";
 import classNames from "classnames";
 import green from "@material-ui/core/colors/green";
-import withStyles from "@material-ui/core/styles/withStyles";
+import { useDebounce } from "../lib/hooks";
+import { useGlobalStateContext } from "./GlobalState";
 
 import "ace-builds/src-noconflict/mode-markdown"; // eslint-disable-line sort-imports
 import "ace-builds/src-noconflict/theme-textmate"; // eslint-disable-line sort-imports
 import "ace-builds/src-noconflict/theme-twilight"; // eslint-disable-line sort-imports
 
-const styles = theme => ({
+const useStyles = makeStyles(theme => ({
   root: {
     flexGrow: 1,
     padding: 8
@@ -61,159 +62,143 @@ const styles = theme => ({
       backgroundColor: green[700]
     }
   }
-});
+}));
 
-class MarkdownEditor extends React.Component {
-  static contextType = GlobalStateContext;
+export default function MarkdownEditor({ match, location }) {
+  const classes = useStyles();
+  const theme = useTheme();
+  const context = useGlobalStateContext();
+  const [markdown, setMarkdown] = useState("");
+  const debouncedMarkdown = useDebounce(markdown, 250);
+  const [sha, setSha] = useState();
+  const [saving, setSaving] = useState(false);
+  const [success, setSuccess] = useState(false);
+  const [isDirty, setIsDirty] = useState(false);
+  const [isLoaded, setIsLoaded] = useState(false);
+  const { repo, path, branch } = match.params;
 
-  state = {
-    filename: undefined,
-    markdown: "",
-    sha: null,
-    saving: false,
-    success: false,
-    isDirty: false
+  const handleChange = value => {
+    setMarkdown(value);
+    setIsDirty(true);
+    setSuccess(false);
   };
 
-  handleChange = value => {
-    this.setState({ markdown: value, isDirty: true, success: false });
-  };
+  const handleSave = async () => {
+    if (!saving) {
+      setSuccess(false);
+      setSaving(true);
 
-  handleSave = async () => {
-    if (!this.state.saving) {
-      this.setState({ success: false, saving: true });
-
-      const { repo, path, branch } = this.props.match.params;
-      const { markdown, sha } = this.state;
-      const content = markdown;
-      const response = await putContents(repo, path, content, sha, branch);
+      const response = await putContents(repo, path, markdown, sha, branch);
       const json = await response.json();
 
       if (response.status === 200) {
-        this.setState({ success: true, saving: false, sha: json.content.sha });
+        setSuccess(true);
+        setSaving(false);
+        setSha(json.content.sha);
       } else {
-        this.setState({ success: false, saving: false });
+        setSuccess(false);
+        setSaving(false);
       }
     }
   };
 
-  handleFileNameChange = event => {
-    this.setState({ filename: event.target.value });
+  const handleAutoFormat = () => {
+    setMarkdown(asciiTabConvert(markdown));
   };
 
-  handleAutoFormat = () => {
-    this.setState(state => ({
-      markdown: asciiTabConvert(state.markdown)
-    }));
-  };
-
-  componentDidMount = async () => {
-    const { repo, path, branch } = this.props.match.params;
-
-    const json = await getContents(repo, path, branch);
-    this.setState({
-      isLoaded: true,
-      markdown: json.content,
-      sha: json.sha
-    });
-  };
-
-  render = () => {
-    const { saving, success, isLoaded, isDirty } = this.state;
-    const { classes, theme, location } = this.props;
-
-    const buttonClassname = classNames({
-      [classes.buttonSuccess]: success
-    });
-
-    const parts = location.pathname.split("/");
-    parts[4] = "viewer";
-    const viewerLink = parts.join("/");
-
-    const githubParts = [parts[2], parts[3], "blob"].concat(parts.slice(5));
-    const githubLink = `https://github.com/${githubParts.join("/")}`;
-
-    if (!isLoaded) {
-      return <LinearProgress />;
+  useEffect(() => {
+    async function fetchContents() {
+      const json = await getContents(repo, path, branch);
+      setIsLoaded(true);
+      setMarkdown(json.content);
+      setSha(json.sha);
     }
+    fetchContents();
+  }, [repo, path, branch]);
 
-    return (
-      <>
-        <DirectoryBreadcrumbs pathname={this.props.location.pathname} />
-        <div className={classes.root}>
-          <Grid container spacing={1}>
-            <Grid item xs={12}>
-              <Paper className={classes.toolbar}>
-                <Tooltip
-                  title={
-                    this.context.isValidGithubToken()
-                      ? "Save"
-                      : "Add a GitHub Token to Enable Saving"
-                  }
-                >
-                  <span>
-                    <Fab
-                      disabled={!isDirty || !this.context.isValidGithubToken()}
-                      className={`${buttonClassname} ${classes.fab}`}
-                      onClick={this.handleSave}
-                    >
-                      {success ? <CheckIcon /> : <SaveIcon />}
-                      {saving && (
-                        <CircularProgress
-                          size={68}
-                          className={classes.fabProgress}
-                        />
-                      )}
-                    </Fab>
-                  </span>
-                </Tooltip>
-                <Tooltip title="Auto Format">
-                  <Fab className={classes.fab} onClick={this.handleAutoFormat}>
-                    <PhotoFilterIcon />
-                  </Fab>
-                </Tooltip>
-                <Tooltip title="Return to Markdown View">
-                  <Fab component={Link} to={viewerLink} className={classes.fab}>
-                    <ExitToAppIcon />
-                  </Fab>
-                </Tooltip>
-                <Tooltip title="Open in GitHub">
+  const buttonClassname = classNames({
+    [classes.buttonSuccess]: success
+  });
+
+  const parts = location.pathname.split("/");
+  parts[4] = "viewer";
+  const viewerLink = parts.join("/");
+
+  const githubParts = [parts[2], parts[3], "blob"].concat(parts.slice(5));
+  const githubLink = `https://github.com/${githubParts.join("/")}`;
+
+  if (!isLoaded) {
+    return <LinearProgress />;
+  }
+
+  return (
+    <>
+      <DirectoryBreadcrumbs pathname={location.pathname} />
+      <div className={classes.root}>
+        <Grid container spacing={1}>
+          <Grid item xs={12}>
+            <Paper className={classes.toolbar}>
+              <Tooltip
+                title={
+                  context.isValidGithubToken()
+                    ? "Save"
+                    : "Add a GitHub Token to Enable Saving"
+                }
+              >
+                <span>
                   <Fab
-                    href={githubLink}
-                    target="_blank"
-                    className={classes.fab}
+                    disabled={!isDirty || !context.isValidGithubToken()}
+                    className={`${buttonClassname} ${classes.fab}`}
+                    onClick={handleSave}
                   >
-                    <GitHubIcon />
+                    {success ? <CheckIcon /> : <SaveIcon />}
+                    {saving && (
+                      <CircularProgress
+                        size={68}
+                        className={classes.fabProgress}
+                      />
+                    )}
                   </Fab>
-                </Tooltip>
-              </Paper>
-            </Grid>
-            <Grid item xs={6}>
-              <Paper className={classes.paper}>
-                <AceEditor
-                  mode="markdown"
-                  theme={
-                    theme.palette.type === "dark" ? "twilight" : "textmate"
-                  }
-                  width="100%"
-                  maxLines={Infinity}
-                  className={classes.editor}
-                  onChange={this.handleChange}
-                  value={this.state.markdown}
-                  editorProps={{ $blockScrolling: true }}
-                />
-              </Paper>
-            </Grid>
-            <Grid item xs={6}>
-              <Paper className={classes.paper}>
-                <MusicMarkdown source={this.state.markdown}></MusicMarkdown>
-              </Paper>
-            </Grid>
+                </span>
+              </Tooltip>
+              <Tooltip title="Auto Format">
+                <Fab className={classes.fab} onClick={handleAutoFormat}>
+                  <PhotoFilterIcon />
+                </Fab>
+              </Tooltip>
+              <Tooltip title="Return to Markdown View">
+                <Fab component={Link} to={viewerLink} className={classes.fab}>
+                  <ExitToAppIcon />
+                </Fab>
+              </Tooltip>
+              <Tooltip title="Open in GitHub">
+                <Fab href={githubLink} target="_blank" className={classes.fab}>
+                  <GitHubIcon />
+                </Fab>
+              </Tooltip>
+            </Paper>
           </Grid>
-        </div>
-      </>
-    );
-  };
+          <Grid item xs={6}>
+            <Paper className={classes.paper}>
+              <AceEditor
+                mode="markdown"
+                theme={theme.palette.type === "dark" ? "twilight" : "textmate"}
+                width="100%"
+                maxLines={Infinity}
+                className={classes.editor}
+                onChange={handleChange}
+                value={markdown}
+                editorProps={{ $blockScrolling: true }}
+              />
+            </Paper>
+          </Grid>
+          <Grid item xs={6}>
+            <Paper className={classes.paper}>
+              <MusicMarkdown source={debouncedMarkdown}></MusicMarkdown>
+            </Paper>
+          </Grid>
+        </Grid>
+      </div>
+    </>
+  );
 }
-
-export default withStyles(styles, { withTheme: true })(MarkdownEditor);

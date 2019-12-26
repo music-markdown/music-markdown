@@ -5,9 +5,9 @@ import React from "react";
 import Snackbar from "@material-ui/core/Snackbar";
 import SnackbarContent from "@material-ui/core/SnackbarContent";
 import classNames from "classnames";
-import { withStyles } from "@material-ui/core/styles";
+import { makeStyles } from "@material-ui/core/styles";
 
-const styles = theme => ({
+const useStyles = makeStyles(theme => ({
   error: {
     backgroundColor: theme.palette.error.dark
   },
@@ -25,39 +25,40 @@ const styles = theme => ({
   margin: {
     margin: theme.spacing(1)
   }
-});
+}));
 
-const ErrorSnackbar = ({ open, handleClose, classes, message }) => (
-  <Snackbar
-    anchorOrigin={{ vertical: "top", horizontal: "center" }}
-    open={open}
-    autoHideDuration={6000}
-    onClose={handleClose}
-  >
-    <SnackbarContent
-      className={classes.error}
-      aria-describedby="client-snackbar"
-      message={
-        <span id="client-snackbar" className={classes.message}>
-          <ErrorIcon
-            className={classNames(classes.icon, classes.iconVariant)}
-          />
-          {message}
-        </span>
-      }
-      action={[
-        <IconButton
-          key="close"
-          aria-label="Close"
-          color="inherit"
-          className={classes.close}
-          onClick={handleClose}
-        >
-          <CloseIcon className={classes.icon} />
-        </IconButton>
-      ]}
-    />
-  </Snackbar>
-);
-
-export default withStyles(styles)(ErrorSnackbar);
+export default function ErrorSnackbar({ open, handleClose, message }) {
+  const classes = useStyles();
+  return (
+    <Snackbar
+      anchorOrigin={{ vertical: "top", horizontal: "center" }}
+      open={open}
+      autoHideDuration={6000}
+      onClose={handleClose}
+    >
+      <SnackbarContent
+        className={classes.error}
+        aria-describedby="client-snackbar"
+        message={
+          <span id="client-snackbar" className={classes.message}>
+            <ErrorIcon
+              className={classNames(classes.icon, classes.iconVariant)}
+            />
+            {message}
+          </span>
+        }
+        action={[
+          <IconButton
+            key="close"
+            aria-label="Close"
+            color="inherit"
+            className={classes.close}
+            onClick={handleClose}
+          >
+            <CloseIcon className={classes.icon} />
+          </IconButton>
+        ]}
+      />
+    </Snackbar>
+  );
+}

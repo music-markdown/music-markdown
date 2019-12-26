@@ -4,14 +4,14 @@ import Paper from "@material-ui/core/Paper";
 import React from "react";
 import { Link as RouterLink } from "react-router-dom";
 import Typography from "@material-ui/core/Typography";
-import withStyles from "@material-ui/core/styles/withStyles";
+import { makeStyles } from "@material-ui/core/styles";
 
-const styles = theme => ({
+const useStyles = makeStyles(theme => ({
   paper: {
     padding: `${theme.spacing(1)}px`
   },
   reactRouterHoverInherit: theme.reactRouterHoverInherit
-});
+}));
 
 function buildBreadcrumb(previousPath, classes) {
   const breadcrumbItems = [];
@@ -63,7 +63,8 @@ function buildBreadcrumb(previousPath, classes) {
  * @param {string} pathname current URI pathname
  * @return {Array} List of BreadcrumbItems
  */
-const DirectoryBreadcrumbs = ({ pathname, classes }) => {
+export default function DirectoryBreadcrumbs({ pathname }) {
+  const classes = useStyles();
   const keyBase = "breadcrumb-item-";
 
   const subDirectoriesArr = pathname.split("/").filter(value => !!value);
@@ -87,6 +88,4 @@ const DirectoryBreadcrumbs = ({ pathname, classes }) => {
       </Breadcrumbs>
     </Paper>
   );
-};
-
-export default withStyles(styles)(DirectoryBreadcrumbs);
+}

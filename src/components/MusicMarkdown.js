@@ -1,118 +1,82 @@
+import React, { useEffect, useState } from "react";
+import { makeStyles, useTheme } from "@material-ui/core/styles";
+
 import ContainerDimensions from "react-container-dimensions";
 import ErrorSnackbar from "./ErrorSnackbar";
-import { GlobalStateContext } from "./GlobalState";
 import MarkdownIt from "markdown-it";
 import MarkdownItMusic from "markdown-it-music";
-import React from "react";
-import withStyles from "@material-ui/core/styles/withStyles";
+import { useGlobalStateContext } from "./GlobalState";
 
 const COLUMN_GAP = 20;
+const MD = new MarkdownIt({ html: true }).use(MarkdownItMusic);
 
-const styles = theme => ({
+const useStyles = makeStyles(theme => ({
   columns: {
     columnGap: `${COLUMN_GAP}px`,
     columnRuleWidth: "1px",
     columnRuleStyle: "dashed",
     columnRuleColor: theme.palette.text.secondary
   }
-});
+}));
 
-class MusicMarkdownRender extends React.Component {
-  static contextType = GlobalStateContext;
+const MusicMarkdownRender = ({
+  source,
+  width,
+  columnCount,
+  transposeAmount
+}) => {
+  const theme = useTheme();
+  const context = useGlobalStateContext();
+  const [html, setHtml] = useState("");
+  const [message, setMessage] = useState();
+  const [error, setError] = useState(false);
 
-  constructor(props) {
-    super(props);
-
-    this.md = new MarkdownIt({ html: true }).use(MarkdownItMusic);
-
-    this.state = {
-      html: "",
-      message: null,
-      error: false
-    };
-  }
-
-  handleClearError = (event, reason) => {
+  const handleClearError = (event, reason) => {
     if (reason === "clickaway") {
       return;
     }
-    this.setState({ error: false });
+    setError(false);
   };
 
-  update = () => {
-    const { source, width, columnCount, transposeAmount } = this.props;
-
-    this.md
-      .setTranspose(transposeAmount)
-      .setMaxWidth((width - COLUMN_GAP * (columnCount - 1)) / columnCount);
+  useEffect(() => {
+    MD.setTranspose(transposeAmount).setMaxWidth(
+      (width - COLUMN_GAP * (columnCount - 1)) / columnCount
+    );
 
     try {
-      this.setState({ html: this.md.render(source), error: false });
-      this.context.setYouTubeId(this.md.meta.youTubeId);
+      setHtml(MD.render(source));
+      setError(false);
+      context.setYouTubeId(MD.meta.youTubeId);
     } catch (err) {
       console.log(err);
-      this.setState({
-        html: `<pre>${source}</pre>`,
-        message: err.message,
-        error: true
-      });
+      setHtml(`<pre>${source}</pre>`);
+      setMessage(err.message);
+      setError(true);
     }
-  };
+  }, [context, source, width, columnCount, transposeAmount]);
 
-  componentDidMount = () => {
-    this.update();
-  };
+  return (
+    <>
+      <div
+        className={`mmd-${theme.palette.type}`}
+        dangerouslySetInnerHTML={{ __html: html }}
+      />
+      <ErrorSnackbar
+        message={message}
+        open={error}
+        handleClose={handleClearError}
+      />
+    </>
+  );
+};
 
-  componentDidUpdate = prevProps => {
-    const { source, width, columnCount, transposeAmount } = this.props;
-    if (
-      prevProps.source === source &&
-      prevProps.width === width &&
-      prevProps.columnCount === columnCount &&
-      prevProps.transposeAmount === transposeAmount
-    ) {
-      return;
-    }
-
-    clearTimeout(this.timer);
-    this.timer = setTimeout(this.update, 200);
-  };
-
-  componentWillUnmount = () => {
-    clearTimeout(this.timer);
-  };
-
-  render = () => {
-    const { theme } = this.props;
-    return (
-      <>
-        <div
-          className={`mmd-${theme.palette.type}`}
-          dangerouslySetInnerHTML={{ __html: this.state.html }}
-        />
-        <ErrorSnackbar
-          message={this.state.message}
-          open={this.state.error}
-          handleClose={this.handleClearError}
-        />
-      </>
-    );
-  };
+export default function MusicMarkdown(props) {
+  const classes = useStyles();
+  return (
+    <div className={classes.columns} style={{ columnCount: props.columnCount }}>
+      <ContainerDimensions>
+        <MusicMarkdownRender {...props} />
+      </ContainerDimensions>
+    </div>
+  );
 }
-
-const ContainerizedMusicMarkdown = props => (
-  <div
-    className={props.classes.columns}
-    style={{ columnCount: props.columnCount }}
-  >
-    <ContainerDimensions>
-      <MusicMarkdownRender {...props} />
-    </ContainerDimensions>
-  </div>
-);
-
-const MusicMarkdown = withStyles(styles, { withTheme: true })(
-  ContainerizedMusicMarkdown
-);
-
-export default MusicMarkdown;

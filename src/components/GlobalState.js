@@ -7,28 +7,12 @@ import {
 import { LOCAL_STORAGE_NAMESPACE } from "../lib/constants";
 
 const lightTheme = {
-  typography: {
-    useNextVariants: true
-  },
-  reactRouterHoverInherit: {
-    "&:hover": {
-      color: "inherit"
-    }
-  },
   palette: {
     type: "light"
   }
 };
 
 const darkTheme = {
-  typography: {
-    useNextVariants: true
-  },
-  reactRouterHoverInherit: {
-    "&:hover": {
-      color: "inherit"
-    }
-  },
   palette: {
     type: "dark"
   }

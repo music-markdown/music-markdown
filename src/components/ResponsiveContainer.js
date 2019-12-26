@@ -3,8 +3,6 @@ import React from "react";
 
 const RESPONSIVE_CONTAINER_KEY = "app-container";
 
-function ResponsiveContainer(props) {
+export default function ResponsiveContainer(props) {
   return <Grid key={RESPONSIVE_CONTAINER_KEY}>{props.children}</Grid>;
 }
-
-export default ResponsiveContainer;

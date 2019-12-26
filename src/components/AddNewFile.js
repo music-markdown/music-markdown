@@ -1,3 +1,5 @@
+import React, { useState } from "react";
+
 import AddIcon from "@material-ui/icons/Add";
 import Button from "@material-ui/core/Button";
 import Card from "@material-ui/core/Card";
@@ -8,18 +10,17 @@ import DialogContent from "@material-ui/core/DialogContent";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import ErrorSnackbar from "./ErrorSnackbar";
 import Fab from "@material-ui/core/Fab";
-import { GlobalStateContext } from "./GlobalState";
 import Grid from "@material-ui/core/Grid";
 import InputAdornment from "@material-ui/core/InputAdornment";
-import React from "react";
 import { Redirect } from "react-router-dom";
 import TextField from "@material-ui/core/TextField";
 import Tooltip from "@material-ui/core/Tooltip";
 import Typography from "@material-ui/core/Typography";
+import { makeStyles } from "@material-ui/core";
 import { putContents } from "../lib/github";
-import withStyles from "@material-ui/core/styles/withStyles";
+import { useGlobalStateContext } from "./GlobalState";
 
-const styles = theme => ({
+const useStyles = makeStyles(theme => ({
   whitespacePre: {
     whiteSpace: "pre-line",
     fontFamily: "monospace"
@@ -29,184 +30,168 @@ const styles = theme => ({
     bottom: theme.spacing(2),
     right: theme.spacing(2)
   }
-});
+}));
 
-class AddNewFile extends React.Component {
-  static contextType = GlobalStateContext;
+export default function AddNewFile({ match }) {
+  const classes = useStyles();
+  const context = useGlobalStateContext();
+  const [newFileName, setNewFileName] = useState("");
+  const [newFileOpen, setNewFileOpen] = useState(false);
+  const [toEditor, setToEditor] = useState(false);
+  const [message, setMessage] = useState("");
+  const [error, setError] = useState(false);
 
-  state = {
-    newFileName: "",
-    newFileOpen: false,
-    toEditor: false,
-    message: "",
-    error: false
+  const handleAddNewFileOpen = () => {
+    setNewFileOpen(true);
   };
 
-  handleAddNewFileOpen = () => {
-    this.setState({ newFileOpen: true });
+  const handleAddNewFileClose = () => {
+    setNewFileOpen(false);
+    setNewFileName("");
   };
 
-  handleAddNewFileClose = () => {
-    this.setState({
-      newFileOpen: false,
-      newFileName: ""
-    });
+  const handleUpdateFileName = event => {
+    setNewFileName(event.target.value);
   };
 
-  handleUpdateFileName = event => {
-    this.setState({ newFileName: event.target.value });
-  };
-
-  handleAddNewFile = async () => {
-    const { repo, branch } = this.props.match.params;
-    const path = this.getNewFilePath();
-    const content = this.getTemplateContents();
+  const handleAddNewFile = async () => {
+    const { repo, branch } = match.params;
+    const path = getNewFilePath();
+    const content = getTemplateContents();
 
     const response = await putContents(repo, path, content, undefined, branch);
 
     if (response.status !== 201) {
-      this.handleShowError(`${response.status}: ${response.statusText}`);
+      handleShowError(`${response.status}: ${response.statusText}`);
       return;
     }
-
-    this.setState({ toEditor: true });
+    setToEditor(true);
   };
 
-  handleShowError = message => {
-    this.setState({
-      message,
-      error: true
-    });
+  const handleShowError = message => {
+    setMessage(message);
+    setError(true);
   };
 
-  handleClearError = (event, reason) => {
+  const handleClearError = (event, reason) => {
     if (reason === "clickaway") {
       return;
     }
-    this.setState({ error: false });
+    setError(false);
   };
 
-  isValidFileName = () => !!this.state.newFileName.match(/^[^<>:"/\\|?*]+$/);
-  getTemplateContents = () => `---\n---\n\n# ${this.state.newFileName}`;
-  getNewFilePath = () => {
-    const file = this.state.newFileName;
-    const path = this.props.match.params.path;
-    return path ? `${path}/${file}.md` : `${file}.md`;
-  };
+  const isValidFileName = () => !!newFileName.match(/^[^<>:"/\\|?*]+$/);
+  const getTemplateContents = () => `---\n---\n\n# ${newFileName}`;
+  const getNewFilePath = () =>
+    match.params.path
+      ? `${match.params.path}/${newFileName}.md`
+      : `${newFileName}.md`;
 
-  render() {
-    const { classes } = this.props;
-    const { newFileOpen, toEditor } = this.state;
-    const { repo, branch } = this.props.match.params;
+  const { repo, branch } = match.params;
 
-    if (toEditor) {
-      return (
-        <Redirect
-          to={`/repos/${repo}/editor/${branch}/${this.getNewFilePath()}`}
-        />
-      );
-    }
-
+  if (toEditor) {
     return (
-      <>
-        <Grid
-          container
-          className={classes.grid}
-          direction="row"
-          justify="flex-end"
-          alignItems="flex-end"
-        >
-          <Tooltip
-            title={
-              this.context.isValidGithubToken()
-                ? "Add Song"
-                : "Add a GitHub Token to Enable Editing"
-            }
-          >
-            <span>
-              <Fab
-                aria-label="Add"
-                disabled={!this.context.isValidGithubToken()}
-                onClick={this.handleAddNewFileOpen}
-              >
-                <AddIcon />
-              </Fab>
-            </span>
-          </Tooltip>
-          <Dialog
-            open={newFileOpen}
-            aria-labelledby="add-new-file-dialog"
-            fullWidth={true}
-          >
-            <DialogTitle id="add-new-file-dialog-title">
-              Create New Music Markdown File
-            </DialogTitle>
-            <DialogContent>
-              <Card className={classes.previewCard}>
-                <CardContent>
-                  <Typography
-                    variant="caption"
-                    color="textSecondary"
-                    gutterBottom
-                  >
-                    Preview
-                  </Typography>
-                  <Typography
-                    variant="body1"
-                    color="textPrimary"
-                    className={classes.whitespacePre}
-                  >
-                    {this.getTemplateContents()}
-                  </Typography>
-                </CardContent>
-              </Card>
-              <TextField
-                autoFocus
-                margin="dense"
-                id="owner"
-                label="Music Markdown File Name"
-                value={this.state.newFileName}
-                onChange={e => this.handleUpdateFileName(e)}
-                fullWidth
-                error={!this.isValidFileName()}
-                helperText={
-                  !this.isValidFileName() ? (
-                    "Invalid file name"
-                  ) : (
-                    <>
-                      {repo}/{branch}/{this.getNewFilePath()}
-                    </>
-                  )
-                }
-                InputProps={{
-                  endAdornment: (
-                    <InputAdornment position="end">.md</InputAdornment>
-                  )
-                }}
-              />
-            </DialogContent>
-            <DialogActions>
-              <Button onClick={this.handleAddNewFileClose} color="secondary">
-                Cancel
-              </Button>
-              <Button
-                onClick={this.handleAddNewFile}
-                color="primary"
-                disabled={!this.isValidFileName()}
-              >
-                Create
-              </Button>
-            </DialogActions>
-          </Dialog>
-        </Grid>
-        <ErrorSnackbar
-          message={this.state.message}
-          open={this.state.error}
-          handleClose={this.handleClearError}
-        />
-      </>
+      <Redirect to={`/repos/${repo}/editor/${branch}/${getNewFilePath()}`} />
     );
   }
-}
 
-export default withStyles(styles, { withTheme: true })(AddNewFile);
+  return (
+    <>
+      <Grid
+        container
+        className={classes.grid}
+        direction="row"
+        justify="flex-end"
+        alignItems="flex-end"
+      >
+        <Tooltip
+          title={
+            context.isValidGithubToken()
+              ? "Add Song"
+              : "Add a GitHub Token to Enable Editing"
+          }
+        >
+          <span>
+            <Fab
+              aria-label="Add"
+              disabled={!context.isValidGithubToken()}
+              onClick={handleAddNewFileOpen}
+            >
+              <AddIcon />
+            </Fab>
+          </span>
+        </Tooltip>
+        <Dialog
+          open={newFileOpen}
+          aria-labelledby="add-new-file-dialog"
+          fullWidth={true}
+        >
+          <DialogTitle id="add-new-file-dialog-title">
+            Create New Music Markdown File
+          </DialogTitle>
+          <DialogContent>
+            <Card className={classes.previewCard}>
+              <CardContent>
+                <Typography
+                  variant="caption"
+                  color="textSecondary"
+                  gutterBottom
+                >
+                  Preview
+                </Typography>
+                <Typography
+                  variant="body1"
+                  color="textPrimary"
+                  className={classes.whitespacePre}
+                >
+                  {getTemplateContents()}
+                </Typography>
+              </CardContent>
+            </Card>
+            <TextField
+              autoFocus
+              margin="dense"
+              id="owner"
+              label="Music Markdown File Name"
+              value={newFileName}
+              onChange={handleUpdateFileName}
+              fullWidth
+              error={!isValidFileName()}
+              helperText={
+                !isValidFileName() ? (
+                  "Invalid file name"
+                ) : (
+                  <>
+                    {repo}/{branch}/{getNewFilePath()}
+                  </>
+                )
+              }
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position="end">.md</InputAdornment>
+                )
+              }}
+            />
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={handleAddNewFileClose} color="secondary">
+              Cancel
+            </Button>
+            <Button
+              onClick={handleAddNewFile}
+              color="primary"
+              disabled={!isValidFileName()}
+            >
+              Create
+            </Button>
+          </DialogActions>
+        </Dialog>
+      </Grid>
+      <ErrorSnackbar
+        message={message}
+        open={error}
+        handleClose={handleClearError}
+      />
+    </>
+  );
+}

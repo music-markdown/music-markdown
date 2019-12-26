@@ -1,15 +1,16 @@
 import { COLUMN_COUNT_QUERY_KEY, TRANSPOSE_QUERY_KEY } from "../lib/constants";
 import { Link, Route } from "react-router-dom";
+
 import MusicMarkdown from "./MusicMarkdown";
 import Paper from "@material-ui/core/Paper";
 import React from "react";
 import Typography from "@material-ui/core/Typography";
 import { guitarChordbook } from "markdown-it-music/lib/chordbook";
+import { makeStyles } from "@material-ui/core/styles";
 import queryString from "query-string";
 import { renderChordDiagram } from "markdown-it-music/renderers/chord_diagram";
-import withStyles from "@material-ui/core/styles/withStyles";
 
-const styles = theme => ({
+const useStyles = makeStyles(theme => ({
   root: {
     flexGrow: 1,
     padding: 8
@@ -37,35 +38,38 @@ const styles = theme => ({
   chordDiagram: {
     filter: theme.palette.type === "dark" ? "invert(100%)" : ""
   }
-});
+}));
 
-const Sandbox = ({ classes, location, match }) => (
-  <div className={classes.root}>
-    <Typography variant="h2">Sandbox</Typography>
+export default function Sandbox({ location, match }) {
+  const classes = useStyles();
+  return (
+    <div className={classes.root}>
+      <Typography variant="h2">Sandbox</Typography>
 
-    <ul>
-      <li>
-        <Link to={`${match.url}/all-features-in-one-place`}>
-          All the Features in One Place
-        </Link>
-      </li>
-      <li>
-        <Link to={`${match.url}/guitar-chordbook`}>Guitar Chordbook</Link>
-      </li>
-    </ul>
+      <ul>
+        <li>
+          <Link to={`${match.url}/all-features-in-one-place`}>
+            All the Features in One Place
+          </Link>
+        </li>
+        <li>
+          <Link to={`${match.url}/guitar-chordbook`}>Guitar Chordbook</Link>
+        </li>
+      </ul>
 
-    <Route
-      path={`${match.path}/all-features-in-one-place`}
-      component={() => (
-        <MarkdownViewer location={location} source={allFeaturesSource} />
-      )}
-    />
-    <Route
-      path={`${match.path}/guitar-chordbook`}
-      component={AllGuitarChords}
-    />
-  </div>
-);
+      <Route
+        path={`${match.path}/all-features-in-one-place`}
+        component={() => (
+          <MarkdownViewer location={location} source={allFeaturesSource} />
+        )}
+      />
+      <Route
+        path={`${match.path}/guitar-chordbook`}
+        component={AllGuitarChords}
+      />
+    </div>
+  );
+}
 
 const MarkdownViewer = ({ source, location }) => {
   const params = queryString.parse(location.search);
@@ -141,8 +145,9 @@ const qualities = [
   "13b9b5"
 ];
 
-const AllGuitarChords = withStyles(styles, { withTheme: true })(
-  ({ classes, location }) => (
+const AllGuitarChords = ({ location }) => {
+  const classes = useStyles();
+  return (
     <>
       <Typography variant="h3">Guitar Chordbook</Typography>
       <Paper className={classes.chordSourcePaper}>
@@ -157,28 +162,28 @@ const AllGuitarChords = withStyles(styles, { withTheme: true })(
         </Paper>
       ))}
     </>
-  )
-);
+  );
+};
 
-const ChordCategory = withStyles(styles, { withTheme: true })(
-  ({ classes, category }) =>
-    Array.from(guitarChordbook.keys())
-      .filter(chord => chord.match(/^[CDEFGAB](?:#|b)?|N\.C\./)[0] === category)
-      .map((chord, index) => (
-        <Paper key={`chord-${index}`} className={classes.chordVariantPaper}>
-          {guitarChordbook.get(chord).map((variant, index) => (
-            <span
-              className={classes.chordDiagram}
-              key={`variant-${index}`}
-              dangerouslySetInnerHTML={{ __html: renderChordDiagram(variant) }}
-            />
-          ))}
-          <Typography className={classes.chordVariantTypography} variant="h5">
-            {chord}
-          </Typography>
-        </Paper>
-      ))
-);
+const ChordCategory = ({ category }) => {
+  const classes = useStyles();
+  return Array.from(guitarChordbook.keys())
+    .filter(chord => chord.match(/^[CDEFGAB](?:#|b)?|N\.C\./)[0] === category)
+    .map((chord, index) => (
+      <Paper key={`chord-${index}`} className={classes.chordVariantPaper}>
+        {guitarChordbook.get(chord).map((variant, index) => (
+          <span
+            className={classes.chordDiagram}
+            key={`variant-${index}`}
+            dangerouslySetInnerHTML={{ __html: renderChordDiagram(variant) }}
+          />
+        ))}
+        <Typography className={classes.chordVariantTypography} variant="h5">
+          {chord}
+        </Typography>
+      </Paper>
+    ));
+};
 
 const allChordsSource = `---
 ---
@@ -271,5 +276,3 @@ K: Amin
 :::
 
 `;
-
-export default withStyles(styles, { withTheme: true })(Sandbox);

@@ -1,3 +1,5 @@
+import React, { useState } from "react";
+
 import AddIcon from "@material-ui/icons/Add";
 import Button from "@material-ui/core/Button";
 import Dialog from "@material-ui/core/Dialog";
@@ -7,128 +9,111 @@ import DialogTitle from "@material-ui/core/DialogTitle";
 import ErrorSnackbar from "./ErrorSnackbar";
 import Fab from "@material-ui/core/Fab";
 import Grid from "@material-ui/core/Grid";
-import React from "react";
 import TextField from "@material-ui/core/TextField";
-import withStyles from "@material-ui/core/styles/withStyles";
+import { makeStyles } from "@material-ui/core/styles";
 
-const styles = theme => ({
+const useStyles = makeStyles(theme => ({
   grid: {
     position: "fixed",
     bottom: theme.spacing(2),
     right: theme.spacing(2)
   }
-});
+}));
 
-class AddRepository extends React.Component {
-  state = {
-    open: false,
-    name: "",
-    owner: "",
-    message: null,
-    error: false
+export default function AddRepository({ handleAddRepository }) {
+  const classes = useStyles();
+  const [open, setOpen] = useState(false);
+  const [name, setName] = useState("");
+  const [owner, setOwner] = useState("");
+  const [message, setMessage] = useState(null);
+  const [error, setError] = useState(false);
+
+  const handleDialogOpen = () => {
+    setOpen(true);
   };
 
-  handleDialogOpen = () => {
-    this.setState({ open: true });
+  const handleDialogClose = () => {
+    setOpen(false);
+    setName("");
+    setOwner("");
+    setError(false);
   };
 
-  handleDialogClose = () => {
-    this.setState({
-      open: false,
-      name: "",
-      owner: "",
-      error: false
-    });
+  const handleShowError = message => {
+    setMessage(message);
+    setError(true);
   };
 
-  handleShowError = message => {
-    this.setState({
-      message: message,
-      error: true
-    });
-  };
-
-  handleClearError = (event, reason) => {
+  const handleClearError = (event, reason) => {
     if (reason === "clickaway") {
       return;
     }
-    this.setState({ error: false });
+    setError(false);
   };
 
-  handleDialogAdd = async () => {
+  const handleDialogAdd = async () => {
     try {
-      await this.props.handleAddRepository(
-        `${this.state.owner}/${this.state.name}`
-      );
-      this.handleDialogClose();
+      await handleAddRepository(`${owner}/${name}`);
+      handleDialogClose();
     } catch (err) {
-      this.handleShowError(err.message);
+      handleShowError(err.message);
     }
   };
 
-  handleUpdateOwner = event => {
-    this.setState({ owner: event.target.value });
+  const handleUpdateOwner = event => {
+    setOwner(event.target.value);
   };
 
-  handleUpdateName = event => {
-    this.setState({ name: event.target.value });
+  const handleUpdateName = event => {
+    setName(event.target.value);
   };
 
-  render = () => {
-    const { classes } = this.props;
-
-    return (
-      <>
-        <Grid
-          container
-          className={classes.grid}
-          direction="row"
-          justify="flex-end"
-          alignItems="flex-end"
-        >
-          <Fab aria-label="Add" onClick={this.handleDialogOpen}>
-            <AddIcon />
-          </Fab>
-          <Dialog
-            open={this.state.open}
-            aria-labelledby="add-repository-dialog"
-          >
-            <DialogTitle id="add-repository-dialog-title">
-              Add Repository
-            </DialogTitle>
-            <DialogContent>
-              <TextField
-                autoFocus
-                margin="dense"
-                id="owner"
-                label="Repository Owner"
-                value={this.state.owner}
-                onChange={e => this.handleUpdateOwner(e)}
-                fullWidth
-              />
-              <TextField
-                margin="dense"
-                id="name"
-                label="Repository Name"
-                value={this.state.name}
-                onChange={e => this.handleUpdateName(e)}
-                fullWidth
-              />
-            </DialogContent>
-            <DialogActions>
-              <Button onClick={this.handleDialogClose}>Cancel</Button>
-              <Button onClick={this.handleDialogAdd}>Add</Button>
-            </DialogActions>
-          </Dialog>
-        </Grid>
-        <ErrorSnackbar
-          message={this.state.message}
-          open={this.state.error}
-          handleClose={this.handleClearError}
-        />
-      </>
-    );
-  };
+  return (
+    <>
+      <Grid
+        container
+        className={classes.grid}
+        direction="row"
+        justify="flex-end"
+        alignItems="flex-end"
+      >
+        <Fab aria-label="Add" onClick={handleDialogOpen}>
+          <AddIcon />
+        </Fab>
+        <Dialog open={open} aria-labelledby="add-repository-dialog">
+          <DialogTitle id="add-repository-dialog-title">
+            Add Repository
+          </DialogTitle>
+          <DialogContent>
+            <TextField
+              autoFocus
+              margin="dense"
+              id="owner"
+              label="Repository Owner"
+              value={owner}
+              onChange={handleUpdateOwner}
+              fullWidth
+            />
+            <TextField
+              margin="dense"
+              id="name"
+              label="Repository Name"
+              value={name}
+              onChange={handleUpdateName}
+              fullWidth
+            />
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={handleDialogClose}>Cancel</Button>
+            <Button onClick={handleDialogAdd}>Add</Button>
+          </DialogActions>
+        </Dialog>
+      </Grid>
+      <ErrorSnackbar
+        message={message}
+        open={error}
+        handleClose={handleClearError}
+      />
+    </>
+  );
 }
-
-export default withStyles(styles, { withTheme: true })(AddRepository);

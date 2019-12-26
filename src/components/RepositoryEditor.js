@@ -1,8 +1,10 @@
+import React, { useEffect, useState } from "react";
 import {
   addRepository,
   deleteRepository,
   getRepositories
 } from "../lib/github";
+
 import AddRepository from "./AddRepository";
 import Avatar from "@material-ui/core/Avatar";
 import BookIcon from "@material-ui/icons/Book";
@@ -14,78 +16,66 @@ import ListItem from "@material-ui/core/ListItem";
 import ListItemAvatar from "@material-ui/core/ListItemAvatar";
 import ListItemSecondaryAction from "@material-ui/core/ListItemSecondaryAction";
 import ListItemText from "@material-ui/core/ListItemText";
-import React from "react";
-import withStyles from "@material-ui/core/styles/withStyles";
+import { makeStyles } from "@material-ui/core/styles";
 
-const styles = () => ({
+const useStyles = makeStyles({
   root: {
     flexGrow: 1,
     padding: 8
   }
 });
 
-class ListRepositories extends React.Component {
-  state = {
-    repos: []
-  };
+export default function RepositoryEditor() {
+  const classes = useStyles();
+  const [repos, setRepos] = useState([]);
+  const reposFingerprint = JSON.stringify(repos);
 
-  handleAddRepository = async repo => {
+  useEffect(() => {
+    loadRepositories();
+  }, [reposFingerprint]);
+
+  const handleAddRepository = async repo => {
     await addRepository(repo);
-    this.loadRepositories();
+    loadRepositories();
   };
 
-  handleDeleteRepository = repo => {
+  const handleDeleteRepository = repo => {
     deleteRepository(repo);
-    this.loadRepositories();
+    loadRepositories();
   };
 
-  loadRepositories = () => {
-    this.setState({
-      repos: getRepositories()
-    });
+  const loadRepositories = () => {
+    setRepos(getRepositories());
   };
 
-  componentDidMount = () => {
-    this.loadRepositories();
-  };
-
-  render = () => {
-    const { classes } = this.props;
-    return (
-      <div className={classes.root}>
-        <List>
-          {this.state.repos.map(repo => (
-            <ListItem
-              button
-              key={`repo-item-${repo}`}
-              component={Link}
-              to={`/repos/${repo}/`}
-            >
-              <ListItemAvatar>
-                <Avatar>
-                  <BookIcon />
-                </Avatar>
-              </ListItemAvatar>
-              <ListItemText primary={repo} />
-              <ListItemSecondaryAction>
-                <IconButton
-                  aria-label="Delete"
-                  onClick={() => this.handleDeleteRepository(repo)}
-                >
-                  <DeleteIcon />
-                </IconButton>
-              </ListItemSecondaryAction>
-            </ListItem>
-          ))}
-        </List>
-        <AddRepository handleAddRepository={this.handleAddRepository} />
-      </div>
-    );
-  };
+  return (
+    <div className={classes.root}>
+      <List>
+        {repos.map(repo => (
+          <ListItem
+            button
+            key={`repo-item-${repo}`}
+            component={Link}
+            to={`/repos/${repo}/`}
+          >
+            <ListItemAvatar>
+              <Avatar>
+                <BookIcon />
+              </Avatar>
+            </ListItemAvatar>
+            <ListItemText primary={repo} />
+            <ListItemSecondaryAction>
+              <IconButton
+                aria-label="Delete"
+                onClick={() => handleDeleteRepository(repo)}
+              >
+                <DeleteIcon />
+              </IconButton>
+            </ListItemSecondaryAction>
+          </ListItem>
+        ))}
+      </List>
+      <AddRepository handleAddRepository={handleAddRepository} />
+    </div>
+  );
 }
-
-const RepositoryEditor = ({ classes }) => (
-  <ListRepositories classes={classes} />
-);
-
-export default withStyles(styles)(RepositoryEditor);

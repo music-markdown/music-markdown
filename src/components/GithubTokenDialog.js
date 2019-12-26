@@ -1,3 +1,5 @@
+import React, { useState } from "react";
+
 import Button from "@material-ui/core/Button";
 import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
@@ -7,7 +9,6 @@ import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import ExpansionPanel from "@material-ui/core/ExpansionPanel";
 import ExpansionPanelSummary from "@material-ui/core/ExpansionPanelSummary";
 import MuiExpansionPanelDetails from "@material-ui/core/ExpansionPanelDetails";
-import React from "react";
 import TextField from "@material-ui/core/TextField";
 import Typography from "@material-ui/core/Typography";
 import { isValidGithubToken } from "../lib/github";
@@ -66,7 +67,7 @@ const GithubTokenInstructions = () => (
 
 export default function GithubTokenDialog({ open, handleClose }) {
   const context = useGlobalStateContext();
-  const [token, setToken] = React.useState(context.data.githubToken);
+  const [token, setToken] = useState(context.data.githubToken);
 
   const isValidToken = token => {
     return token === "" || isValidGithubToken(token);

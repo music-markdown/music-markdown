@@ -1,3 +1,5 @@
+import React, { useState } from "react";
+
 import AppBar from "@material-ui/core/AppBar";
 import Button from "@material-ui/core/Button";
 import ClickAwayListener from "@material-ui/core/ClickAwayListener";
@@ -5,7 +7,6 @@ import EditIcon from "@material-ui/icons/Edit";
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import GithubTokenDialog from "./GithubTokenDialog";
-import { GlobalStateContext } from "./GlobalState";
 import IconButton from "@material-ui/core/IconButton";
 import { Link } from "react-router-dom";
 import MenuItem from "@material-ui/core/MenuItem";
@@ -14,7 +15,6 @@ import MusicToolbar from "./MusicToolbar";
 import Paper from "@material-ui/core/Paper";
 import Popper from "@material-ui/core/Popper";
 import { REPO_REGEX } from "../lib/constants";
-import React from "react";
 import { Route } from "react-router-dom";
 import SearchIcon from "@material-ui/icons/Search";
 import SettingsIcon from "@material-ui/icons/Settings";
@@ -22,9 +22,10 @@ import Switch from "@material-ui/core/Switch";
 import Toolbar from "@material-ui/core/Toolbar";
 import Tooltip from "@material-ui/core/Tooltip";
 import ViewListIcon from "@material-ui/icons/ViewList";
-import withStyles from "@material-ui/core/styles/withStyles";
+import { makeStyles } from "@material-ui/core/styles";
+import { useGlobalStateContext } from "./GlobalState";
 
-const styles = theme => ({
+const useStyles = makeStyles(theme => ({
   reactRouterHoverInherit: theme.reactRouterHoverInherit,
   paper: {
     padding: `${theme.spacing(1)}px`
@@ -35,7 +36,7 @@ const styles = theme => ({
   filter: {
     filter: theme.palette.type === "dark" ? "invert(100%)" : ""
   }
-});
+}));
 
 const BrowseButton = ({ match }) => (
   <Tooltip title="Song List View">
@@ -79,125 +80,111 @@ const SearchToolbar = () => (
   </IconButton>
 );
 
-class MusicMarkdownNavbar extends React.Component {
-  static contextType = GlobalStateContext;
+export default function MusicMarkdownNavbar() {
+  const classes = useStyles();
+  const context = useGlobalStateContext();
+  const [apiKeyDialogOpen, setApiKeyDialogOpen] = useState(false);
+  const [settingsOpen, setSettingsOpen] = useState(false);
+  const [settingsAnchorEl, setSetingsAnchorEl] = useState();
 
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      apiKeyDialogOpen: false,
-      settingsOpen: false
-    };
-
-    this.settingsAnchorEl = undefined;
-  }
-
-  handleSettingsToggle = () => {
-    this.setState({ settingsOpen: !this.state.settingsOpen });
+  const handleSettingsToggle = () => {
+    setSettingsOpen(!settingsOpen);
   };
 
-  handleApiKeyDialogOpen = () => {
-    this.setState({ apiKeyDialogOpen: true, settingsOpen: false });
+  const handleApiKeyDialogOpen = () => {
+    setApiKeyDialogOpen(true);
+    setSettingsOpen(false);
   };
 
-  handleApiKeyDialogClose = () => {
-    this.setState({ apiKeyDialogOpen: false, settingsOpen: false });
+  const handleApiKeyDialogClose = () => {
+    setApiKeyDialogOpen(false);
+    setSettingsOpen(false);
   };
 
-  handleDarkThemeSwitch = () => {
-    this.context.toggleTheme();
+  const handleDarkThemeSwitch = () => {
+    context.toggleTheme();
   };
 
-  render() {
-    const { apiKeyDialogOpen, settingsOpen } = this.state;
-    const { classes } = this.props;
+  return (
+    <AppBar position={"sticky"} key="top-navbar">
+      <Toolbar>
+        <Button
+          className={classes.reactRouterHoverInherit}
+          component={Link}
+          to="/"
+        >
+          <img
+            className={classes.filter}
+            src="music-markdown.svg"
+            width={50}
+            alt="Music Markdown"
+          />
+        </Button>
+        <div className={classes.grow} />
 
-    return (
-      <AppBar position={"sticky"} key="top-navbar">
-        <Toolbar>
-          <Button
-            className={classes.reactRouterHoverInherit}
-            component={Link}
-            to="/"
-          >
-            <img
-              className={classes.filter}
-              src="music-markdown.svg"
-              width={50}
-              alt="Music Markdown"
-            />
-          </Button>
-          <div className={classes.grow} />
+        <Route
+          path={`${REPO_REGEX}/:mode/:branch/:path*`}
+          component={SearchToolbar}
+        />
+        <Route
+          path={[
+            "/sandbox",
+            `${REPO_REGEX}/:mode(viewer|editor)/:branch/:path*`
+          ]}
+          component={MusicToolbar}
+        />
+        <Route
+          path={`${REPO_REGEX}/:mode(viewer|editor)/:branch/:path*`}
+          component={BrowseButton}
+        />
+        <Route
+          path={`${REPO_REGEX}/viewer/:branch/:path*`}
+          component={EditButton}
+        />
+        <Route
+          path={`${REPO_REGEX}/editor/:branch/:path*`}
+          component={ViewButton}
+        />
 
-          <Route
-            path={`${REPO_REGEX}/:mode/:branch/:path*`}
-            component={SearchToolbar}
-          />
-          <Route
-            path={[
-              "/sandbox",
-              `${REPO_REGEX}/:mode(viewer|editor)/:branch/:path*`
-            ]}
-            component={MusicToolbar}
-          />
-          <Route
-            path={`${REPO_REGEX}/:mode(viewer|editor)/:branch/:path*`}
-            component={BrowseButton}
-          />
-          <Route
-            path={`${REPO_REGEX}/viewer/:branch/:path*`}
-            component={EditButton}
-          />
-          <Route
-            path={`${REPO_REGEX}/editor/:branch/:path*`}
-            component={ViewButton}
-          />
-
-          <IconButton
-            onClick={this.handleSettingsToggle}
-            buttonRef={node => {
-              this.settingsAnchorEl = node;
-            }}
-          >
-            <SettingsIcon />
-          </IconButton>
-          <Popper
-            id="settings-popper"
-            open={settingsOpen}
-            anchorEl={this.settingsAnchorEl}
-            placement="bottom-end"
-          >
-            <Paper className={classes.paper}>
-              <ClickAwayListener onClickAway={this.handleSettingsToggle}>
-                <MenuList>
-                  <MenuItem>
-                    <FormControlLabel
-                      control={
-                        <Switch
-                          defaultChecked={this.context.isDarkTheme()}
-                          onChange={this.handleDarkThemeSwitch}
-                          value="darkTheme"
-                        />
-                      }
-                      label="Toggle Dark Mode?"
-                    />
-                  </MenuItem>
-                  <MenuItem onClick={this.handleApiKeyDialogOpen}>
-                    Set GitHub Token
-                  </MenuItem>
-                </MenuList>
-              </ClickAwayListener>
-            </Paper>
-          </Popper>
-        </Toolbar>
-        <GithubTokenDialog
-          open={apiKeyDialogOpen}
-          handleClose={this.handleApiKeyDialogClose}
-        ></GithubTokenDialog>
-      </AppBar>
-    );
-  }
+        <IconButton
+          onClick={handleSettingsToggle}
+          buttonRef={setSetingsAnchorEl}
+        >
+          <SettingsIcon />
+        </IconButton>
+        <Popper
+          id="settings-popper"
+          open={settingsOpen}
+          anchorEl={settingsAnchorEl}
+          placement="bottom-end"
+        >
+          <Paper className={classes.paper}>
+            <ClickAwayListener onClickAway={handleSettingsToggle}>
+              <MenuList>
+                <MenuItem>
+                  <FormControlLabel
+                    control={
+                      <Switch
+                        defaultChecked={context.isDarkTheme()}
+                        onChange={handleDarkThemeSwitch}
+                        value="darkTheme"
+                      />
+                    }
+                    label="Toggle Dark Mode?"
+                  />
+                </MenuItem>
+                <MenuItem onClick={handleApiKeyDialogOpen}>
+                  Set GitHub Token
+                </MenuItem>
+              </MenuList>
+            </ClickAwayListener>
+          </Paper>
+        </Popper>
+      </Toolbar>
+      <GithubTokenDialog
+        open={apiKeyDialogOpen}
+        handleClose={handleApiKeyDialogClose}
+      ></GithubTokenDialog>
+    </AppBar>
+  );
 }
-
-export default withStyles(styles, { withTheme: true })(MusicMarkdownNavbar);
