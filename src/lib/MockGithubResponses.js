@@ -107,32 +107,6 @@ export const mockVinceTestGetContentsResponse = [
   }
 ];
 
-// export const mockSubdirectoryTestResponse = [
-//   {
-//     name: "Always Remember Us This Way - Lady Gaga .md",
-//     path: "Always Remember Us This Way - Lady Gaga .md",
-//     sha: "019564a84ddb2691b83263d33b0ac2ba7340701a",
-//     size: 376,
-//     url:
-//       "https://api.github.com/repos/music-markdown/almost-in-time/contents/Always%20Remember%20Us%20This%20Way%20-%20Lady%20Gaga%20.md?ref=master",
-//     html_url:
-//       "https://github.com/music-markdown/almost-in-time/blob/master/Always%20Remember%20Us%20This%20Way%20-%20Lady%20Gaga%20.md",
-//     git_url:
-//       "https://api.github.com/repos/music-markdown/almost-in-time/git/blobs/019564a84ddb2691b83263d33b0ac2ba7340701a",
-//     download_url:
-//       "https://raw.githubusercontent.com/music-markdown/almost-in-time/master/Always%20Remember%20Us%20This%20Way%20-%20Lady%20Gaga%20.md",
-//     type: "dir",
-//     _links: {
-//       self:
-//         "https://api.github.com/repos/music-markdown/almost-in-time/contents/Always%20Remember%20Us%20This%20Way%20-%20Lady%20Gaga%20.md?ref=master",
-//       git:
-//         "https://api.github.com/repos/music-markdown/almost-in-time/git/blobs/019564a84ddb2691b83263d33b0ac2ba7340701a",
-//       html:
-//         "https://github.com/music-markdown/almost-in-time/blob/master/Always%20Remember%20Us%20This%20Way%20-%20Lady%20Gaga%20.md"
-//     }
-//   }
-// ];
-
 export const mockSubdirectoryTestResponse = [
   {
     name: "The Mamas and the Papas",
