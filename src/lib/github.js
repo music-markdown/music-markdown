@@ -4,6 +4,7 @@ import { LOCAL_STORAGE_NAMESPACE } from "./constants";
 const GITHUB_TOKEN_LOCAL_STORAGE_KEY = `${LOCAL_STORAGE_NAMESPACE}:github_token`;
 const REPOS_LOCAL_STORAGE_KEY = `${LOCAL_STORAGE_NAMESPACE}:repositories`;
 const GITHUB_API_URL = "https://api.github.com";
+const REPOS_CONTENTS_TREE_STORAGE_KEY = `${LOCAL_STORAGE_NAMESPACE}:indexed-contents`;
 
 /**
  * Returns a Promise of the contents of a file or directory in a GitHub repository.
@@ -55,6 +56,54 @@ export function getRepositories() {
   } else {
     return [];
   }
+}
+
+/**
+ * Indexes all contents from stored repositories for searching
+ * TODO: Consider when a full refresh should be called. Currently, it's invoked when
+ * a repository is first accessed. However, there should be a manual trigger to allow
+ * a manual refresh of external repos.
+ */
+export async function refreshIndexedContents() {
+  let reposContents = [];
+  for (const repo of await getRepositories()) {
+    const repoContents = await getRepoContents(repo);
+    reposContents.push(repoContents);
+  }
+  localStorage.setItem(REPOS_CONTENTS_TREE_STORAGE_KEY, reposContents);
+}
+
+/**
+ * Returns all file contents in a particular github repo for all branches
+ * @param {string} repo The owner and repo in the form :owner/:repo
+ * @return {string|Array} List of contents in a repo
+ */
+export async function getRepoContents(repo) {
+  let repoContents = [];
+  for (const branch of await getBranches(repo)) {
+    const branchContents = await getBranchContents(repo, "/", branch.name);
+    repoContents.push(branchContents);
+  }
+  return repoContents;
+}
+
+/**
+ * Returns all file contents from a repo's specific branch
+ * @param {string} repo The owner and repo in the form :owner/:repo
+ * @param {string} path Subdirectory in repo to traverse
+ * @param {string} branch Name of branch in repo to traverse
+ * @return {Array<string>} Array of file contents paths
+ */
+async function getBranchContents(repo, path, branch) {
+  let branchContents = [];
+  for (const item of await getContents(repo, path, branch)) {
+    if (item.type === "file") {
+      branchContents.push(`${repo}/${branch}/${item.path}`);
+    } else if (item.type === "dir") {
+      branchContents.push(await getBranchContents(repo, item.path, branch));
+    }
+  }
+  return branchContents;
 }
 
 async function verifyRepoExists(repo) {
