@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 
+import { fade, makeStyles } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
 import Button from "@material-ui/core/Button";
 import ClickAwayListener from "@material-ui/core/ClickAwayListener";
@@ -8,6 +9,7 @@ import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import GithubTokenDialog from "./GithubTokenDialog";
 import IconButton from "@material-ui/core/IconButton";
+import InputBase from "@material-ui/core/InputBase";
 import { Link } from "react-router-dom";
 import MenuItem from "@material-ui/core/MenuItem";
 import MenuList from "@material-ui/core/MenuList";
@@ -22,7 +24,6 @@ import Switch from "@material-ui/core/Switch";
 import Toolbar from "@material-ui/core/Toolbar";
 import Tooltip from "@material-ui/core/Tooltip";
 import ViewListIcon from "@material-ui/icons/ViewList";
-import { makeStyles } from "@material-ui/core/styles";
 import { useGlobalStateContext } from "./GlobalState";
 
 const useStyles = makeStyles(theme => ({
@@ -35,6 +36,29 @@ const useStyles = makeStyles(theme => ({
   },
   filter: {
     filter: theme.palette.type === "dark" ? "invert(100%)" : ""
+  },
+  search: {
+    position: "relative",
+    borderRadius: theme.shape.borderRadius,
+    backgroundColor: fade(theme.palette.common.white, 0.15),
+    "&:hover": {
+      backgroundColor: fade(theme.palette.common.white, 0.25)
+    },
+    marginTop: theme.spacing(1),
+    marginLeft: theme.spacing(1),
+    marginRight: theme.spacing(1),
+    width: "100%",
+    [theme.breakpoints.up("sm")]: {
+      marginLeft: theme.spacing(1),
+      width: "auto"
+    }
+  },
+  inputRoot: {
+    color: "inherit"
+  },
+  inputInput: {
+    padding: theme.spacing(1, 1, 1, 7),
+    width: "100%"
   }
 }));
 
@@ -74,18 +98,56 @@ const ViewButton = ({ match }) => (
 );
 
 // TODO: Placeholder for search functionality
-const SearchToolbar = () => (
-  <IconButton>
-    <SearchIcon />
-  </IconButton>
-);
+const SearchToolbar = () => {
+  const classes = useStyles();
+  const [anchorEl, setAnchorEl] = React.useState();
+  const [searchOpen, setSearchOpen] = useState(false);
+
+  function handleSearchToggle() {
+    setSearchOpen(!searchOpen);
+  }
+
+  return (
+    <>
+      <IconButton
+        variant="contained"
+        buttonRef={setAnchorEl}
+        onClick={handleSearchToggle} // for some reason, this doesn't work if the layout is too small, e.g. mobile
+      >
+        <SearchIcon />
+      </IconButton>
+      {searchOpen ? (
+        <ClickAwayListener onClickAway={handleSearchToggle}>
+          <Popper
+            id="search-popper"
+            anchorEl={anchorEl}
+            placement="bottom-end"
+            open={searchOpen}
+          >
+            <Paper className={classes.paper}>
+              <InputBase
+                className={classes.search}
+                placeholder="Search…"
+                classes={{
+                  root: classes.inputRoot,
+                  input: classes.inputInput
+                }}
+                inputProps={{ "aria-label": "search" }}
+              />
+            </Paper>
+          </Popper>
+        </ClickAwayListener>
+      ) : null}
+    </>
+  );
+};
 
 export default function MusicMarkdownNavbar() {
   const classes = useStyles();
   const context = useGlobalStateContext();
   const [apiKeyDialogOpen, setApiKeyDialogOpen] = useState(false);
   const [settingsOpen, setSettingsOpen] = useState(false);
-  const [settingsAnchorEl, setSetingsAnchorEl] = useState();
+  const [settingsAnchorEl, setSettingsAnchorEl] = useState();
 
   const handleSettingsToggle = () => {
     setSettingsOpen(!settingsOpen);
@@ -148,7 +210,7 @@ export default function MusicMarkdownNavbar() {
 
         <IconButton
           onClick={handleSettingsToggle}
-          buttonRef={setSetingsAnchorEl}
+          buttonRef={setSettingsAnchorEl}
         >
           <SettingsIcon />
         </IconButton>
