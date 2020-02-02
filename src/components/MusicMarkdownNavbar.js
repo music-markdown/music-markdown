@@ -100,7 +100,7 @@ const ViewButton = ({ match }) => (
 // TODO: Placeholder for search functionality
 const SearchToolbar = () => {
   const classes = useStyles();
-  const [anchorEl, setAnchorEl] = React.useState();
+  const [anchorEl, setAnchorEl] = useState();
   const [searchOpen, setSearchOpen] = useState(false);
 
   function handleSearchToggle() {
