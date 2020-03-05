@@ -59,6 +59,13 @@ export function getRepositories() {
 }
 
 /**
+ * Return all indexed contents from localStorage as an array
+ */
+export function getIndexedContents() {
+  return localStorage.getItem(REPOS_CONTENTS_TREE_STORAGE_KEY).split(",");
+}
+
+/**
  * Indexes all contents from stored repositories for searching
  * TODO: Consider when a full refresh should be called. Currently, it's invoked when
  * a repository is first accessed. However, there should be a manual trigger to allow

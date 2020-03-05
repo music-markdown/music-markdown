@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 
-import { fade, makeStyles } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
+import Autocomplete from "@material-ui/lab/Autocomplete";
+import Box from "@material-ui/core/Box";
 import Button from "@material-ui/core/Button";
 import ClickAwayListener from "@material-ui/core/ClickAwayListener";
 import EditIcon from "@material-ui/icons/Edit";
@@ -9,7 +10,6 @@ import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import GithubTokenDialog from "./GithubTokenDialog";
 import IconButton from "@material-ui/core/IconButton";
-import InputBase from "@material-ui/core/InputBase";
 import { Link } from "react-router-dom";
 import MenuItem from "@material-ui/core/MenuItem";
 import MenuList from "@material-ui/core/MenuList";
@@ -18,13 +18,16 @@ import Paper from "@material-ui/core/Paper";
 import Popper from "@material-ui/core/Popper";
 import { REPO_REGEX } from "../lib/constants";
 import { Route } from "react-router-dom";
-import SearchIcon from "@material-ui/icons/Search";
 import SettingsIcon from "@material-ui/icons/Settings";
 import Switch from "@material-ui/core/Switch";
+import TextField from "@material-ui/core/TextField";
 import Toolbar from "@material-ui/core/Toolbar";
 import Tooltip from "@material-ui/core/Tooltip";
 import ViewListIcon from "@material-ui/icons/ViewList";
+import { getSearchIndexedContentsValues } from "../lib/fuzzySearch";
+import { makeStyles } from "@material-ui/core/styles";
 import { useGlobalStateContext } from "./GlobalState";
+import { useHistory } from "react-router-dom";
 
 const useStyles = makeStyles(theme => ({
   reactRouterHoverInherit: theme.reactRouterHoverInherit,
@@ -37,28 +40,15 @@ const useStyles = makeStyles(theme => ({
   filter: {
     filter: theme.palette.type === "dark" ? "invert(100%)" : ""
   },
-  search: {
-    position: "relative",
-    borderRadius: theme.shape.borderRadius,
-    backgroundColor: fade(theme.palette.common.white, 0.15),
-    "&:hover": {
-      backgroundColor: fade(theme.palette.common.white, 0.25)
-    },
-    marginTop: theme.spacing(1),
-    marginLeft: theme.spacing(1),
-    marginRight: theme.spacing(1),
+  searchResults: {
+    display: "flex",
+    justifyContent: "flex-end",
+    padding: `${theme.spacing(1)}px`,
     width: "100%",
-    [theme.breakpoints.up("sm")]: {
-      marginLeft: theme.spacing(1),
-      width: "auto"
-    }
+    position: "relative"
   },
   inputRoot: {
     color: "inherit"
-  },
-  inputInput: {
-    padding: theme.spacing(1, 1, 1, 7),
-    width: "100%"
   }
 }));
 
@@ -97,47 +87,54 @@ const ViewButton = ({ match }) => (
   </Tooltip>
 );
 
-// TODO: Placeholder for search functionality
+// TODO: Rewrite this using JSON instead of a string for files
 const SearchToolbar = () => {
+  const history = useHistory();
   const classes = useStyles();
-  const [anchorEl, setAnchorEl] = useState();
-  const [searchOpen, setSearchOpen] = useState(false);
+  const [searchResults, setSearchResults] = useState([]);
 
-  function handleSearchToggle() {
-    setSearchOpen(!searchOpen);
+  async function handleTextChange(event) {
+    const query = event.target.value;
+    const results = await getSearchIndexedContentsValues(query);
+    setSearchResults(results);
   }
 
+  const navigateToFile = event => {
+    const file = event.target.textContent;
+    history.push(createFilePath(file));
+  };
+
+  function createFilePath(fileId) {
+    const values = fileId.split("/");
+    const owner = values.shift();
+    const repo = values.shift();
+    const branch = values.shift();
+    const file = values.join("");
+    return `/repos/${owner}/${repo}/viewer/${branch}/${file}`;
+  }
+
+  // TODO: Make this a togglable button
   return (
     <>
-      <IconButton
-        variant="contained"
-        buttonRef={setAnchorEl}
-        onClick={handleSearchToggle} // for some reason, this doesn't work if the layout is too small, e.g. mobile
-      >
-        <SearchIcon />
-      </IconButton>
-      {searchOpen ? (
-        <ClickAwayListener onClickAway={handleSearchToggle}>
-          <Popper
-            id="search-popper"
-            anchorEl={anchorEl}
-            placement="bottom-end"
-            open={searchOpen}
-          >
-            <Paper className={classes.paper}>
-              <InputBase
-                className={classes.search}
-                placeholder="Search…"
-                classes={{
-                  root: classes.inputRoot,
-                  input: classes.inputInput
-                }}
-                inputProps={{ "aria-label": "search" }}
+      <div className={classes.searchResults}>
+        <Box flexGrow={1}>
+          <Autocomplete
+            options={searchResults}
+            onClose={navigateToFile}
+            getOptionLabel={option => option}
+            renderInput={params => (
+              <TextField
+                {...params}
+                style={{ width: "100%" }}
+                label="Search..."
+                variant="filled"
+                onChange={handleTextChange}
+                onClose={navigateToFile}
               />
-            </Paper>
-          </Popper>
-        </ClickAwayListener>
-      ) : null}
+            )}
+          />
+        </Box>
+      </div>
     </>
   );
 };
@@ -220,7 +217,7 @@ export default function MusicMarkdownNavbar() {
           anchorEl={settingsAnchorEl}
           placement="bottom-end"
         >
-          <Paper className={classes.paper}>
+          <Paper className={classes.paper} elevation={10}>
             <ClickAwayListener onClickAway={handleSettingsToggle}>
               <MenuList>
                 <MenuItem>

@@ -1,7 +1,9 @@
 import React, { useContext, useState } from "react";
 import {
   getGithubToken,
+  getIndexedContents,
   isValidGithubToken,
+  refreshIndexedContents,
   setGithubToken
 } from "../lib/github";
 import { LOCAL_STORAGE_NAMESPACE } from "../lib/constants";
@@ -32,7 +34,8 @@ export const GlobalStateProvider = props => {
   const [state, setState] = useState({
     githubToken: getGithubToken(),
     theme: initialTheme,
-    youTubeId: null
+    youTubeId: null,
+    indexedContents: getIndexedContents()
   });
 
   return (
@@ -60,6 +63,10 @@ export const GlobalStateProvider = props => {
           if (youTubeId !== state.youTubeId) {
             setState({ ...state, youTubeId });
           }
+        },
+        refreshIndexedContents: () => {
+          if (!state.indexedContents) refreshIndexedContents();
+          state.indexedContents = getIndexedContents();
         }
       }}
     >

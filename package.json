@@ -8,6 +8,7 @@
     "@material-ui/lab": "^4.0.0-alpha.35",
     "ace-builds": "^1.4.7",
     "classnames": "^2.2.6",
+    "fuse.js": "^3.4.6",
     "js-base64": "^2.5.1",
     "markdown-it": "^10.0.0",
     "markdown-it-music": "~0.0.13",
