@@ -101,7 +101,7 @@ const SearchToolbar = () => {
 
   const navigateToFile = event => {
     const file = event.target.textContent;
-    history.push(createFilePath(file));
+    if (file !== "" && file !== null) history.push(createFilePath(file));
   };
 
   function createFilePath(fileId) {
