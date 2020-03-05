@@ -62,7 +62,10 @@ export function getRepositories() {
  * Return all indexed contents from localStorage as an array
  */
 export function getIndexedContents() {
-  return localStorage.getItem(REPOS_CONTENTS_TREE_STORAGE_KEY).split(",");
+  const indexedContents = localStorage.getItem(REPOS_CONTENTS_TREE_STORAGE_KEY);
+  return indexedContents === null || indexedContents === []
+    ? []
+    : indexedContents.split(",");
 }
 
 /**
