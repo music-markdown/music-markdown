@@ -120,6 +120,7 @@ const SearchToolbar = () => {
         <Box flexGrow={1}>
           <Autocomplete
             options={searchResults}
+            noOptionsText="No results"
             onClose={navigateToFile}
             getOptionLabel={option => option}
             renderInput={params => (

@@ -5,7 +5,7 @@ import { getIndexedContents } from "./github.js";
  * Searches a indexed contents via the Fuse library
  */
 export async function searchIndexedContents(query) {
-  const list = getIndexedContents();
+  const fileNames = getIndexedContents();
   var options = {
     shouldSort: true,
     findAllMatches: true,
@@ -16,7 +16,7 @@ export async function searchIndexedContents(query) {
     maxPatternLength: 32,
     minMatchCharLength: 1
   };
-  var fuse = new Fuse(list, options); // "list" is the item array
+  var fuse = new Fuse(fileNames, options);
   var result = fuse.search(query);
   return result;
 }
