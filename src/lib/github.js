@@ -18,16 +18,17 @@ export async function getContents(repo, path, branch) {
   if (path === undefined || path.length === 0) {
     path = "";
   }
-  const apiUrl = getApiUrl(`/repos/${repo}/contents/${path}`, branch);
-  const response = await fetch(apiUrl, { cache: "no-cache" });
+  const response = await githubApiFetch(
+    `/repos/${repo}/contents/${path}`,
+    { cache: "no-cache" },
+    branch
+  );
   const json = await response.json();
   json.content = json.content ? Base64.decode(json.content) : "";
   return json;
 }
 
 export async function putContents(repo, path, content, sha, branch) {
-  const apiUrl = getApiUrl(`/repos/${repo}/contents/${path}`);
-
   const body = {
     message: `Music Markdown published ${path}`,
     content: Base64.encode(content),
@@ -38,7 +39,7 @@ export async function putContents(repo, path, content, sha, branch) {
     body.sha = sha;
   }
 
-  return fetch(apiUrl, {
+  return githubApiFetch(`/repos/${repo}/contents/${path}`, {
     method: "PUT",
     mode: "cors",
     body: JSON.stringify(body)
@@ -107,8 +108,7 @@ async function getBranchContents(repo, path, branch) {
 }
 
 async function verifyRepoExists(repo) {
-  const apiUrl = getApiUrl(`/repos/${repo}`);
-  const response = await fetch(apiUrl);
+  const response = await githubApiFetch(`/repos/${repo}`);
   if (response.status === 404) {
     throw new Error(`"${repo}" not found on GitHub.`);
   }
@@ -139,8 +139,7 @@ export async function addRepository(repo) {
  * @param {string} repo The owner and repo in the form :owner/:repo
  */
 export async function getBranches(repo) {
-  const apiUrl = getApiUrl(`/repos/${repo}/branches`);
-  const response = await fetch(apiUrl);
+  const response = await githubApiFetch(`/repos/${repo}/branches`);
   return response.json();
 }
 
@@ -154,25 +153,24 @@ export function deleteRepository(repo) {
 }
 
 /**
- * Composes the GitHub API url for the given url, attaching the user's GitHub
- * access token if it exists.
- * @param {string} url The path and search params
- * @param {string} branch The branch to get from
- * @return {URL} Composed GitHub API url with user's personal access token
+ * Performs a fetch to the GitHub API, attaching the user's GitHub access
+ * token if it is set.
  */
-export function getApiUrl(url, branch) {
-  url = new URL(url, GITHUB_API_URL);
+async function githubApiFetch(path, init, branch) {
+  const input = new URL(path, GITHUB_API_URL);
+  if (branch) {
+    input.searchParams.set("ref", branch);
+  }
 
   const githubToken = getGithubToken();
   if (githubToken) {
-    url.searchParams.set("access_token", githubToken);
+    init = {
+      ...init,
+      ...{ headers: { Authorization: `token ${githubToken}` } }
+    };
   }
 
-  if (branch) {
-    url.searchParams.set("ref", branch);
-  }
-
-  return url;
+  return fetch(new Request(input, init));
 }
 
 export function getGithubToken() {
