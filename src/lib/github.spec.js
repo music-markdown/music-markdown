@@ -1,7 +1,7 @@
 import {
   addRepository,
   deleteRepository,
-  getApiUrl,
+  getContents,
   getGithubToken,
   getRepositories,
   isValidGithubToken,
@@ -15,6 +15,7 @@ import {
   mockSubdirectoryTestResponse,
   mockVinceTestGetContentsResponse
 } from "./MockGithubResponses";
+import { Base64 } from "js-base64";
 import { LOCAL_STORAGE_NAMESPACE } from "./constants";
 
 describe("GitHub API", () => {
@@ -51,15 +52,21 @@ describe("GitHub API", () => {
     expect(actualRepos).toEqual(["valid-owner/valid-repo-2"]);
   });
 
-  test("getApiUrl returns API url with access token when localStorage contains github token", () => {
-    localStorage.setItem(
-      "music-markdown:github_token",
-      "music-markdown-github-token"
-    );
-    const actualUrl = getApiUrl("/some/path");
-    expect(actualUrl.searchParams.get("access_token")).toEqual(
-      "music-markdown-github-token"
-    );
+  test("getContents decodes markdown files from base64", async () => {
+    const content = { content: Base64.encode("# California Dreamin'") };
+    fetch.mockResponse(JSON.stringify(content));
+    const response = await getContents("repo", "file.md", "master");
+    expect(response.content).toEqual("# California Dreamin'");
+  });
+
+  test("getContents fetch contains GitHub token when it is available", async () => {
+    const expectedToken = "music-markdown-github-token";
+    setGithubToken("music-markdown-github-token");
+    const content = { content: Base64.encode("# California Dreamin'") };
+    fetch.mockResponse(JSON.stringify(content));
+    await getContents("repo", "file.md", "master");
+    const request = fetch.mock.calls[0][0];
+    expect(request.headers.get("Authorization")).toContain(expectedToken);
   });
 
   test("getGithubToken returns token from localStorage", () => {
