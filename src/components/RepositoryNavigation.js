@@ -17,8 +17,8 @@ import { makeStyles } from "@material-ui/core/styles";
 const useStyles = makeStyles({
   root: {
     flexGrow: 1,
-    padding: 8
-  }
+    padding: 8,
+  },
 });
 
 /**
@@ -72,7 +72,7 @@ export default function RepositoryNavigation({ match, location }) {
       <DirectoryBreadcrumbs pathname={location.pathname} />
       <div className={classes.root}>
         <List key={"repo-navigation-list"}>
-          {contents.map(item => (
+          {contents.map((item) => (
             <ListItem
               button
               component={Link}

@@ -6,11 +6,11 @@ import { Link as RouterLink } from "react-router-dom";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   paper: {
-    padding: `${theme.spacing(1)}px`
+    padding: `${theme.spacing(1)}px`,
   },
-  reactRouterHoverInherit: theme.reactRouterHoverInherit
+  reactRouterHoverInherit: theme.reactRouterHoverInherit,
 }));
 
 function buildBreadcrumb(previousPath, classes) {
@@ -20,7 +20,7 @@ function buildBreadcrumb(previousPath, classes) {
   // Certain portions are not useful to user in the breadcrumb, so we remove them.
   const ignoreIndex = [
     0 /* /repos */,
-    3 /* /:viewName(browser|viewer|editor) */
+    3 /* /:viewName(browser|viewer|editor) */,
   ];
   const keyBase = "breadcrumb-item-";
 
@@ -67,7 +67,7 @@ export default function DirectoryBreadcrumbs({ pathname }) {
   const classes = useStyles();
   const keyBase = "breadcrumb-item-";
 
-  const subDirectoriesArr = pathname.split("/").filter(value => !!value);
+  const subDirectoriesArr = pathname.split("/").filter((value) => !!value);
   subDirectoriesArr[3] = "browser";
 
   const breadcrumbItems = buildBreadcrumb(subDirectoriesArr, classes);

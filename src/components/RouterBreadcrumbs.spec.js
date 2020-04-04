@@ -12,7 +12,7 @@ Enzyme.configure({ adapter: new Adapter() });
 // style must provide styles used by component
 const style = {
   spacing: { unit: 1 },
-  reactRouterHoverInherit: {}
+  reactRouterHoverInherit: {},
 };
 
 describe("<RouterBreadcrumbs />", () => {
@@ -33,20 +33,17 @@ describe("<RouterBreadcrumbs />", () => {
       </MuiThemeProvider>
     );
 
-    const breadcrumbs = wrapper
-      .find(RouterBreadcrumbs)
-      .dive()
-      .dive();
+    const breadcrumbs = wrapper.find(RouterBreadcrumbs).dive().dive();
 
     const breadcrumbPath = breadcrumbs
       .find(Link)
-      .map(node => node.children().text());
+      .map((node) => node.children().text());
 
     expect(breadcrumbPath.join("/")).toEqual("Home/owner/repo/master");
 
     const finalItem = breadcrumbs
       .find(Typography)
-      .map(node => node.children().text());
+      .map((node) => node.children().text());
 
     expect(finalItem).toEqual(["path"]);
   });
@@ -60,14 +57,11 @@ describe("<RouterBreadcrumbs />", () => {
       </MuiThemeProvider>
     );
 
-    const breadcrumbs = wrapper
-      .find(RouterBreadcrumbs)
-      .dive()
-      .dive();
+    const breadcrumbs = wrapper.find(RouterBreadcrumbs).dive().dive();
 
     const breadcrumbPath = breadcrumbs
       .find(Link)
-      .map(node => node.children().text());
+      .map((node) => node.children().text());
 
     expect(breadcrumbPath.join("/")).toEqual(
       "Home/owner/repo/master/browser/viewer"
@@ -75,7 +69,7 @@ describe("<RouterBreadcrumbs />", () => {
 
     const finalItem = breadcrumbs
       .find(Typography)
-      .map(node => node.children().text());
+      .map((node) => node.children().text());
 
     expect(finalItem).toEqual(["editor"]);
   });
@@ -89,20 +83,17 @@ describe("<RouterBreadcrumbs />", () => {
       </MuiThemeProvider>
     );
 
-    const breadcrumbs = wrapper
-      .find(RouterBreadcrumbs)
-      .dive()
-      .dive();
+    const breadcrumbs = wrapper.find(RouterBreadcrumbs).dive().dive();
 
     const breadcrumbPath = breadcrumbs
       .find(Link)
-      .map(node => node.children().text());
+      .map((node) => node.children().text());
 
     expect(breadcrumbPath.join("/")).toEqual("Home/owner/repo/master");
 
     const finalItem = breadcrumbs
       .find(Typography)
-      .map(node => node.children().text());
+      .map((node) => node.children().text());
 
     expect(finalItem).toEqual(["path"]);
   });

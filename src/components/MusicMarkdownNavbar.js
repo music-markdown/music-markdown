@@ -26,23 +26,23 @@ import Tooltip from "@material-ui/core/Tooltip";
 import ViewListIcon from "@material-ui/icons/ViewList";
 import { useGlobalStateContext } from "./GlobalState";
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   reactRouterHoverInherit: theme.reactRouterHoverInherit,
   paper: {
-    padding: `${theme.spacing(1)}px`
+    padding: `${theme.spacing(1)}px`,
   },
   grow: {
-    flexGrow: 1
+    flexGrow: 1,
   },
   filter: {
-    filter: theme.palette.type === "dark" ? "invert(100%)" : ""
+    filter: theme.palette.type === "dark" ? "invert(100%)" : "",
   },
   search: {
     position: "relative",
     borderRadius: theme.shape.borderRadius,
     backgroundColor: fade(theme.palette.common.white, 0.15),
     "&:hover": {
-      backgroundColor: fade(theme.palette.common.white, 0.25)
+      backgroundColor: fade(theme.palette.common.white, 0.25),
     },
     marginTop: theme.spacing(1),
     marginLeft: theme.spacing(1),
@@ -50,16 +50,16 @@ const useStyles = makeStyles(theme => ({
     width: "100%",
     [theme.breakpoints.up("sm")]: {
       marginLeft: theme.spacing(1),
-      width: "auto"
-    }
+      width: "auto",
+    },
   },
   inputRoot: {
-    color: "inherit"
+    color: "inherit",
   },
   inputInput: {
     padding: theme.spacing(1, 1, 1, 7),
-    width: "100%"
-  }
+    width: "100%",
+  },
 }));
 
 const BrowseButton = ({ match }) => (
@@ -130,7 +130,7 @@ const SearchToolbar = () => {
                 placeholder="Search…"
                 classes={{
                   root: classes.inputRoot,
-                  input: classes.inputInput
+                  input: classes.inputInput,
                 }}
                 inputProps={{ "aria-label": "search" }}
               />
@@ -191,7 +191,7 @@ export default function MusicMarkdownNavbar() {
         <Route
           path={[
             "/sandbox",
-            `${REPO_REGEX}/:mode(viewer|editor)/:branch/:path*`
+            `${REPO_REGEX}/:mode(viewer|editor)/:branch/:path*`,
           ]}
           component={MusicToolbar}
         />

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import {
   addRepository,
   deleteRepository,
-  getRepositories
+  getRepositories,
 } from "../lib/github";
 
 import AddRepository from "./AddRepository";
@@ -21,8 +21,8 @@ import { makeStyles } from "@material-ui/core/styles";
 const useStyles = makeStyles({
   root: {
     flexGrow: 1,
-    padding: 8
-  }
+    padding: 8,
+  },
 });
 
 export default function RepositoryEditor() {
@@ -34,12 +34,12 @@ export default function RepositoryEditor() {
     loadRepositories();
   }, [reposFingerprint]);
 
-  const handleAddRepository = async repo => {
+  const handleAddRepository = async (repo) => {
     await addRepository(repo);
     loadRepositories();
   };
 
-  const handleDeleteRepository = repo => {
+  const handleDeleteRepository = (repo) => {
     deleteRepository(repo);
     loadRepositories();
   };
@@ -51,7 +51,7 @@ export default function RepositoryEditor() {
   return (
     <div className={classes.root}>
       <List>
-        {repos.map(repo => (
+        {repos.map((repo) => (
           <ListItem
             button
             key={`repo-item-${repo}`}

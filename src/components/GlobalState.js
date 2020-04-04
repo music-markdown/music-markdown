@@ -2,20 +2,20 @@ import React, { useContext, useState } from "react";
 import {
   getGithubToken,
   isValidGithubToken,
-  setGithubToken
+  setGithubToken,
 } from "../lib/github";
 import { LOCAL_STORAGE_NAMESPACE } from "../lib/constants";
 
 const lightTheme = {
   palette: {
-    type: "light"
-  }
+    type: "light",
+  },
 };
 
 const darkTheme = {
   palette: {
-    type: "dark"
-  }
+    type: "dark",
+  },
 };
 
 const initialTheme =
@@ -28,11 +28,11 @@ export const GlobalStateContext = React.createContext();
 
 export const useGlobalStateContext = () => useContext(GlobalStateContext);
 
-export const GlobalStateProvider = props => {
+export const GlobalStateProvider = (props) => {
   const [state, setState] = useState({
     githubToken: getGithubToken(),
     theme: initialTheme,
-    youTubeId: null
+    youTubeId: null,
   });
 
   return (
@@ -40,7 +40,7 @@ export const GlobalStateProvider = props => {
       value={{
         data: state,
         isValidGithubToken: () => isValidGithubToken(state.githubToken),
-        setGithubToken: githubToken => {
+        setGithubToken: (githubToken) => {
           if (githubToken !== state.githubToken) {
             setState({ ...state, githubToken });
             setGithubToken(githubToken);
@@ -56,11 +56,11 @@ export const GlobalStateProvider = props => {
           );
           setState({ ...state, theme });
         },
-        setYouTubeId: youTubeId => {
+        setYouTubeId: (youTubeId) => {
           if (youTubeId !== state.youTubeId) {
             setState({ ...state, youTubeId });
           }
-        }
+        },
       }}
     >
       {props.children}

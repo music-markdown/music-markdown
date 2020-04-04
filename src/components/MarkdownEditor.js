@@ -27,41 +27,41 @@ import "ace-builds/src-noconflict/mode-markdown"; // eslint-disable-line sort-im
 import "ace-builds/src-noconflict/theme-textmate"; // eslint-disable-line sort-imports
 import "ace-builds/src-noconflict/theme-twilight"; // eslint-disable-line sort-imports
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
-    padding: 8
+    padding: 8,
   },
   fabProgress: {
     color: green[500],
     position: "absolute",
     top: -6,
     left: -6,
-    zIndex: 1
+    zIndex: 1,
   },
   editor: {
     marginLeft: theme.spacing(1),
     marginRight: theme.spacing(1),
     height: "100%",
-    width: "100%"
+    width: "100%",
   },
   fab: {
-    margin: theme.spacing(1)
+    margin: theme.spacing(1),
   },
   toolbar: {
     display: "flex",
-    padding: theme.spacing(1)
+    padding: theme.spacing(1),
   },
   paper: {
     padding: theme.spacing(2),
-    height: "100%"
+    height: "100%",
   },
   buttonSuccess: {
     backgroundColor: green[500],
     "&:hover": {
-      backgroundColor: green[700]
-    }
-  }
+      backgroundColor: green[700],
+    },
+  },
 }));
 
 export default function MarkdownEditor({ match, location }) {
@@ -77,7 +77,7 @@ export default function MarkdownEditor({ match, location }) {
   const [isLoaded, setIsLoaded] = useState(false);
   const { repo, path, branch } = match.params;
 
-  const handleChange = value => {
+  const handleChange = (value) => {
     setMarkdown(value);
     setIsDirty(true);
     setSuccess(false);
@@ -117,7 +117,7 @@ export default function MarkdownEditor({ match, location }) {
   }, [repo, path, branch]);
 
   const buttonClassname = classNames({
-    [classes.buttonSuccess]: success
+    [classes.buttonSuccess]: success,
   });
 
   const parts = location.pathname.split("/");

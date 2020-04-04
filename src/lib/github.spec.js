@@ -6,14 +6,14 @@ import {
   getRepositories,
   isValidGithubToken,
   refreshIndexedContents,
-  setGithubToken
+  setGithubToken,
 } from "./github";
 import {
   mockGetBranchesResponse,
   mockMasterGetContentsResponse,
   mockSubdirectoryContentsTestResponse,
   mockSubdirectoryTestResponse,
-  mockVinceTestGetContentsResponse
+  mockVinceTestGetContentsResponse,
 } from "./MockGithubResponses";
 import { Base64 } from "js-base64";
 import { LOCAL_STORAGE_NAMESPACE } from "./constants";

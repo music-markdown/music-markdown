@@ -7,14 +7,14 @@ import PlayArrowIcon from "@material-ui/icons/PlayArrow";
 import { makeStyles } from "@material-ui/core/styles";
 import { useGlobalStateContext } from "./GlobalState";
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   paper: {
     position: "fixed",
     bottom: theme.spacing(1),
     right: theme.spacing(1),
     padding: theme.spacing(2),
-    cursor: "move"
-  }
+    cursor: "move",
+  },
 }));
 
 export function YouTubePlayer({ youTubeId }) {
@@ -25,8 +25,8 @@ export function YouTubePlayer({ youTubeId }) {
         <iframe
           title={youTubeId}
           style={{ border: 0 }}
-          src={`https://www.youtube.com/embed/${youTubeId}`}
-          allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+          src={`https://www.youtube.com/embed/${youTubeId}?autoplay=1&modestbranding=1`}
+          allow="accelerometer; encrypted-media; gyroscope; picture-in-picture"
           allowFullScreen
         ></iframe>
       </Paper>

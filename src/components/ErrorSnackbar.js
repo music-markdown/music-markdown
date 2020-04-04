@@ -7,24 +7,24 @@ import SnackbarContent from "@material-ui/core/SnackbarContent";
 import classNames from "classnames";
 import { makeStyles } from "@material-ui/core/styles";
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   error: {
-    backgroundColor: theme.palette.error.dark
+    backgroundColor: theme.palette.error.dark,
   },
   icon: {
-    fontSize: 20
+    fontSize: 20,
   },
   iconVariant: {
     opacity: 0.9,
-    marginRight: theme.spacing(1)
+    marginRight: theme.spacing(1),
   },
   message: {
     display: "flex",
-    alignItems: "center"
+    alignItems: "center",
   },
   margin: {
-    margin: theme.spacing(1)
-  }
+    margin: theme.spacing(1),
+  },
 }));
 
 export default function ErrorSnackbar({ open, handleClose, message }) {
@@ -56,7 +56,7 @@ export default function ErrorSnackbar({ open, handleClose, message }) {
             onClick={handleClose}
           >
             <CloseIcon className={classes.icon} />
-          </IconButton>
+          </IconButton>,
         ]}
       />
     </Snackbar>

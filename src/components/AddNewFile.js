@@ -20,16 +20,16 @@ import { makeStyles } from "@material-ui/core";
 import { putContents } from "../lib/github";
 import { useGlobalStateContext } from "./GlobalState";
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   whitespacePre: {
     whiteSpace: "pre-line",
-    fontFamily: "monospace"
+    fontFamily: "monospace",
   },
   grid: {
     position: "fixed",
     bottom: theme.spacing(2),
-    right: theme.spacing(2)
-  }
+    right: theme.spacing(2),
+  },
 }));
 
 export default function AddNewFile({ match }) {
@@ -50,7 +50,7 @@ export default function AddNewFile({ match }) {
     setNewFileName("");
   };
 
-  const handleUpdateFileName = event => {
+  const handleUpdateFileName = (event) => {
     setNewFileName(event.target.value);
   };
 
@@ -68,7 +68,7 @@ export default function AddNewFile({ match }) {
     setToEditor(true);
   };
 
-  const handleShowError = message => {
+  const handleShowError = (message) => {
     setMessage(message);
     setError(true);
   };
@@ -169,7 +169,7 @@ export default function AddNewFile({ match }) {
               InputProps={{
                 endAdornment: (
                   <InputAdornment position="end">.md</InputAdornment>
-                )
+                ),
               }}
             />
           </DialogContent>

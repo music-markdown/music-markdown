@@ -17,8 +17,8 @@ import { withStyles } from "@material-ui/core/styles";
 
 const ExpansionPanelDetails = withStyles({
   root: {
-    backgroundColor: "rgba(0, 0, 0, .03)"
-  }
+    backgroundColor: "rgba(0, 0, 0, .03)",
+  },
 })(MuiExpansionPanelDetails);
 
 const GithubTokenInstructions = () => (
@@ -69,7 +69,7 @@ export default function GithubTokenDialog({ open, handleClose }) {
   const context = useGlobalStateContext();
   const [token, setToken] = useState(context.data.githubToken);
 
-  const isValidToken = token => {
+  const isValidToken = (token) => {
     return token === "" || isValidGithubToken(token);
   };
 
@@ -98,7 +98,7 @@ export default function GithubTokenDialog({ open, handleClose }) {
           label="GitHub Token"
           fullWidth
           value={token || ""}
-          onChange={e => setToken(e.target.value)}
+          onChange={(e) => setToken(e.target.value)}
           error={!isValidToken(token)}
           helperText="Warning: GitHub tokens are very sensitive. Anyone who 
           gains access to this token will have access to your GitHub account.

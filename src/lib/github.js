@@ -32,7 +32,7 @@ export async function putContents(repo, path, content, sha, branch) {
   const body = {
     message: `Music Markdown published ${path}`,
     content: Base64.encode(content),
-    branch
+    branch,
   };
 
   if (sha) {
@@ -42,7 +42,7 @@ export async function putContents(repo, path, content, sha, branch) {
   return githubApiFetch(`/repos/${repo}/contents/${path}`, {
     method: "PUT",
     mode: "cors",
-    body: JSON.stringify(body)
+    body: JSON.stringify(body),
   });
 }
 
@@ -148,7 +148,7 @@ export async function getBranches(repo) {
  * @param {string} repo The owner and repo in the form :owner/:repo
  */
 export function deleteRepository(repo) {
-  const repos = getRepositories().filter(r => r !== repo);
+  const repos = getRepositories().filter((r) => r !== repo);
   localStorage.setItem(REPOS_LOCAL_STORAGE_KEY, JSON.stringify(repos));
 }
 
@@ -166,7 +166,7 @@ async function githubApiFetch(path, init, branch) {
   if (githubToken) {
     init = {
       ...init,
-      ...{ headers: { Authorization: `token ${githubToken}` } }
+      ...{ headers: { Authorization: `token ${githubToken}` } },
     };
   }
 

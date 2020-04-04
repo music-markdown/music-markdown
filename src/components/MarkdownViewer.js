@@ -10,8 +10,8 @@ import queryString from "query-string";
 const useStyles = makeStyles({
   root: {
     flexGrow: 1,
-    padding: 8
-  }
+    padding: 8,
+  },
 });
 
 export default function MarkdownViewer({ location, match }) {

@@ -10,34 +10,34 @@ import { makeStyles } from "@material-ui/core/styles";
 import queryString from "query-string";
 import { renderChordDiagram } from "markdown-it-music/renderers/chord_diagram";
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
-    padding: 8
+    padding: 8,
   },
   chordSourcePaper: {
     margin: theme.spacing(1),
-    padding: theme.spacing(2)
+    padding: theme.spacing(2),
   },
   chordCategoryPaper: {
     margin: theme.spacing(1),
-    textAlign: "center"
+    textAlign: "center",
   },
   chordCategoryTypography: {
     color: theme.palette.text.primary,
-    textAlign: "center"
+    textAlign: "center",
   },
   chordVariantPaper: {
     display: "inline-block",
     margin: theme.spacing(1),
-    textAlign: "center"
+    textAlign: "center",
   },
   chordVariantTypography: {
-    color: theme.palette.text.secondary
+    color: theme.palette.text.secondary,
   },
   chordDiagram: {
-    filter: theme.palette.type === "dark" ? "invert(100%)" : ""
-  }
+    filter: theme.palette.type === "dark" ? "invert(100%)" : "",
+  },
 }));
 
 export default function Sandbox({ location, match }) {
@@ -102,7 +102,7 @@ const roots = [
   "A",
   "A#",
   "Bb",
-  "B"
+  "B",
 ];
 
 const qualities = [
@@ -142,7 +142,7 @@ const qualities = [
   "11aug",
   "13",
   "13b9",
-  "13b9b5"
+  "13b9b5",
 ];
 
 const AllGuitarChords = ({ location }) => {
@@ -168,7 +168,7 @@ const AllGuitarChords = ({ location }) => {
 const ChordCategory = ({ category }) => {
   const classes = useStyles();
   return Array.from(guitarChordbook.keys())
-    .filter(chord => chord.match(/^[CDEFGAB](?:#|b)?|N\.C\./)[0] === category)
+    .filter((chord) => chord.match(/^[CDEFGAB](?:#|b)?|N\.C\./)[0] === category)
     .map((chord, index) => (
       <Paper key={`chord-${index}`} className={classes.chordVariantPaper}>
         {guitarChordbook.get(chord).map((variant, index) => (
@@ -189,8 +189,8 @@ const allChordsSource = `---
 ---
 ${roots
   .map(
-    root => `## ${root} Chords
-c1: ${qualities.map(quality => root + quality).join(" ")}`
+    (root) => `## ${root} Chords
+c1: ${qualities.map((quality) => root + quality).join(" ")}`
   )
   .join("\n\n")}
 `;

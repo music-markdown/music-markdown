@@ -16,16 +16,16 @@ import { YouTubeToggle } from "./YouTube";
 import { makeStyles } from "@material-ui/core/styles";
 import queryString from "query-string";
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   popper: {
-    zIndex: 9999
+    zIndex: 9999,
   },
   paper: {
-    padding: theme.spacing(2)
+    padding: theme.spacing(2),
   },
   slider: {
-    width: 300
-  }
+    width: 300,
+  },
 }));
 
 const handleUpdateQuery = (props, name, value, original) => {
@@ -38,15 +38,15 @@ const handleUpdateQuery = (props, name, value, original) => {
   props.history.push({ search: queryString.stringify(params) });
 };
 
-const ColumnCountSelector = props => {
+const ColumnCountSelector = (props) => {
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = useState();
 
-  const handleToggle = event => {
+  const handleToggle = (event) => {
     setAnchorEl(!anchorEl ? event.currentTarget : undefined);
   };
 
-  const handleClickAway = event => {
+  const handleClickAway = (event) => {
     if (anchorEl.contains(event.target)) {
       return;
     }
@@ -79,7 +79,7 @@ const ColumnCountSelector = props => {
               handleUpdateQuery(props, COLUMN_COUNT_QUERY_KEY, value, "1")
             }
           >
-            {["1", "2", "3", "4", "5", "6", "7", "8"].map(columnCount => (
+            {["1", "2", "3", "4", "5", "6", "7", "8"].map((columnCount) => (
               <ToggleButton value={columnCount} key={columnCount}>
                 {columnCount}
               </ToggleButton>
@@ -91,15 +91,15 @@ const ColumnCountSelector = props => {
   );
 };
 
-const TransposeSelector = props => {
+const TransposeSelector = (props) => {
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = useState();
 
-  const handleToggle = event => {
+  const handleToggle = (event) => {
     setAnchorEl(!anchorEl ? event.currentTarget : undefined);
   };
 
-  const handleClickAway = event => {
+  const handleClickAway = (event) => {
     if (anchorEl.contains(event.target)) {
       return;
     }

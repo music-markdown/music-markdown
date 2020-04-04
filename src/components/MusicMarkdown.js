@@ -10,20 +10,20 @@ import { useGlobalStateContext } from "./GlobalState";
 const COLUMN_GAP = 20;
 const MD = new MarkdownIt({ html: true }).use(MarkdownItMusic);
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   columns: {
     columnGap: `${COLUMN_GAP}px`,
     columnRuleWidth: "1px",
     columnRuleStyle: "dashed",
-    columnRuleColor: theme.palette.text.secondary
-  }
+    columnRuleColor: theme.palette.text.secondary,
+  },
 }));
 
 const MusicMarkdownRender = ({
   source,
   width,
   columnCount,
-  transposeAmount
+  transposeAmount,
 }) => {
   const theme = useTheme();
   const context = useGlobalStateContext();

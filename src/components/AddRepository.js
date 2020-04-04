@@ -12,12 +12,12 @@ import Grid from "@material-ui/core/Grid";
 import TextField from "@material-ui/core/TextField";
 import { makeStyles } from "@material-ui/core/styles";
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   grid: {
     position: "fixed",
     bottom: theme.spacing(2),
-    right: theme.spacing(2)
-  }
+    right: theme.spacing(2),
+  },
 }));
 
 export default function AddRepository({ handleAddRepository }) {
@@ -39,7 +39,7 @@ export default function AddRepository({ handleAddRepository }) {
     setError(false);
   };
 
-  const handleShowError = message => {
+  const handleShowError = (message) => {
     setMessage(message);
     setError(true);
   };
@@ -60,11 +60,11 @@ export default function AddRepository({ handleAddRepository }) {
     }
   };
 
-  const handleUpdateOwner = event => {
+  const handleUpdateOwner = (event) => {
     setOwner(event.target.value);
   };
 
-  const handleUpdateName = event => {
+  const handleUpdateName = (event) => {
     setName(event.target.value);
   };
 
