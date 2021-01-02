@@ -2,9 +2,11 @@ import { Route, BrowserRouter as Router } from "react-router-dom";
 import React from "react";
 import ReactDOM from "react-dom";
 import RepositoryNavigation from "./RepositoryNavigation";
+import { mockMasterGetContentsResponse } from "../lib/MockGithubResponses";
 
 describe("RepositoryNavigation", () => {
   it("renders without crashing", () => {
+    fetch.mockResponse(JSON.stringify(mockMasterGetContentsResponse));
     const div = document.createElement("div");
     ReactDOM.render(
       <Router>
