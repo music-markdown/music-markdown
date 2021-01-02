@@ -72,19 +72,21 @@ const ColumnCountSelector = (props) => {
 
       <Popper className={classes.popper} open={!!anchorEl} anchorEl={anchorEl}>
         <ClickAwayListener onClickAway={handleClickAway}>
-          <ToggleButtonGroup
-            value={columnCount}
-            exclusive
-            onChange={(event, value) =>
-              handleUpdateQuery(props, COLUMN_COUNT_QUERY_KEY, value, "1")
-            }
-          >
-            {["1", "2", "3", "4", "5", "6", "7", "8"].map((columnCount) => (
-              <ToggleButton value={columnCount} key={columnCount}>
-                {columnCount}
-              </ToggleButton>
-            ))}
-          </ToggleButtonGroup>
+          <Paper className={classes.paper}>
+            <ToggleButtonGroup
+              value={columnCount}
+              exclusive
+              onChange={(event, value) =>
+                handleUpdateQuery(props, COLUMN_COUNT_QUERY_KEY, value, "1")
+              }
+            >
+              {["1", "2", "3", "4", "5", "6", "7", "8"].map((columnCount) => (
+                <ToggleButton value={columnCount} key={columnCount}>
+                  {columnCount}
+                </ToggleButton>
+              ))}
+            </ToggleButtonGroup>
+          </Paper>
         </ClickAwayListener>
       </Popper>
     </>
