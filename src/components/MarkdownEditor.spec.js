@@ -3,9 +3,11 @@ import { GlobalStateProvider } from "./GlobalState";
 import MarkdownEditor from "./MarkdownEditor";
 import React from "react";
 import ReactDOM from "react-dom";
+import { mockMasterGetContentsResponse } from "../lib/MockGithubResponses";
 
 describe("MarkdownEditor", () => {
   it("renders without crashing", () => {
+    fetch.mockResponse(JSON.stringify(mockMasterGetContentsResponse));
     const div = document.createElement("div");
     ReactDOM.render(
       <GlobalStateProvider>
