@@ -3,7 +3,6 @@ import { Link, Route } from "react-router-dom";
 
 import MusicMarkdown from "./MusicMarkdown";
 import Paper from "@material-ui/core/Paper";
-import React from "react";
 import Typography from "@material-ui/core/Typography";
 import { guitarChordbook } from "markdown-it-music/lib/chordbook";
 import { makeStyles } from "@material-ui/core/styles";

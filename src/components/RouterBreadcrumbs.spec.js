@@ -1,4 +1,3 @@
-import React from "react";
 import RouterBreadcrumbs from "./RouterBreadcrumbs";
 import { HashRouter as Router } from "react-router-dom";
 import { render, screen } from "@testing-library/react";

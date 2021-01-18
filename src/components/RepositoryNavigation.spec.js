@@ -16,7 +16,6 @@ describe("RepositoryNavigation", () => {
       <Router>
         <Route
           path={`${REPO_REGEX}/browser/:branch/:path*`}
-          exact
           component={RepositoryNavigation}
         />
       </Router>

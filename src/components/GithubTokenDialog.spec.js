@@ -1,4 +1,3 @@
-import { Route, BrowserRouter as Router } from "react-router-dom";
 import GithubTokenDialog from "./GithubTokenDialog";
 import { GlobalStateProvider } from "./GlobalState";
 import { render } from "@testing-library/react";

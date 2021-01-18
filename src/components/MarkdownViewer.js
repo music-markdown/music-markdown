@@ -1,5 +1,5 @@
 import { COLUMN_COUNT_QUERY_KEY, TRANSPOSE_QUERY_KEY } from "../lib/constants";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 import LinearProgress from "@material-ui/core/LinearProgress";
 import MusicMarkdown from "./MusicMarkdown";
