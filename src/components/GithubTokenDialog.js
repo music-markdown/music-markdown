@@ -1,14 +1,13 @@
 import React, { useState } from "react";
-
+import Accordion from "@material-ui/core/Accordion";
+import AccordionDetails from "@material-ui/core/AccordionActions";
+import AccordionSummary from "@material-ui/core/AccordionSummary";
 import Button from "@material-ui/core/Button";
 import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
-import ExpansionPanel from "@material-ui/core/ExpansionPanel";
-import ExpansionPanelSummary from "@material-ui/core/ExpansionPanelSummary";
-import MuiExpansionPanelDetails from "@material-ui/core/ExpansionPanelDetails";
 import TextField from "@material-ui/core/TextField";
 import Typography from "@material-ui/core/Typography";
 import { isValidGithubToken } from "../lib/github";
@@ -19,16 +18,16 @@ const ExpansionPanelDetails = withStyles({
   root: {
     backgroundColor: "rgba(0, 0, 0, .03)",
   },
-})(MuiExpansionPanelDetails);
+})(AccordionDetails);
 
 const GithubTokenInstructions = () => (
-  <ExpansionPanel>
-    <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
+  <Accordion>
+    <AccordionSummary expandIcon={<ExpandMoreIcon />}>
       <Typography>
         Set a <b>GitHub Token</b> to create or change Music Markdown files in
         GitHub.
       </Typography>
-    </ExpansionPanelSummary>
+    </AccordionSummary>
     <ExpansionPanelDetails>
       <div>
         <h1>How to Create a New Token</h1>
@@ -62,7 +61,7 @@ const GithubTokenInstructions = () => (
         </ol>
       </div>
     </ExpansionPanelDetails>
-  </ExpansionPanel>
+  </Accordion>
 );
 
 export default function GithubTokenDialog({ open, handleClose }) {
