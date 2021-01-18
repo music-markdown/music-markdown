@@ -1,7 +1,6 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
 
-import ContainerDimensions from "react-container-dimensions";
 import ErrorSnackbar from "./ErrorSnackbar";
 import MarkdownIt from "markdown-it";
 import MarkdownItMusic from "markdown-it-music";
@@ -39,9 +38,7 @@ const MusicMarkdownRender = ({
   };
 
   useEffect(() => {
-    MD.setTranspose(transposeAmount).setMaxWidth(
-      (width - COLUMN_GAP * (columnCount - 1)) / columnCount
-    );
+    MD.setTranspose(transposeAmount);
 
     try {
       setHtml(MD.render(source));
@@ -74,9 +71,7 @@ export default function MusicMarkdown(props) {
   const classes = useStyles();
   return (
     <div className={classes.columns} style={{ columnCount: props.columnCount }}>
-      <ContainerDimensions>
-        <MusicMarkdownRender {...props} />
-      </ContainerDimensions>
+      <MusicMarkdownRender {...props} />
     </div>
   );
 }

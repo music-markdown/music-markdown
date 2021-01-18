@@ -1,22 +1,28 @@
 import { Route, BrowserRouter as Router } from "react-router-dom";
 import { GlobalStateProvider } from "./GlobalState";
 import MarkdownViewer from "./MarkdownViewer";
-import React from "react";
-import ReactDOM from "react-dom";
 import { mockMasterGetContentsResponse } from "../lib/MockGithubResponses";
+import { render } from "@testing-library/react";
+import { REPO_REGEX } from "../lib/constants";
 
 describe("MarkdownViewer", () => {
+  beforeEach(async () => {
+    fetch.resetMocks();
+    localStorage.clear();
+  });
+
   it("renders without crashing", () => {
     fetch.mockResponse(JSON.stringify(mockMasterGetContentsResponse));
-    const div = document.createElement("div");
-    ReactDOM.render(
+    render(
       <GlobalStateProvider>
         <Router>
-          <Route path="/" exact component={MarkdownViewer} />
+          <Route
+            path={`${REPO_REGEX}/viewer/:branch/:path+`}
+            exact
+            component={MarkdownViewer}
+          />
         </Router>
-      </GlobalStateProvider>,
-      div
+      </GlobalStateProvider>
     );
-    ReactDOM.unmountComponentAtNode(div);
   });
 });

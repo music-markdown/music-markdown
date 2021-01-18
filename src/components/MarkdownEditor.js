@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { getContents, putContents } from "../lib/github";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
 

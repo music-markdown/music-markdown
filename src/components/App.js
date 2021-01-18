@@ -10,7 +10,6 @@ import MarkdownViewer from "./MarkdownViewer";
 import { ThemeProvider as MuiThemeProvider } from "@material-ui/core/styles";
 import MusicMarkdownNavbar from "./MusicMarkdownNavbar";
 import { REPO_REGEX } from "../lib/constants";
-import React from "react";
 import RepositoryEditor from "./RepositoryEditor";
 import RepositoryNavigation from "./RepositoryNavigation";
 import ResponsiveContainer from "./ResponsiveContainer";

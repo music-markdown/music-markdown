@@ -1,7 +1,6 @@
 import Breadcrumbs from "@material-ui/core/Breadcrumbs";
 import Link from "@material-ui/core/Link";
 import Paper from "@material-ui/core/Paper";
-import React from "react";
 import { Link as RouterLink } from "react-router-dom";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
@@ -36,13 +35,18 @@ function buildBreadcrumb(previousPath, classes) {
     if (i === previousPath.length - 1) {
       // Last item should be active
       breadcrumbItems.push(
-        <Typography color="textPrimary" key={`${keyBase}${i}`}>
+        <Typography
+          role="breadcrumb"
+          color="textPrimary"
+          key={`${keyBase}${i}`}
+        >
           {directory}
         </Typography>
       );
     } else {
       breadcrumbItems.push(
         <Link
+          role="breadcrumb"
           component={RouterLink}
           to={`${currDir}/`}
           key={`${keyBase}${i}`}
@@ -76,6 +80,7 @@ export default function DirectoryBreadcrumbs({ pathname }) {
     <Paper className={classes.paper}>
       <Breadcrumbs>
         <Link
+          role="breadcrumb"
           component={RouterLink}
           to={`/`}
           key={`${keyBase}Home`}

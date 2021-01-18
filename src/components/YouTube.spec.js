@@ -1,52 +1,39 @@
 import { YouTubePlayer, YouTubeToggle } from "./YouTube";
 import { GlobalStateProvider } from "./GlobalState";
-import React from "react";
-import ReactDOM from "react-dom";
+import { render } from "@testing-library/react";
 
 describe("YouTubePlayer", () => {
   it("renders without youTubeId", () => {
-    const div = document.createElement("div");
-    ReactDOM.render(
+    render(
       <GlobalStateProvider>
         <YouTubePlayer />
-      </GlobalStateProvider>,
-      div
+      </GlobalStateProvider>
     );
-    ReactDOM.unmountComponentAtNode(div);
   });
 
   it("renders with youTubeId", () => {
-    const div = document.createElement("div");
-    ReactDOM.render(
+    render(
       <GlobalStateProvider>
         <YouTubePlayer youTubeId="abcd" />
-      </GlobalStateProvider>,
-      div
+      </GlobalStateProvider>
     );
-    ReactDOM.unmountComponentAtNode(div);
   });
 });
 
 describe("YouTubeToggle", () => {
   it("renders without youTubeId", () => {
-    const div = document.createElement("div");
-    ReactDOM.render(
+    render(
       <GlobalStateProvider>
         <YouTubeToggle />
-      </GlobalStateProvider>,
-      div
+      </GlobalStateProvider>
     );
-    ReactDOM.unmountComponentAtNode(div);
   });
 
   it("renders with youTubeId", () => {
-    const div = document.createElement("div");
-    ReactDOM.render(
+    render(
       <GlobalStateProvider>
         <YouTubeToggle youTubeId="abcd" />
-      </GlobalStateProvider>,
-      div
+      </GlobalStateProvider>
     );
-    ReactDOM.unmountComponentAtNode(div);
   });
 });

@@ -1,20 +1,14 @@
 import { Route, BrowserRouter as Router } from "react-router-dom";
 import AddRepository from "./AddRepository";
 import { GlobalStateProvider } from "./GlobalState";
-import React from "react";
-import ReactDOM from "react-dom";
+import { render } from "@testing-library/react";
 
 describe("AddRepository", () => {
   it("renders without crashing", () => {
-    const div = document.createElement("div");
-    ReactDOM.render(
+    render(
       <GlobalStateProvider>
-        <Router>
-          <Route path="/" exact component={AddRepository} />
-        </Router>
-      </GlobalStateProvider>,
-      div
+        <AddRepository handleAddRepository={() => true} />
+      </GlobalStateProvider>
     );
-    ReactDOM.unmountComponentAtNode(div);
   });
 });

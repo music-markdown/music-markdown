@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 import Avatar from "@material-ui/core/Avatar";
 import CallSplitIcon from "@material-ui/icons/CallSplit";

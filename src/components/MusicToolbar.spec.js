@@ -1,20 +1,20 @@
+import { render } from "@testing-library/react";
 import { Route, BrowserRouter as Router } from "react-router-dom";
+import { REPO_REGEX } from "../lib/constants";
 import { GlobalStateProvider } from "./GlobalState";
 import MusicToolbar from "./MusicToolbar";
-import React from "react";
-import ReactDOM from "react-dom";
 
 describe("MusicToolbar", () => {
   it("renders without crashing", () => {
-    const div = document.createElement("div");
-    ReactDOM.render(
+    render(
       <GlobalStateProvider>
         <Router>
-          <Route path="/" exact component={MusicToolbar} />
+          <Route
+            path={`${REPO_REGEX}/:mode(viewer|editor)/:branch/:path*`}
+            component={MusicToolbar}
+          />
         </Router>
-      </GlobalStateProvider>,
-      div
+      </GlobalStateProvider>
     );
-    ReactDOM.unmountComponentAtNode(div);
   });
 });

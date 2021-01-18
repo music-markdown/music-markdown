@@ -1,5 +1,5 @@
 import { COLUMN_COUNT_QUERY_KEY, TRANSPOSE_QUERY_KEY } from "../lib/constants";
-import React, { useState } from "react";
+import { useState } from "react";
 
 import Badge from "@material-ui/core/Badge";
 import ClickAwayListener from "@material-ui/core/ClickAwayListener";

@@ -1,22 +1,21 @@
-import Adapter from "enzyme-adapter-react-16";
-import Enzyme from "enzyme";
 import MusicMarkdownNavbar from "./MusicMarkdownNavbar";
-import React from "react";
-import { shallow } from "enzyme";
-import withStyles from "@material-ui/core/styles/withStyles";
+import { render } from "@testing-library/react";
+import { GlobalStateProvider } from "./GlobalState";
+import { HashRouter as Router } from "react-router-dom";
 
-Enzyme.configure({ adapter: new Adapter() });
+describe("MusicMarkdownNavbar", () => {
+  beforeEach(async () => {
+    fetch.resetMocks();
+    localStorage.clear();
+  });
 
-const style = {};
-
-const Composer = ({ classes }) => <MusicMarkdownNavbar classes={classes} />;
-
-const Composition = withStyles(style)(Composer);
-
-describe("<MusicMarkdownNavbar />", () => {
   it("should render a styled MusicMarkdownNavbar", () => {
-    const wrapper = shallow(<Composition />);
-
-    expect(wrapper.dive().find(MusicMarkdownNavbar)).toHaveLength(1);
+    render(
+      <GlobalStateProvider>
+        <Router>
+          <MusicMarkdownNavbar />
+        </Router>
+      </GlobalStateProvider>
+    );
   });
 });

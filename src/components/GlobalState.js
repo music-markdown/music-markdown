@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import { createContext, useContext, useState } from "react";
 import {
   getGithubToken,
   isValidGithubToken,
@@ -24,7 +24,7 @@ const initialTheme =
     ? darkTheme
     : lightTheme;
 
-export const GlobalStateContext = React.createContext();
+export const GlobalStateContext = createContext();
 
 export const useGlobalStateContext = () => useContext(GlobalStateContext);
 

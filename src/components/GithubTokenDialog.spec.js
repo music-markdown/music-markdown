@@ -1,20 +1,13 @@
-import { Route, BrowserRouter as Router } from "react-router-dom";
 import GithubTokenDialog from "./GithubTokenDialog";
 import { GlobalStateProvider } from "./GlobalState";
-import React from "react";
-import ReactDOM from "react-dom";
+import { render } from "@testing-library/react";
 
 describe("GithubTokenDialog", () => {
   it("renders without crashing", () => {
-    const div = document.createElement("div");
-    ReactDOM.render(
+    render(
       <GlobalStateProvider>
-        <Router>
-          <Route path="/" exact component={GithubTokenDialog} />
-        </Router>{" "}
-      </GlobalStateProvider>,
-      div
+        <GithubTokenDialog open={true} handleClose={() => false} />
+      </GlobalStateProvider>
     );
-    ReactDOM.unmountComponentAtNode(div);
   });
 });

@@ -1,5 +1,5 @@
 import { Paper, Tooltip } from "@material-ui/core";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 import Draggable from "react-draggable";
 import IconButton from "@material-ui/core/IconButton";
