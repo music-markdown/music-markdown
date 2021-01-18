@@ -19,7 +19,7 @@ import { Base64 } from "js-base64";
 import { LOCAL_STORAGE_NAMESPACE } from "./constants";
 
 describe("GitHub API", () => {
-  afterEach(() => {
+  beforeEach(async () => {
     fetch.resetMocks();
     localStorage.clear();
   });

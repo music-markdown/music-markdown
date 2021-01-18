@@ -1,100 +1,75 @@
-import Adapter from "enzyme-adapter-react-16";
-import Enzyme from "enzyme";
-import Link from "@material-ui/core/Link";
-import MuiThemeProvider from "@material-ui/core/styles/MuiThemeProvider";
 import React from "react";
 import RouterBreadcrumbs from "./RouterBreadcrumbs";
-import Typography from "@material-ui/core/Typography";
-import { shallow as mount } from "enzyme";
-
-Enzyme.configure({ adapter: new Adapter() });
-
-// style must provide styles used by component
-const style = {
-  spacing: { unit: 1 },
-  reactRouterHoverInherit: {},
-};
+import { HashRouter as Router } from "react-router-dom";
+import { render, screen } from "@testing-library/react";
 
 describe("<RouterBreadcrumbs />", () => {
-  it("should render a styled RouterBreadcrumbs", () => {
-    const wrapper = mount(
-      <MuiThemeProvider theme={style}>
-        <RouterBreadcrumbs pathname={"test/path"} />
-      </MuiThemeProvider>
-    );
-
-    expect(wrapper.find(RouterBreadcrumbs)).toHaveLength(1);
+  beforeEach(async () => {
+    fetch.resetMocks();
+    localStorage.clear();
   });
 
-  it("should parse a path name into breadcrumb items", () => {
-    const wrapper = mount(
-      <MuiThemeProvider theme={style}>
+  it("should render breadcrumbs for the browser view", () => {
+    render(
+      <Router key="home-router">
+        <RouterBreadcrumbs pathname={"/repos/owner/repo/browser/master"} />
+      </Router>
+    );
+
+    const breadcrumbs = screen.getAllByRole("breadcrumb");
+    expect(breadcrumbs[0].textContent).toBe("Home");
+    expect(breadcrumbs[1].textContent).toBe("owner");
+    expect(breadcrumbs[2].textContent).toBe("repo");
+    expect(breadcrumbs[3].textContent).toBe("master");
+  });
+
+  it("should render breadcrumbs for a folder in the browser view", () => {
+    render(
+      <Router key="home-router">
         <RouterBreadcrumbs pathname={"/repos/owner/repo/browser/master/path"} />
-      </MuiThemeProvider>
+      </Router>
     );
 
-    const breadcrumbs = wrapper.find(RouterBreadcrumbs).dive().dive();
-
-    const breadcrumbPath = breadcrumbs
-      .find(Link)
-      .map((node) => node.children().text());
-
-    expect(breadcrumbPath.join("/")).toEqual("Home/owner/repo/master");
-
-    const finalItem = breadcrumbs
-      .find(Typography)
-      .map((node) => node.children().text());
-
-    expect(finalItem).toEqual(["path"]);
+    const breadcrumbs = screen.getAllByRole("breadcrumb");
+    expect(breadcrumbs[0].textContent).toBe("Home");
+    expect(breadcrumbs[1].textContent).toBe("owner");
+    expect(breadcrumbs[2].textContent).toBe("repo");
+    expect(breadcrumbs[3].textContent).toBe("master");
+    expect(breadcrumbs[4].textContent).toBe("path");
   });
 
-  it("should parse breadcrumbs even if path contains viewName", () => {
-    const wrapper = mount(
-      <MuiThemeProvider theme={style}>
+  it("should render breadcrumbs for a song in the editor view", () => {
+    render(
+      <Router key="home-router">
         <RouterBreadcrumbs
-          pathname={"/repos/owner/repo/browser/master/browser/viewer/editor"}
+          pathname={"/repos/owner/repo/editor/master/song.md"}
         />
-      </MuiThemeProvider>
+      </Router>
     );
 
-    const breadcrumbs = wrapper.find(RouterBreadcrumbs).dive().dive();
-
-    const breadcrumbPath = breadcrumbs
-      .find(Link)
-      .map((node) => node.children().text());
-
-    expect(breadcrumbPath.join("/")).toEqual(
-      "Home/owner/repo/master/browser/viewer"
-    );
-
-    const finalItem = breadcrumbs
-      .find(Typography)
-      .map((node) => node.children().text());
-
-    expect(finalItem).toEqual(["editor"]);
+    const breadcrumbs = screen.getAllByRole("breadcrumb");
+    expect(breadcrumbs[0].textContent).toBe("Home");
+    expect(breadcrumbs[1].textContent).toBe("owner");
+    expect(breadcrumbs[2].textContent).toBe("repo");
+    expect(breadcrumbs[3].textContent).toBe("master");
+    expect(breadcrumbs[4].textContent).toBe("song.md");
   });
 
-  it("should parse breadcrumbs even if there are multiple /", () => {
-    const wrapper = mount(
-      <MuiThemeProvider theme={style}>
+  it("should render breadcrumbs for a song in a folder in the editor view", () => {
+    render(
+      <Router key="home-router">
         <RouterBreadcrumbs
-          pathname={"/repos//owner/repo//browser/master/path///"}
+          pathname={"/repos/owner/repo/editor/master/folder/song.md"}
         />
-      </MuiThemeProvider>
+      </Router>
     );
 
-    const breadcrumbs = wrapper.find(RouterBreadcrumbs).dive().dive();
-
-    const breadcrumbPath = breadcrumbs
-      .find(Link)
-      .map((node) => node.children().text());
-
-    expect(breadcrumbPath.join("/")).toEqual("Home/owner/repo/master");
-
-    const finalItem = breadcrumbs
-      .find(Typography)
-      .map((node) => node.children().text());
-
-    expect(finalItem).toEqual(["path"]);
+    const breadcrumbs = screen.getAllByRole("breadcrumb");
+    expect(breadcrumbs[0].textContent).toBe("Home");
+    expect(breadcrumbs[1].textContent).toBe("owner");
+    expect(breadcrumbs[2].textContent).toBe("repo");
+    expect(breadcrumbs[3].textContent).toBe("master");
+    expect(breadcrumbs[4].textContent).toBe("folder");
+    expect(breadcrumbs[5].textContent).toBe("song.md");
   });
 });

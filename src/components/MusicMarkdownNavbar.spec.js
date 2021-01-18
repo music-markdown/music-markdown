@@ -14,6 +14,11 @@ const Composer = ({ classes }) => <MusicMarkdownNavbar classes={classes} />;
 const Composition = withStyles(style)(Composer);
 
 describe("<MusicMarkdownNavbar />", () => {
+  beforeEach(async () => {
+    fetch.resetMocks();
+    localStorage.clear();
+  });
+
   it("should render a styled MusicMarkdownNavbar", () => {
     const wrapper = shallow(<Composition />);
 
