@@ -1,19 +1,20 @@
 import { Route, BrowserRouter as Router } from "react-router-dom";
 import BranchNavigation from "./BranchNavigation";
-import React from "react";
-import ReactDOM from "react-dom";
 import { mockGetBranchesResponse } from "../lib/MockGithubResponses";
+import { render } from "@testing-library/react";
 
 describe("BranchNavigation", () => {
+  beforeEach(async () => {
+    fetch.resetMocks();
+    localStorage.clear();
+  });
+
   it("renders without crashing", () => {
     fetch.mockResponse(JSON.stringify(mockGetBranchesResponse));
-    const div = document.createElement("div");
-    ReactDOM.render(
+    render(
       <Router>
         <Route path="/" exact component={BranchNavigation} />
-      </Router>,
-      div
+      </Router>
     );
-    ReactDOM.unmountComponentAtNode(div);
   });
 });

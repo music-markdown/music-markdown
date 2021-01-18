@@ -3,7 +3,7 @@ import RouterBreadcrumbs from "./RouterBreadcrumbs";
 import { HashRouter as Router } from "react-router-dom";
 import { render, screen } from "@testing-library/react";
 
-describe("<RouterBreadcrumbs />", () => {
+describe("RouterBreadcrumbs", () => {
   beforeEach(async () => {
     fetch.resetMocks();
     localStorage.clear();
