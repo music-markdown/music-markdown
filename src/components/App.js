@@ -1,3 +1,4 @@
+import "markdown-it-music/renderers/renderer.css";
 import "./App.css";
 
 import { GlobalStateProvider, useGlobalStateContext } from "./GlobalState";
