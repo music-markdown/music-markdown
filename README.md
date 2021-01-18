@@ -138,7 +138,7 @@ To attach a YouTube video to a Music Markdown file:
 
 1. Find the YouTube video you want to attach.
 1. Copy the video ID from the URL (this is the text following the `v=`).
-1. Add `youTubeId: <video ID>` to the header (in between the `---`).
+1. Add `youTubeId: <video ID>` to the header (in between the pair of `---`).
 
 Example:
 
@@ -147,6 +147,48 @@ Example:
 youTubeId: acvIVA9-FMQ
 ---
 ```
+
+##### Custom Chord Diagrams
+
+Chord diagrams for chord symbols can be customized using our voicing notation.
+
+Custom chord diagrams are specified in the `chords` section of the header (in between the pair of `---`). Each custom chord symbol should be associated with one or more voicings.
+
+The voicing notation consists of a sequence of one of four possible commands separated by spaces:
+
+|  Command | Name   | Description                                                                                                                                                                                                                                                             |
+| -------: | ------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+|     `o#` | Offset | Offsets the chord diagram. This command takes a single integer argument that indicates the offset from the head of the guitar.                                                                                                                                          |
+|     `m#` | Mute   | Marks a string as muted (marked with an x). This command takes a single integer argument which will mark that string as muted.                                                                                                                                          |
+|   `n#,#` | Note   | Marks a string to be played at a given fret. This command takes two integer arguments, the first of which indicates the string, and the second indicates the fret.                                                                                                      |
+| `b#,#,#` | Barre  | Marks a set of strings that should be barred at a given fret. This command takes three integer arguments, the first and second of which mark the first and last string over which to apply the barre, and the third of which indicates on which fret to play the barre. |
+
+Example:
+
+In this example, we will render the following `Gdim` custom chord diagram:
+
+![](custom-chord.png)
+
+This is rendered with the following custom chord diagram syntax:
+
+```music-markdown
+---
+chords:
+  Gdim:
+    - o3 b1,4,3 n2,4 n3,5 m5 m6
+---
+```
+
+The voicing string `o3 b1,4,3 n2,4 n3,5 m5 m6` should be interpreted as follows:
+
+|  Command | Description                                                      |
+| -------: | ---------------------------------------------------------------- |
+|     `o3` | The chord diagram should be rendered starting from the 3rd fret. |
+| `b1,4,3` | The 1st through 4th strings should be barred on the 3rd fret.    |
+|   `n2,4` | The 2nd string should be played on the 4th fret.                 |
+|   `n3,5` | The 3rd string should be played on the 5th fret.                 |
+|     `m5` | The 5th string should be rendered muted (marked with an x).      |
+|     `m6` | The 6th string should be rendered muted.                         |
 
 ##### ABC Notation
 
