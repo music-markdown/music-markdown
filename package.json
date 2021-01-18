@@ -24,7 +24,8 @@
     "react-dom": "^17.0.1",
     "react-draggable": "^4.4.3",
     "react-router-dom": "^5.1.2",
-    "react-scripts": "4.0.1"
+    "react-scripts": "4.0.1",
+    "web-vitals": "^1.1.0"
   },
   "scripts": {
     "start": "react-scripts start",
