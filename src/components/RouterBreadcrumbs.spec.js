@@ -11,7 +11,7 @@ describe("RouterBreadcrumbs", () => {
 
   it("should render breadcrumbs for the browser view", () => {
     render(
-      <Router key="home-router">
+      <Router>
         <RouterBreadcrumbs pathname={"/repos/owner/repo/browser/master"} />
       </Router>
     );
@@ -25,7 +25,7 @@ describe("RouterBreadcrumbs", () => {
 
   it("should render breadcrumbs for a folder in the browser view", () => {
     render(
-      <Router key="home-router">
+      <Router>
         <RouterBreadcrumbs pathname={"/repos/owner/repo/browser/master/path"} />
       </Router>
     );
@@ -40,7 +40,7 @@ describe("RouterBreadcrumbs", () => {
 
   it("should render breadcrumbs for a song in the editor view", () => {
     render(
-      <Router key="home-router">
+      <Router>
         <RouterBreadcrumbs
           pathname={"/repos/owner/repo/editor/master/song.md"}
         />
@@ -57,7 +57,7 @@ describe("RouterBreadcrumbs", () => {
 
   it("should render breadcrumbs for a song in a folder in the editor view", () => {
     render(
-      <Router key="home-router">
+      <Router>
         <RouterBreadcrumbs
           pathname={"/repos/owner/repo/editor/master/folder/song.md"}
         />
