@@ -1,9 +1,9 @@
 import { Route, BrowserRouter as Router } from "react-router-dom";
 import { GlobalStateProvider } from "./GlobalState";
 import MarkdownEditor from "./MarkdownEditor";
-import React from "react";
-import ReactDOM from "react-dom";
 import { mockMasterGetContentsResponse } from "../lib/MockGithubResponses";
+import { render } from "@testing-library/react";
+import { REPO_REGEX } from "../lib/constants";
 
 describe("MarkdownEditor", () => {
   beforeEach(async () => {
@@ -13,15 +13,16 @@ describe("MarkdownEditor", () => {
 
   it("renders without crashing", () => {
     fetch.mockResponse(JSON.stringify(mockMasterGetContentsResponse));
-    const div = document.createElement("div");
-    ReactDOM.render(
+    render(
       <GlobalStateProvider>
         <Router>
-          <Route path="/" exact component={MarkdownEditor} />
+          <Route
+            path={`${REPO_REGEX}/editor/:branch/:path*`}
+            exact
+            component={MarkdownEditor}
+          />
         </Router>
-      </GlobalStateProvider>,
-      div
+      </GlobalStateProvider>
     );
-    ReactDOM.unmountComponentAtNode(div);
   });
 });
