@@ -154,7 +154,7 @@ Chord diagrams for chord symbols can be customized using our voicing notation.
 
 Custom chord diagrams are specified in the `chords` section of the header (in between the pair of `---`). Each custom chord symbol should be associated with one or more voicings.
 
-The voicing notation consists of a sequence of one of four possible commands separated by spaces:
+The voicing notation consists of a sequence of the following commands separated by spaces:
 
 |  Command | Name   | Description                                                                                                                                                                                                                                                             |
 | -------: | ------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
