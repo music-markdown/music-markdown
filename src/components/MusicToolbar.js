@@ -12,9 +12,10 @@ import ToggleButton from "@material-ui/lab/ToggleButton";
 import ToggleButtonGroup from "@material-ui/lab/ToggleButtonGroup";
 import Tooltip from "@material-ui/core/Tooltip";
 import ViewColumnIcon from "@material-ui/icons/ViewColumn";
-import { YouTubeToggle } from "./YouTube";
 import { makeStyles } from "@material-ui/core/styles";
 import queryString from "query-string";
+import YouTubeToggle from "./YouTubeToggle";
+import { useYouTubeId } from "./GlobalState";
 
 const useStyles = makeStyles((theme) => ({
   popper: {
@@ -152,9 +153,11 @@ const TransposeSelector = (props) => {
 };
 
 export default function MusicToolbar(props) {
+  const { youTubeId } = useYouTubeId();
+
   return (
     <>
-      <YouTubeToggle youTubeId={props.youTubeId} />
+      <YouTubeToggle youTubeId={youTubeId} />
       <TransposeSelector {...props} />
       <ColumnCountSelector {...props} />
     </>
