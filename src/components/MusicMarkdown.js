@@ -4,7 +4,7 @@ import { makeStyles, useTheme } from "@material-ui/core/styles";
 import ErrorSnackbar from "./ErrorSnackbar";
 import MarkdownIt from "markdown-it";
 import MarkdownItMusic from "markdown-it-music";
-import { useGlobalStateContext } from "./GlobalState";
+import { useYouTubeId } from "./GlobalState";
 
 const COLUMN_GAP = 20;
 const MD = new MarkdownIt({ html: true }).use(MarkdownItMusic);
@@ -25,7 +25,7 @@ const MusicMarkdownRender = ({
   transposeAmount,
 }) => {
   const theme = useTheme();
-  const context = useGlobalStateContext();
+  const { setYouTubeId } = useYouTubeId();
   const [html, setHtml] = useState("");
   const [message, setMessage] = useState();
   const [error, setError] = useState(false);
@@ -43,14 +43,14 @@ const MusicMarkdownRender = ({
     try {
       setHtml(MD.render(source));
       setError(false);
-      context.setYouTubeId(MD.meta.youTubeId);
+      setYouTubeId(MD.meta.youTubeId);
     } catch (err) {
       console.log(err);
       setHtml(`<pre>${source}</pre>`);
       setMessage(err.message);
       setError(true);
     }
-  }, [context, source, width, columnCount, transposeAmount]);
+  }, [setYouTubeId, source, width, columnCount, transposeAmount]);
 
   return (
     <>

@@ -67,3 +67,11 @@ export const GlobalStateProvider = (props) => {
     </GlobalStateContext.Provider>
   );
 };
+
+export function useYouTubeId() {
+  const context = useGlobalStateContext();
+  return {
+    youTubeId: context.data.youTubeId,
+    setYouTubeId: context.setYouTubeId,
+  };
+}
