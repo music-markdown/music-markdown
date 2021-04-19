@@ -22,10 +22,12 @@ import classNames from "classnames";
 import green from "@material-ui/core/colors/green";
 import { useDebounce } from "../lib/hooks";
 import { useGlobalStateContext } from "./GlobalState";
+import queryString from "query-string";
 
 import "ace-builds/src-noconflict/mode-markdown"; // eslint-disable-line sort-imports
 import "ace-builds/src-noconflict/theme-textmate"; // eslint-disable-line sort-imports
 import "ace-builds/src-noconflict/theme-twilight"; // eslint-disable-line sort-imports
+import { COLUMN_COUNT_QUERY_KEY, TRANSPOSE_QUERY_KEY } from "../lib/constants";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -116,6 +118,10 @@ export default function MarkdownEditor({ match, location }) {
     fetchContents();
   }, [repo, path, branch]);
 
+  const params = queryString.parse(location.search);
+  const columnCount = params[COLUMN_COUNT_QUERY_KEY] || "1";
+  const transposeAmount = Number(params[TRANSPOSE_QUERY_KEY]) || 0;
+
   const buttonClassname = classNames({
     [classes.buttonSuccess]: success,
   });
@@ -194,7 +200,11 @@ export default function MarkdownEditor({ match, location }) {
           </Grid>
           <Grid item xs={6}>
             <Paper className={classes.paper}>
-              <MusicMarkdown source={debouncedMarkdown}></MusicMarkdown>
+              <MusicMarkdown
+                source={debouncedMarkdown}
+                columnCount={columnCount}
+                transposeAmount={transposeAmount}
+              ></MusicMarkdown>
             </Paper>
           </Grid>
         </Grid>
