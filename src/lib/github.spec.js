@@ -15,6 +15,7 @@ import {
   mockSubdirectoryTestResponse,
   mockVinceTestGetContentsResponse,
 } from "./MockGithubResponses";
+
 import { Base64 } from "js-base64";
 import { LOCAL_STORAGE_NAMESPACE } from "./constants";
 
@@ -32,15 +33,15 @@ describe("GitHub API", () => {
     expect(actualRepos).toContainEqual(expectedRepo);
   });
 
-  test("addRepository throws error when repo does not exist", () => {
+  test("addRepository throws error when repo does not exist", async () => {
     fetch.mockResponse(JSON.stringify({}), { status: 404 });
-    expect(addRepository("some-repo/that-doesnt-exist")).rejects.toThrow();
+    await expect(addRepository("a-repo/that-doesnt-exist")).rejects.toThrow();
   });
 
   test("addRepository throws error when repo is already registered", async () => {
     fetch.mockResponse(JSON.stringify({}));
     await addRepository("valid-owner/valid-repo");
-    expect(addRepository("valid-owner/valid-repo")).rejects.toThrow();
+    await expect(addRepository("valid-owner/valid-repo")).rejects.toThrow();
   });
 
   test("deleteRepository removes the correct", async () => {
@@ -95,8 +96,13 @@ describe("GitHub API", () => {
     expect(actualToken).toEqual(null);
   });
 
-  test("isValidGithubToken returns true on valid token", () => {
+  test("isValidGithubToken returns true on valid legacy token", () => {
     const token = "ff34885a8624460a855540c6592698d2f1812843";
+    expect(isValidGithubToken(token)).toEqual(true);
+  });
+
+  test("isValidGithubToken returns true on valid token", () => {
+    const token = "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";
     expect(isValidGithubToken(token)).toEqual(true);
   });
 
@@ -110,18 +116,38 @@ describe("GitHub API", () => {
     expect(isValidGithubToken(token)).toEqual(false);
   });
 
-  test("isValidGithubToken returns false when token is less than 40 chars long", () => {
+  test("isValidGithubToken returns false when legacy token is less than 40 chars long", () => {
     const token = "ff34885a8624460a855540c6592698d2f181284";
     expect(isValidGithubToken(token)).toEqual(false);
   });
 
-  test("isValidGithubToken returns false when token is more than 40 chars long", () => {
+  test("isValidGithubToken returns false when token is less than 36 chars long", () => {
+    const token = "ghp_wmggJcNUP5a4k9bPLvHYp5e5lZ4Dt92TmhC";
+    expect(isValidGithubToken(token)).toEqual(false);
+  });
+
+  test("isValidGithubToken returns false when legacy token is more than 40 chars long", () => {
     const token = "ff34885a8624460a855540c6592698d2f18128433";
     expect(isValidGithubToken(token)).toEqual(false);
   });
 
-  test("isValidGithubToken returns false when token contains non hex char", () => {
+  test("isValidGithubToken returns false when token is more than 40 chars long", () => {
+    const token = "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a";
+    expect(isValidGithubToken(token)).toEqual(false);
+  });
+
+  test("isValidGithubToken returns false when legacy token contains non hex char", () => {
     const token = "ff34885a8624460a855540c6592698d2f181284g";
+    expect(isValidGithubToken(token)).toEqual(false);
+  });
+
+  test("isValidGithubToken returns false when token contains non base64 char", () => {
+    const token = "ghp_wmggJcNUP5a4k9bPLvHYp5e5lZ4Dt92TmhC-";
+    expect(isValidGithubToken(token)).toEqual(false);
+  });
+
+  test("isValidGithubToken returns false when token is not prefixed with ghp_", () => {
+    const token = "gha_wmggJcNUP5a4k9bPLvHYp5e5lZ4Dt92TmhCL";
     expect(isValidGithubToken(token)).toEqual(false);
   });
 
