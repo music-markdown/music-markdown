@@ -1,4 +1,3 @@
-import { useState } from "react";
 import Accordion from "@material-ui/core/Accordion";
 import AccordionDetails from "@material-ui/core/AccordionActions";
 import AccordionSummary from "@material-ui/core/AccordionSummary";
@@ -12,6 +11,7 @@ import TextField from "@material-ui/core/TextField";
 import Typography from "@material-ui/core/Typography";
 import { isValidGithubToken } from "../lib/github";
 import { useGlobalStateContext } from "./GlobalState";
+import { useState } from "react";
 import { withStyles } from "@material-ui/core/styles";
 
 const ExpansionPanelDetails = withStyles({
@@ -40,7 +40,11 @@ const GithubTokenInstructions = () => (
         <ol>
           <li>
             Open your{" "}
-            <a href="https://github.com/settings/tokens">
+            <a
+              href="https://github.com/settings/tokens"
+              rel="noreferrer"
+              target="_blank"
+            >
               Personal access tokens
             </a>{" "}
             page in GitHub.
