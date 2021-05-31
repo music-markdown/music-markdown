@@ -1,5 +1,5 @@
-import { useEffect, useState } from "react";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
+import { useEffect, useState } from "react";
 
 import ErrorSnackbar from "./ErrorSnackbar";
 import MarkdownIt from "markdown-it";
@@ -7,7 +7,6 @@ import MarkdownItMusic from "markdown-it-music";
 import { useYouTubeId } from "./GlobalState";
 
 const COLUMN_GAP = 20;
-const MD = new MarkdownIt({ html: true }).use(MarkdownItMusic);
 
 const useStyles = makeStyles((theme) => ({
   columns: {
@@ -38,12 +37,13 @@ const MusicMarkdownRender = ({
   };
 
   useEffect(() => {
-    MD.setTranspose(transposeAmount);
+    const md = new MarkdownIt({ html: true }).use(MarkdownItMusic);
+    md.setTranspose(transposeAmount);
 
     try {
-      setHtml(MD.render(source));
+      setHtml(md.render(source));
       setError(false);
-      setYouTubeId(MD.meta.youTubeId);
+      setYouTubeId(md.meta.youTubeId);
     } catch (err) {
       console.log(err);
       setHtml(`<pre>${source}</pre>`);
@@ -52,8 +52,16 @@ const MusicMarkdownRender = ({
     }
   }, [setYouTubeId, source, width, columnCount, transposeAmount]);
 
+  // TODO: Replace this hack with an iframe.
+  var script = /<script>([.\s\S]*)<\/script>/gm.exec(html);
+  if (script) {
+    // eslint-disable-next-line no-eval
+    window.eval(script[1]);
+  }
+
   return (
     <>
+      {/* TODO: Replace this hack with an iframe. */}
       <div
         className={`mmd-${theme.palette.type}`}
         dangerouslySetInnerHTML={{ __html: html }}
