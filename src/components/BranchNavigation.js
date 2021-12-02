@@ -1,16 +1,16 @@
 import { useEffect, useState } from "react";
 
-import Avatar from "@material-ui/core/Avatar";
-import CallSplitIcon from "@material-ui/icons/CallSplit";
+import Avatar from "@mui/material/Avatar";
+import CallSplitIcon from "@mui/icons-material/CallSplit";
 import DirectoryBreadcrumbs from "./RouterBreadcrumbs";
-import LinearProgress from "@material-ui/core/LinearProgress";
+import LinearProgress from "@mui/material/LinearProgress";
 import { Link } from "react-router-dom";
-import List from "@material-ui/core/List";
-import ListItem from "@material-ui/core/ListItem";
-import ListItemAvatar from "@material-ui/core/ListItemAvatar";
-import ListItemText from "@material-ui/core/ListItemText";
+import List from "@mui/material/List";
+import ListItem from "@mui/material/ListItem";
+import ListItemAvatar from "@mui/material/ListItemAvatar";
+import ListItemText from "@mui/material/ListItemText";
 import { getBranches } from "../lib/github";
-import { makeStyles } from "@material-ui/core/styles";
+import makeStyles from '@mui/styles/makeStyles';
 
 const useStyles = makeStyles({
   root: {

@@ -1,24 +1,24 @@
-import Accordion from "@material-ui/core/Accordion";
-import AccordionDetails from "@material-ui/core/AccordionActions";
-import AccordionSummary from "@material-ui/core/AccordionSummary";
-import Button from "@material-ui/core/Button";
-import Dialog from "@material-ui/core/Dialog";
-import DialogActions from "@material-ui/core/DialogActions";
-import DialogContent from "@material-ui/core/DialogContent";
-import DialogTitle from "@material-ui/core/DialogTitle";
-import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
-import TextField from "@material-ui/core/TextField";
-import Typography from "@material-ui/core/Typography";
+import Accordion from "@mui/material/Accordion";
+import AccordionActions from "@mui/material/AccordionActions";
+import AccordionSummary from "@mui/material/AccordionSummary";
+import Button from "@mui/material/Button";
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import DialogTitle from "@mui/material/DialogTitle";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import TextField from "@mui/material/TextField";
+import Typography from "@mui/material/Typography";
 import { isValidGithubToken } from "../lib/github";
 import { useGlobalStateContext } from "./GlobalState";
 import { useState } from "react";
-import { withStyles } from "@material-ui/core/styles";
+import withStyles from "@mui/styles/withStyles";
 
-const ExpansionPanelDetails = withStyles({
+const AccordionDetails = withStyles({
   root: {
     backgroundColor: "rgba(0, 0, 0, .03)",
   },
-})(AccordionDetails);
+})(AccordionActions);
 
 const GithubTokenInstructions = () => (
   <Accordion>
@@ -28,7 +28,7 @@ const GithubTokenInstructions = () => (
         GitHub.
       </Typography>
     </AccordionSummary>
-    <ExpansionPanelDetails>
+    <AccordionDetails>
       <div>
         <h1>How to Create a New Token</h1>
 
@@ -64,7 +64,7 @@ const GithubTokenInstructions = () => (
           <li>Copy the newly generated token and paste it below.</li>
         </ol>
       </div>
-    </ExpansionPanelDetails>
+    </AccordionDetails>
   </Accordion>
 );
 

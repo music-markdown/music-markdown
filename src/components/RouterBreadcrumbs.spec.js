@@ -1,6 +1,8 @@
-import RouterBreadcrumbs from "./RouterBreadcrumbs";
-import { HashRouter as Router } from "react-router-dom";
+import { ThemeProvider, createTheme } from "@mui/material/styles";
 import { render, screen } from "@testing-library/react";
+
+import { HashRouter as Router } from "react-router-dom";
+import RouterBreadcrumbs from "./RouterBreadcrumbs";
 
 describe("RouterBreadcrumbs", () => {
   beforeEach(async () => {
@@ -10,9 +12,11 @@ describe("RouterBreadcrumbs", () => {
 
   it("should render breadcrumbs for the browser view", () => {
     render(
-      <Router>
-        <RouterBreadcrumbs pathname={"/repos/owner/repo/browser/master"} />
-      </Router>
+      <ThemeProvider theme={createTheme()}>
+        <Router>
+          <RouterBreadcrumbs pathname={"/repos/owner/repo/browser/master"} />
+        </Router>
+      </ThemeProvider>
     );
 
     const breadcrumbs = screen.getAllByRole("breadcrumb");
@@ -24,9 +28,13 @@ describe("RouterBreadcrumbs", () => {
 
   it("should render breadcrumbs for a folder in the browser view", () => {
     render(
-      <Router>
-        <RouterBreadcrumbs pathname={"/repos/owner/repo/browser/master/path"} />
-      </Router>
+      <ThemeProvider theme={createTheme()}>
+        <Router>
+          <RouterBreadcrumbs
+            pathname={"/repos/owner/repo/browser/master/path"}
+          />
+        </Router>
+      </ThemeProvider>
     );
 
     const breadcrumbs = screen.getAllByRole("breadcrumb");
@@ -39,11 +47,13 @@ describe("RouterBreadcrumbs", () => {
 
   it("should render breadcrumbs for a song in the editor view", () => {
     render(
-      <Router>
-        <RouterBreadcrumbs
-          pathname={"/repos/owner/repo/editor/master/song.md"}
-        />
-      </Router>
+      <ThemeProvider theme={createTheme()}>
+        <Router>
+          <RouterBreadcrumbs
+            pathname={"/repos/owner/repo/editor/master/song.md"}
+          />
+        </Router>
+      </ThemeProvider>
     );
 
     const breadcrumbs = screen.getAllByRole("breadcrumb");
@@ -56,11 +66,13 @@ describe("RouterBreadcrumbs", () => {
 
   it("should render breadcrumbs for a song in a folder in the editor view", () => {
     render(
-      <Router>
-        <RouterBreadcrumbs
-          pathname={"/repos/owner/repo/editor/master/folder/song.md"}
-        />
-      </Router>
+      <ThemeProvider theme={createTheme()}>
+        <Router>
+          <RouterBreadcrumbs
+            pathname={"/repos/owner/repo/editor/master/folder/song.md"}
+          />
+        </Router>
+      </ThemeProvider>
     );
 
     const breadcrumbs = screen.getAllByRole("breadcrumb");

@@ -1,10 +1,10 @@
-import CloseIcon from "@material-ui/icons/Close";
-import ErrorIcon from "@material-ui/icons/Error";
-import IconButton from "@material-ui/core/IconButton";
-import Snackbar from "@material-ui/core/Snackbar";
-import SnackbarContent from "@material-ui/core/SnackbarContent";
+import CloseIcon from "@mui/icons-material/Close";
+import ErrorIcon from "@mui/icons-material/Error";
+import IconButton from "@mui/material/IconButton";
+import Snackbar from "@mui/material/Snackbar";
+import SnackbarContent from "@mui/material/SnackbarContent";
 import classNames from "classnames";
-import { makeStyles } from "@material-ui/core/styles";
+import makeStyles from '@mui/styles/makeStyles';
 
 const useStyles = makeStyles((theme) => ({
   error: {
@@ -53,7 +53,7 @@ export default function ErrorSnackbar({ open, handleClose, message }) {
             color="inherit"
             className={classes.close}
             onClick={handleClose}
-          >
+            size="large">
             <CloseIcon className={classes.icon} />
           </IconButton>,
         ]}

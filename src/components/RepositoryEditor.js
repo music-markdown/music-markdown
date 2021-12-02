@@ -6,17 +6,17 @@ import {
 } from "../lib/github";
 
 import AddRepository from "./AddRepository";
-import Avatar from "@material-ui/core/Avatar";
-import BookIcon from "@material-ui/icons/Book";
-import DeleteIcon from "@material-ui/icons/Delete";
-import IconButton from "@material-ui/core/IconButton";
+import Avatar from "@mui/material/Avatar";
+import BookIcon from "@mui/icons-material/Book";
+import DeleteIcon from "@mui/icons-material/Delete";
+import IconButton from "@mui/material/IconButton";
 import { Link } from "react-router-dom";
-import List from "@material-ui/core/List";
-import ListItem from "@material-ui/core/ListItem";
-import ListItemAvatar from "@material-ui/core/ListItemAvatar";
-import ListItemSecondaryAction from "@material-ui/core/ListItemSecondaryAction";
-import ListItemText from "@material-ui/core/ListItemText";
-import { makeStyles } from "@material-ui/core/styles";
+import List from "@mui/material/List";
+import ListItem from "@mui/material/ListItem";
+import ListItemAvatar from "@mui/material/ListItemAvatar";
+import ListItemSecondaryAction from "@mui/material/ListItemSecondaryAction";
+import ListItemText from "@mui/material/ListItemText";
+import makeStyles from '@mui/styles/makeStyles';
 
 const useStyles = makeStyles({
   root: {
@@ -68,7 +68,7 @@ export default function RepositoryEditor() {
               <IconButton
                 aria-label="Delete"
                 onClick={() => handleDeleteRepository(repo)}
-              >
+                size="large">
                 <DeleteIcon />
               </IconButton>
             </ListItemSecondaryAction>

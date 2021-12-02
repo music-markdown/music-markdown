@@ -1,10 +1,10 @@
 import { COLUMN_COUNT_QUERY_KEY, TRANSPOSE_QUERY_KEY } from "../lib/constants";
 import { useEffect, useState } from "react";
 
-import LinearProgress from "@material-ui/core/LinearProgress";
+import LinearProgress from "@mui/material/LinearProgress";
 import MusicMarkdown from "./MusicMarkdown";
 import { getContents } from "../lib/github";
-import { makeStyles } from "@material-ui/core/styles";
+import makeStyles from '@mui/styles/makeStyles';
 import queryString from "query-string";
 
 const useStyles = makeStyles({

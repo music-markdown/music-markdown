@@ -1,48 +1,48 @@
-import { useState } from "react";
-
-import { fade, makeStyles } from "@material-ui/core/styles";
-import AppBar from "@material-ui/core/AppBar";
-import Button from "@material-ui/core/Button";
-import ClickAwayListener from "@material-ui/core/ClickAwayListener";
-import EditIcon from "@material-ui/icons/Edit";
-import ExitToAppIcon from "@material-ui/icons/ExitToApp";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
+import AppBar from "@mui/material/AppBar";
+import Button from "@mui/material/Button";
+import ClickAwayListener from "@mui/material/ClickAwayListener";
+import EditIcon from "@mui/icons-material/Edit";
+import ExitToAppIcon from "@mui/icons-material/ExitToApp";
+import FormControlLabel from "@mui/material/FormControlLabel";
 import GithubTokenDialog from "./GithubTokenDialog";
-import IconButton from "@material-ui/core/IconButton";
-import InputBase from "@material-ui/core/InputBase";
+import IconButton from "@mui/material/IconButton";
+import InputBase from "@mui/material/InputBase";
 import { Link } from "react-router-dom";
-import MenuItem from "@material-ui/core/MenuItem";
-import MenuList from "@material-ui/core/MenuList";
+import MenuItem from "@mui/material/MenuItem";
+import MenuList from "@mui/material/MenuList";
 import MusicToolbar from "./MusicToolbar";
-import Paper from "@material-ui/core/Paper";
-import Popper from "@material-ui/core/Popper";
+import Paper from "@mui/material/Paper";
+import Popper from "@mui/material/Popper";
 import { REPO_REGEX } from "../lib/constants";
 import { Route } from "react-router-dom";
-import SearchIcon from "@material-ui/icons/Search";
-import SettingsIcon from "@material-ui/icons/Settings";
-import Switch from "@material-ui/core/Switch";
-import Toolbar from "@material-ui/core/Toolbar";
-import Tooltip from "@material-ui/core/Tooltip";
-import ViewListIcon from "@material-ui/icons/ViewList";
+import SearchIcon from "@mui/icons-material/Search";
+import SettingsIcon from "@mui/icons-material/Settings";
+import Switch from "@mui/material/Switch";
+import Toolbar from "@mui/material/Toolbar";
+import Tooltip from "@mui/material/Tooltip";
+import ViewListIcon from "@mui/icons-material/ViewList";
+import { alpha } from "@mui/material/styles";
+import makeStyles from "@mui/styles/makeStyles";
 import { useGlobalStateContext } from "./GlobalState";
+import { useState } from "react";
 
 const useStyles = makeStyles((theme) => ({
   reactRouterHoverInherit: theme.reactRouterHoverInherit,
   paper: {
-    padding: `${theme.spacing(1)}px`,
+    padding: theme.spacing(1),
   },
   grow: {
     flexGrow: 1,
   },
   filter: {
-    filter: theme.palette.type === "dark" ? "invert(100%)" : "",
+    filter: theme.palette.mode === "dark" ? "invert(100%)" : "",
   },
   search: {
     position: "relative",
     borderRadius: theme.shape.borderRadius,
-    backgroundColor: fade(theme.palette.common.white, 0.15),
+    backgroundColor: alpha(theme.palette.common.white, 0.15),
     "&:hover": {
-      backgroundColor: fade(theme.palette.common.white, 0.25),
+      backgroundColor: alpha(theme.palette.common.white, 0.25),
     },
     marginTop: theme.spacing(1),
     marginLeft: theme.spacing(1),
@@ -67,6 +67,7 @@ const BrowseButton = ({ match }) => (
     <IconButton
       component={Link}
       to={`/repos/${match.params.repo}/browser/${match.params.branch}/`}
+      size="large"
     >
       <ViewListIcon />
     </IconButton>
@@ -79,6 +80,7 @@ const EditButton = ({ match }) => (
       <IconButton
         component={Link}
         to={`/repos/${match.params.repo}/editor/${match.params.branch}/${match.params.path}`}
+        size="large"
       >
         <EditIcon />
       </IconButton>
@@ -91,6 +93,7 @@ const ViewButton = ({ match }) => (
     <IconButton
       component={Link}
       to={`/repos/${match.params.repo}/viewer/${match.params.branch}/${match.params.path}`}
+      size="large"
     >
       <ExitToAppIcon />
     </IconButton>
@@ -103,16 +106,20 @@ const SearchToolbar = () => {
   const [anchorEl, setAnchorEl] = useState();
   const [searchOpen, setSearchOpen] = useState(false);
 
-  function handleSearchToggle() {
+  const handleSearchToggle = (event) => {
+    if (!searchOpen) {
+      setAnchorEl(event.currentTarget);
+    }
     setSearchOpen(!searchOpen);
-  }
+  };
 
   return (
     <>
       <IconButton
         variant="contained"
-        buttonRef={setAnchorEl}
-        onClick={handleSearchToggle} // for some reason, this doesn't work if the layout is too small, e.g. mobile
+        // for some reason, this doesn't work if the layout is too small, e.g. mobile
+        onClick={handleSearchToggle}
+        size="large"
       >
         <SearchIcon />
       </IconButton>
@@ -149,7 +156,10 @@ export default function MusicMarkdownNavbar() {
   const [settingsOpen, setSettingsOpen] = useState(false);
   const [settingsAnchorEl, setSettingsAnchorEl] = useState();
 
-  const handleSettingsToggle = () => {
+  const handleSettingsToggle = (event) => {
+    if (!settingsOpen) {
+      setSettingsAnchorEl(event.currentTarget);
+    }
     setSettingsOpen(!settingsOpen);
   };
 
@@ -208,10 +218,7 @@ export default function MusicMarkdownNavbar() {
           component={ViewButton}
         />
 
-        <IconButton
-          onClick={handleSettingsToggle}
-          buttonRef={setSettingsAnchorEl}
-        >
+        <IconButton onClick={handleSettingsToggle} size="large">
           <SettingsIcon />
         </IconButton>
         <Popper
@@ -227,9 +234,8 @@ export default function MusicMarkdownNavbar() {
                   <FormControlLabel
                     control={
                       <Switch
-                        defaultChecked={context.isDarkTheme()}
                         onChange={handleDarkThemeSwitch}
-                        value="darkTheme"
+                        checked={context.isDarkTheme()}
                       />
                     }
                     label="Toggle Dark Mode?"

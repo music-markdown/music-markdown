@@ -178,11 +178,9 @@ export function getGithubToken() {
 }
 
 export function isValidGithubToken(githubToken = getGithubToken()) {
-  return (
-    !!githubToken &&
-    (!!githubToken.match(/^[0-9a-f]{40}$/) ||
-      !!githubToken.match(/^ghp_[a-zA-Z0-9]{36}$/))
-  );
+  return !!githubToken &&
+  (!!githubToken.match(/^[0-9a-f]{40}$/) ||
+    !!githubToken.match(/^ghp_[a-zA-Z0-9]{36}$/));
 }
 
 export function setGithubToken(githubToken) {
