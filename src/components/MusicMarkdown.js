@@ -1,9 +1,11 @@
-import { makeStyles, useTheme } from "@material-ui/core/styles";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import ErrorSnackbar from "./ErrorSnackbar";
 import MarkdownIt from "markdown-it";
 import MarkdownItMusic from "markdown-it-music";
+import makeStyles from "@mui/styles/makeStyles";
+import { useContainerDimensions } from "../lib/hooks";
+import { useTheme } from "@mui/material/styles";
 import { useYouTubeId } from "./GlobalState";
 
 const COLUMN_GAP = 20;
@@ -39,6 +41,8 @@ const MusicMarkdownRender = ({
   useEffect(() => {
     const md = new MarkdownIt({ html: true }).use(MarkdownItMusic);
     md.setTranspose(transposeAmount);
+    md.setTheme(theme.palette.mode);
+    md.setMaxWidth((width - COLUMN_GAP * (columnCount - 1)) / columnCount);
 
     try {
       setHtml(md.render(source));
@@ -50,7 +54,14 @@ const MusicMarkdownRender = ({
       setMessage(err.message);
       setError(true);
     }
-  }, [setYouTubeId, source, width, columnCount, transposeAmount]);
+  }, [
+    setYouTubeId,
+    source,
+    width,
+    columnCount,
+    transposeAmount,
+    theme.palette.mode,
+  ]);
 
   // TODO: Replace this hack with an iframe.
   var script = /<script>([.\s\S]*)<\/script>/gm.exec(html);
@@ -63,7 +74,7 @@ const MusicMarkdownRender = ({
     <>
       {/* TODO: Replace this hack with an iframe. */}
       <div
-        className={`mmd-${theme.palette.type}`}
+        className={`mmd-${theme.palette.mode}`}
         dangerouslySetInnerHTML={{ __html: html }}
       />
       <ErrorSnackbar
@@ -77,9 +88,16 @@ const MusicMarkdownRender = ({
 
 export default function MusicMarkdown(props) {
   const classes = useStyles();
+  const componentRef = useRef();
+  const { width } = useContainerDimensions(componentRef);
+
   return (
-    <div className={classes.columns} style={{ columnCount: props.columnCount }}>
-      <MusicMarkdownRender {...props} />
+    <div
+      className={classes.columns}
+      style={{ columnCount: props.columnCount }}
+      ref={componentRef}
+    >
+      <MusicMarkdownRender width={width} {...props} />
     </div>
   );
 }

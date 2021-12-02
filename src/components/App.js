@@ -1,21 +1,21 @@
-import "markdown-it-music/renderers/renderer.css";
-import "./App.css";
-
 import { GlobalStateProvider, useGlobalStateContext } from "./GlobalState";
+import {
+  ThemeProvider as MuiThemeProvider,
+  StyledEngineProvider,
+  createTheme,
+} from "@mui/material/styles";
 import { Route, HashRouter as Router, Switch } from "react-router-dom";
 
 import BranchNavigation from "./BranchNavigation";
-import CssBaseline from "@material-ui/core/CssBaseline";
+import CssBaseline from "@mui/material/CssBaseline";
 import MarkdownEditor from "./MarkdownEditor";
 import MarkdownViewer from "./MarkdownViewer";
-import { ThemeProvider as MuiThemeProvider } from "@material-ui/core/styles";
 import MusicMarkdownNavbar from "./MusicMarkdownNavbar";
 import { REPO_REGEX } from "../lib/constants";
 import RepositoryEditor from "./RepositoryEditor";
 import RepositoryNavigation from "./RepositoryNavigation";
 import ResponsiveContainer from "./ResponsiveContainer";
 import Sandbox from "./Sandbox.js";
-import createMuiTheme from "@material-ui/core/styles/createMuiTheme";
 
 const App = () => (
   <GlobalStateProvider>
@@ -27,10 +27,12 @@ const ThemeProvider = () => {
   const context = useGlobalStateContext();
 
   return (
-    <MuiThemeProvider theme={createMuiTheme(context.data.theme)}>
-      <CssBaseline />
-      <ResponsiveContainer>{[HomeRouter()]}</ResponsiveContainer>
-    </MuiThemeProvider>
+    <StyledEngineProvider injectFirst>
+      <MuiThemeProvider theme={createTheme(context.data.theme)}>
+        <CssBaseline />
+        <ResponsiveContainer>{[HomeRouter()]}</ResponsiveContainer>
+      </MuiThemeProvider>
+    </StyledEngineProvider>
   );
 };
 

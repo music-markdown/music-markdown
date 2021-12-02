@@ -1,33 +1,35 @@
 import { useEffect, useState } from "react";
 import { getContents, putContents } from "../lib/github";
-import { makeStyles, useTheme } from "@material-ui/core/styles";
+import { useTheme } from "@mui/material/styles";
+
+import makeStyles from '@mui/styles/makeStyles';
 
 import AceEditor from "react-ace";
-import CheckIcon from "@material-ui/icons/Check";
-import CircularProgress from "@material-ui/core/CircularProgress";
+import CheckIcon from "@mui/icons-material/Check";
+import CircularProgress from "@mui/material/CircularProgress";
 import DirectoryBreadcrumbs from "./RouterBreadcrumbs";
-import ExitToAppIcon from "@material-ui/icons/ExitToApp";
-import Fab from "@material-ui/core/Fab";
-import GitHubIcon from "@material-ui/icons/GitHub";
-import Grid from "@material-ui/core/Grid";
-import LinearProgress from "@material-ui/core/LinearProgress";
+import ExitToAppIcon from "@mui/icons-material/ExitToApp";
+import Fab from "@mui/material/Fab";
+import GitHubIcon from "@mui/icons-material/GitHub";
+import Grid from "@mui/material/Grid";
+import LinearProgress from "@mui/material/LinearProgress";
 import { Link } from "react-router-dom";
 import MusicMarkdown from "./MusicMarkdown";
-import Paper from "@material-ui/core/Paper";
-import PhotoFilterIcon from "@material-ui/icons/PhotoFilter";
-import SaveIcon from "@material-ui/icons/Save";
-import Tooltip from "@material-ui/core/Tooltip";
+import Paper from "@mui/material/Paper";
+import PhotoFilterIcon from "@mui/icons-material/PhotoFilter";
+import SaveIcon from "@mui/icons-material/Save";
+import Tooltip from "@mui/material/Tooltip";
 import asciiTabConvert from "../tools/asciitab";
 import classNames from "classnames";
-import green from "@material-ui/core/colors/green";
 import { useDebounce } from "../lib/hooks";
 import { useGlobalStateContext } from "./GlobalState";
 import queryString from "query-string";
-
 import "ace-builds/src-noconflict/mode-markdown"; // eslint-disable-line sort-imports
+
 import "ace-builds/src-noconflict/theme-textmate"; // eslint-disable-line sort-imports
 import "ace-builds/src-noconflict/theme-twilight"; // eslint-disable-line sort-imports
 import { COLUMN_COUNT_QUERY_KEY, TRANSPOSE_QUERY_KEY } from "../lib/constants";
+import { green } from '@mui/material/colors';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -188,7 +190,7 @@ export default function MarkdownEditor({ match, location }) {
             <Paper className={classes.paper}>
               <AceEditor
                 mode="markdown"
-                theme={theme.palette.type === "dark" ? "twilight" : "textmate"}
+                theme={theme.palette.mode === "dark" ? "twilight" : "textmate"}
                 width="100%"
                 maxLines={Infinity}
                 className={classes.editor}

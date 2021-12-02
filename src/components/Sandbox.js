@@ -2,10 +2,10 @@ import { COLUMN_COUNT_QUERY_KEY, TRANSPOSE_QUERY_KEY } from "../lib/constants";
 import { Link, Route } from "react-router-dom";
 
 import MusicMarkdown from "./MusicMarkdown";
-import Paper from "@material-ui/core/Paper";
-import Typography from "@material-ui/core/Typography";
+import Paper from "@mui/material/Paper";
+import Typography from "@mui/material/Typography";
 import { guitarChordbook } from "markdown-it-music/lib/chordbook";
-import { makeStyles } from "@material-ui/core/styles";
+import makeStyles from '@mui/styles/makeStyles';
 import queryString from "query-string";
 import { renderChordDiagram } from "markdown-it-music/renderers/chord_diagram";
 
@@ -35,7 +35,7 @@ const useStyles = makeStyles((theme) => ({
     color: theme.palette.text.secondary,
   },
   chordDiagram: {
-    filter: theme.palette.type === "dark" ? "invert(100%)" : "",
+    filter: theme.palette.mode === "dark" ? "invert(100%)" : "",
   },
 }));
 

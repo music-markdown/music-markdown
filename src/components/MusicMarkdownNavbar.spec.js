@@ -1,7 +1,9 @@
-import MusicMarkdownNavbar from "./MusicMarkdownNavbar";
-import { render } from "@testing-library/react";
+import { ThemeProvider, createTheme } from "@mui/material/styles";
+
 import { GlobalStateProvider } from "./GlobalState";
+import MusicMarkdownNavbar from "./MusicMarkdownNavbar";
 import { HashRouter as Router } from "react-router-dom";
+import { render } from "@testing-library/react";
 
 describe("MusicMarkdownNavbar", () => {
   beforeEach(async () => {
@@ -12,9 +14,11 @@ describe("MusicMarkdownNavbar", () => {
   it("should render a styled MusicMarkdownNavbar", () => {
     render(
       <GlobalStateProvider>
-        <Router>
-          <MusicMarkdownNavbar />
-        </Router>
+        <ThemeProvider theme={createTheme()}>
+          <Router>
+            <MusicMarkdownNavbar />
+          </Router>
+        </ThemeProvider>
       </GlobalStateProvider>
     );
   });

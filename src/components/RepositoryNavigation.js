@@ -1,18 +1,18 @@
 import { useEffect, useState } from "react";
 
 import AddNewFile from "./AddNewFile";
-import Avatar from "@material-ui/core/Avatar";
-import DescriptionIcon from "@material-ui/icons/Description";
+import Avatar from "@mui/material/Avatar";
+import DescriptionIcon from "@mui/icons-material/Description";
 import DirectoryBreadcrumbs from "./RouterBreadcrumbs";
-import FolderIcon from "@material-ui/icons/Folder";
-import LinearProgress from "@material-ui/core/LinearProgress";
+import FolderIcon from "@mui/icons-material/Folder";
+import LinearProgress from "@mui/material/LinearProgress";
 import { Link } from "react-router-dom";
-import List from "@material-ui/core/List";
-import ListItem from "@material-ui/core/ListItem";
-import ListItemAvatar from "@material-ui/core/ListItemAvatar";
-import ListItemText from "@material-ui/core/ListItemText";
+import List from "@mui/material/List";
+import ListItem from "@mui/material/ListItem";
+import ListItemAvatar from "@mui/material/ListItemAvatar";
+import ListItemText from "@mui/material/ListItemText";
 import { getContents } from "../lib/github";
-import { makeStyles } from "@material-ui/core/styles";
+import makeStyles from '@mui/styles/makeStyles';
 
 const useStyles = makeStyles({
   root: {

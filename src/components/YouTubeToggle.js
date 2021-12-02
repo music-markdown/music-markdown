@@ -1,5 +1,5 @@
-import { IconButton, Tooltip } from "@material-ui/core";
-import PlayArrowIcon from "@material-ui/icons/PlayArrow";
+import { IconButton, Tooltip } from "@mui/material";
+import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 import { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import YouTubePlayer from "./YouTubePlayer";
@@ -19,19 +19,17 @@ export default function YouTubeToggle({ youTubeId }) {
     return null;
   }
 
-  return (
-    <>
-      <Tooltip title="Show / Hide YouTube Player">
-        <IconButton
-          color={visible ? "secondary" : "default"}
-          onClick={handleToggle}
-        >
-          <PlayArrowIcon />
-        </IconButton>
-      </Tooltip>
-      <YouTubePlayer visible={visible} youTubeId={youTubeId} />
-    </>
-  );
+  return <>
+    <Tooltip title="Show / Hide YouTube Player">
+      <IconButton
+        color={visible ? "secondary" : "default"}
+        onClick={handleToggle}
+        size="large">
+        <PlayArrowIcon />
+      </IconButton>
+    </Tooltip>
+    <YouTubePlayer visible={visible} youTubeId={youTubeId} />
+  </>;
 }
 
 YouTubeToggle.propTypes = {

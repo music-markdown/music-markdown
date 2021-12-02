@@ -8,13 +8,13 @@ import { LOCAL_STORAGE_NAMESPACE } from "../lib/constants";
 
 const lightTheme = {
   palette: {
-    type: "light",
+    mode: "light",
   },
 };
 
 const darkTheme = {
   palette: {
-    type: "dark",
+    mode: "dark",
   },
 };
 
@@ -46,13 +46,13 @@ export const GlobalStateProvider = (props) => {
             setGithubToken(githubToken);
           }
         },
-        isDarkTheme: () => state.theme.palette.type === "dark",
+        isDarkTheme: () => state.theme.palette.mode === "dark",
         toggleTheme: () => {
           const theme =
-            state.theme.palette.type === "dark" ? lightTheme : darkTheme;
+            state.theme.palette.mode === "dark" ? lightTheme : darkTheme;
           window.localStorage.setItem(
             `${LOCAL_STORAGE_NAMESPACE}:palette-type`,
-            theme.palette.type
+            theme.palette.mode
           );
           setState({ ...state, theme });
         },

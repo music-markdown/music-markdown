@@ -1,9 +1,9 @@
-import { Paper } from "@material-ui/core";
+import { Paper } from "@mui/material";
 import { useRef } from "react";
 
 import Draggable from "react-draggable";
 import PropTypes from "prop-types";
-import { makeStyles } from "@material-ui/core/styles";
+import makeStyles from '@mui/styles/makeStyles';
 
 const useStyles = makeStyles((theme) => ({
   paper: {
