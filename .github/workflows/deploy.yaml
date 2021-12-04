@@ -21,8 +21,9 @@ jobs:
       - run: npm run build
 
       - name: Deploy 🚀
-        uses: JamesIves/github-pages-deploy-action@4.1.7
+        uses: jamesives/github-pages-deploy-action@4.1.7
         with:
           repository-name: music-markdown/music-markdown.github.io
           branch: master
           folder: build
+          token: ${{ secrets.DEPLOY_TOKEN }}
