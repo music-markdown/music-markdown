@@ -9,10 +9,13 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v2
-      - name: Use Node.js 17.x
+      - name: Checkout 🛎️
+        uses: actions/checkout@v2
+
+      - name: Build 🔧
         uses: actions/setup-node@v2
         with:
-          node-version: 17.x
+          node-version: 15.x
       - run: npm ci
       - run: npm test
+      - run: npm run build
