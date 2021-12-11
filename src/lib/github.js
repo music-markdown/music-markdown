@@ -4,7 +4,6 @@ import { LOCAL_STORAGE_NAMESPACE } from "./constants";
 const GITHUB_TOKEN_LOCAL_STORAGE_KEY = `${LOCAL_STORAGE_NAMESPACE}:github_token`;
 const REPOS_LOCAL_STORAGE_KEY = `${LOCAL_STORAGE_NAMESPACE}:repositories`;
 const GITHUB_API_URL = "https://api.github.com";
-const REPOS_CONTENTS_TREE_STORAGE_KEY = `${LOCAL_STORAGE_NAMESPACE}:indexed-contents`;
 
 /**
  * Returns a Promise of the contents of a file or directory in a GitHub repository.
@@ -48,7 +47,7 @@ export async function putContents(repo, path, content, sha, branch) {
 
 /**
  * Returns list of repos stored in localStorage.
- * @return {Array} Array of JSON dictionaries of repos
+ * @return {Array} Array of repo names
  */
 export function getRepositories() {
   const repoListStr = localStorage.getItem(REPOS_LOCAL_STORAGE_KEY);
@@ -60,61 +59,30 @@ export function getRepositories() {
 }
 
 /**
- * Indexes all contents from stored repositories for searching
- * TODO: Consider when a full refresh should be called. Currently, it's invoked when
- * a repository is first accessed. However, there should be a manual trigger to allow
- * a manual refresh of external repos.
+ * Returns the list of repo names and corresponding GitHub metadata.
+ * @returns {Array} Array of JSON dictionaries of repos
  */
-export async function refreshIndexedContents() {
-  let reposContents = [];
-  for (const repo of await getRepositories()) {
-    const repoContents = await getRepoContents(repo);
-    reposContents.push(repoContents);
-  }
-  localStorage.setItem(REPOS_CONTENTS_TREE_STORAGE_KEY, reposContents);
+export async function getRepoMetadata(repos) {
+  return Promise.all(
+    repos.map(async (repo) => (await githubApiFetch(`/repos/${repo}`)).json())
+  );
 }
 
-/**
- * Returns all file contents in a particular github repo for all branches
- * @param {string} repo The owner and repo in the form :owner/:repo
- * @return {string|Array} List of contents in a repo
- */
-export async function getRepoContents(repo) {
-  let repoContents = [];
-  for (const branch of await getBranches(repo)) {
-    const branchContents = await getBranchContents(repo, "/", branch.name);
-    repoContents.push(branchContents);
-  }
-  return repoContents;
+export async function getRepoTrees(repo, branch) {
+  const response = await githubApiFetch(
+    `/repos/${repo}/git/trees/${branch}?recursive=1`
+  );
+  return response.json();
 }
 
-/**
- * Returns all file contents from a repo's specific branch
- * @param {string} repo The owner and repo in the form :owner/:repo
- * @param {string} path Subdirectory in repo to traverse
- * @param {string} branch Name of branch in repo to traverse
- * @return {Array<string>} Array of file contents paths
- */
-async function getBranchContents(repo, path, branch) {
-  let branchContents = [];
-  for (const item of await getContents(repo, path, branch)) {
-    if (item.type === "file") {
-      branchContents.push(`${repo}/${branch}/${item.path}`);
-    } else if (item.type === "dir") {
-      branchContents.push(await getBranchContents(repo, item.path, branch));
-    }
-  }
-  return branchContents;
-}
-
-async function verifyRepoExists(repo) {
+export async function verifyRepoExists(repo) {
   const response = await githubApiFetch(`/repos/${repo}`);
   if (response.status === 404) {
     throw new Error(`"${repo}" not found on GitHub.`);
   }
 }
 
-function verifyRepoUnregistered(repo) {
+export function verifyRepoUnregistered(repo) {
   for (const r of getRepositories()) {
     if (r === repo) {
       throw new Error(`"${repo}" is already registered.`);
@@ -178,9 +146,11 @@ export function getGithubToken() {
 }
 
 export function isValidGithubToken(githubToken = getGithubToken()) {
-  return !!githubToken &&
-  (!!githubToken.match(/^[0-9a-f]{40}$/) ||
-    !!githubToken.match(/^ghp_[a-zA-Z0-9]{36}$/));
+  return (
+    !!githubToken &&
+    (!!githubToken.match(/^[0-9a-f]{40}$/) ||
+      !!githubToken.match(/^ghp_[a-zA-Z0-9]{36}$/))
+  );
 }
 
 export function setGithubToken(githubToken) {

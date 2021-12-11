@@ -1,6 +1,6 @@
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 
-import { GlobalStateProvider } from "./GlobalState";
+import { GlobalStateProvider } from "../GlobalState";
 import YouTubePlayer from "./YouTubePlayer";
 import { render } from "@testing-library/react";
 

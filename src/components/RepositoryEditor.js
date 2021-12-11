@@ -1,9 +1,4 @@
-import { useEffect, useState } from "react";
-import {
-  addRepository,
-  deleteRepository,
-  getRepositories,
-} from "../lib/github";
+import { useRepoMetadata, useRepositories } from "./GlobalState";
 
 import AddRepository from "./AddRepository";
 import Avatar from "@mui/material/Avatar";
@@ -16,7 +11,7 @@ import ListItem from "@mui/material/ListItem";
 import ListItemAvatar from "@mui/material/ListItemAvatar";
 import ListItemSecondaryAction from "@mui/material/ListItemSecondaryAction";
 import ListItemText from "@mui/material/ListItemText";
-import makeStyles from '@mui/styles/makeStyles';
+import makeStyles from "@mui/styles/makeStyles";
 
 const useStyles = makeStyles({
   root: {
@@ -27,55 +22,38 @@ const useStyles = makeStyles({
 
 export default function RepositoryEditor() {
   const classes = useStyles();
-  const [repos, setRepos] = useState([]);
-  const reposFingerprint = JSON.stringify(repos);
-
-  useEffect(() => {
-    loadRepositories();
-  }, [reposFingerprint]);
-
-  const handleAddRepository = async (repo) => {
-    await addRepository(repo);
-    loadRepositories();
-  };
-
-  const handleDeleteRepository = (repo) => {
-    deleteRepository(repo);
-    loadRepositories();
-  };
-
-  const loadRepositories = () => {
-    setRepos(getRepositories());
-  };
+  const repoMetadata = useRepoMetadata();
+  const { addRepository, deleteRepository } = useRepositories();
 
   return (
     <div className={classes.root}>
       <List>
-        {repos.map((repo) => (
+        {repoMetadata.map((repo) => (
           <ListItem
             button
-            key={`repo-item-${repo}`}
+            key={`repo-item-${repo.full_name}`}
             component={Link}
-            to={`/repos/${repo}/`}
+            to={`/repos/${repo.full_name}/browser/${repo.default_branch}`}
           >
             <ListItemAvatar>
               <Avatar>
                 <BookIcon />
               </Avatar>
             </ListItemAvatar>
-            <ListItemText primary={repo} />
+            <ListItemText primary={repo.full_name} />
             <ListItemSecondaryAction>
               <IconButton
                 aria-label="Delete"
-                onClick={() => handleDeleteRepository(repo)}
-                size="large">
+                onClick={() => deleteRepository(repo.full_name)}
+                size="large"
+              >
                 <DeleteIcon />
               </IconButton>
             </ListItemSecondaryAction>
           </ListItem>
         ))}
       </List>
-      <AddRepository handleAddRepository={handleAddRepository} />
+      <AddRepository handleAddRepository={addRepository} />
     </div>
   );
 }

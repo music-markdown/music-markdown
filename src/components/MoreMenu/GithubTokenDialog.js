@@ -9,8 +9,8 @@ import DialogTitle from "@mui/material/DialogTitle";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
-import { isValidGithubToken } from "../lib/github";
-import { useGlobalStateContext } from "./GlobalState";
+import { isValidGithubToken } from "../../lib/github";
+import { useGlobalStateContext } from "../GlobalState";
 import { useState } from "react";
 import withStyles from "@mui/styles/withStyles";
 
