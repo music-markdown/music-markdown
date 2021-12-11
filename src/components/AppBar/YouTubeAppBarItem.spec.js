@@ -1,15 +1,23 @@
+import { GlobalStateProvider, useYouTubeId } from "../GlobalState";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import { fireEvent, render } from "@testing-library/react";
 
-import { GlobalStateProvider } from "./GlobalState";
-import YouTubeToggle from "./YouTubeToggle";
+import YouTubeAppBarItem from "./YouTubeAppBarItem";
+import { useEffect } from "react";
 
-describe("YouTubeToggle", () => {
+function YouTubeIdSetter() {
+  const { setYouTubeId } = useYouTubeId();
+  useEffect(() => setYouTubeId("abcd"));
+  return null;
+}
+
+describe("YouTubeAppBarItem", () => {
   it("renders YouTube button when youTubeId is present", () => {
     const { queryByRole } = render(
       <GlobalStateProvider>
         <ThemeProvider theme={createTheme()}>
-          <YouTubeToggle youTubeId="abcd" />
+          <YouTubeIdSetter />
+          <YouTubeAppBarItem />
         </ThemeProvider>
       </GlobalStateProvider>
     );
@@ -21,7 +29,7 @@ describe("YouTubeToggle", () => {
     const { queryByRole } = render(
       <GlobalStateProvider>
         <ThemeProvider theme={createTheme()}>
-          <YouTubeToggle />
+          <YouTubeAppBarItem />
         </ThemeProvider>
       </GlobalStateProvider>
     );
@@ -33,7 +41,8 @@ describe("YouTubeToggle", () => {
     const { getByRole, queryByTitle } = render(
       <GlobalStateProvider>
         <ThemeProvider theme={createTheme()}>
-          <YouTubeToggle youTubeId="abcd" />
+          <YouTubeIdSetter />
+          <YouTubeAppBarItem />
         </ThemeProvider>
       </GlobalStateProvider>
     );

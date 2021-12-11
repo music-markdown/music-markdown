@@ -5,19 +5,10 @@ import {
   getGithubToken,
   getRepositories,
   isValidGithubToken,
-  refreshIndexedContents,
   setGithubToken,
 } from "./github";
-import {
-  mockGetBranchesResponse,
-  mockMasterGetContentsResponse,
-  mockSubdirectoryContentsTestResponse,
-  mockSubdirectoryTestResponse,
-  mockVinceTestGetContentsResponse,
-} from "./MockGithubResponses";
 
 import { Base64 } from "js-base64";
-import { LOCAL_STORAGE_NAMESPACE } from "./constants";
 
 describe("GitHub API", () => {
   beforeEach(async () => {
@@ -149,34 +140,6 @@ describe("GitHub API", () => {
   test("isValidGithubToken returns false when token is not prefixed with ghp_", () => {
     const token = "gha_wmggJcNUP5a4k9bPLvHYp5e5lZ4Dt92TmhCL";
     expect(isValidGithubToken(token)).toEqual(false);
-  });
-
-  test("refreshIndexedContents returns correct contents", async () => {
-    fetch.mockResponses(
-      [JSON.stringify({})],
-      [JSON.stringify(mockGetBranchesResponse)],
-      [JSON.stringify(mockMasterGetContentsResponse)],
-      [JSON.stringify(mockVinceTestGetContentsResponse)],
-      [JSON.stringify(mockSubdirectoryTestResponse)],
-      [JSON.stringify(mockSubdirectoryContentsTestResponse)]
-    );
-
-    await addRepository("music-markdown/almost-in-time");
-    await refreshIndexedContents();
-    const indexedContents = localStorage.getItem(
-      `${LOCAL_STORAGE_NAMESPACE}:indexed-contents`
-    );
-    const expectedArr = [];
-    expectedArr.push(
-      "music-markdown/almost-in-time/master/A Bar in Amsterdam - Katzenjammer.md"
-    );
-    expectedArr.push(
-      "music-markdown/almost-in-time/vince-test/A Thousand Years - Christina Perri.md"
-    );
-    expectedArr.push(
-      "music-markdown/almost-in-time/subdirectory-test/The Mamas and the Papas/California Dreamin' - The Mamas and the Papas.md"
-    );
-    expect(indexedContents).toEqual(expectedArr.toString());
   });
 
   // TODO: Write tests for getBranches

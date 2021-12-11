@@ -1,39 +1,42 @@
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 import {
   getGithubToken,
+  getRepoMetadata,
   isValidGithubToken,
   setGithubToken,
+  verifyRepoExists,
+  verifyRepoUnregistered,
 } from "../lib/github";
+
 import { LOCAL_STORAGE_NAMESPACE } from "../lib/constants";
+import { useLocalStorage } from "../lib/hooks";
+import { useMediaQuery } from "@mui/material";
 
-const lightTheme = {
-  palette: {
-    mode: "light",
+const REPOS_LOCAL_STORAGE_KEY = `${LOCAL_STORAGE_NAMESPACE}:repositories`;
+
+const THEMES = {
+  light: {
+    palette: {
+      mode: "light",
+    },
+  },
+  dark: {
+    palette: {
+      mode: "dark",
+    },
   },
 };
-
-const darkTheme = {
-  palette: {
-    mode: "dark",
-  },
-};
-
-const initialTheme =
-  window.localStorage.getItem(`${LOCAL_STORAGE_NAMESPACE}:palette-type`) ===
-  "dark"
-    ? darkTheme
-    : lightTheme;
 
 export const GlobalStateContext = createContext();
-
-export const useGlobalStateContext = () => useContext(GlobalStateContext);
 
 export const GlobalStateProvider = (props) => {
   const [state, setState] = useState({
     githubToken: getGithubToken(),
-    theme: initialTheme,
-    youTubeId: null,
   });
+
+  const [repos, setRepos] = useLocalStorage(REPOS_LOCAL_STORAGE_KEY, []);
+  const [themeName, setThemeName] = useLocalStorage("themeName", "system");
+  const [youTubeId, setYouTubeId] = useState(null);
 
   return (
     <GlobalStateContext.Provider
@@ -46,20 +49,19 @@ export const GlobalStateProvider = (props) => {
             setGithubToken(githubToken);
           }
         },
-        isDarkTheme: () => state.theme.palette.mode === "dark",
-        toggleTheme: () => {
-          const theme =
-            state.theme.palette.mode === "dark" ? lightTheme : darkTheme;
-          window.localStorage.setItem(
-            `${LOCAL_STORAGE_NAMESPACE}:palette-type`,
-            theme.palette.mode
-          );
-          setState({ ...state, theme });
+        youTubeId,
+        setYouTubeId,
+        themeName,
+        setThemeName,
+        repositories: repos,
+        setRepositories: setRepos,
+        addRepository: async (repo) => {
+          verifyRepoUnregistered(repo);
+          await verifyRepoExists(repo);
+          setRepos(repos.concat([repo]));
         },
-        setYouTubeId: (youTubeId) => {
-          if (youTubeId !== state.youTubeId) {
-            setState({ ...state, youTubeId });
-          }
+        deleteRepository: (repo) => {
+          setRepos(repos.filter((r) => r !== repo));
         },
       }}
     >
@@ -68,10 +70,52 @@ export const GlobalStateProvider = (props) => {
   );
 };
 
+export const useGlobalStateContext = () => useContext(GlobalStateContext);
+
+export function useTheme() {
+  const prefersDarkTheme = useMediaQuery("(prefers-color-scheme: dark)");
+  const { themeName, setThemeName } = useGlobalStateContext();
+  const getEffectiveThemeName = () => {
+    if (themeName === "system") {
+      return prefersDarkTheme ? "dark" : "light";
+    }
+    return themeName;
+  };
+  const getTheme = () => THEMES[getEffectiveThemeName()];
+  return {
+    themeName,
+    setThemeName,
+    prefersDarkTheme,
+    getEffectiveThemeName,
+    getTheme,
+  };
+}
+
+export function useRepoMetadata() {
+  const [repoMetadata, setRepoMetadata] = useState([]);
+  const { repositories } = useRepositories();
+
+  useEffect(() => {
+    (async () => setRepoMetadata(await getRepoMetadata(repositories)))();
+  }, [repositories]);
+
+  return repoMetadata;
+}
+
+export function useRepositories() {
+  const context = useGlobalStateContext();
+  return {
+    repositories: context.repositories,
+    setRepositories: context.setRepositories,
+    addRepository: context.addRepository,
+    deleteRepository: context.deleteRepository,
+  };
+}
+
 export function useYouTubeId() {
   const context = useGlobalStateContext();
   return {
-    youTubeId: context.data.youTubeId,
+    youTubeId: context.youTubeId,
     setYouTubeId: context.setYouTubeId,
   };
 }
