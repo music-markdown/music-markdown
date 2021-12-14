@@ -1,18 +1,16 @@
-import { useEffect, useState } from "react";
-
-import AddNewFile from "./AddNewFile";
-import Avatar from "@mui/material/Avatar";
 import DescriptionIcon from "@mui/icons-material/Description";
-import DirectoryBreadcrumbs from "./RouterBreadcrumbs";
 import FolderIcon from "@mui/icons-material/Folder";
+import Avatar from "@mui/material/Avatar";
 import LinearProgress from "@mui/material/LinearProgress";
-import { Link } from "react-router-dom";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import ListItemAvatar from "@mui/material/ListItemAvatar";
 import ListItemText from "@mui/material/ListItemText";
-import { getContents } from "../lib/github";
-import makeStyles from '@mui/styles/makeStyles';
+import makeStyles from "@mui/styles/makeStyles";
+import { Link, useParams } from "react-router-dom";
+import { useContents } from "../../context/GitHubApiProvider";
+import DirectoryBreadcrumbs from "../RouterBreadcrumbs";
+import AddNewFile from "./AddNewFile";
 
 const useStyles = makeStyles({
   root: {
@@ -27,7 +25,7 @@ const useStyles = makeStyles({
  * @param {Object[]} contents GitHub directory contents. Contains files and directories.
  */
 function sortDir(contents) {
-  contents.sort((a, b) => {
+  return [...contents].sort((a, b) => {
     if (a.type === "file") {
       if (b.type === "file") {
         return a.name - b.name;
@@ -44,32 +42,20 @@ function sortDir(contents) {
 /**
  * A React component for rendering repository files and directories.
  */
-export default function RepositoryNavigation({ match, location }) {
+export default function FileViewer() {
   const classes = useStyles();
-  const [contents, setContents] = useState([]);
-  const [isLoaded, setIsLoaded] = useState(false);
+  const { repo, path, branch } = useParams();
+  const { loading, value } = useContents(repo, path, branch);
 
-  useEffect(() => {
-    async function fetchContents() {
-      const { repo, path, branch } = match.params;
-
-      const contents = await getContents(repo, path, branch);
-      sortDir(contents);
-      setContents(contents);
-      setIsLoaded(true);
-    }
-    fetchContents();
-  }, [match.params]);
-
-  const { repo, branch } = match.params;
-
-  if (!isLoaded) {
+  if (loading) {
     return <LinearProgress />;
   }
 
+  const contents = sortDir(value);
+
   return (
     <>
-      <DirectoryBreadcrumbs pathname={location.pathname} />
+      <DirectoryBreadcrumbs />
       <div className={classes.root}>
         <List key={"repo-navigation-list"}>
           {contents.map((item) => (
@@ -96,7 +82,7 @@ export default function RepositoryNavigation({ match, location }) {
             </ListItem>
           ))}
         </List>
-        <AddNewFile location={location} match={match} />
+        <AddNewFile />
       </div>
     </>
   );

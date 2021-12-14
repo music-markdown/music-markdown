@@ -1,7 +1,5 @@
-import { MemoryRouter, Route } from "react-router";
 import { fireEvent, render } from "@testing-library/react";
-
-import { GlobalStateProvider } from "../GlobalState";
+import { MemoryRouter, Route } from "react-router";
 import { REPO_REGEX } from "../../lib/constants";
 import TransposeMenuItem from "./TransposeMenuItem";
 
@@ -10,21 +8,19 @@ describe("TransposeMenuItem", () => {
     let testLocation;
 
     const { getByLabelText } = render(
-      <GlobalStateProvider>
-        <MemoryRouter initialEntries={["/repos/o/r/viewer/b/song.md"]}>
-          <Route
-            path={`${REPO_REGEX}/:mode(viewer|editor)/:branch/:path*`}
-            render={() => <TransposeMenuItem />}
-          />
-          <Route
-            path="*"
-            render={({ location }) => {
-              testLocation = location;
-              return null;
-            }}
-          />
-        </MemoryRouter>
-      </GlobalStateProvider>
+      <MemoryRouter initialEntries={["/repos/o/r/viewer/b/song.md"]}>
+        <Route
+          path={`${REPO_REGEX}/:mode(viewer|editor)/:branch/:path*`}
+          render={() => <TransposeMenuItem />}
+        />
+        <Route
+          path="*"
+          render={({ location }) => {
+            testLocation = location;
+            return null;
+          }}
+        />
+      </MemoryRouter>
     );
 
     fireEvent.click(getByLabelText("Transpose up"));
@@ -37,21 +33,19 @@ describe("TransposeMenuItem", () => {
     let testLocation;
 
     const { getByLabelText } = render(
-      <GlobalStateProvider>
-        <MemoryRouter initialEntries={["/repos/o/r/viewer/b/song.md"]}>
-          <Route
-            path={`${REPO_REGEX}/:mode(viewer|editor)/:branch/:path*`}
-            render={() => <TransposeMenuItem />}
-          />
-          <Route
-            path="*"
-            render={({ location }) => {
-              testLocation = location;
-              return null;
-            }}
-          />
-        </MemoryRouter>
-      </GlobalStateProvider>
+      <MemoryRouter initialEntries={["/repos/o/r/viewer/b/song.md"]}>
+        <Route
+          path={`${REPO_REGEX}/:mode(viewer|editor)/:branch/:path*`}
+          render={() => <TransposeMenuItem />}
+        />
+        <Route
+          path="*"
+          render={({ location }) => {
+            testLocation = location;
+            return null;
+          }}
+        />
+      </MemoryRouter>
     );
 
     fireEvent.click(getByLabelText("Transpose down"));
@@ -64,23 +58,21 @@ describe("TransposeMenuItem", () => {
     let testLocation;
 
     const { getByText } = render(
-      <GlobalStateProvider>
-        <MemoryRouter
-          initialEntries={["/repos/o/r/viewer/b/song.md?transpose=1"]}
-        >
-          <Route
-            path={`${REPO_REGEX}/:mode(viewer|editor)/:branch/:path*`}
-            render={() => <TransposeMenuItem />}
-          />
-          <Route
-            path="*"
-            render={({ location }) => {
-              testLocation = location;
-              return null;
-            }}
-          />
-        </MemoryRouter>
-      </GlobalStateProvider>
+      <MemoryRouter
+        initialEntries={["/repos/o/r/viewer/b/song.md?transpose=1"]}
+      >
+        <Route
+          path={`${REPO_REGEX}/:mode(viewer|editor)/:branch/:path*`}
+          render={() => <TransposeMenuItem />}
+        />
+        <Route
+          path="*"
+          render={({ location }) => {
+            testLocation = location;
+            return null;
+          }}
+        />
+      </MemoryRouter>
     );
 
     fireEvent.click(getByText("Reset"));

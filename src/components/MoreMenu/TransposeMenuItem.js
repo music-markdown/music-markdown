@@ -1,12 +1,11 @@
-import { Button, Divider, IconButton, Stack, Typography } from "@mui/material";
-import { useHistory, useLocation } from "react-router";
-
 import ArrowCircleDownIcon from "@mui/icons-material/ArrowCircleDown";
 import ArrowCircleUpIcon from "@mui/icons-material/ArrowCircleUp";
-import { Box } from "@mui/system";
 import SettingsBackupRestoreIcon from "@mui/icons-material/SettingsBackupRestore";
-import { TRANSPOSE_QUERY_KEY } from "../../lib/constants";
+import { Button, Divider, IconButton, Stack, Typography } from "@mui/material";
+import { Box } from "@mui/system";
 import queryString from "query-string";
+import { useHistory, useLocation } from "react-router";
+import { TRANSPOSE_QUERY_KEY } from "../../lib/constants";
 
 export default function TransposeMenuItem() {
   const location = useLocation();

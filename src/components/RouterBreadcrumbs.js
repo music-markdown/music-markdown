@@ -1,9 +1,9 @@
 import Breadcrumbs from "@mui/material/Breadcrumbs";
 import Link from "@mui/material/Link";
 import Paper from "@mui/material/Paper";
-import { Link as RouterLink } from "react-router-dom";
 import Typography from "@mui/material/Typography";
-import makeStyles from '@mui/styles/makeStyles';
+import makeStyles from "@mui/styles/makeStyles";
+import { Link as RouterLink, useLocation } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -18,8 +18,7 @@ function buildBreadcrumb(previousPath, classes) {
   // ignoreIndex matches the Route defined in App.js.
   // Certain portions are not useful to user in the breadcrumb, so we remove them.
   const ignoreIndex = [
-    0 /* /repos */,
-    3 /* /:viewName(browser|viewer|editor) */,
+    0 /* /repos */, 3 /* /:viewName(browser|viewer|editor) */,
   ];
   const keyBase = "breadcrumb-item-";
 
@@ -64,10 +63,10 @@ function buildBreadcrumb(previousPath, classes) {
 
 /**
  * Returns a list of breadcrumbs based on current path of navigation
- * @param {string} pathname current URI pathname
  * @return {Array} List of BreadcrumbItems
  */
-export default function DirectoryBreadcrumbs({ pathname }) {
+export default function DirectoryBreadcrumbs() {
+  const { pathname } = useLocation();
   const classes = useStyles();
   const keyBase = "breadcrumb-item-";
 

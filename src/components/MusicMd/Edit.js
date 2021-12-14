@@ -1,35 +1,36 @@
-import { useEffect, useState } from "react";
-import { getContents, putContents } from "../lib/github";
-import { useTheme } from "@mui/material/styles";
-
-import makeStyles from '@mui/styles/makeStyles';
-
-import AceEditor from "react-ace";
 import CheckIcon from "@mui/icons-material/Check";
-import CircularProgress from "@mui/material/CircularProgress";
-import DirectoryBreadcrumbs from "./RouterBreadcrumbs";
 import ExitToAppIcon from "@mui/icons-material/ExitToApp";
-import Fab from "@mui/material/Fab";
 import GitHubIcon from "@mui/icons-material/GitHub";
-import Grid from "@mui/material/Grid";
-import LinearProgress from "@mui/material/LinearProgress";
-import { Link } from "react-router-dom";
-import MusicMarkdown from "./MusicMarkdown";
-import Paper from "@mui/material/Paper";
 import PhotoFilterIcon from "@mui/icons-material/PhotoFilter";
 import SaveIcon from "@mui/icons-material/Save";
+import CircularProgress from "@mui/material/CircularProgress";
+import { green } from "@mui/material/colors";
+import Fab from "@mui/material/Fab";
+import Grid from "@mui/material/Grid";
+import LinearProgress from "@mui/material/LinearProgress";
+import Paper from "@mui/material/Paper";
+import { useTheme } from "@mui/material/styles";
 import Tooltip from "@mui/material/Tooltip";
-import asciiTabConvert from "../tools/asciitab";
+import makeStyles from "@mui/styles/makeStyles";
 import classNames from "classnames";
-import { useDebounce } from "../lib/hooks";
-import { useGlobalStateContext } from "./GlobalState";
 import queryString from "query-string";
-import "ace-builds/src-noconflict/mode-markdown"; // eslint-disable-line sort-imports
+import { useEffect, useState } from "react";
+import AceEditor from "react-ace";
+import { Link, useParams } from "react-router-dom";
+import { useContents, useGitHubApi } from "../../context/GitHubApiProvider";
+import {
+  COLUMN_COUNT_QUERY_KEY,
+  TRANSPOSE_QUERY_KEY,
+} from "../../lib/constants";
+import { putContents } from "../../lib/github";
+import { useDebounce } from "../../lib/hooks";
+import asciiTabConvert from "../../tools/asciitab";
+import Render from "./Render";
+import DirectoryBreadcrumbs from "../RouterBreadcrumbs";
 
-import "ace-builds/src-noconflict/theme-textmate"; // eslint-disable-line sort-imports
-import "ace-builds/src-noconflict/theme-twilight"; // eslint-disable-line sort-imports
-import { COLUMN_COUNT_QUERY_KEY, TRANSPOSE_QUERY_KEY } from "../lib/constants";
-import { green } from '@mui/material/colors';
+import "ace-builds/src-noconflict/mode-markdown"; // organize-imports-ignore
+import "ace-builds/src-noconflict/theme-textmate"; // organize-imports-ignore
+import "ace-builds/src-noconflict/theme-twilight"; // organize-imports-ignore
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -68,18 +69,18 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function MarkdownEditor({ match, location }) {
+export default function Edit({ location }) {
   const classes = useStyles();
   const theme = useTheme();
-  const context = useGlobalStateContext();
+  const { gitHubToken } = useGitHubApi();
   const [markdown, setMarkdown] = useState("");
   const debouncedMarkdown = useDebounce(markdown, 250);
   const [sha, setSha] = useState();
   const [saving, setSaving] = useState(false);
   const [success, setSuccess] = useState(false);
   const [isDirty, setIsDirty] = useState(false);
-  const [isLoaded, setIsLoaded] = useState(false);
-  const { repo, path, branch } = match.params;
+  const { repo, path, branch } = useParams();
+  const { loading, value, content } = useContents(repo, path, branch);
 
   const handleChange = (value) => {
     setMarkdown(value);
@@ -92,7 +93,14 @@ export default function MarkdownEditor({ match, location }) {
       setSuccess(false);
       setSaving(true);
 
-      const response = await putContents(repo, path, markdown, sha, branch);
+      const response = await putContents(
+        repo,
+        path,
+        markdown,
+        sha,
+        branch,
+        gitHubToken
+      );
       const json = await response.json();
 
       if (response.status === 200) {
@@ -111,14 +119,11 @@ export default function MarkdownEditor({ match, location }) {
   };
 
   useEffect(() => {
-    async function fetchContents() {
-      const json = await getContents(repo, path, branch);
-      setIsLoaded(true);
-      setMarkdown(json.content);
-      setSha(json.sha);
+    if (value) {
+      setMarkdown(content);
+      setSha(value.sha);
     }
-    fetchContents();
-  }, [repo, path, branch]);
+  }, [content, value]);
 
   const params = queryString.parse(location.search);
   const columnCount = params[COLUMN_COUNT_QUERY_KEY] || "1";
@@ -135,7 +140,7 @@ export default function MarkdownEditor({ match, location }) {
   const githubParts = [parts[2], parts[3], "blob"].concat(parts.slice(5));
   const githubLink = `https://github.com/${githubParts.join("/")}`;
 
-  if (!isLoaded) {
+  if (loading) {
     return <LinearProgress />;
   }
 
@@ -148,14 +153,12 @@ export default function MarkdownEditor({ match, location }) {
             <Paper className={classes.toolbar}>
               <Tooltip
                 title={
-                  context.isValidGithubToken()
-                    ? "Save"
-                    : "Add a GitHub Token to Enable Saving"
+                  gitHubToken ? "Save" : "Add a GitHub Token to Enable Saving"
                 }
               >
                 <span>
                   <Fab
-                    disabled={!isDirty || !context.isValidGithubToken()}
+                    disabled={!isDirty || !gitHubToken}
                     className={`${buttonClassname} ${classes.fab}`}
                     onClick={handleSave}
                   >
@@ -202,11 +205,11 @@ export default function MarkdownEditor({ match, location }) {
           </Grid>
           <Grid item xs={6}>
             <Paper className={classes.paper}>
-              <MusicMarkdown
+              <Render
                 source={debouncedMarkdown}
                 columnCount={columnCount}
                 transposeAmount={transposeAmount}
-              ></MusicMarkdown>
+              ></Render>
             </Paper>
           </Grid>
         </Grid>

@@ -1,17 +1,16 @@
-import { useRepoMetadata, useRepositories } from "./GlobalState";
-
-import AddRepository from "./AddRepository";
-import Avatar from "@mui/material/Avatar";
 import BookIcon from "@mui/icons-material/Book";
 import DeleteIcon from "@mui/icons-material/Delete";
+import Avatar from "@mui/material/Avatar";
 import IconButton from "@mui/material/IconButton";
-import { Link } from "react-router-dom";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import ListItemAvatar from "@mui/material/ListItemAvatar";
 import ListItemSecondaryAction from "@mui/material/ListItemSecondaryAction";
 import ListItemText from "@mui/material/ListItemText";
 import makeStyles from "@mui/styles/makeStyles";
+import { Link } from "react-router-dom";
+import { useRepoMetadata, useRepos } from "../../context/ReposProvider";
+import AddRepository from "./AddRepository";
 
 const useStyles = makeStyles({
   root: {
@@ -20,10 +19,10 @@ const useStyles = makeStyles({
   },
 });
 
-export default function RepositoryEditor() {
+export default function RepoViewer() {
   const classes = useStyles();
   const repoMetadata = useRepoMetadata();
-  const { addRepository, deleteRepository } = useRepositories();
+  const { addRepo, deleteRepo } = useRepos();
 
   return (
     <div className={classes.root}>
@@ -44,7 +43,7 @@ export default function RepositoryEditor() {
             <ListItemSecondaryAction>
               <IconButton
                 aria-label="Delete"
-                onClick={() => deleteRepository(repo.full_name)}
+                onClick={() => deleteRepo(repo.full_name)}
                 size="large"
               >
                 <DeleteIcon />
@@ -53,7 +52,7 @@ export default function RepositoryEditor() {
           </ListItem>
         ))}
       </List>
-      <AddRepository handleAddRepository={addRepository} />
+      <AddRepository handleAddRepository={addRepo} />
     </div>
   );
 }

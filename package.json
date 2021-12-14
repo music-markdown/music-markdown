@@ -21,6 +21,7 @@
     "markdown-it": "^12.0.4",
     "markdown-it-music": "0.1.4",
     "prettier": "^2.5.0",
+    "prettier-plugin-organize-imports": "^2.3.4",
     "prop-types": "^15.7.2",
     "query-string": "^7.0.1",
     "react": "^17.0.1",

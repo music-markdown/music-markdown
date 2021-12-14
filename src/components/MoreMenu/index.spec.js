@@ -1,21 +1,24 @@
-import { GlobalStateProvider } from "../GlobalState";
+import { render } from "@testing-library/react";
 import { MemoryRouter } from "react-router";
 import MoreMenu from ".";
-import { render } from "@testing-library/react";
+import { GitHubApiProvider } from "../../context/GitHubApiProvider";
+import { ThemeProvider } from "../../context/ThemeProvider";
 
 describe("MoreMenu", () => {
   it("doesn't render Song Actions at home", () => {
     const mockAnchorEl = document.createElement("button");
     const { queryByText } = render(
-      <GlobalStateProvider>
-        <MemoryRouter initialEntries={["/"]}>
-          <MoreMenu
-            open={true}
-            close={() => undefined}
-            anchorEl={mockAnchorEl}
-          />
-        </MemoryRouter>
-      </GlobalStateProvider>
+      <GitHubApiProvider>
+        <ThemeProvider>
+          <MemoryRouter initialEntries={["/"]}>
+            <MoreMenu
+              open={true}
+              close={() => undefined}
+              anchorEl={mockAnchorEl}
+            />
+          </MemoryRouter>
+        </ThemeProvider>
+      </GitHubApiProvider>
     );
 
     expect(queryByText("Song Actions")).not.toBeInTheDocument();
@@ -24,15 +27,17 @@ describe("MoreMenu", () => {
   it("renders Song Actions at viewer", () => {
     const mockAnchorEl = document.createElement("button");
     const { queryByText } = render(
-      <GlobalStateProvider>
-        <MemoryRouter initialEntries={["/repos/o/r/viewer/b/song.md"]}>
-          <MoreMenu
-            open={true}
-            close={() => undefined}
-            anchorEl={mockAnchorEl}
-          />
-        </MemoryRouter>
-      </GlobalStateProvider>
+      <GitHubApiProvider>
+        <ThemeProvider>
+          <MemoryRouter initialEntries={["/repos/o/r/viewer/b/song.md"]}>
+            <MoreMenu
+              open={true}
+              close={() => undefined}
+              anchorEl={mockAnchorEl}
+            />
+          </MemoryRouter>
+        </ThemeProvider>
+      </GitHubApiProvider>
     );
 
     expect(queryByText("Song Actions")).toBeInTheDocument();
@@ -41,15 +46,17 @@ describe("MoreMenu", () => {
   it("doesn't render Transpose at home", () => {
     const mockAnchorEl = document.createElement("button");
     const { queryByText } = render(
-      <GlobalStateProvider>
-        <MemoryRouter initialEntries={["/"]}>
-          <MoreMenu
-            open={true}
-            close={() => undefined}
-            anchorEl={mockAnchorEl}
-          />
-        </MemoryRouter>
-      </GlobalStateProvider>
+      <GitHubApiProvider>
+        <ThemeProvider>
+          <MemoryRouter initialEntries={["/"]}>
+            <MoreMenu
+              open={true}
+              close={() => undefined}
+              anchorEl={mockAnchorEl}
+            />
+          </MemoryRouter>
+        </ThemeProvider>
+      </GitHubApiProvider>
     );
 
     expect(queryByText("Transpose")).not.toBeInTheDocument();
@@ -58,15 +65,17 @@ describe("MoreMenu", () => {
   it("renders Transpose at viewer", () => {
     const mockAnchorEl = document.createElement("button");
     const { queryByText } = render(
-      <GlobalStateProvider>
-        <MemoryRouter initialEntries={["/repos/o/r/viewer/b/song.md"]}>
-          <MoreMenu
-            open={true}
-            close={() => undefined}
-            anchorEl={mockAnchorEl}
-          />
-        </MemoryRouter>
-      </GlobalStateProvider>
+      <GitHubApiProvider>
+        <ThemeProvider>
+          <MemoryRouter initialEntries={["/repos/o/r/viewer/b/song.md"]}>
+            <MoreMenu
+              open={true}
+              close={() => undefined}
+              anchorEl={mockAnchorEl}
+            />
+          </MemoryRouter>
+        </ThemeProvider>
+      </GitHubApiProvider>
     );
 
     expect(queryByText("Transpose")).toBeInTheDocument();
@@ -75,15 +84,17 @@ describe("MoreMenu", () => {
   it("doesn't render Columns at home", () => {
     const mockAnchorEl = document.createElement("button");
     const { queryByText } = render(
-      <GlobalStateProvider>
-        <MemoryRouter initialEntries={["/"]}>
-          <MoreMenu
-            open={true}
-            close={() => undefined}
-            anchorEl={mockAnchorEl}
-          />
-        </MemoryRouter>
-      </GlobalStateProvider>
+      <GitHubApiProvider>
+        <ThemeProvider>
+          <MemoryRouter initialEntries={["/"]}>
+            <MoreMenu
+              open={true}
+              close={() => undefined}
+              anchorEl={mockAnchorEl}
+            />
+          </MemoryRouter>
+        </ThemeProvider>
+      </GitHubApiProvider>
     );
 
     expect(queryByText("Columns")).not.toBeInTheDocument();
@@ -92,15 +103,17 @@ describe("MoreMenu", () => {
   it("renders Columns at viewer", () => {
     const mockAnchorEl = document.createElement("button");
     const { queryByText } = render(
-      <GlobalStateProvider>
-        <MemoryRouter initialEntries={["/repos/o/r/viewer/b/song.md"]}>
-          <MoreMenu
-            open={true}
-            close={() => undefined}
-            anchorEl={mockAnchorEl}
-          />
-        </MemoryRouter>
-      </GlobalStateProvider>
+      <GitHubApiProvider>
+        <ThemeProvider>
+          <MemoryRouter initialEntries={["/repos/o/r/viewer/b/song.md"]}>
+            <MoreMenu
+              open={true}
+              close={() => undefined}
+              anchorEl={mockAnchorEl}
+            />
+          </MemoryRouter>
+        </ThemeProvider>
+      </GitHubApiProvider>
     );
 
     expect(queryByText("Columns")).toBeInTheDocument();
@@ -109,15 +122,17 @@ describe("MoreMenu", () => {
   it("renders theme menu item at home", () => {
     const mockAnchorEl = document.createElement("button");
     const { queryByText } = render(
-      <GlobalStateProvider>
-        <MemoryRouter initialEntries={["/"]}>
-          <MoreMenu
-            open={true}
-            close={() => undefined}
-            anchorEl={mockAnchorEl}
-          />
-        </MemoryRouter>
-      </GlobalStateProvider>
+      <GitHubApiProvider>
+        <ThemeProvider>
+          <MemoryRouter initialEntries={["/"]}>
+            <MoreMenu
+              open={true}
+              close={() => undefined}
+              anchorEl={mockAnchorEl}
+            />
+          </MemoryRouter>
+        </ThemeProvider>
+      </GitHubApiProvider>
     );
 
     expect(queryByText("Theme")).toBeInTheDocument();
@@ -126,15 +141,17 @@ describe("MoreMenu", () => {
   it("renders GitHub token button at home", () => {
     const mockAnchorEl = document.createElement("button");
     const { queryByText } = render(
-      <GlobalStateProvider>
-        <MemoryRouter initialEntries={["/"]}>
-          <MoreMenu
-            open={true}
-            close={() => undefined}
-            anchorEl={mockAnchorEl}
-          />
-        </MemoryRouter>
-      </GlobalStateProvider>
+      <GitHubApiProvider>
+        <ThemeProvider>
+          <MemoryRouter initialEntries={["/"]}>
+            <MoreMenu
+              open={true}
+              close={() => undefined}
+              anchorEl={mockAnchorEl}
+            />
+          </MemoryRouter>
+        </ThemeProvider>
+      </GitHubApiProvider>
     );
 
     expect(queryByText("GitHub Token")).toBeInTheDocument();

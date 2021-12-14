@@ -1,90 +1,10 @@
-import {
-  addRepository,
-  deleteRepository,
-  getContents,
-  getGithubToken,
-  getRepositories,
-  isValidGithubToken,
-  setGithubToken,
-} from "./github";
-
 import { Base64 } from "js-base64";
+import { gitHubApiFetch, isValidGithubToken } from "./github";
 
 describe("GitHub API", () => {
   beforeEach(async () => {
     fetch.resetMocks();
     localStorage.clear();
-  });
-
-  test("getRepositories contains new repo when repo is added with addRepository", async () => {
-    fetch.mockResponse(JSON.stringify({}));
-    await addRepository("music-markdown/almost-in-time");
-    const actualRepos = getRepositories();
-    const expectedRepo = "music-markdown/almost-in-time";
-    expect(actualRepos).toContainEqual(expectedRepo);
-  });
-
-  test("addRepository throws error when repo does not exist", async () => {
-    fetch.mockResponse(JSON.stringify({}), { status: 404 });
-    await expect(addRepository("a-repo/that-doesnt-exist")).rejects.toThrow();
-  });
-
-  test("addRepository throws error when repo is already registered", async () => {
-    fetch.mockResponse(JSON.stringify({}));
-    await addRepository("valid-owner/valid-repo");
-    await expect(addRepository("valid-owner/valid-repo")).rejects.toThrow();
-  });
-
-  test("deleteRepository removes the correct", async () => {
-    fetch.mockResponse(JSON.stringify({}));
-    await addRepository("valid-owner/valid-repo-1");
-    await addRepository("valid-owner/valid-repo-2");
-    deleteRepository("valid-owner/valid-repo-1");
-    const actualRepos = getRepositories();
-    expect(actualRepos).toEqual(["valid-owner/valid-repo-2"]);
-  });
-
-  test("getContents decodes markdown files from base64", async () => {
-    const content = { content: Base64.encode("# California Dreamin'") };
-    fetch.mockResponse(JSON.stringify(content));
-    const response = await getContents("repo", "file.md", "master");
-    expect(response.content).toEqual("# California Dreamin'");
-  });
-
-  test("getContents fetch contains GitHub token when it is available", async () => {
-    const expectedToken = "music-markdown-github-token";
-    setGithubToken("music-markdown-github-token");
-    const content = { content: Base64.encode("# California Dreamin'") };
-    fetch.mockResponse(JSON.stringify(content));
-    await getContents("repo", "file.md", "master");
-    const request = fetch.mock.calls[0][0];
-    expect(request.headers.get("Authorization")).toContain(expectedToken);
-  });
-
-  test("getGithubToken returns token from localStorage", () => {
-    const expectedToken = "music-markdown-github-token";
-    localStorage.setItem("music-markdown:github_token", expectedToken);
-    const actualToken = getGithubToken();
-    expect(actualToken).toEqual(expectedToken);
-  });
-
-  test("getGithubToken returns null when token is not set", () => {
-    const expectedToken = null;
-    const actualToken = getGithubToken();
-    expect(actualToken).toEqual(expectedToken);
-  });
-
-  test("setGithubToken saves the token to localStorage", () => {
-    const expectedToken = "music-markdown-github-token";
-    setGithubToken(expectedToken);
-    const actualToken = localStorage.getItem("music-markdown:github_token");
-    expect(actualToken).toEqual(expectedToken);
-  });
-
-  test("setGithubToken with empty string clears the token from localStorage", () => {
-    setGithubToken("");
-    const actualToken = localStorage.getItem("music-markdown:github_token");
-    expect(actualToken).toEqual(null);
   });
 
   test("isValidGithubToken returns true on valid legacy token", () => {
@@ -142,6 +62,14 @@ describe("GitHub API", () => {
     expect(isValidGithubToken(token)).toEqual(false);
   });
 
-  // TODO: Write tests for getBranches
   // TODO: Write tests for getContents
+
+  test("gitHubApiFetch attaches token when it is provided", async () => {
+    const expectedToken = "music-markdown-github-token";
+    const content = { content: Base64.encode("# California Dreamin'") };
+    fetch.mockResponse(JSON.stringify(content));
+    await gitHubApiFetch("/some/path", { gitHubToken: expectedToken });
+    const request = fetch.mock.calls[0][0];
+    expect(request.headers.get("Authorization")).toContain(expectedToken);
+  });
 });

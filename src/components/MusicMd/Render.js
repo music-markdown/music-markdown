@@ -1,12 +1,11 @@
-import { useEffect, useRef, useState } from "react";
-
-import ErrorSnackbar from "./ErrorSnackbar";
+import { useTheme } from "@mui/material/styles";
+import makeStyles from "@mui/styles/makeStyles";
 import MarkdownIt from "markdown-it";
 import MarkdownItMusic from "markdown-it-music";
-import makeStyles from "@mui/styles/makeStyles";
-import { useContainerDimensions } from "../lib/hooks";
-import { useTheme } from "@mui/material/styles";
-import { useYouTubeId } from "./GlobalState";
+import { useEffect, useRef, useState } from "react";
+import { useYouTubeId } from "../../context/YouTubeIdProvider";
+import { useContainerDimensions } from "../../lib/hooks";
+import ErrorSnackbar from "../ErrorSnackbar";
 
 const COLUMN_GAP = 20;
 
@@ -86,7 +85,7 @@ const MusicMarkdownRender = ({
   );
 };
 
-export default function MusicMarkdown(props) {
+export default function Render(props) {
   const classes = useStyles();
   const componentRef = useRef();
   const { width } = useContainerDimensions(componentRef);

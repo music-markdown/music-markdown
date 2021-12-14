@@ -1,8 +1,7 @@
+import { render } from "@testing-library/react";
 import { MemoryRouter, Route } from "react-router";
-
 import { REPO_REGEX } from "../../lib/constants";
 import SongActionsMenuItem from "./SongActionsMenuItem";
-import { render } from "@testing-library/react";
 
 describe("SongActionsMenuItem", () => {
   it("renders edit button when on viewer page", () => {

@@ -1,14 +1,13 @@
 import { fireEvent, render } from "@testing-library/react";
-
-import { GlobalStateProvider } from "../GlobalState";
+import { ThemeProvider } from "../../context/ThemeProvider";
 import ThemeMenuItem from "./ThemeMenuItem";
 
 describe("ThemeMenuItem", () => {
   it("sets theme to light when light button is clicked", () => {
     const { getByText } = render(
-      <GlobalStateProvider>
+      <ThemeProvider>
         <ThemeMenuItem />
-      </GlobalStateProvider>
+      </ThemeProvider>
     );
 
     fireEvent.click(getByText("Light"));
@@ -17,9 +16,9 @@ describe("ThemeMenuItem", () => {
 
   it("sets theme to dark when dark button is clicked", () => {
     const { getByText } = render(
-      <GlobalStateProvider>
+      <ThemeProvider>
         <ThemeMenuItem />
-      </GlobalStateProvider>
+      </ThemeProvider>
     );
 
     fireEvent.click(getByText("Dark"));

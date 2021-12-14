@@ -1,16 +1,15 @@
-import { useState } from "react";
-
 import AddIcon from "@mui/icons-material/Add";
 import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
-import ErrorSnackbar from "./ErrorSnackbar";
 import Fab from "@mui/material/Fab";
 import Grid from "@mui/material/Grid";
 import TextField from "@mui/material/TextField";
-import makeStyles from '@mui/styles/makeStyles';
+import makeStyles from "@mui/styles/makeStyles";
+import { useState } from "react";
+import ErrorSnackbar from "../ErrorSnackbar";
 
 const useStyles = makeStyles((theme) => ({
   grid: {
@@ -68,50 +67,52 @@ export default function AddRepository({ handleAddRepository }) {
     setName(event.target.value);
   };
 
-  return <>
-    <Grid
-      container
-      className={classes.grid}
-      direction="row"
-      justifyContent="flex-end"
-      alignItems="flex-end"
-    >
-      <Fab aria-label="Add" onClick={handleDialogOpen}>
-        <AddIcon />
-      </Fab>
-      <Dialog open={open} aria-labelledby="add-repository-dialog">
-        <DialogTitle id="add-repository-dialog-title">
-          Add Repository
-        </DialogTitle>
-        <DialogContent>
-          <TextField
-            autoFocus
-            margin="dense"
-            id="owner"
-            label="Repository Owner"
-            value={owner}
-            onChange={handleUpdateOwner}
-            fullWidth
-          />
-          <TextField
-            margin="dense"
-            id="name"
-            label="Repository Name"
-            value={name}
-            onChange={handleUpdateName}
-            fullWidth
-          />
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleDialogClose}>Cancel</Button>
-          <Button onClick={handleDialogAdd}>Add</Button>
-        </DialogActions>
-      </Dialog>
-    </Grid>
-    <ErrorSnackbar
-      message={message}
-      open={error}
-      handleClose={handleClearError}
-    />
-  </>;
+  return (
+    <>
+      <Grid
+        container
+        className={classes.grid}
+        direction="row"
+        justifyContent="flex-end"
+        alignItems="flex-end"
+      >
+        <Fab aria-label="Add" onClick={handleDialogOpen}>
+          <AddIcon />
+        </Fab>
+        <Dialog open={open} aria-labelledby="add-repository-dialog">
+          <DialogTitle id="add-repository-dialog-title">
+            Add Repository
+          </DialogTitle>
+          <DialogContent>
+            <TextField
+              autoFocus
+              margin="dense"
+              id="owner"
+              label="Repository Owner"
+              value={owner}
+              onChange={handleUpdateOwner}
+              fullWidth
+            />
+            <TextField
+              margin="dense"
+              id="name"
+              label="Repository Name"
+              value={name}
+              onChange={handleUpdateName}
+              fullWidth
+            />
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={handleDialogClose}>Cancel</Button>
+            <Button onClick={handleDialogAdd}>Add</Button>
+          </DialogActions>
+        </Dialog>
+      </Grid>
+      <ErrorSnackbar
+        message={message}
+        open={error}
+        handleClose={handleClearError}
+      />
+    </>
+  );
 }

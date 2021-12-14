@@ -3,16 +3,15 @@ import {
   render,
   waitForElementToBeRemoved,
 } from "@testing-library/react";
-
+import { GitHubApiProvider } from "../../context/GitHubApiProvider";
 import GithubTokenMenuItem from "./GithubTokenMenuItem";
-import { GlobalStateProvider } from "../GlobalState";
 
 describe("GithubTokenMenuItem", () => {
   it("shows GithubTokenDialog when Set GitHub Token is clicked", () => {
     const { getByText, queryByText } = render(
-      <GlobalStateProvider>
+      <GitHubApiProvider>
         <GithubTokenMenuItem />
-      </GlobalStateProvider>
+      </GitHubApiProvider>
     );
 
     fireEvent.click(getByText("Set GitHub Token"));
@@ -21,9 +20,9 @@ describe("GithubTokenMenuItem", () => {
 
   it("closes GithubTokenDialog when cancel is clicked", async () => {
     const { getByText, queryByText } = render(
-      <GlobalStateProvider>
+      <GitHubApiProvider>
         <GithubTokenMenuItem />
-      </GlobalStateProvider>
+      </GitHubApiProvider>
     );
 
     fireEvent.click(getByText("Set GitHub Token"));

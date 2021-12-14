@@ -3,8 +3,8 @@ import ErrorIcon from "@mui/icons-material/Error";
 import IconButton from "@mui/material/IconButton";
 import Snackbar from "@mui/material/Snackbar";
 import SnackbarContent from "@mui/material/SnackbarContent";
+import makeStyles from "@mui/styles/makeStyles";
 import classNames from "classnames";
-import makeStyles from '@mui/styles/makeStyles';
 
 const useStyles = makeStyles((theme) => ({
   error: {
@@ -53,7 +53,8 @@ export default function ErrorSnackbar({ open, handleClose, message }) {
             color="inherit"
             className={classes.close}
             onClick={handleClose}
-            size="large">
+            size="large"
+          >
             <CloseIcon className={classes.icon} />
           </IconButton>,
         ]}

@@ -1,9 +1,8 @@
-import { Button, Typography } from "@mui/material";
-
-import { Box } from "@mui/system";
 import GitHubIcon from "@mui/icons-material/GitHub";
-import GithubTokenDialog from "./GithubTokenDialog";
+import { Button, Typography } from "@mui/material";
+import { Box } from "@mui/system";
 import { useState } from "react";
+import GithubTokenDialog from "./GithubTokenDialog";
 
 export default function GithubTokenMenuItem() {
   const [apiKeyDialogOpen, setApiKeyDialogOpen] = useState(false);

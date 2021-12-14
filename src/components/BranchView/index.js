@@ -1,16 +1,14 @@
-import { useEffect, useState } from "react";
-
-import Avatar from "@mui/material/Avatar";
 import CallSplitIcon from "@mui/icons-material/CallSplit";
-import DirectoryBreadcrumbs from "./RouterBreadcrumbs";
+import Avatar from "@mui/material/Avatar";
 import LinearProgress from "@mui/material/LinearProgress";
-import { Link } from "react-router-dom";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import ListItemAvatar from "@mui/material/ListItemAvatar";
 import ListItemText from "@mui/material/ListItemText";
-import { getBranches } from "../lib/github";
-import makeStyles from '@mui/styles/makeStyles';
+import makeStyles from "@mui/styles/makeStyles";
+import { Link, useParams } from "react-router-dom";
+import { useGitHubFetch } from "../../context/GitHubApiProvider";
+import DirectoryBreadcrumbs from "../RouterBreadcrumbs";
 
 const useStyles = makeStyles({
   root: {
@@ -22,21 +20,14 @@ const useStyles = makeStyles({
 /**
  * A React component for rendering repository items when navigating the /repos resource
  */
-export default function BranchNavigation({ location, match }) {
+export default function BranchViewer({ location }) {
   const classes = useStyles();
-  const [branches, setBranches] = useState([]);
-  const [isLoaded, setIsLoaded] = useState(false);
+  const { repo } = useParams();
+  const { loading, value: branches } = useGitHubFetch(
+    `/repos/${repo}/branches`
+  );
 
-  useEffect(() => {
-    async function fetchBranches() {
-      const branches = await getBranches(match.params.repo);
-      setBranches(branches);
-      setIsLoaded(true);
-    }
-    fetchBranches();
-  }, [match.params.repo]);
-
-  if (!isLoaded) {
+  if (loading) {
     return <LinearProgress />;
   }
 
@@ -50,7 +41,7 @@ export default function BranchNavigation({ location, match }) {
               button
               component={Link}
               key={`list-group-item-${item.name}`}
-              to={`/repos/${match.params.repo}/browser/${item.name}/`}
+              to={`/repos/${repo}/browser/${item.name}/`}
             >
               <ListItemAvatar>
                 <Avatar>
