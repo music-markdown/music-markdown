@@ -1,12 +1,11 @@
-import { Stack, Typography } from "@mui/material";
-
-import { Box } from "@mui/system";
 import DarkModeIcon from "@mui/icons-material/DarkMode";
 import LightModeIcon from "@mui/icons-material/LightMode";
 import SettingsBrightnessIcon from "@mui/icons-material/SettingsBrightness";
+import { Stack, Typography } from "@mui/material";
 import ToggleButton from "@mui/material/ToggleButton";
 import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
-import { useTheme } from "../GlobalState";
+import { Box } from "@mui/system";
+import { useTheme } from "../../context/ThemeProvider";
 
 export default function ThemeMenuItem() {
   const { themeName, setThemeName } = useTheme();

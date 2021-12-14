@@ -1,13 +1,12 @@
-import { COLUMN_COUNT_QUERY_KEY, TRANSPOSE_QUERY_KEY } from "../lib/constants";
-import { Link, Route } from "react-router-dom";
-
-import MusicMarkdown from "./MusicMarkdown";
 import Paper from "@mui/material/Paper";
 import Typography from "@mui/material/Typography";
+import makeStyles from "@mui/styles/makeStyles";
 import { guitarChordbook } from "markdown-it-music/lib/chordbook";
-import makeStyles from '@mui/styles/makeStyles';
-import queryString from "query-string";
 import { renderChordDiagram } from "markdown-it-music/renderers/chord_diagram";
+import queryString from "query-string";
+import { Link, Route } from "react-router-dom";
+import { COLUMN_COUNT_QUERY_KEY, TRANSPOSE_QUERY_KEY } from "../lib/constants";
+import Render from "./MusicMd/Render";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -76,7 +75,7 @@ const MarkdownViewer = ({ source, location }) => {
   const transposeAmount = Number(params[TRANSPOSE_QUERY_KEY]) || 0;
 
   return (
-    <MusicMarkdown
+    <Render
       source={source}
       columnCount={columnCount}
       transposeAmount={transposeAmount}

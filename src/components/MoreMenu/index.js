@@ -1,10 +1,9 @@
 import { Paper, Popper, Stack } from "@mui/material";
-
 import { Box } from "@mui/system";
+import { Route } from "react-router";
+import { REPO_REGEX } from "../../lib/constants";
 import ColumnCountMenuItem from "./ColumnCountMenuItem";
 import GithubTokenMenuItem from "./GithubTokenMenuItem";
-import { REPO_REGEX } from "../../lib/constants";
-import { Route } from "react-router";
 import SongActionsMenuItem from "./SongActionsMenuItem";
 import ThemeMenuItem from "./ThemeMenuItem";
 import TransposeMenuItem from "./TransposeMenuItem";

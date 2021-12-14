@@ -1,11 +1,11 @@
+import { AppBar as MuiAppBar } from "@mui/material";
+import Toolbar from "@mui/material/Toolbar";
 import { Box } from "@mui/system";
+import { Route } from "react-router-dom";
+import { REPO_REGEX } from "../../lib/constants";
 import LogoAppBarItem from "./LogoAppBarItem";
 import MoreAppBarItem from "./MoreAppBarItem";
-import { AppBar as MuiAppBar } from "@mui/material";
-import { REPO_REGEX } from "../../lib/constants";
-import { Route } from "react-router-dom";
 import SearchAppBarItem from "./SearchAppBarItem";
-import Toolbar from "@mui/material/Toolbar";
 import YouTubeAppBarItem from "./YouTubeAppBarItem";
 
 export default function AppBar() {

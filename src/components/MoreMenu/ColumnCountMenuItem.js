@@ -1,11 +1,10 @@
-import { useHistory, useLocation } from "react-router";
-
-import { Box } from "@mui/system";
-import { COLUMN_COUNT_QUERY_KEY } from "../../lib/constants";
+import { Typography } from "@mui/material";
 import ToggleButton from "@mui/material/ToggleButton";
 import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
-import { Typography } from "@mui/material";
+import { Box } from "@mui/system";
 import queryString from "query-string";
+import { useHistory, useLocation } from "react-router";
+import { COLUMN_COUNT_QUERY_KEY } from "../../lib/constants";
 
 export default function ColumnCountMenuItem() {
   const location = useLocation();

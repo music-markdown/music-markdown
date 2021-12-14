@@ -1,9 +1,11 @@
-import { GlobalStateProvider, useYouTubeId } from "../GlobalState";
-import { ThemeProvider, createTheme } from "@mui/material/styles";
+import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { fireEvent, render } from "@testing-library/react";
-
-import YouTubeAppBarItem from "./YouTubeAppBarItem";
 import { useEffect } from "react";
+import {
+  useYouTubeId,
+  YouTubeIdProvider,
+} from "../../context/YouTubeIdProvider";
+import YouTubeAppBarItem from "./YouTubeAppBarItem";
 
 function YouTubeIdSetter() {
   const { setYouTubeId } = useYouTubeId();
@@ -14,12 +16,12 @@ function YouTubeIdSetter() {
 describe("YouTubeAppBarItem", () => {
   it("renders YouTube button when youTubeId is present", () => {
     const { queryByRole } = render(
-      <GlobalStateProvider>
+      <YouTubeIdProvider>
         <ThemeProvider theme={createTheme()}>
           <YouTubeIdSetter />
           <YouTubeAppBarItem />
         </ThemeProvider>
-      </GlobalStateProvider>
+      </YouTubeIdProvider>
     );
     const youTubeButton = queryByRole("button");
     expect(youTubeButton).toBeInTheDocument();
@@ -27,11 +29,11 @@ describe("YouTubeAppBarItem", () => {
 
   it("doest not render YouTube button when youTubeId is not present", () => {
     const { queryByRole } = render(
-      <GlobalStateProvider>
+      <YouTubeIdProvider>
         <ThemeProvider theme={createTheme()}>
           <YouTubeAppBarItem />
         </ThemeProvider>
-      </GlobalStateProvider>
+      </YouTubeIdProvider>
     );
     const youTubeButton = queryByRole("button");
     expect(youTubeButton).not.toBeInTheDocument();
@@ -39,12 +41,12 @@ describe("YouTubeAppBarItem", () => {
 
   it("renders YouTube iframe when YouTube button clicked", () => {
     const { getByRole, queryByTitle } = render(
-      <GlobalStateProvider>
+      <YouTubeIdProvider>
         <ThemeProvider theme={createTheme()}>
           <YouTubeIdSetter />
           <YouTubeAppBarItem />
         </ThemeProvider>
-      </GlobalStateProvider>
+      </YouTubeIdProvider>
     );
     expect(queryByTitle("YouTube")).not.toBeInTheDocument();
     fireEvent.click(getByRole("button"));

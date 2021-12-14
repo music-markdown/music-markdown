@@ -1,7 +1,6 @@
-import { ThemeProvider, createTheme } from "@mui/material/styles";
+import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { render, screen } from "@testing-library/react";
-
-import { HashRouter as Router } from "react-router-dom";
+import { MemoryRouter } from "react-router-dom";
 import RouterBreadcrumbs from "./RouterBreadcrumbs";
 
 describe("RouterBreadcrumbs", () => {
@@ -13,9 +12,9 @@ describe("RouterBreadcrumbs", () => {
   it("should render breadcrumbs for the browser view", () => {
     render(
       <ThemeProvider theme={createTheme()}>
-        <Router>
-          <RouterBreadcrumbs pathname={"/repos/owner/repo/browser/master"} />
-        </Router>
+        <MemoryRouter initialEntries={["/repos/owner/repo/browser/master"]}>
+          <RouterBreadcrumbs />
+        </MemoryRouter>
       </ThemeProvider>
     );
 
@@ -29,11 +28,11 @@ describe("RouterBreadcrumbs", () => {
   it("should render breadcrumbs for a folder in the browser view", () => {
     render(
       <ThemeProvider theme={createTheme()}>
-        <Router>
-          <RouterBreadcrumbs
-            pathname={"/repos/owner/repo/browser/master/path"}
-          />
-        </Router>
+        <MemoryRouter
+          initialEntries={["/repos/owner/repo/browser/master/path"]}
+        >
+          <RouterBreadcrumbs />
+        </MemoryRouter>
       </ThemeProvider>
     );
 
@@ -48,11 +47,11 @@ describe("RouterBreadcrumbs", () => {
   it("should render breadcrumbs for a song in the editor view", () => {
     render(
       <ThemeProvider theme={createTheme()}>
-        <Router>
-          <RouterBreadcrumbs
-            pathname={"/repos/owner/repo/editor/master/song.md"}
-          />
-        </Router>
+        <MemoryRouter
+          initialEntries={["/repos/owner/repo/editor/master/song.md"]}
+        >
+          <RouterBreadcrumbs />
+        </MemoryRouter>
       </ThemeProvider>
     );
 
@@ -67,11 +66,11 @@ describe("RouterBreadcrumbs", () => {
   it("should render breadcrumbs for a song in a folder in the editor view", () => {
     render(
       <ThemeProvider theme={createTheme()}>
-        <Router>
-          <RouterBreadcrumbs
-            pathname={"/repos/owner/repo/editor/master/folder/song.md"}
-          />
-        </Router>
+        <MemoryRouter
+          initialEntries={["/repos/owner/repo/editor/master/folder/song.md"]}
+        >
+          <RouterBreadcrumbs />
+        </MemoryRouter>
       </ThemeProvider>
     );
 

@@ -1,23 +1,17 @@
 import { Autocomplete, TextField } from "@mui/material";
-import { useEffect, useState } from "react";
 import { useHistory, useParams } from "react-router";
-
-import { getRepoTrees } from "../../lib/github";
+import { useGitHubFetch } from "../../context/GitHubApiProvider";
 
 export default function SearchAppBarItem() {
   const { repo, branch } = useParams();
   const history = useHistory();
-  const [files, setFiles] = useState(null);
+  const { loading, value: trees } = useGitHubFetch(
+    `/repos/${repo}/git/trees/${branch}?recursive=1`,
+    { tree: [] }
+  );
+  const files = trees.tree.map((tree) => tree.path);
 
-  useEffect(() => {
-    const getFiles = async () => {
-      const trees = await getRepoTrees(repo, branch);
-      setFiles(trees.tree.map((tree) => tree.path));
-    };
-    getFiles();
-  }, [repo, branch]);
-
-  const handleChange = (event, value, reason, details) => {
+  const handleChange = (event, value, reason) => {
     if (reason === "selectOption") {
       history.push(`/repos/${repo}/viewer/${branch}/${value}`);
     }
@@ -26,14 +20,11 @@ export default function SearchAppBarItem() {
   return (
     <Autocomplete
       fullWidth
-      disabled={files === null}
+      disabled={loading}
       size="small"
       options={files || []}
       renderInput={(params) => (
-        <TextField
-          {...params}
-          label={files === null ? "Loading…" : "Jump to…"}
-        />
+        <TextField {...params} label={loading ? "Loading…" : "Jump to…"} />
       )}
       onChange={handleChange}
     />

@@ -1,9 +1,7 @@
-import { ThemeProvider, createTheme } from "@mui/material/styles";
-
-import AppBar from "./index";
-import { GlobalStateProvider } from "../GlobalState";
-import { MemoryRouter } from "react-router-dom";
+import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { render } from "@testing-library/react";
+import { MemoryRouter } from "react-router-dom";
+import AppBar from "./index";
 
 describe("AppBar", () => {
   beforeEach(async () => {
@@ -13,13 +11,11 @@ describe("AppBar", () => {
 
   it("should render a styled AppBar", () => {
     render(
-      <GlobalStateProvider>
-        <ThemeProvider theme={createTheme()}>
-          <MemoryRouter>
-            <AppBar />
-          </MemoryRouter>
-        </ThemeProvider>
-      </GlobalStateProvider>
+      <ThemeProvider theme={createTheme()}>
+        <MemoryRouter>
+          <AppBar />
+        </MemoryRouter>
+      </ThemeProvider>
     );
   });
 });

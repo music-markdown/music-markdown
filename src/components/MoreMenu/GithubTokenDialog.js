@@ -1,3 +1,4 @@
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import Accordion from "@mui/material/Accordion";
 import AccordionActions from "@mui/material/AccordionActions";
 import AccordionSummary from "@mui/material/AccordionSummary";
@@ -6,13 +7,12 @@ import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
-import { isValidGithubToken } from "../../lib/github";
-import { useGlobalStateContext } from "../GlobalState";
-import { useState } from "react";
 import withStyles from "@mui/styles/withStyles";
+import { useState } from "react";
+import { useGitHubApi } from "../../context/GitHubApiProvider";
+import { isValidGithubToken } from "../../lib/github";
 
 const AccordionDetails = withStyles({
   root: {
@@ -69,8 +69,8 @@ const GithubTokenInstructions = () => (
 );
 
 export default function GithubTokenDialog({ open, handleClose }) {
-  const context = useGlobalStateContext();
-  const [token, setToken] = useState(context.data.githubToken);
+  const { gitHubToken, setGitHubToken } = useGitHubApi();
+  const [token, setToken] = useState(gitHubToken);
 
   const isValidToken = (token) => {
     return token === "" || isValidGithubToken(token);
@@ -78,13 +78,13 @@ export default function GithubTokenDialog({ open, handleClose }) {
 
   const handleSaveToken = () => {
     if (isValidToken(token)) {
-      context.setGithubToken(token);
+      setGitHubToken(token);
       handleClose();
     }
   };
 
   const handleCloseDialog = () => {
-    setToken(context.data.githubToken);
+    setToken(gitHubToken);
     handleClose();
   };
 

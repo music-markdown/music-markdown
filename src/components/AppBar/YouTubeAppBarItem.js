@@ -1,9 +1,8 @@
+import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 import { IconButton, Tooltip } from "@mui/material";
 import { useEffect, useState } from "react";
-
-import PlayArrowIcon from "@mui/icons-material/PlayArrow";
+import { useYouTubeId } from "../../context/YouTubeIdProvider";
 import YouTubePlayer from "./YouTubePlayer";
-import { useYouTubeId } from "../GlobalState";
 
 export default function YouTubeAppBarItem() {
   const { youTubeId } = useYouTubeId();

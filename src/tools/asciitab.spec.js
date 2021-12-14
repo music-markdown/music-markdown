@@ -7,7 +7,7 @@ describe("ASCII Tab Converter transforms", () => {
         "                   Am     G  F          G      Esus4  E",
         "All the leaves are brown        and the sky is gray",
         "F               C     E  Am       F        Esus4  E",
-        `I've been for a walk         on a winter's day`,
+        "I've been for a walk         on a winter's day",
       ].join("\n")
     );
 
@@ -16,7 +16,7 @@ describe("ASCII Tab Converter transforms", () => {
       "l1: All the leaves are brown        and the sky is gray",
       "",
       "c1: F               C     E  Am       F        Esus4  E",
-      `l1: I've been for a walk         on a winter's day`,
+      "l1: I've been for a walk         on a winter's day",
     ].join("\n");
 
     expect(actual).toEqual(expected);

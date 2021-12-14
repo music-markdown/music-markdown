@@ -50,7 +50,11 @@ export function useLocalStorage(key, initialValue) {
       const valueToStore =
         value instanceof Function ? value(storedValue) : value;
       setStoredValue(valueToStore);
-      localStorage.setItem(key, JSON.stringify(valueToStore));
+      if (value) {
+        localStorage.setItem(key, JSON.stringify(valueToStore));
+      } else {
+        localStorage.removeItem(key);
+      }
     } catch (error) {
       // A more advanced implementation would handle the error case
       console.log(error);

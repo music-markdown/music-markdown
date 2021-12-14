@@ -1,10 +1,10 @@
-import { Route, BrowserRouter as Router } from "react-router-dom";
-import RepositoryNavigation from "./RepositoryNavigation";
-import { mockMasterGetContentsResponse } from "../lib/MockGithubResponses";
 import { render } from "@testing-library/react";
-import { REPO_REGEX } from "../lib/constants";
+import { BrowserRouter as Router, Route } from "react-router-dom";
+import FileViewer from ".";
+import { REPO_REGEX } from "../../lib/constants";
+import { mockMasterGetContentsResponse } from "../../lib/MockGithubResponses";
 
-describe("RepositoryNavigation", () => {
+describe("FileViewer", () => {
   beforeEach(async () => {
     fetch.resetMocks();
     localStorage.clear();
@@ -16,7 +16,7 @@ describe("RepositoryNavigation", () => {
       <Router>
         <Route
           path={`${REPO_REGEX}/browser/:branch/:path*`}
-          component={RepositoryNavigation}
+          component={FileViewer}
         />
       </Router>
     );

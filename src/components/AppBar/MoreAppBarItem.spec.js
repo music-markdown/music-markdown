@@ -1,25 +1,19 @@
 import { fireEvent, render } from "@testing-library/react";
-
-import { GlobalStateProvider } from "../GlobalState";
 import { MemoryRouter } from "react-router";
+import { GitHubApiProvider } from "../../context/GitHubApiProvider";
+import { ThemeProvider } from "../../context/ThemeProvider";
 import MoreAppBarItem from "./MoreAppBarItem";
 
 describe("MoreAppBarItem", () => {
-  it("renders without crashing", () => {
-    render(
-      <MemoryRouter>
-        <MoreAppBarItem />
-      </MemoryRouter>
-    );
-  });
-
   it("shows menu when more button is clicked", () => {
     const { getByRole, queryByText } = render(
-      <GlobalStateProvider>
-        <MemoryRouter>
-          <MoreAppBarItem />
-        </MemoryRouter>
-      </GlobalStateProvider>
+      <GitHubApiProvider>
+        <ThemeProvider>
+          <MemoryRouter>
+            <MoreAppBarItem />
+          </MemoryRouter>
+        </ThemeProvider>
+      </GitHubApiProvider>
     );
 
     fireEvent.click(getByRole("button"));

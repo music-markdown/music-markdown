@@ -1,10 +1,10 @@
-import { Button, Stack, Typography } from "@mui/material";
-import { useHistory, useParams } from "react-router";
-
-import { Box } from "@mui/system";
 import EditIcon from "@mui/icons-material/Edit";
 import ExitToAppIcon from "@mui/icons-material/ExitToApp";
 import GitHubIcon from "@mui/icons-material/GitHub";
+import ViewListIcon from "@mui/icons-material/ViewList";
+import { Button, Stack, Typography } from "@mui/material";
+import { Box } from "@mui/system";
+import { useHistory, useParams } from "react-router";
 
 const EditViewButton = ({ close }) => {
   const history = useHistory();
@@ -37,6 +37,23 @@ const EditViewButton = ({ close }) => {
   return null;
 };
 
+const SongListButton = ({ close }) => {
+  const history = useHistory();
+  const { repo, branch, path } = useParams();
+  const folder = path.split("/").slice(0, -1).join("/");
+
+  const back = () => {
+    close();
+    history.push(`/repos/${repo}/browser/${branch}/${folder}`);
+  };
+
+  return (
+    <Button variant="outlined" startIcon={<ViewListIcon />} onClick={back}>
+      Back to song list
+    </Button>
+  );
+};
+
 const ShowOnGitHubButton = () => {
   const { repo, branch, path } = useParams();
   const githubLink = `https://github.com/${repo}/blob/${branch}/${path}`;
@@ -54,6 +71,7 @@ export default function SongActionsMenuItem({ close }) {
       <Typography variant="subtitle1">Song Actions</Typography>
       <Stack direction="column" spacing={1}>
         <EditViewButton close={close} />
+        <SongListButton close={close} />
         <ShowOnGitHubButton />
       </Stack>
     </Box>
