@@ -2,6 +2,7 @@ import { render } from "@testing-library/react";
 import { MemoryRouter } from "react-router";
 import MoreMenu from ".";
 import { GitHubApiProvider } from "../../context/GitHubApiProvider";
+import SnackbarProvider from "../../context/SnackbarProvider";
 import { ThemeProvider } from "../../context/ThemeProvider";
 
 describe("MoreMenu", () => {
@@ -29,13 +30,15 @@ describe("MoreMenu", () => {
     const { queryByText } = render(
       <GitHubApiProvider>
         <ThemeProvider>
-          <MemoryRouter initialEntries={["/repos/o/r/viewer/b/song.md"]}>
-            <MoreMenu
-              open={true}
-              close={() => undefined}
-              anchorEl={mockAnchorEl}
-            />
-          </MemoryRouter>
+          <SnackbarProvider>
+            <MemoryRouter initialEntries={["/repos/o/r/viewer/b/song.md"]}>
+              <MoreMenu
+                open={true}
+                close={() => undefined}
+                anchorEl={mockAnchorEl}
+              />
+            </MemoryRouter>
+          </SnackbarProvider>
         </ThemeProvider>
       </GitHubApiProvider>
     );
@@ -67,13 +70,15 @@ describe("MoreMenu", () => {
     const { queryByText } = render(
       <GitHubApiProvider>
         <ThemeProvider>
-          <MemoryRouter initialEntries={["/repos/o/r/viewer/b/song.md"]}>
-            <MoreMenu
-              open={true}
-              close={() => undefined}
-              anchorEl={mockAnchorEl}
-            />
-          </MemoryRouter>
+          <SnackbarProvider>
+            <MemoryRouter initialEntries={["/repos/o/r/viewer/b/song.md"]}>
+              <MoreMenu
+                open={true}
+                close={() => undefined}
+                anchorEl={mockAnchorEl}
+              />
+            </MemoryRouter>
+          </SnackbarProvider>
         </ThemeProvider>
       </GitHubApiProvider>
     );
@@ -105,13 +110,15 @@ describe("MoreMenu", () => {
     const { queryByText } = render(
       <GitHubApiProvider>
         <ThemeProvider>
-          <MemoryRouter initialEntries={["/repos/o/r/viewer/b/song.md"]}>
-            <MoreMenu
-              open={true}
-              close={() => undefined}
-              anchorEl={mockAnchorEl}
-            />
-          </MemoryRouter>
+          <SnackbarProvider>
+            <MemoryRouter initialEntries={["/repos/o/r/viewer/b/song.md"]}>
+              <MoreMenu
+                open={true}
+                close={() => undefined}
+                anchorEl={mockAnchorEl}
+              />
+            </MemoryRouter>
+          </SnackbarProvider>
         </ThemeProvider>
       </GitHubApiProvider>
     );

@@ -1,6 +1,7 @@
 import { HashRouter as Router, Route, Switch } from "react-router-dom";
 import { GitHubApiProvider } from "../context/GitHubApiProvider";
 import { ReposProvider } from "../context/ReposProvider";
+import SnackbarProvider from "../context/SnackbarProvider";
 import { ThemeProvider } from "../context/ThemeProvider";
 import { YouTubeIdProvider } from "../context/YouTubeIdProvider";
 import { REPO_REGEX } from "../lib/constants";
@@ -17,7 +18,9 @@ const App = () => (
     <GitHubApiProvider>
       <ReposProvider>
         <ThemeProvider>
-          <HomeRouter />
+          <SnackbarProvider>
+            <HomeRouter />
+          </SnackbarProvider>
         </ThemeProvider>
       </ReposProvider>
     </GitHubApiProvider>
