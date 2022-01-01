@@ -1,10 +1,28 @@
 import EditIcon from "@mui/icons-material/Edit";
 import ExitToAppIcon from "@mui/icons-material/ExitToApp";
 import GitHubIcon from "@mui/icons-material/GitHub";
+import ShareIcon from "@mui/icons-material/Share";
 import ViewListIcon from "@mui/icons-material/ViewList";
 import { Button, Stack, Typography } from "@mui/material";
 import { Box } from "@mui/system";
 import { useHistory, useParams } from "react-router";
+import { useSnackbar } from "../../context/SnackbarProvider";
+
+const ShareButton = ({ close }) => {
+  const { showSnackbar } = useSnackbar();
+
+  const share = () => {
+    navigator.clipboard.writeText(window.location.href);
+    showSnackbar("Song URL copied to the clipboard!");
+    close();
+  };
+
+  return (
+    <Button variant="outlined" startIcon={<ShareIcon />} onClick={share}>
+      Share song URL
+    </Button>
+  );
+};
 
 const EditViewButton = ({ close }) => {
   const history = useHistory();
@@ -70,6 +88,7 @@ export default function SongActionsMenuItem({ close }) {
     <Box>
       <Typography variant="subtitle1">Song Actions</Typography>
       <Stack direction="column" spacing={1}>
+        <ShareButton close={close} />
         <EditViewButton close={close} />
         <SongListButton close={close} />
         <ShowOnGitHubButton />
