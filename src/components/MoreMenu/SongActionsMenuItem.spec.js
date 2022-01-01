@@ -9,13 +9,6 @@ import { REPO_REGEX } from "../../lib/constants";
 import SongActionsMenuItem from "./SongActionsMenuItem";
 
 describe("SongActionsMenuItem", () => {
-  beforeEach(() => {
-    const mockClipboard = {
-      writeText: jest.fn(),
-    };
-    global.navigator.clipboard = mockClipboard;
-  });
-
   it("renders edit button when on viewer page", () => {
     const mockHandleClose = jest.fn();
 
@@ -51,6 +44,12 @@ describe("SongActionsMenuItem", () => {
   });
 
   it("copies song url when share is clicked", async () => {
+    global.navigator.clipboard = {
+      writeText: jest.fn(),
+    };
+    delete window.location;
+    window.location = { href: "http://dummy.url/" };
+
     const mockHandleClose = jest.fn();
 
     const { getByText } = render(
@@ -66,7 +65,7 @@ describe("SongActionsMenuItem", () => {
 
     fireEvent.click(getByText("Share song URL"));
     expect(navigator.clipboard.writeText).toHaveBeenCalledWith(
-      "http://localhost/"
+      "http://dummy.url/"
     );
   });
 });
