@@ -18,7 +18,7 @@
     "jest-fetch-mock": "^3.0.3",
     "js-base64": "^3.7.2",
     "lint-staged": "^12.1.2",
-    "markdown-it": "^12.0.4",
+    "markdown-it": "^12.3.2",
     "markdown-it-music": "0.1.4",
     "prettier": "^2.5.0",
     "prettier-plugin-organize-imports": "^2.3.4",
