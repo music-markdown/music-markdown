@@ -2,6 +2,7 @@ import { HashRouter as Router, Route, Switch } from "react-router-dom";
 import { GitHubApiProvider } from "../context/GitHubApiProvider";
 import { ReposProvider } from "../context/ReposProvider";
 import SnackbarProvider from "../context/SnackbarProvider";
+import { SongPrefsProvider } from "../context/SongPrefsProvider";
 import { ThemeProvider } from "../context/ThemeProvider";
 import { YouTubeIdProvider } from "../context/YouTubeIdProvider";
 import { REPO_REGEX } from "../lib/constants";
@@ -15,15 +16,17 @@ import Sandbox from "./Sandbox.js";
 
 const App = () => (
   <YouTubeIdProvider>
-    <GitHubApiProvider>
-      <ReposProvider>
-        <ThemeProvider>
-          <SnackbarProvider>
-            <HomeRouter />
-          </SnackbarProvider>
-        </ThemeProvider>
-      </ReposProvider>
-    </GitHubApiProvider>
+    <SongPrefsProvider>
+      <GitHubApiProvider>
+        <ReposProvider>
+          <ThemeProvider>
+            <SnackbarProvider>
+              <HomeRouter />
+            </SnackbarProvider>
+          </ThemeProvider>
+        </ReposProvider>
+      </GitHubApiProvider>
+    </SongPrefsProvider>
   </YouTubeIdProvider>
 );
 

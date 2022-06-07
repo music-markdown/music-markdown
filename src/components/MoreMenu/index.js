@@ -7,6 +7,7 @@ import GithubTokenMenuItem from "./GithubTokenMenuItem";
 import SongActionsMenuItem from "./SongActionsMenuItem";
 import ThemeMenuItem from "./ThemeMenuItem";
 import TransposeMenuItem from "./TransposeMenuItem";
+import ZoomMenuItem from "./ZoomMenuItem";
 
 export default function MoreMenu({ open, close, anchorEl }) {
   return (
@@ -20,6 +21,7 @@ export default function MoreMenu({ open, close, anchorEl }) {
                 <>
                   <SongActionsMenuItem close={close} />
                   <TransposeMenuItem />
+                  <ZoomMenuItem />
                   <ColumnCountMenuItem />
                 </>
               )}

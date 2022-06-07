@@ -18,12 +18,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const MusicMarkdownRender = ({
-  source,
-  width,
-  columnCount,
-  transposeAmount,
-}) => {
+const MusicMarkdownRender = ({ source, width, columns, transpose, zoom }) => {
   const theme = useTheme();
   const { setYouTubeId } = useYouTubeId();
   const [html, setHtml] = useState("");
@@ -39,9 +34,9 @@ const MusicMarkdownRender = ({
 
   useEffect(() => {
     const md = new MarkdownIt({ html: true }).use(MarkdownItMusic);
-    md.setTranspose(transposeAmount);
+    md.setTranspose(transpose);
     md.setTheme(theme.palette.mode);
-    md.setMaxWidth((width - COLUMN_GAP * (columnCount - 1)) / columnCount);
+    md.setMaxWidth((width - COLUMN_GAP * (columns - 1)) / columns / zoom);
 
     try {
       setHtml(md.render(source));
@@ -57,8 +52,9 @@ const MusicMarkdownRender = ({
     setYouTubeId,
     source,
     width,
-    columnCount,
-    transposeAmount,
+    columns,
+    transpose,
+    zoom,
     theme.palette.mode,
   ]);
 
@@ -74,6 +70,7 @@ const MusicMarkdownRender = ({
       {/* TODO: Replace this hack with an iframe. */}
       <div
         className={`mmd-${theme.palette.mode}`}
+        style={{ zoom }}
         dangerouslySetInnerHTML={{ __html: html }}
       />
       <ErrorSnackbar
@@ -93,7 +90,7 @@ export default function Render(props) {
   return (
     <div
       className={classes.columns}
-      style={{ columnCount: props.columnCount }}
+      style={{ columns: props.columns }}
       ref={componentRef}
     >
       <MusicMarkdownRender width={width} {...props} />
