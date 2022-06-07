@@ -1,56 +1,52 @@
-import { fireEvent, render } from "@testing-library/react";
+import { fireEvent, render, screen } from "@testing-library/react";
 import { MemoryRouter, Route } from "react-router";
+import { SongPrefsProvider } from "../../context/SongPrefsProvider";
 import { REPO_REGEX } from "../../lib/constants";
 import ColumnCountMenuItem from "./ColumnCountMenuItem";
 
 describe("ColumnCountMenuItem", () => {
-  it("sets columns query param to 2 when 2 columns are selected", () => {
-    let testLocation;
-
-    const { getByText } = render(
-      <MemoryRouter initialEntries={["/repos/o/r/viewer/b/song.md"]}>
-        <Route
-          path={`${REPO_REGEX}/:mode(viewer|editor)/:branch/:path*`}
-          render={() => <ColumnCountMenuItem />}
-        />
-        <Route
-          path="*"
-          render={({ location }) => {
-            testLocation = location;
-            return null;
-          }}
-        />
-      </MemoryRouter>
-    );
-
-    fireEvent.click(getByText("2"));
-
-    const searchParams = new URLSearchParams(testLocation.search);
-    expect(searchParams.get("columns")).toEqual("2");
+  beforeEach(async () => {
+    localStorage.clear();
   });
 
-  it("clears columns query when 1 column is selected", () => {
-    let testLocation;
-
-    const { getByText } = render(
-      <MemoryRouter initialEntries={["/repos/o/r/viewer/b/song.md?columns=4"]}>
-        <Route
-          path={`${REPO_REGEX}/:mode(viewer|editor)/:branch/:path*`}
-          render={() => <ColumnCountMenuItem />}
-        />
-        <Route
-          path="*"
-          render={({ location }) => {
-            testLocation = location;
-            return null;
-          }}
-        />
-      </MemoryRouter>
+  it("sets columns query param to 2 when 2 columns are selected", () => {
+    render(
+      <SongPrefsProvider>
+        <MemoryRouter initialEntries={["/repos/o/r/viewer/b/song.md"]}>
+          <Route
+            path={`${REPO_REGEX}/:mode(viewer|editor)/:branch/:path*`}
+            render={() => <ColumnCountMenuItem />}
+          />
+        </MemoryRouter>
+      </SongPrefsProvider>
     );
 
-    fireEvent.click(getByText("1"));
+    fireEvent.click(screen.getByText("2"));
 
-    const searchParams = new URLSearchParams(testLocation.search);
-    expect(searchParams.has("columns")).toBeFalsy();
+    const songPrefs = JSON.parse(localStorage.getItem("songPrefs"));
+    expect(songPrefs["o/r/b/song.md"]).toEqual({ columns: 2 });
+  });
+
+  it("clears columns when 1 column is selected", () => {
+    localStorage.setItem(
+      "songPrefs",
+      JSON.stringify({ "o/r/b/song.md": { columns: 2 } })
+    );
+
+    render(
+      <SongPrefsProvider>
+        <MemoryRouter initialEntries={["/repos/o/r/viewer/b/song.md"]}>
+          <Route
+            path={`${REPO_REGEX}/:mode(viewer|editor)/:branch/:path*`}
+            render={() => <ColumnCountMenuItem />}
+          />
+        </MemoryRouter>
+      </SongPrefsProvider>
+    );
+
+    fireEvent.click(screen.getByText("1"));
+
+    const songPrefs = JSON.parse(localStorage.getItem("songPrefs"));
+    expect(songPrefs["o/r/b/song.md"]).toBeUndefined();
   });
 });
