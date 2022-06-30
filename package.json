@@ -29,6 +29,7 @@
     "react-ace": "^9.2.1",
     "react-dom": "^17.0.1",
     "react-draggable": "^4.4.4",
+    "react-qr-code": "^2.0.7",
     "react-router-dom": "^5.3.0",
     "react-scripts": "^5.0.0"
   },
