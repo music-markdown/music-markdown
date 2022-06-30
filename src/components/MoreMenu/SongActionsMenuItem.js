@@ -3,24 +3,63 @@ import ExitToAppIcon from "@mui/icons-material/ExitToApp";
 import GitHubIcon from "@mui/icons-material/GitHub";
 import ShareIcon from "@mui/icons-material/Share";
 import ViewListIcon from "@mui/icons-material/ViewList";
-import { Button, Stack, Typography } from "@mui/material";
+import {
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+  Paper,
+  Stack,
+  Typography,
+} from "@mui/material";
 import { Box } from "@mui/system";
+import React from "react";
+import QRCode from "react-qr-code";
 import { useHistory, useParams } from "react-router";
-import { useSnackbar } from "../../context/SnackbarProvider";
 
 const ShareButton = ({ close }) => {
-  const { showSnackbar } = useSnackbar();
+  const [open, setOpen] = React.useState(false);
 
-  const share = () => {
-    navigator.clipboard.writeText(window.location.href);
-    showSnackbar("Song URL copied to the clipboard!");
+  const closeDialog = () => {
+    setOpen(false);
     close();
   };
 
   return (
-    <Button variant="outlined" startIcon={<ShareIcon />} onClick={share}>
-      Share song URL
-    </Button>
+    <>
+      <Button
+        variant="outlined"
+        startIcon={<ShareIcon />}
+        onClick={() => setOpen(true)}
+      >
+        Share song
+      </Button>
+      <Dialog open={open} onClose={closeDialog}>
+        <DialogTitle id="share-song-qr-dialog-title">Song QR Code</DialogTitle>
+        <DialogContent>
+          <DialogContentText>
+            Scan this QR code to view the current song on your device.
+          </DialogContentText>
+          <Paper
+            style={{
+              background: "white",
+              padding: "1em",
+            }}
+          >
+            <QRCode
+              style={{ height: "auto", width: "100%" }}
+              value={window.location.href}
+              viewBox={`0 0 256 256`}
+            />
+          </Paper>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={closeDialog}>Close</Button>
+        </DialogActions>
+      </Dialog>
+    </>
   );
 };
 

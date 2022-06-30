@@ -44,12 +44,6 @@ describe("SongActionsMenuItem", () => {
   });
 
   it("copies song url when share is clicked", async () => {
-    global.navigator.clipboard = {
-      writeText: jest.fn(),
-    };
-    delete window.location;
-    window.location = { href: "http://dummy.url/" };
-
     const mockHandleClose = jest.fn();
 
     const { getByText } = render(
@@ -63,9 +57,9 @@ describe("SongActionsMenuItem", () => {
       </SnackbarProvider>
     );
 
-    fireEvent.click(getByText("Share song URL"));
-    expect(navigator.clipboard.writeText).toHaveBeenCalledWith(
-      "http://dummy.url/"
-    );
+    fireEvent.click(getByText("Share song"));
+    expect(getByText("Song QR Code")).toBeTruthy();
+    fireEvent.click(getByText("Close"));
+    expect(mockHandleClose).toBeCalled();
   });
 });
