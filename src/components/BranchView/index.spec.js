@@ -1,4 +1,4 @@
-import { render } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
 import { MemoryRouter, Route } from "react-router-dom";
 import BranchViewer from ".";
 import { GitHubApiProvider } from "../../context/GitHubApiProvider";
@@ -20,7 +20,7 @@ describe("BranchViewer", () => {
       ])
     );
 
-    const { findByText } = render(
+    render(
       <GitHubApiProvider>
         <ThemeProvider>
           <MemoryRouter initialEntries={["/repos/o/r"]}>
@@ -30,8 +30,8 @@ describe("BranchViewer", () => {
       </GitHubApiProvider>
     );
 
-    expect(await findByText("main")).toBeInTheDocument();
-    expect(await findByText("branch-1")).toBeInTheDocument();
-    expect(await findByText("branch-2")).toBeInTheDocument();
+    expect(await screen.findByText("main")).toBeInTheDocument();
+    expect(await screen.findByText("branch-1")).toBeInTheDocument();
+    expect(await screen.findByText("branch-2")).toBeInTheDocument();
   });
 });

@@ -1,4 +1,4 @@
-import { fireEvent, render } from "@testing-library/react";
+import { fireEvent, render, screen } from "@testing-library/react";
 import { MemoryRouter, Route } from "react-router";
 import { GitHubApiProvider } from "../../context/GitHubApiProvider";
 import { REPO_REGEX } from "../../lib/constants";
@@ -15,7 +15,7 @@ describe("SearchAppBarItem", () => {
       JSON.stringify({ tree: [{ path: "song1.md" }, { path: "song2.md" }] })
     );
 
-    const { findAllByText, getByLabelText, queryByText } = render(
+    render(
       <GitHubApiProvider>
         <MemoryRouter initialEntries={["/repos/o/r/viewer/b"]}>
           <Route
@@ -26,12 +26,12 @@ describe("SearchAppBarItem", () => {
       </GitHubApiProvider>
     );
 
-    await findAllByText("Jump to…");
-    fireEvent.change(getByLabelText("Jump to…"), {
+    await screen.findAllByText("Jump to…");
+    fireEvent.change(screen.getByLabelText("Jump to…"), {
       target: { value: "song" },
     });
 
-    expect(queryByText("song1.md")).toBeInTheDocument();
-    expect(queryByText("song2.md")).toBeInTheDocument();
+    expect(screen.getByText("song1.md")).toBeInTheDocument();
+    expect(screen.getByText("song2.md")).toBeInTheDocument();
   });
 });

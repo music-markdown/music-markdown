@@ -1,5 +1,5 @@
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import { fireEvent, render } from "@testing-library/react";
+import { fireEvent, render, screen } from "@testing-library/react";
 import { useEffect } from "react";
 import {
   useYouTubeId,
@@ -15,7 +15,7 @@ function YouTubeIdSetter() {
 
 describe("YouTubeAppBarItem", () => {
   it("renders YouTube button when youTubeId is present", () => {
-    const { queryByRole } = render(
+    render(
       <YouTubeIdProvider>
         <ThemeProvider theme={createTheme()}>
           <YouTubeIdSetter />
@@ -23,24 +23,24 @@ describe("YouTubeAppBarItem", () => {
         </ThemeProvider>
       </YouTubeIdProvider>
     );
-    const youTubeButton = queryByRole("button");
+    const youTubeButton = screen.queryByRole("button");
     expect(youTubeButton).toBeInTheDocument();
   });
 
   it("doest not render YouTube button when youTubeId is not present", () => {
-    const { queryByRole } = render(
+    render(
       <YouTubeIdProvider>
         <ThemeProvider theme={createTheme()}>
           <YouTubeAppBarItem />
         </ThemeProvider>
       </YouTubeIdProvider>
     );
-    const youTubeButton = queryByRole("button");
+    const youTubeButton = screen.queryByRole("button");
     expect(youTubeButton).not.toBeInTheDocument();
   });
 
   it("renders YouTube iframe when YouTube button clicked", () => {
-    const { getByRole, queryByTitle } = render(
+    render(
       <YouTubeIdProvider>
         <ThemeProvider theme={createTheme()}>
           <YouTubeIdSetter />
@@ -48,8 +48,8 @@ describe("YouTubeAppBarItem", () => {
         </ThemeProvider>
       </YouTubeIdProvider>
     );
-    expect(queryByTitle("YouTube")).not.toBeInTheDocument();
-    fireEvent.click(getByRole("button"));
-    expect(queryByTitle("YouTube")).toBeInTheDocument();
+    expect(screen.queryByTitle("YouTube")).not.toBeInTheDocument();
+    fireEvent.click(screen.getByRole("button"));
+    expect(screen.getByTitle("YouTube")).toBeInTheDocument();
   });
 });
