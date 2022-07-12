@@ -1,4 +1,9 @@
-import { render, screen } from "@testing-library/react";
+import {
+  fireEvent,
+  render,
+  screen,
+  waitForElementToBeRemoved,
+} from "@testing-library/react";
 import { MemoryRouter } from "react-router";
 import MoreMenu from ".";
 import { GitHubApiProvider } from "../../context/GitHubApiProvider";
@@ -179,5 +184,33 @@ describe("MoreMenu", () => {
     );
 
     expect(screen.getByText("GitHub Token")).toBeInTheDocument();
+  });
+
+  it("opens and closes qr code dialog when buttons clicked", async () => {
+    const mockHandleClose = jest.fn();
+    const mockAnchorEl = document.createElement("button");
+    render(
+      <SongPrefsProvider>
+        <GitHubApiProvider>
+          <ThemeProvider>
+            <SnackbarProvider>
+              <MemoryRouter initialEntries={["/repos/o/r/viewer/b/song.md"]}>
+                <MoreMenu
+                  open={true}
+                  close={mockHandleClose}
+                  anchorEl={mockAnchorEl}
+                />
+              </MemoryRouter>
+            </SnackbarProvider>
+          </ThemeProvider>
+        </GitHubApiProvider>
+      </SongPrefsProvider>
+    );
+
+    fireEvent.click(screen.getByText("Share song"));
+    expect(screen.getByText("Song QR Code")).toBeInTheDocument();
+    expect(mockHandleClose).toBeCalled();
+    fireEvent.click(screen.getByText("Close"));
+    await waitForElementToBeRemoved(() => screen.queryByText("Song QR Code"));
   });
 });
