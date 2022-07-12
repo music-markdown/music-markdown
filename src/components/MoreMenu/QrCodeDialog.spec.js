@@ -1,11 +1,11 @@
-import { render, screen } from "@testing-library/react";
+import { fireEvent, render, screen } from "@testing-library/react";
 import { MemoryRouter, Route } from "react-router";
 import SnackbarProvider from "../../context/SnackbarProvider";
 import { REPO_REGEX } from "../../lib/constants";
-import SongActionsMenuItem from "./SongActionsMenuItem";
+import QrCodeDialog from "./QrCodeDialog";
 
-describe("SongActionsMenuItem", () => {
-  it("renders edit button when on viewer page", () => {
+describe("QrCodeDialog", () => {
+  it("renders qr code dialog", () => {
     const mockHandleClose = jest.fn();
 
     render(
@@ -13,29 +13,30 @@ describe("SongActionsMenuItem", () => {
         <MemoryRouter initialEntries={["/repos/o/r/viewer/b/song.md"]}>
           <Route
             path={`${REPO_REGEX}/:mode/:branch/:path*`}
-            render={() => <SongActionsMenuItem closeMenu={mockHandleClose} />}
+            render={() => <QrCodeDialog open={true} close={mockHandleClose} />}
           />
         </MemoryRouter>
       </SnackbarProvider>
     );
 
-    expect(screen.getByText("Edit inline")).toBeInTheDocument();
+    expect(screen.getByText("Song QR Code")).toBeInTheDocument();
   });
 
-  it("renders exit button when on editor page", () => {
+  it("calls close callback when close button is clicked", () => {
     const mockHandleClose = jest.fn();
 
     render(
       <SnackbarProvider>
-        <MemoryRouter initialEntries={["/repos/o/r/editor/b/song.md"]}>
+        <MemoryRouter initialEntries={["/repos/o/r/viewer/b/song.md"]}>
           <Route
             path={`${REPO_REGEX}/:mode/:branch/:path*`}
-            render={() => <SongActionsMenuItem closeMenu={mockHandleClose} />}
+            render={() => <QrCodeDialog open={true} close={mockHandleClose} />}
           />
         </MemoryRouter>
       </SnackbarProvider>
     );
 
-    expect(screen.getByText("Exit to viewer")).toBeInTheDocument();
+    fireEvent.click(screen.getByText("Close"));
+    expect(mockHandleClose).toBeCalled();
   });
 });

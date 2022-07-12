@@ -3,77 +3,34 @@ import ExitToAppIcon from "@mui/icons-material/ExitToApp";
 import GitHubIcon from "@mui/icons-material/GitHub";
 import ShareIcon from "@mui/icons-material/Share";
 import ViewListIcon from "@mui/icons-material/ViewList";
-import {
-  Button,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogContentText,
-  DialogTitle,
-  Paper,
-  Stack,
-  Typography,
-} from "@mui/material";
+import { Button, Stack, Typography } from "@mui/material";
 import { Box } from "@mui/system";
-import React from "react";
-import QRCode from "react-qr-code";
 import { useHistory, useParams } from "react-router";
 
-const ShareButton = ({ close }) => {
-  const [open, setOpen] = React.useState(false);
-
-  const closeDialog = () => {
-    setOpen(false);
-    close();
+const ShareButton = ({ closeMenu, openQrCodeDialog }) => {
+  const handleOpen = () => {
+    closeMenu();
+    openQrCodeDialog();
   };
 
   return (
-    <>
-      <Button
-        variant="outlined"
-        startIcon={<ShareIcon />}
-        onClick={() => setOpen(true)}
-      >
-        Share song
-      </Button>
-      <Dialog open={open} onClose={closeDialog}>
-        <DialogTitle id="share-song-qr-dialog-title">Song QR Code</DialogTitle>
-        <DialogContent>
-          <DialogContentText>
-            Scan this QR code to view the current song on your device.
-          </DialogContentText>
-          <Paper
-            style={{
-              background: "white",
-              padding: "1em",
-            }}
-          >
-            <QRCode
-              style={{ height: "auto", width: "100%" }}
-              value={window.location.href}
-              viewBox={`0 0 256 256`}
-            />
-          </Paper>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={closeDialog}>Close</Button>
-        </DialogActions>
-      </Dialog>
-    </>
+    <Button variant="outlined" startIcon={<ShareIcon />} onClick={handleOpen}>
+      Share song
+    </Button>
   );
 };
 
-const EditViewButton = ({ close }) => {
+const EditViewButton = ({ closeMenu }) => {
   const history = useHistory();
   const { repo, mode, branch, path } = useParams();
 
   const edit = () => {
-    close();
+    closeMenu();
     history.push(`/repos/${repo}/editor/${branch}/${path}`);
   };
 
   const view = () => {
-    close();
+    closeMenu();
     history.push(`/repos/${repo}/viewer/${branch}/${path}`);
   };
 
@@ -94,13 +51,13 @@ const EditViewButton = ({ close }) => {
   return null;
 };
 
-const SongListButton = ({ close }) => {
+const SongListButton = ({ closeMenu }) => {
   const history = useHistory();
   const { repo, branch, path } = useParams();
   const folder = path.split("/").slice(0, -1).join("/");
 
   const back = () => {
-    close();
+    closeMenu();
     history.push(`/repos/${repo}/browser/${branch}/${folder}`);
   };
 
@@ -122,14 +79,17 @@ const ShowOnGitHubButton = () => {
   );
 };
 
-export default function SongActionsMenuItem({ close }) {
+export default function SongActionsMenuItem({ closeMenu, openQrCodeDialog }) {
   return (
     <Box>
       <Typography variant="subtitle1">Song Actions</Typography>
       <Stack direction="column" spacing={1}>
-        <ShareButton close={close} />
-        <EditViewButton close={close} />
-        <SongListButton close={close} />
+        <ShareButton
+          closeMenu={closeMenu}
+          openQrCodeDialog={openQrCodeDialog}
+        />
+        <EditViewButton closeMenu={closeMenu} />
+        <SongListButton closeMenu={closeMenu} />
         <ShowOnGitHubButton />
       </Stack>
     </Box>
