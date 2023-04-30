@@ -70,7 +70,6 @@ const MusicMarkdownRender = ({ source, width, columns, transpose, zoom }) => {
       {/* TODO: Replace this hack with an iframe. */}
       <div
         className={`mmd-${theme.palette.mode}`}
-        style={{ zoom }}
         dangerouslySetInnerHTML={{ __html: html }}
       />
       <ErrorSnackbar
@@ -86,14 +85,24 @@ export default function Render(props) {
   const classes = useStyles();
   const componentRef = useRef();
   const { width } = useContainerDimensions(componentRef);
+  const { zoom } = props;
 
   return (
-    <div
-      className={classes.columns}
-      style={{ columns: props.columns }}
-      ref={componentRef}
-    >
-      <MusicMarkdownRender width={width} {...props} />
+    <div style={{ height: 0 }}>
+      <div style={{ 
+        transform: `scale(${zoom})`,
+        transformOrigin: "0 0",
+        width: `${100 / zoom}%`,
+      }}
+      >
+        <div
+          className={classes.columns}
+          style={{ columns: props.columns }}
+          ref={componentRef}
+        >
+          <MusicMarkdownRender width={width} {...props} />
+        </div>
+      </div>
     </div>
   );
 }
