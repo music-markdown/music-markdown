@@ -1,5 +1,5 @@
+import styled from "@emotion/styled";
 import { useTheme } from "@mui/material/styles";
-import makeStyles from "@mui/styles/makeStyles";
 import MarkdownIt from "markdown-it";
 import MarkdownItMusic from "markdown-it-music";
 import { useEffect, useRef, useState } from "react";
@@ -9,13 +9,11 @@ import { useContainerDimensions } from "../../lib/hooks";
 
 const COLUMN_GAP = 20;
 
-const useStyles = makeStyles((theme) => ({
-  columns: {
-    columnGap: `${COLUMN_GAP}px`,
-    columnRuleWidth: "1px",
-    columnRuleStyle: "dashed",
-    columnRuleColor: theme.palette.text.secondary,
-  },
+const DivColumns = styled("div")(({ theme }) => ({
+  columnGap: `${COLUMN_GAP}px`,
+  columnRuleWidth: "1px",
+  columnRuleStyle: "dashed",
+  columnRuleColor: theme.palette.text.secondary,
 }));
 
 const MusicMarkdownRender = ({ source, width, columns, transpose, zoom }) => {
@@ -68,7 +66,6 @@ const MusicMarkdownRender = ({ source, width, columns, transpose, zoom }) => {
 };
 
 export default function Render(props) {
-  const classes = useStyles();
   const componentRef = useRef();
   const { width } = useContainerDimensions(componentRef);
   const { zoom } = props;
@@ -82,13 +79,9 @@ export default function Render(props) {
           width: `${100 / zoom}%`,
         }}
       >
-        <div
-          className={classes.columns}
-          style={{ columns: props.columns }}
-          ref={componentRef}
-        >
+        <DivColumns style={{ columns: props.columns }} ref={componentRef}>
           <MusicMarkdownRender width={width} {...props} />
-        </div>
+        </DivColumns>
       </div>
     </div>
   );

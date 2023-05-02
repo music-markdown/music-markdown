@@ -1,3 +1,4 @@
+import styled from "@emotion/styled";
 import DescriptionIcon from "@mui/icons-material/Description";
 import FolderIcon from "@mui/icons-material/Folder";
 import Avatar from "@mui/material/Avatar";
@@ -6,17 +7,14 @@ import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import ListItemAvatar from "@mui/material/ListItemAvatar";
 import ListItemText from "@mui/material/ListItemText";
-import makeStyles from "@mui/styles/makeStyles";
 import { Link, useParams } from "react-router-dom";
 import { useContents } from "../../context/GitHubApiProvider";
 import DirectoryBreadcrumbs from "../RouterBreadcrumbs";
 import AddNewFile from "./AddNewFile";
 
-const useStyles = makeStyles({
-  root: {
-    flexGrow: 1,
-    padding: 8,
-  },
+const DivRoot = styled("div")({
+  flexGrow: 1,
+  padding: 8,
 });
 
 /**
@@ -43,7 +41,6 @@ function sortDir(contents) {
  * A React component for rendering repository files and directories.
  */
 export default function FileViewer() {
-  const classes = useStyles();
   const { repo, path, branch } = useParams();
   const { loading, value } = useContents(repo, path, branch);
 
@@ -56,7 +53,7 @@ export default function FileViewer() {
   return (
     <>
       <DirectoryBreadcrumbs />
-      <div className={classes.root}>
+      <DivRoot>
         <List key={"repo-navigation-list"}>
           {contents.map((item) => (
             <ListItem
@@ -83,7 +80,7 @@ export default function FileViewer() {
           ))}
         </List>
         <AddNewFile />
-      </div>
+      </DivRoot>
     </>
   );
 }
