@@ -1,5 +1,5 @@
+import styled from "@emotion/styled";
 import LinearProgress from "@mui/material/LinearProgress";
-import makeStyles from "@mui/styles/makeStyles";
 import { useParams } from "react-router-dom";
 import { useContents } from "../../context/GitHubApiProvider";
 import {
@@ -9,15 +9,12 @@ import {
 } from "../../context/SongPrefsProvider";
 import Render from "./Render";
 
-const useStyles = makeStyles({
-  root: {
-    flexGrow: 1,
-    padding: 8,
-  },
+const DivRoot = styled("div")({
+  flexGrow: 1,
+  padding: 8,
 });
 
 export default function View({ location }) {
-  const classes = useStyles();
   const { repo, path, branch } = useParams();
   const { loading, content } = useContents(repo, path, branch);
   const { columns } = useColumns();
@@ -32,13 +29,13 @@ export default function View({ location }) {
   }
 
   return (
-    <div className={classes.root}>
+    <DivRoot>
       <Render
         source={content}
         columns={columns}
         transpose={transpose}
         zoom={zoom}
       />
-    </div>
+    </DivRoot>
   );
 }

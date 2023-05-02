@@ -1,3 +1,4 @@
+import styled from "@emotion/styled";
 import BookIcon from "@mui/icons-material/Book";
 import DeleteIcon from "@mui/icons-material/Delete";
 import Avatar from "@mui/material/Avatar";
@@ -7,25 +8,21 @@ import ListItem from "@mui/material/ListItem";
 import ListItemAvatar from "@mui/material/ListItemAvatar";
 import ListItemSecondaryAction from "@mui/material/ListItemSecondaryAction";
 import ListItemText from "@mui/material/ListItemText";
-import makeStyles from "@mui/styles/makeStyles";
 import { Link } from "react-router-dom";
 import { useRepoMetadata, useRepos } from "../../context/ReposProvider";
 import AddRepository from "./AddRepository";
 
-const useStyles = makeStyles({
-  root: {
-    flexGrow: 1,
-    padding: 8,
-  },
+const DivRoot = styled("div")({
+  flexGrow: 1,
+  padding: 8,
 });
 
 export default function RepoViewer() {
-  const classes = useStyles();
   const repoMetadata = useRepoMetadata();
   const { addRepo, deleteRepo } = useRepos();
 
   return (
-    <div className={classes.root}>
+    <DivRoot>
       <List>
         {repoMetadata.map((repo) => (
           <ListItem
@@ -53,6 +50,6 @@ export default function RepoViewer() {
         ))}
       </List>
       <AddRepository handleAddRepository={addRepo} />
-    </div>
+    </DivRoot>
   );
 }

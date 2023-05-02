@@ -1,6 +1,6 @@
+import styled from "@emotion/styled";
 import Paper from "@mui/material/Paper";
 import Typography from "@mui/material/Typography";
-import makeStyles from "@mui/styles/makeStyles";
 import { guitarChordbook } from "markdown-it-music/lib/chordbook";
 import { renderChordDiagram } from "markdown-it-music/renderers/chord_diagram";
 import queryString from "query-string";
@@ -8,40 +8,14 @@ import { Link, Route } from "react-router-dom";
 import { COLUMN_COUNT_QUERY_KEY, TRANSPOSE_QUERY_KEY } from "../lib/constants";
 import Render from "./MusicMd/Render";
 
-const useStyles = makeStyles((theme) => ({
-  root: {
-    flexGrow: 1,
-    padding: 8,
-  },
-  chordSourcePaper: {
-    margin: theme.spacing(1),
-    padding: theme.spacing(2),
-  },
-  chordCategoryPaper: {
-    margin: theme.spacing(1),
-    textAlign: "center",
-  },
-  chordCategoryTypography: {
-    color: theme.palette.text.primary,
-    textAlign: "center",
-  },
-  chordVariantPaper: {
-    display: "inline-block",
-    margin: theme.spacing(1),
-    textAlign: "center",
-  },
-  chordVariantTypography: {
-    color: theme.palette.text.secondary,
-  },
-  chordDiagram: {
-    filter: theme.palette.mode === "dark" ? "invert(100%)" : "",
-  },
+const DivRoot = styled("div")(({ theme }) => ({
+  flexGrow: 1,
+  padding: 8,
 }));
 
 export default function Sandbox({ location, match }) {
-  const classes = useStyles();
   return (
-    <div className={classes.root}>
+    <DivRoot>
       <Typography variant="h2">Sandbox</Typography>
 
       <ul>
@@ -65,7 +39,7 @@ export default function Sandbox({ location, match }) {
         path={`${match.path}/guitar-chordbook`}
         component={AllGuitarChords}
       />
-    </div>
+    </DivRoot>
   );
 }
 
@@ -143,43 +117,67 @@ const qualities = [
   "13b9b5",
 ];
 
+const ChordSourcePaper = styled(Paper)(({ theme }) => ({
+  margin: theme.spacing(1),
+  padding: theme.spacing(2),
+}));
+
+const ChordCategoryPaper = styled(Paper)(({ theme }) => ({
+  margin: theme.spacing(1),
+  textAlign: "center",
+}));
+
+const ChordCategoryTypography = styled(Typography)(({ theme }) => ({
+  color: theme.palette.text.primary,
+  textAlign: "center",
+}));
+
 const AllGuitarChords = ({ location }) => {
-  const classes = useStyles();
   return (
     <>
       <Typography variant="h3">Guitar Chordbook</Typography>
-      <Paper className={classes.chordSourcePaper}>
+      <ChordSourcePaper>
         <MarkdownViewer source={allChordsSource} location={location} />
-      </Paper>
+      </ChordSourcePaper>
       {roots.map((category, index) => (
-        <Paper key={`category-${index}`} className={classes.chordCategoryPaper}>
-          <Typography className={classes.chordCategoryTypography} variant="h4">
+        <ChordCategoryPaper key={`category-${index}`}>
+          <ChordCategoryTypography variant="h4">
             {category} Chords
-          </Typography>
+          </ChordCategoryTypography>
           <ChordCategory category={category} />
-        </Paper>
+        </ChordCategoryPaper>
       ))}
     </>
   );
 };
 
+const ChordVariantPaper = styled(Paper)(({ theme }) => ({
+  display: "inline-block",
+  margin: theme.spacing(1),
+  textAlign: "center",
+}));
+
+const ChordVariantTypography = styled(Typography)(({ theme }) => ({
+  color: theme.palette.text.secondary,
+}));
+
+const ChordDiagram = styled("span")(({ theme }) => ({
+  filter: theme.palette.mode === "dark" ? "invert(100%)" : "",
+}));
+
 const ChordCategory = ({ category }) => {
-  const classes = useStyles();
   return Array.from(guitarChordbook.keys())
     .filter((chord) => chord.match(/^[CDEFGAB](?:#|b)?|N\.C\./)[0] === category)
     .map((chord, index) => (
-      <Paper key={`chord-${index}`} className={classes.chordVariantPaper}>
+      <ChordVariantPaper key={`chord-${index}`}>
         {guitarChordbook.get(chord).map((variant, index) => (
-          <span
-            className={classes.chordDiagram}
+          <ChordDiagram
             key={`variant-${index}`}
             dangerouslySetInnerHTML={{ __html: renderChordDiagram(variant) }}
           />
         ))}
-        <Typography className={classes.chordVariantTypography} variant="h5">
-          {chord}
-        </Typography>
-      </Paper>
+        <ChordVariantTypography variant="h5">{chord}</ChordVariantTypography>
+      </ChordVariantPaper>
     ));
 };
 

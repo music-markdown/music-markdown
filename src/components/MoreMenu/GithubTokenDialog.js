@@ -1,3 +1,4 @@
+import styled from "@emotion/styled";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import Accordion from "@mui/material/Accordion";
 import AccordionActions from "@mui/material/AccordionActions";
@@ -9,16 +10,13 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
-import withStyles from "@mui/styles/withStyles";
 import { useState } from "react";
 import { useGitHubApi } from "../../context/GitHubApiProvider";
 import { isValidGithubToken } from "../../lib/github";
 
-const AccordionDetails = withStyles({
-  root: {
-    backgroundColor: "rgba(0, 0, 0, .03)",
-  },
-})(AccordionActions);
+const AccordionDetails = styled(AccordionActions)(({ theme }) => ({
+  backgroundColor: "rgba(0, 0, 0, .03)",
+}));
 
 const GithubTokenInstructions = () => (
   <Accordion>

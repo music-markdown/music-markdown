@@ -1,18 +1,15 @@
+import styled from "@emotion/styled";
 import Breadcrumbs from "@mui/material/Breadcrumbs";
 import Link from "@mui/material/Link";
 import Paper from "@mui/material/Paper";
 import Typography from "@mui/material/Typography";
-import makeStyles from "@mui/styles/makeStyles";
 import { Link as RouterLink, useLocation } from "react-router-dom";
 
-const useStyles = makeStyles((theme) => ({
-  paper: {
-    padding: theme.spacing(1),
-  },
-  reactRouterHoverInherit: theme.reactRouterHoverInherit,
+const StyledPaper = styled(Paper)(({ theme }) => ({
+  padding: theme.spacing(1),
 }));
 
-function buildBreadcrumb(previousPath, classes) {
+function buildBreadcrumb(previousPath) {
   const breadcrumbItems = [];
 
   // ignoreIndex matches the Route defined in App.js.
@@ -50,7 +47,6 @@ function buildBreadcrumb(previousPath, classes) {
           to={`${currDir}/`}
           key={`${keyBase}${i}`}
           color="inherit"
-          className={classes.reactRouterHoverInherit}
         >
           {directory}
         </Link>
@@ -67,16 +63,15 @@ function buildBreadcrumb(previousPath, classes) {
  */
 export default function DirectoryBreadcrumbs() {
   const { pathname } = useLocation();
-  const classes = useStyles();
   const keyBase = "breadcrumb-item-";
 
   const subDirectoriesArr = pathname.split("/").filter((value) => !!value);
   subDirectoriesArr[3] = "browser";
 
-  const breadcrumbItems = buildBreadcrumb(subDirectoriesArr, classes);
+  const breadcrumbItems = buildBreadcrumb(subDirectoriesArr);
 
   return (
-    <Paper className={classes.paper}>
+    <StyledPaper>
       <Breadcrumbs>
         <Link
           role="breadcrumb"
@@ -84,12 +79,11 @@ export default function DirectoryBreadcrumbs() {
           to={`/`}
           key={`${keyBase}Home`}
           color="inherit"
-          className={classes.reactRouterHoverInherit}
         >
           Home
         </Link>
         {breadcrumbItems}
       </Breadcrumbs>
-    </Paper>
+    </StyledPaper>
   );
 }

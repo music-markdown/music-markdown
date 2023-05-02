@@ -1,21 +1,18 @@
+import styled from "@emotion/styled";
 import { Paper } from "@mui/material";
-import makeStyles from "@mui/styles/makeStyles";
 import PropTypes from "prop-types";
 import { useRef } from "react";
 import Draggable from "react-draggable";
 
-const useStyles = makeStyles((theme) => ({
-  paper: {
-    position: "fixed",
-    bottom: theme.spacing(1),
-    right: theme.spacing(1),
-    padding: theme.spacing(2),
-    cursor: "move",
-  },
+const StyledPaper = styled(Paper)(({ theme }) => ({
+  position: "fixed",
+  bottom: theme.spacing(1),
+  right: theme.spacing(1),
+  padding: theme.spacing(2),
+  cursor: "move",
 }));
 
 export default function YouTubePlayer({ youTubeId, visible }) {
-  const classes = useStyles();
   const nodeRef = useRef();
 
   if (!visible || !youTubeId) {
@@ -24,7 +21,7 @@ export default function YouTubePlayer({ youTubeId, visible }) {
 
   return (
     <Draggable nodeRef={nodeRef}>
-      <Paper ref={nodeRef} className={classes.paper}>
+      <StyledPaper ref={nodeRef}>
         <iframe
           title="YouTube"
           style={{ border: 0 }}
@@ -32,7 +29,7 @@ export default function YouTubePlayer({ youTubeId, visible }) {
           allow="accelerometer; encrypted-media; gyroscope; picture-in-picture"
           allowFullScreen
         />
-      </Paper>
+      </StyledPaper>
     </Draggable>
   );
 }

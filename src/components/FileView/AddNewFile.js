@@ -1,3 +1,4 @@
+import styled from "@emotion/styled";
 import AddIcon from "@mui/icons-material/Add";
 import Button from "@mui/material/Button";
 import Card from "@mui/material/Card";
@@ -12,27 +13,24 @@ import InputAdornment from "@mui/material/InputAdornment";
 import TextField from "@mui/material/TextField";
 import Tooltip from "@mui/material/Tooltip";
 import Typography from "@mui/material/Typography";
-import makeStyles from "@mui/styles/makeStyles";
 import { useState } from "react";
 import { Redirect, useParams } from "react-router-dom";
 import { useGitHubApi } from "../../context/GitHubApiProvider";
 import { useSnackbar } from "../../context/SnackbarProvider";
 import { putContents } from "../../lib/github";
 
-const useStyles = makeStyles((theme) => ({
-  whitespacePre: {
-    whiteSpace: "pre-line",
-    fontFamily: "monospace",
-  },
-  grid: {
-    position: "fixed",
-    bottom: theme.spacing(2),
-    right: theme.spacing(2),
-  },
+const TypographyWhitespacePre = styled(Typography)(({ theme }) => ({
+  whiteSpace: "pre-line",
+  fontFamily: "monospace",
+}));
+
+const StyledGrid = styled(Grid)(({ theme }) => ({
+  position: "fixed",
+  bottom: theme.spacing(2),
+  right: theme.spacing(2),
 }));
 
 export default function AddNewFile() {
-  const classes = useStyles();
   const { repo, path, branch } = useParams();
   const { gitHubToken } = useGitHubApi();
   const [newFileName, setNewFileName] = useState("");
@@ -85,95 +83,82 @@ export default function AddNewFile() {
   }
 
   return (
-    <>
-      <Grid
-        container
-        className={classes.grid}
-        direction="row"
-        justifyContent="flex-end"
-        alignItems="flex-end"
+    <StyledGrid
+      container
+      direction="row"
+      justifyContent="flex-end"
+      alignItems="flex-end"
+    >
+      <Tooltip
+        title={
+          gitHubToken ? "Add Song" : "Add a GitHub Token to Enable Editing"
+        }
       >
-        <Tooltip
-          title={
-            gitHubToken ? "Add Song" : "Add a GitHub Token to Enable Editing"
-          }
-        >
-          <span>
-            <Fab
-              aria-label="Add"
-              disabled={!gitHubToken}
-              onClick={handleAddNewFileOpen}
-            >
-              <AddIcon />
-            </Fab>
-          </span>
-        </Tooltip>
-        <Dialog
-          open={newFileOpen}
-          aria-labelledby="add-new-file-dialog"
-          fullWidth={true}
-        >
-          <DialogTitle id="add-new-file-dialog-title">
-            Create New Music Markdown File
-          </DialogTitle>
-          <DialogContent>
-            <Card className={classes.previewCard}>
-              <CardContent>
-                <Typography
-                  variant="caption"
-                  color="textSecondary"
-                  gutterBottom
-                >
-                  Preview
-                </Typography>
-                <Typography
-                  variant="body1"
-                  color="textPrimary"
-                  className={classes.whitespacePre}
-                >
-                  {getTemplateContents()}
-                </Typography>
-              </CardContent>
-            </Card>
-            <TextField
-              autoFocus
-              margin="dense"
-              id="owner"
-              label="Music Markdown File Name"
-              value={newFileName}
-              onChange={handleUpdateFileName}
-              fullWidth
-              error={!isValidFileName()}
-              helperText={
-                !isValidFileName() ? (
-                  "Invalid file name"
-                ) : (
-                  <>
-                    {repo}/{branch}/{getNewFilePath()}
-                  </>
-                )
-              }
-              InputProps={{
-                endAdornment: (
-                  <InputAdornment position="end">.md</InputAdornment>
-                ),
-              }}
-            />
-          </DialogContent>
-          <DialogActions>
-            <Button onClick={handleAddNewFileClose} color="secondary">
-              Cancel
-            </Button>
-            <Button
-              onClick={handleAddNewFile}
-              color="primary"
-              disabled={!isValidFileName()}
-            >
-              Create
-            </Button>
-          </DialogActions>
-        </Dialog>
-      </Grid>
-    </>
+        <span>
+          <Fab
+            aria-label="Add"
+            disabled={!gitHubToken}
+            onClick={handleAddNewFileOpen}
+          >
+            <AddIcon />
+          </Fab>
+        </span>
+      </Tooltip>
+      <Dialog
+        open={newFileOpen}
+        aria-labelledby="add-new-file-dialog"
+        fullWidth={true}
+      >
+        <DialogTitle id="add-new-file-dialog-title">
+          Create New Music Markdown File
+        </DialogTitle>
+        <DialogContent>
+          <Card>
+            <CardContent>
+              <Typography variant="caption" color="textSecondary" gutterBottom>
+                Preview
+              </Typography>
+              <TypographyWhitespacePre variant="body1" color="textPrimary">
+                {getTemplateContents()}
+              </TypographyWhitespacePre>
+            </CardContent>
+          </Card>
+          <TextField
+            autoFocus
+            margin="dense"
+            id="owner"
+            label="Music Markdown File Name"
+            value={newFileName}
+            onChange={handleUpdateFileName}
+            fullWidth
+            error={!isValidFileName()}
+            helperText={
+              !isValidFileName() ? (
+                "Invalid file name"
+              ) : (
+                <>
+                  {repo}/{branch}/{getNewFilePath()}
+                </>
+              )
+            }
+            InputProps={{
+              endAdornment: <InputAdornment position="end">.md</InputAdornment>,
+            }}
+          />
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleAddNewFileClose} color="secondary">
+            Cancel
+          </Button>
+          <Button
+            onClick={handleAddNewFile}
+            color="primary"
+            disabled={!isValidFileName()}
+          >
+            Create
+          </Button>
+        </DialogActions>
+      </Dialog>
+    </StyledGrid>
   );
 }
