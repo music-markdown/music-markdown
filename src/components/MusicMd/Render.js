@@ -3,9 +3,9 @@ import makeStyles from "@mui/styles/makeStyles";
 import MarkdownIt from "markdown-it";
 import MarkdownItMusic from "markdown-it-music";
 import { useEffect, useRef, useState } from "react";
+import { useSnackbar } from "../../context/SnackbarProvider";
 import { useYouTubeId } from "../../context/YouTubeIdProvider";
 import { useContainerDimensions } from "../../lib/hooks";
-import ErrorSnackbar from "../ErrorSnackbar";
 
 const COLUMN_GAP = 20;
 
@@ -22,15 +22,7 @@ const MusicMarkdownRender = ({ source, width, columns, transpose, zoom }) => {
   const theme = useTheme();
   const { setYouTubeId } = useYouTubeId();
   const [html, setHtml] = useState("");
-  const [message, setMessage] = useState();
-  const [error, setError] = useState(false);
-
-  const handleClearError = (event, reason) => {
-    if (reason === "clickaway") {
-      return;
-    }
-    setError(false);
-  };
+  const { errorSnackbar, closeSnackbar } = useSnackbar();
 
   useEffect(() => {
     const md = new MarkdownIt({ html: true }).use(MarkdownItMusic);
@@ -40,13 +32,12 @@ const MusicMarkdownRender = ({ source, width, columns, transpose, zoom }) => {
 
     try {
       setHtml(md.render(source));
-      setError(false);
+      closeSnackbar();
       setYouTubeId(md.meta.youTubeId);
     } catch (err) {
       console.log(err);
       setHtml(`<pre>${source}</pre>`);
-      setMessage(err.message);
-      setError(true);
+      errorSnackbar(err.message);
     }
   }, [
     setYouTubeId,
@@ -56,6 +47,8 @@ const MusicMarkdownRender = ({ source, width, columns, transpose, zoom }) => {
     transpose,
     zoom,
     theme.palette.mode,
+    errorSnackbar,
+    closeSnackbar,
   ]);
 
   // TODO: Replace this hack with an iframe.
@@ -65,19 +58,12 @@ const MusicMarkdownRender = ({ source, width, columns, transpose, zoom }) => {
     window.eval(script[1]);
   }
 
+  /* TODO: Replace this hack with an iframe. */
   return (
-    <>
-      {/* TODO: Replace this hack with an iframe. */}
-      <div
-        className={`mmd-${theme.palette.mode}`}
-        dangerouslySetInnerHTML={{ __html: html }}
-      />
-      <ErrorSnackbar
-        message={message}
-        open={error}
-        handleClose={handleClearError}
-      />
-    </>
+    <div
+      className={`mmd-${theme.palette.mode}`}
+      dangerouslySetInnerHTML={{ __html: html }}
+    />
   );
 };
 
@@ -89,11 +75,12 @@ export default function Render(props) {
 
   return (
     <div style={{ height: 0 }}>
-      <div style={{ 
-        transform: `scale(${zoom})`,
-        transformOrigin: "0 0",
-        width: `${100 / zoom}%`,
-      }}
+      <div
+        style={{
+          transform: `scale(${zoom})`,
+          transformOrigin: "0 0",
+          width: `${100 / zoom}%`,
+        }}
       >
         <div
           className={classes.columns}

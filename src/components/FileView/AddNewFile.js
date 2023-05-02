@@ -16,8 +16,8 @@ import makeStyles from "@mui/styles/makeStyles";
 import { useState } from "react";
 import { Redirect, useParams } from "react-router-dom";
 import { useGitHubApi } from "../../context/GitHubApiProvider";
+import { useSnackbar } from "../../context/SnackbarProvider";
 import { putContents } from "../../lib/github";
-import ErrorSnackbar from "../ErrorSnackbar";
 
 const useStyles = makeStyles((theme) => ({
   whitespacePre: {
@@ -38,8 +38,7 @@ export default function AddNewFile() {
   const [newFileName, setNewFileName] = useState("");
   const [newFileOpen, setNewFileOpen] = useState(false);
   const [toEditor, setToEditor] = useState(false);
-  const [message, setMessage] = useState("");
-  const [error, setError] = useState(false);
+  const { errorSnackbar } = useSnackbar();
 
   const handleAddNewFileOpen = () => {
     setNewFileOpen(true);
@@ -68,22 +67,10 @@ export default function AddNewFile() {
     );
 
     if (response.status !== 201) {
-      handleShowError(`${response.status}: ${response.statusText}`);
+      errorSnackbar(`${response.status}: ${response.statusText}`);
       return;
     }
     setToEditor(true);
-  };
-
-  const handleShowError = (message) => {
-    setMessage(message);
-    setError(true);
-  };
-
-  const handleClearError = (event, reason) => {
-    if (reason === "clickaway") {
-      return;
-    }
-    setError(false);
   };
 
   const isValidFileName = () => !!newFileName.match(/^[^<>:"/\\|?*]+$/);
@@ -187,11 +174,6 @@ export default function AddNewFile() {
           </DialogActions>
         </Dialog>
       </Grid>
-      <ErrorSnackbar
-        message={message}
-        open={error}
-        handleClose={handleClearError}
-      />
     </>
   );
 }
