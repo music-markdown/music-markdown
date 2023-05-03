@@ -20,7 +20,7 @@ const MusicMarkdownRender = ({ source, width, columns, transpose, zoom }) => {
   const theme = useTheme();
   const { setYouTubeId } = useYouTubeId();
   const [html, setHtml] = useState("");
-  const { errorSnackbar, closeSnackbar } = useSnackbar();
+  const { errorSnackbar } = useSnackbar();
 
   useEffect(() => {
     const md = new MarkdownIt({ html: true }).use(MarkdownItMusic);
@@ -30,7 +30,6 @@ const MusicMarkdownRender = ({ source, width, columns, transpose, zoom }) => {
 
     try {
       setHtml(md.render(source));
-      closeSnackbar();
       setYouTubeId(md.meta.youTubeId);
     } catch (err) {
       console.log(err);
@@ -46,7 +45,6 @@ const MusicMarkdownRender = ({ source, width, columns, transpose, zoom }) => {
     zoom,
     theme.palette.mode,
     errorSnackbar,
-    closeSnackbar,
   ]);
 
   // TODO: Replace this hack with an iframe.

@@ -82,10 +82,11 @@ export default function Edit({ location }) {
 
       setSaving(false);
       if (response.status === 200) {
-        successSnackbar("Successfully saved MusicMD to GitHub.");
+        successSnackbar("Successfully saved Music Markdown!");
         setSha(json.content.sha);
+        setIsDirty(false);
       } else {
-        errorSnackbar(`Error saving MusicMD to GitHub: ${response.status}`);
+        errorSnackbar(`Error saving Music Markdown: ${response.status}`);
       }
     }
   };

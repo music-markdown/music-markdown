@@ -21,7 +21,7 @@ export default function AddRepository({ handleAddRepository }) {
   const [open, setOpen] = useState(false);
   const [name, setName] = useState("");
   const [owner, setOwner] = useState("");
-  const { errorSnackbar, closeSnackbar } = useSnackbar();
+  const { errorSnackbar } = useSnackbar();
 
   const handleDialogOpen = () => {
     setOpen(true);
@@ -31,7 +31,6 @@ export default function AddRepository({ handleAddRepository }) {
     setOpen(false);
     setName("");
     setOwner("");
-    closeSnackbar();
   };
 
   const handleDialogAdd = async () => {
