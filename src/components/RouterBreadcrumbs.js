@@ -71,7 +71,7 @@ export default function DirectoryBreadcrumbs() {
   const breadcrumbItems = buildBreadcrumb(subDirectoriesArr);
 
   return (
-    <StyledPaper>
+    <StyledPaper variant="outlined" square>
       <Breadcrumbs>
         <Link
           role="breadcrumb"

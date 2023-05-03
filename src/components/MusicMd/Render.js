@@ -71,18 +71,16 @@ export default function Render(props) {
   const { zoom } = props;
 
   return (
-    <div style={{ height: 0 }}>
-      <div
-        style={{
-          transform: `scale(${zoom})`,
-          transformOrigin: "0 0",
-          width: `${100 / zoom}%`,
-        }}
-      >
-        <DivColumns style={{ columns: props.columns }} ref={componentRef}>
-          <MusicMarkdownRender width={width} {...props} />
-        </DivColumns>
-      </div>
+    <div
+      style={{
+        transform: `scale(${zoom})`,
+        transformOrigin: "0 0",
+        width: `${100 / zoom}%`,
+      }}
+    >
+      <DivColumns style={{ columns: props.columns }} ref={componentRef}>
+        <MusicMarkdownRender width={width} {...props} />
+      </DivColumns>
     </div>
   );
 }
