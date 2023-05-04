@@ -16,7 +16,7 @@ const DivColumns = styled("div")(({ theme }) => ({
   columnRuleColor: theme.palette.text.secondary,
 }));
 
-const MusicMarkdownRender = ({ source, width, columns, transpose, zoom }) => {
+const MusicMarkdownRender = ({ source, width, columns, transpose }) => {
   const theme = useTheme();
   const { setYouTubeId } = useYouTubeId();
   const [html, setHtml] = useState("");
@@ -26,7 +26,7 @@ const MusicMarkdownRender = ({ source, width, columns, transpose, zoom }) => {
     const md = new MarkdownIt({ html: true }).use(MarkdownItMusic);
     md.setTranspose(transpose);
     md.setTheme(theme.palette.mode);
-    md.setMaxWidth((width - COLUMN_GAP * (columns - 1)) / columns / zoom);
+    md.setMaxWidth((width - COLUMN_GAP * (columns - 1)) / columns);
 
     try {
       setHtml(md.render(source));
@@ -42,7 +42,6 @@ const MusicMarkdownRender = ({ source, width, columns, transpose, zoom }) => {
     width,
     columns,
     transpose,
-    zoom,
     theme.palette.mode,
     errorSnackbar,
   ]);
@@ -65,8 +64,8 @@ const MusicMarkdownRender = ({ source, width, columns, transpose, zoom }) => {
 
 export default function Render(props) {
   const componentRef = useRef();
-  const { width } = useContainerDimensions(componentRef);
   const { zoom } = props;
+  const { width } = useContainerDimensions(componentRef, zoom);
 
   return (
     <div

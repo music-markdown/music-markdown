@@ -11,7 +11,6 @@ export default function SnackbarProvider({ children }) {
   const [severity, setSeverity] = useState("success");
 
   const closeSnackbar = () => {
-    console.trace("closeSnackbar");
     setOpen(false);
   };
 

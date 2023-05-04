@@ -9,7 +9,7 @@ export function useDebounce(value, delay) {
   return debounced;
 }
 
-export function useContainerDimensions(ref) {
+export function useContainerDimensions(ref, zoom) {
   const [dimensions, setDimensions] = useState({ width: 0, height: 0 });
 
   useEffect(() => {
@@ -26,7 +26,7 @@ export function useContainerDimensions(ref) {
 
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
-  }, [ref]);
+  }, [ref, zoom]);
 
   return dimensions;
 }
