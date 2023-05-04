@@ -13,8 +13,11 @@ export function useRepoMetadata() {
   const { gitHubToken } = useGitHubApi();
 
   useEffect(() => {
-    (async () =>
-      setRepoMetadata(await getRepoMetadata(repos, { gitHubToken })))();
+    const fetchData = async () => {
+      const repoMetadata = await getRepoMetadata(repos, { gitHubToken });
+      setRepoMetadata(repoMetadata);
+    };
+    fetchData();
   }, [repos, gitHubToken]);
 
   return repoMetadata;
