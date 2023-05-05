@@ -1,4 +1,5 @@
 import { fireEvent, render, screen } from "@testing-library/react";
+import fetch from "jest-fetch-mock";
 import { MemoryRouter, Route } from "react-router";
 import { GitHubApiProvider } from "../../context/GitHubApiProvider";
 import { REPO_REGEX } from "../../lib/constants";

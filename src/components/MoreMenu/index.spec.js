@@ -7,7 +7,7 @@ import {
 import { MemoryRouter } from "react-router";
 import MoreMenu from ".";
 import { GitHubApiProvider } from "../../context/GitHubApiProvider";
-import SnackbarProvider from "../../context/SnackbarProvider";
+import { SnackbarProvider } from "../../context/SnackbarProvider";
 import { SongPrefsProvider } from "../../context/SongPrefsProvider";
 import { ThemeProvider } from "../../context/ThemeProvider";
 
