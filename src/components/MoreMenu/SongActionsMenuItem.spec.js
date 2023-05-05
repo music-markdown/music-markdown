@@ -1,6 +1,6 @@
 import { render, screen } from "@testing-library/react";
 import { MemoryRouter, Route } from "react-router";
-import SnackbarProvider from "../../context/SnackbarProvider";
+import { SnackbarProvider } from "../../context/SnackbarProvider";
 import { REPO_REGEX } from "../../lib/constants";
 import SongActionsMenuItem from "./SongActionsMenuItem";
 
