@@ -6,7 +6,7 @@ const State = {
   FENCE: 3,
 };
 
-function getMaybeHeading(line) {
+function getMaybeHeading(line: string): string | null {
   if (line.endsWith(":")) {
     return `## ${line.slice(0, -1)}`;
   }
@@ -18,7 +18,7 @@ function getMaybeHeading(line) {
   return null;
 }
 
-function getMaybeChords(line) {
+function getMaybeChords(line: string): string | null {
   const tokens = line.trim().split(/\s+/);
 
   for (const token of tokens) {
@@ -30,7 +30,7 @@ function getMaybeChords(line) {
   return `c1: ${line}`;
 }
 
-function asciiTabConvert(input) {
+function asciiTabConvert(input: string): string {
   let state = State.DEFAULT;
   let voiceIndex = 1;
   const lines = input.split(/\n/);
@@ -99,22 +99,6 @@ function asciiTabConvert(input) {
   }
 
   return output.join("\n");
-}
-
-async function read(stream) {
-  let buffer = Buffer.alloc(0);
-  for await (const chunk of stream) {
-    buffer = Buffer.concat([buffer, chunk]);
-  }
-  return buffer.toString("utf8");
-}
-
-async function main() {
-  console.log(asciiTabConvert(await read(process.stdin)));
-}
-
-if (typeof require !== "undefined" && require.main === module) {
-  main();
 }
 
 export default asciiTabConvert;

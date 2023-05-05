@@ -1,3 +1,4 @@
+import fetch from "jest-fetch-mock";
 import { Base64 } from "js-base64";
 import { gitHubApiFetch, isValidGithubToken } from "./github";
 
@@ -69,7 +70,7 @@ describe("GitHub API", () => {
     const content = { content: Base64.encode("# California Dreamin'") };
     fetch.mockResponse(JSON.stringify(content));
     await gitHubApiFetch("/some/path", { gitHubToken: expectedToken });
-    const request = fetch.mock.calls[0][0];
+    const request = fetch.mock.calls[0][0] as Request;
     expect(request.headers.get("Authorization")).toContain(expectedToken);
   });
 });

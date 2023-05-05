@@ -1,4 +1,4 @@
-import asciiTabConvert from "../tools/asciitab";
+import asciiTabConvert from "./asciitab";
 
 describe("ASCII Tab Converter transforms", () => {
   test("two phrase verse", () => {
