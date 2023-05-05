@@ -1,7 +1,7 @@
-import { useEffect, useState } from "react";
+import { MutableRefObject, useEffect, useState } from "react";
 
-export function useDebounce(value, delay) {
-  const [debounced, setDebounced] = useState("");
+export function useDebounce(value: string, delay: number) {
+  const [debounced, setDebounced] = useState<string>("");
   useEffect(() => {
     const timer = setTimeout(() => setDebounced(value), delay);
     return () => clearTimeout(timer);
@@ -9,7 +9,10 @@ export function useDebounce(value, delay) {
   return debounced;
 }
 
-export function useContainerDimensions(ref, zoom) {
+export function useContainerDimensions(
+  ref: MutableRefObject<any>,
+  zoom: number
+) {
   const [dimensions, setDimensions] = useState({ width: 0, height: 0 });
 
   useEffect(() => {
@@ -31,7 +34,7 @@ export function useContainerDimensions(ref, zoom) {
   return dimensions;
 }
 
-export function useLocalStorage(key, initialValue) {
+export function useLocalStorage(key: string, initialValue: object) {
   const [storedValue, setStoredValue] = useState(() => {
     try {
       // Get from local storage by key
@@ -45,7 +48,7 @@ export function useLocalStorage(key, initialValue) {
     }
   });
 
-  const setValue = (value) => {
+  const setValue = (value: any) => {
     try {
       const valueToStore =
         value instanceof Function ? value(storedValue) : value;

@@ -2,15 +2,22 @@ import { Base64 } from "js-base64";
 
 const GITHUB_API_URL = "https://api.github.com";
 
+interface GitHubFile {
+  message: string;
+  content: string;
+  branch: string;
+  sha?: string;
+}
+
 export async function putContents(
-  repo,
-  path,
-  content,
-  sha,
-  branch,
-  gitHubToken
+  repo: string,
+  path: string,
+  content: string,
+  sha: string,
+  branch: string,
+  gitHubToken: string
 ) {
-  const body = {
+  const body: GitHubFile = {
     message: `Music Markdown published ${path}`,
     content: Base64.encode(content),
     branch,
@@ -31,7 +38,10 @@ export async function putContents(
 /**
  * Returns the list of repo names and corresponding GitHub metadata.
  */
-export async function getRepoMetadata(repos, { gitHubToken }) {
+export async function getRepoMetadata(
+  repos: [string],
+  { gitHubToken }: Options
+) {
   return Promise.all(
     repos.map(async (repo) =>
       (await gitHubApiFetch(`/repos/${repo}`, { gitHubToken })).json()
@@ -39,14 +49,14 @@ export async function getRepoMetadata(repos, { gitHubToken }) {
   );
 }
 
-export async function verifyRepoExists(repo, { gitHubToken }) {
+export async function verifyRepoExists(repo: string, { gitHubToken }: Options) {
   const response = await gitHubApiFetch(`/repos/${repo}`, { gitHubToken });
   if (response.status === 404) {
     throw new Error(`"${repo}" not found on GitHub.`);
   }
 }
 
-export function isValidGithubToken(gitHubToken) {
+export function isValidGithubToken(gitHubToken: string | null) {
   return (
     !!gitHubToken &&
     (!!gitHubToken.match(/^[0-9a-f]{40}$/) ||
@@ -54,10 +64,17 @@ export function isValidGithubToken(gitHubToken) {
   );
 }
 
+interface Options extends RequestInit {
+  gitHubToken?: string;
+}
+
 /**
  * Performs a fetch to the GitHub API.
  */
-export async function gitHubApiFetch(path, { gitHubToken, ...init }) {
+export async function gitHubApiFetch(
+  path: string,
+  { gitHubToken, ...init }: Options
+) {
   const input = new URL(path, GITHUB_API_URL);
 
   if (gitHubToken) {
