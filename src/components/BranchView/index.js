@@ -7,7 +7,7 @@ import ListItem from "@mui/material/ListItem";
 import ListItemAvatar from "@mui/material/ListItemAvatar";
 import ListItemText from "@mui/material/ListItemText";
 import { Link, useParams } from "react-router-dom";
-import { useGitHubFetch } from "../../context/GitHubApiProvider";
+import { useBranches } from "../../context/GitHubApiProvider";
 import DirectoryBreadcrumbs from "../RouterBreadcrumbs";
 
 const DivRoot = styled("div")({
@@ -20,9 +20,7 @@ const DivRoot = styled("div")({
  */
 export default function BranchViewer({ location }) {
   const { repo } = useParams();
-  const { loading, value: branches } = useGitHubFetch(
-    `/repos/${repo}/branches`
-  );
+  const { loading, value: branches } = useBranches(repo);
 
   if (loading) {
     return <LinearProgress />;
