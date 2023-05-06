@@ -1,4 +1,5 @@
 import { render, screen } from "@testing-library/react";
+import fetch from "jest-fetch-mock";
 import { MemoryRouter, Route } from "react-router-dom";
 import BranchViewer from ".";
 import { GitHubApiProvider } from "../../context/GitHubApiProvider";

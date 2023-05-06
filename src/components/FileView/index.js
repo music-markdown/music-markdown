@@ -9,7 +9,7 @@ import ListItemAvatar from "@mui/material/ListItemAvatar";
 import ListItemText from "@mui/material/ListItemText";
 import { Link, useParams } from "react-router-dom";
 import { useContents } from "../../context/GitHubApiProvider";
-import DirectoryBreadcrumbs from "../RouterBreadcrumbs";
+import DirectoryBreadcrumbs from "../DirectoryBreadcrumbs";
 import AddNewFile from "./AddNewFile";
 
 const DivRoot = styled("div")({

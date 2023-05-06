@@ -24,7 +24,7 @@ import {
 import { putContents } from "../../lib/github";
 import { useDebounce } from "../../lib/hooks";
 import asciiTabConvert from "../../tools/asciitab";
-import DirectoryBreadcrumbs from "../RouterBreadcrumbs";
+import DirectoryBreadcrumbs from "../DirectoryBreadcrumbs";
 import Render from "./Render";
 
 import "ace-builds/src-noconflict/mode-markdown"; // organize-imports-ignore
