@@ -34,8 +34,11 @@ export function useContainerDimensions(
   return dimensions;
 }
 
-export function useLocalStorage(key: string, initialValue: object) {
-  const [storedValue, setStoredValue] = useState(() => {
+export function useLocalStorage<T>(
+  key: string,
+  initialValue: T
+): [T, (value: T) => void] {
+  const [storedValue, setStoredValue] = useState<T>(() => {
     try {
       // Get from local storage by key
       const item = localStorage.getItem(key);
@@ -48,7 +51,7 @@ export function useLocalStorage(key: string, initialValue: object) {
     }
   });
 
-  const setValue = (value: any) => {
+  const setValue = (value: T) => {
     try {
       const valueToStore =
         value instanceof Function ? value(storedValue) : value;
