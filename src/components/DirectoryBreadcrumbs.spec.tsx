@@ -1,7 +1,8 @@
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { render, screen } from "@testing-library/react";
+import fetch from "jest-fetch-mock";
 import { MemoryRouter } from "react-router-dom";
-import RouterBreadcrumbs from "./RouterBreadcrumbs";
+import RouterBreadcrumbs from "./DirectoryBreadcrumbs";
 
 describe("RouterBreadcrumbs", () => {
   beforeEach(async () => {

@@ -1,5 +1,6 @@
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { render } from "@testing-library/react";
+import fetch from "jest-fetch-mock";
 import { MemoryRouter } from "react-router-dom";
 import AppBar from "./index";
 

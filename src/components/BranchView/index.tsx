@@ -6,9 +6,10 @@ import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import ListItemAvatar from "@mui/material/ListItemAvatar";
 import ListItemText from "@mui/material/ListItemText";
-import { Link, useParams } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useBranches } from "../../context/GitHubApiProvider";
-import DirectoryBreadcrumbs from "../RouterBreadcrumbs";
+import { useRouteParams } from "../../lib/hooks";
+import DirectoryBreadcrumbs from "../DirectoryBreadcrumbs";
 
 const DivRoot = styled("div")({
   flexGrow: 1,
@@ -18,8 +19,8 @@ const DivRoot = styled("div")({
 /**
  * A React component for rendering repository items when navigating the /repos resource
  */
-export default function BranchViewer({ location }) {
-  const { repo } = useParams();
+export default function BranchViewer() {
+  const { repo } = useRouteParams();
   const { loading, value: branches } = useBranches(repo);
 
   if (loading) {
@@ -28,7 +29,7 @@ export default function BranchViewer({ location }) {
 
   return (
     <>
-      <DirectoryBreadcrumbs pathname={location.pathname} />
+      <DirectoryBreadcrumbs />
       <DivRoot>
         <List>
           {branches.map((item) => (

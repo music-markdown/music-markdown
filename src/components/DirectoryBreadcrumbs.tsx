@@ -9,7 +9,7 @@ const StyledPaper = styled(Paper)(({ theme }) => ({
   padding: theme.spacing(1),
 }));
 
-function buildBreadcrumb(previousPath) {
+function buildBreadcrumb(previousPath: string[]) {
   const breadcrumbItems = [];
 
   // ignoreIndex matches the Route defined in App.js.
@@ -57,10 +57,7 @@ function buildBreadcrumb(previousPath) {
   return breadcrumbItems;
 }
 
-/**
- * Returns a list of breadcrumbs based on current path of navigation
- * @return {Array} List of BreadcrumbItems
- */
+/** Returns a list of breadcrumbs based on current path of navigation */
 export default function DirectoryBreadcrumbs() {
   const { pathname } = useLocation();
   const keyBase = "breadcrumb-item-";
