@@ -12,7 +12,6 @@ import FileViewer from "./FileView";
 import Edit from "./MusicMd/Edit";
 import View from "./MusicMd/View";
 import RepoViewer from "./RepoView";
-import Sandbox from "./Sandbox.js";
 
 const App = () => (
   <YouTubeIdProvider>
@@ -41,7 +40,6 @@ const HomeRouter = () => (
       />
       <Route path={`${REPO_REGEX}/editor/:branch/:path*`} component={Edit} />
       <Route path={REPO_REGEX} component={BranchViewer} />
-      <Route path="/sandbox" component={Sandbox} />
       <Route path="/" component={RepoViewer} />
     </Switch>
   </Router>
