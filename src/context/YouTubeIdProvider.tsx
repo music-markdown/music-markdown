@@ -1,6 +1,14 @@
 import { createContext, FC, useContext, useState } from "react";
 
-const YouTubeIdContext = createContext({});
+interface YouTubeIdContextValue {
+  youTubeId: string | null;
+  setYouTubeId: (youTubeId: string | null) => void;
+}
+
+const YouTubeIdContext = createContext<YouTubeIdContextValue>({
+  youTubeId: null,
+  setYouTubeId: () => {},
+});
 
 export const useYouTubeId = () => useContext(YouTubeIdContext);
 
@@ -9,7 +17,7 @@ interface YouTubeIdProviderProps {
 }
 
 export const YouTubeIdProvider: FC<YouTubeIdProviderProps> = ({ children }) => {
-  const [youTubeId, setYouTubeId] = useState(null);
+  const [youTubeId, setYouTubeId] = useState<string | null>(null);
   return (
     <YouTubeIdContext.Provider value={{ youTubeId, setYouTubeId }}>
       {children}

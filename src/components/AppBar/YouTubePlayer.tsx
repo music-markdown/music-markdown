@@ -1,6 +1,5 @@
 import styled from "@emotion/styled";
 import { Paper } from "@mui/material";
-import PropTypes from "prop-types";
 import { useRef } from "react";
 import Draggable from "react-draggable";
 
@@ -12,8 +11,16 @@ const StyledPaper = styled(Paper)(({ theme }) => ({
   cursor: "move",
 }));
 
-export default function YouTubePlayer({ youTubeId, visible }) {
-  const nodeRef = useRef();
+interface YouTubePlayerProps {
+  youTubeId: string | null;
+  visible: boolean;
+}
+
+export default function YouTubePlayer({
+  youTubeId,
+  visible,
+}: YouTubePlayerProps) {
+  const nodeRef = useRef(null);
 
   if (!visible || !youTubeId) {
     return null;
@@ -33,8 +40,3 @@ export default function YouTubePlayer({ youTubeId, visible }) {
     </Draggable>
   );
 }
-
-YouTubePlayer.propTypes = {
-  youTubeId: PropTypes.string,
-  visible: PropTypes.bool,
-};
