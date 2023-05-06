@@ -60,7 +60,7 @@ function useGitHubFetch<T>(path: string, defaultValue: T) {
   return { loading, value };
 }
 
-interface RepositoryContent {
+export interface RepositoryContent {
   name: string;
   path: string;
   sha: string;
@@ -70,8 +70,6 @@ interface RepositoryContent {
   git_url: string;
   download_url: string;
   type: "file" | "dir" | "symlink";
-  content?: string;
-  encoding?: string;
   _links: {
     self: string;
     git: string;
@@ -79,7 +77,17 @@ interface RepositoryContent {
   };
 }
 
-const EMPTY_CONTENT: RepositoryContent = {
+export interface FileContent extends RepositoryContent {
+  type: "file";
+  content: string;
+  encoding: "base64";
+}
+
+export interface FolderContent extends RepositoryContent {
+  type: "dir";
+}
+
+const EMPTY_FILE_CONTENT: FileContent = {
   name: "",
   path: "",
   sha: "",
@@ -90,7 +98,7 @@ const EMPTY_CONTENT: RepositoryContent = {
   download_url: "",
   type: "file",
   content: "",
-  encoding: "",
+  encoding: "base64",
   _links: {
     self: "",
     git: "",
@@ -98,13 +106,24 @@ const EMPTY_CONTENT: RepositoryContent = {
   },
 };
 
-export function useContents(repo: string, path: string, branch: string) {
-  const { loading, value } = useGitHubFetch<RepositoryContent>(
-    `/repos/${repo}/contents/${path || ""}?ref=${branch}`,
-    EMPTY_CONTENT
+export function useFileContent(repo: string, path: string, branch: string) {
+  const { loading, value } = useGitHubFetch<FileContent>(
+    `/repos/${repo}/contents/${path}?ref=${branch}`,
+    EMPTY_FILE_CONTENT
   );
+  if (value.type !== "file") {
+    throw new Error(`"${path}" is not a file.`);
+  }
   const content = value.content ? Base64.decode(value.content) : "";
   return { loading, value, content };
+}
+
+export function useFolderContents(repo: string, path: string, branch: string) {
+  const { loading, value } = useGitHubFetch<RepositoryContent[]>(
+    `/repos/${repo}/contents/${path || ""}?ref=${branch}`,
+    []
+  );
+  return { loading, value };
 }
 
 interface RepositoryTree {

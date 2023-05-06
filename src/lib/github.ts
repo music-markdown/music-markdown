@@ -13,7 +13,7 @@ export async function putContents(
   repo: string,
   path: string,
   content: string,
-  sha: string,
+  sha: string | null,
   branch: string,
   gitHubToken: string
 ) {

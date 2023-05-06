@@ -14,10 +14,11 @@ import TextField from "@mui/material/TextField";
 import Tooltip from "@mui/material/Tooltip";
 import Typography from "@mui/material/Typography";
 import { useState } from "react";
-import { Redirect, useParams } from "react-router-dom";
+import { Redirect } from "react-router-dom";
 import { useGitHubApi } from "../../context/GitHubApiProvider";
 import { useSnackbar } from "../../context/SnackbarProvider";
 import { putContents } from "../../lib/github";
+import { useRouteParams } from "../../lib/hooks";
 
 const TypographyWhitespacePre = styled(Typography)(({ theme }) => ({
   whiteSpace: "pre-line",
@@ -31,7 +32,7 @@ const StyledGrid = styled(Grid)(({ theme }) => ({
 }));
 
 export default function AddNewFile() {
-  const { repo, path, branch } = useParams();
+  const { repo, path, branch } = useRouteParams();
   const { gitHubToken } = useGitHubApi();
   const [newFileName, setNewFileName] = useState("");
   const [newFileOpen, setNewFileOpen] = useState(false);
@@ -47,10 +48,6 @@ export default function AddNewFile() {
     setNewFileName("");
   };
 
-  const handleUpdateFileName = (event) => {
-    setNewFileName(event.target.value);
-  };
-
   const handleAddNewFile = async () => {
     const newPath = getNewFilePath();
     const content = getTemplateContents();
@@ -59,7 +56,7 @@ export default function AddNewFile() {
       repo,
       newPath,
       content,
-      undefined,
+      null,
       branch,
       gitHubToken
     );
@@ -129,17 +126,13 @@ export default function AddNewFile() {
             id="owner"
             label="Music Markdown File Name"
             value={newFileName}
-            onChange={handleUpdateFileName}
+            onChange={(event) => setNewFileName(event.target.value)}
             fullWidth
             error={!isValidFileName()}
             helperText={
-              !isValidFileName() ? (
-                "Invalid file name"
-              ) : (
-                <>
-                  {repo}/{branch}/{getNewFilePath()}
-                </>
-              )
+              !isValidFileName()
+                ? "Invalid file name"
+                : `${repo}/${branch}/${getNewFilePath()}`
             }
             InputProps={{
               endAdornment: <InputAdornment position="end">.md</InputAdornment>,
