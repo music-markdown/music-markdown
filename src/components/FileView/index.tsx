@@ -7,8 +7,12 @@ import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import ListItemAvatar from "@mui/material/ListItemAvatar";
 import ListItemText from "@mui/material/ListItemText";
-import { Link, useParams } from "react-router-dom";
-import { useContents } from "../../context/GitHubApiProvider";
+import { Link } from "react-router-dom";
+import {
+  RepositoryContent,
+  useFolderContents,
+} from "../../context/GitHubApiProvider";
+import { useRouteParams } from "../../lib/hooks";
 import DirectoryBreadcrumbs from "../DirectoryBreadcrumbs";
 import AddNewFile from "./AddNewFile";
 
@@ -17,32 +21,26 @@ const DivRoot = styled("div")({
   padding: 8,
 });
 
-/**
- * Sorts the contents of a GitHub directory. Lists directories first then files,
- * each in alphabetical order.
- * @param {Object[]} contents GitHub directory contents. Contains files and directories.
- */
-function sortDir(contents) {
+/** Sorts file names in alphabetical order, directories first. */
+function sortDir(contents: RepositoryContent[]) {
   return [...contents].sort((a, b) => {
     if (a.type === "file") {
       if (b.type === "file") {
-        return a.name - b.name;
+        return a.name <= b.name ? -1 : 1;
       }
       return 1;
     }
     if (b.type === "file") {
       return -1;
     }
-    return a.name - b.name;
+    return a.name <= b.name ? -1 : 1;
   });
 }
 
-/**
- * A React component for rendering repository files and directories.
- */
+/** A React component for rendering repository files and directories. */
 export default function FileViewer() {
-  const { repo, path, branch } = useParams();
-  const { loading, value } = useContents(repo, path, branch);
+  const { repo, path, branch } = useRouteParams();
+  const { loading, value } = useFolderContents(repo, path, branch);
 
   if (loading) {
     return <LinearProgress />;
@@ -72,9 +70,9 @@ export default function FileViewer() {
                 </Avatar>
               </ListItemAvatar>
               {item.type === "dir" ? (
-                <ListItemText secondary={item.name}></ListItemText>
+                <ListItemText secondary={item.name} />
               ) : (
-                <ListItemText primary={item.name}></ListItemText>
+                <ListItemText primary={item.name} />
               )}
             </ListItem>
           ))}

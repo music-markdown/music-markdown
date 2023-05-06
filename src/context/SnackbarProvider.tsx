@@ -1,7 +1,23 @@
 import { Alert, AlertColor, Snackbar } from "@mui/material";
 import { createContext, FC, useContext, useState } from "react";
 
-const SnackbarContext = createContext({});
+interface SnackbarContextValue {
+  showSnackbar: (message: string, severity: AlertColor) => void;
+  successSnackbar: (message: string) => void;
+  warningSnackbar: (message: string) => void;
+  infoSnackbar: (message: string) => void;
+  errorSnackbar: (message: string) => void;
+  closeSnackbar: () => void;
+}
+
+const SnackbarContext = createContext<SnackbarContextValue>({
+  showSnackbar: () => {},
+  successSnackbar: () => {},
+  warningSnackbar: () => {},
+  infoSnackbar: () => {},
+  errorSnackbar: () => {},
+  closeSnackbar: () => {},
+});
 
 export const useSnackbar = () => useContext(SnackbarContext);
 

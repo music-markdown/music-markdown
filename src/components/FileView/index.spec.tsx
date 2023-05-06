@@ -1,4 +1,5 @@
 import { render } from "@testing-library/react";
+import fetch from "jest-fetch-mock";
 import { BrowserRouter as Router, Route } from "react-router-dom";
 import FileViewer from ".";
 import { REPO_REGEX } from "../../lib/constants";

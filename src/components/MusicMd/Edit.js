@@ -15,7 +15,7 @@ import queryString from "query-string";
 import { useEffect, useState } from "react";
 import AceEditor from "react-ace";
 import { Link, useParams } from "react-router-dom";
-import { useContents, useGitHubApi } from "../../context/GitHubApiProvider";
+import { useFileContent, useGitHubApi } from "../../context/GitHubApiProvider";
 import { useSnackbar } from "../../context/SnackbarProvider";
 import {
   COLUMN_COUNT_QUERY_KEY,
@@ -58,7 +58,7 @@ export default function Edit({ location }) {
   const [saving, setSaving] = useState(false);
   const [isDirty, setIsDirty] = useState(false);
   const { repo, path, branch } = useParams();
-  const { loading, value, content } = useContents(repo, path, branch);
+  const { loading, value, content } = useFileContent(repo, path, branch);
   const { successSnackbar, errorSnackbar } = useSnackbar();
 
   const handleChange = (value) => {
