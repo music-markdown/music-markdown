@@ -1,13 +1,35 @@
 import queryString from "query-string";
-import { createContext, useContext, useEffect } from "react";
-import { useHistory, useLocation, useParams } from "react-router-dom";
-import { useLocalStorage } from "../lib/hooks";
+import { createContext, FC, useContext, useEffect } from "react";
+import { useHistory, useLocation } from "react-router-dom";
+import { useLocalStorage, useRouteParams } from "../lib/hooks";
 
-const SongPrefsContext = createContext();
+interface SongPref {
+  columns: number;
+  transpose: number;
+  zoom: number;
+}
+
+interface SongPrefs {
+  [song: string]: SongPref;
+}
+
+interface SongPrefsContextValue {
+  songPrefs: SongPrefs;
+  setSongPrefs: (songPrefs: Record<string, SongPref>) => void;
+}
+
+const SongPrefsContext = createContext<SongPrefsContextValue>({
+  songPrefs: {},
+  setSongPrefs: () => {},
+});
 
 export const useSongPrefs = () => useContext(SongPrefsContext);
 
-export function SongPrefsProvider({ children }) {
+interface SongPrefsProviderProps {
+  children: React.ReactNode;
+}
+
+export const SongPrefsProvider: FC<SongPrefsProviderProps> = ({ children }) => {
   const [songPrefs, setSongPrefs] = useLocalStorage("songPrefs", {});
 
   return (
@@ -15,9 +37,15 @@ export function SongPrefsProvider({ children }) {
       {children}
     </SongPrefsContext.Provider>
   );
-}
+};
 
-function update(prevSongPrefs, song, field, newVal, defaultVal) {
+function update(
+  prevSongPrefs: SongPrefs,
+  song: string,
+  field: "columns" | "transpose" | "zoom",
+  newVal: number,
+  defaultVal: number
+) {
   const songPrefs = { ...prevSongPrefs };
   const songPref = songPrefs[song] || {};
 
@@ -34,17 +62,20 @@ function update(prevSongPrefs, song, field, newVal, defaultVal) {
 }
 
 export function useSong() {
-  const { repo, branch, path } = useParams();
+  const { repo, branch, path } = useRouteParams();
   return `${repo}/${branch}/${path}`;
 }
 
-export function useSongPref(fieldName, defaultValue) {
+export function useSongPref(
+  fieldName: "columns" | "transpose" | "zoom",
+  defaultValue: number
+): [number, (newValue: number) => void] {
   const { songPrefs, setSongPrefs } = useSongPrefs();
   const song = useSong();
   const songPref = songPrefs[song] || {};
 
   const fieldValue = songPref[fieldName] || defaultValue;
-  const setFieldValue = (newValue) =>
+  const setFieldValue = (newValue: number) =>
     setSongPrefs(update(songPrefs, song, fieldName, newValue, defaultValue));
 
   return [fieldValue, setFieldValue];
@@ -55,13 +86,13 @@ export function useColumns() {
   return { columns, setColumns };
 }
 
-function useTransposeQuery() {
+function useTransposeQuery(): [number, (transpose: number) => void] {
   const { search } = useLocation();
   const history = useHistory();
   const params = queryString.parse(search);
   const transposeQuery = Number(params["transpose"]);
 
-  const setTransposeQuery = (transpose) => {
+  const setTransposeQuery = (transpose: number) => {
     params["transpose"] = String(transpose);
     history.replace({ search: queryString.stringify(params) });
   };
@@ -73,7 +104,7 @@ export function useTranspose() {
   const [transposeQuery, setTransposeQuery] = useTransposeQuery();
   const [transposePref, setTransposePref] = useSongPref("transpose", 0);
 
-  const setTranspose = (transpose) => {
+  const setTranspose = (transpose: number) => {
     setTransposeQuery(transpose);
     setTransposePref(transpose);
   };

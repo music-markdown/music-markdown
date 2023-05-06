@@ -1,4 +1,5 @@
 import { MutableRefObject, useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 
 export function useDebounce(value: string, delay: number) {
   const [debounced, setDebounced] = useState<string>("");
@@ -68,4 +69,14 @@ export function useLocalStorage<T>(
   };
 
   return [storedValue, setValue];
+}
+
+interface RouterParams {
+  repo: string;
+  branch: string;
+  path: string;
+}
+
+export function useRouteParams() {
+  return useParams<RouterParams>();
 }

@@ -4,10 +4,19 @@ import {
   StyledEngineProvider,
   ThemeProvider as MuiThemeProvider,
 } from "@mui/material/styles";
-import { createContext, useContext } from "react";
+import { createContext, FC, useContext } from "react";
 import { useLocalStorage } from "../lib/hooks";
 
-const THEMES = {
+type ThemeName = "light" | "dark";
+type ThemeSetting = ThemeName | "system";
+
+interface Theme {
+  palette: {
+    mode: "light" | "dark";
+  };
+}
+
+const THEMES: Record<ThemeName, Theme> = {
   light: {
     palette: {
       mode: "light",
@@ -20,13 +29,30 @@ const THEMES = {
   },
 };
 
-const ThemeContext = createContext();
+interface ThemeContextValue {
+  themeName: ThemeSetting;
+  setThemeName: (themeName: ThemeName) => void;
+  getTheme: () => Theme;
+}
+
+const ThemeContext = createContext<ThemeContextValue>({
+  themeName: "system",
+  setThemeName: () => {},
+  getTheme: () => THEMES.light,
+});
 
 export const useTheme = () => useContext(ThemeContext);
 
-export function ThemeProvider({ children }) {
+interface ThemeProviderProps {
+  children: React.ReactNode;
+}
+
+export const ThemeProvider: FC<ThemeProviderProps> = ({ children }) => {
   const prefersDarkTheme = useMediaQuery("(prefers-color-scheme: dark)");
-  const [themeName, setThemeName] = useLocalStorage("themeName", "system");
+  const [themeName, setThemeName] = useLocalStorage<ThemeSetting>(
+    "themeName",
+    "system"
+  );
 
   const getEffectiveThemeName = () => {
     if (themeName === "system") {
@@ -47,4 +73,4 @@ export function ThemeProvider({ children }) {
       </StyledEngineProvider>
     </ThemeContext.Provider>
   );
-}
+};

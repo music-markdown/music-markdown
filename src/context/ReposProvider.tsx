@@ -1,14 +1,26 @@
-import { createContext, useContext, useEffect, useState } from "react";
+import { createContext, FC, useContext, useEffect, useState } from "react";
 import { getRepoMetadata, verifyRepoExists } from "../lib/github";
 import { useLocalStorage } from "../lib/hooks";
 import { useGitHubApi } from "./GitHubApiProvider";
 
-const ReposContext = createContext();
+interface ReposContextValue {
+  repos: string[];
+  setRepos: (repos: string[]) => void;
+  addRepo: (repo: string) => Promise<void>;
+  deleteRepo: (repo: string) => void;
+}
+
+const ReposContext = createContext<ReposContextValue>({
+  repos: [],
+  setRepos: () => {},
+  addRepo: () => Promise.resolve(),
+  deleteRepo: () => {},
+});
 
 export const useRepos = () => useContext(ReposContext);
 
 export function useRepoMetadata() {
-  const [repoMetadata, setRepoMetadata] = useState([]);
+  const [repoMetadata, setRepoMetadata] = useState<string[]>([]);
   const { repos } = useRepos();
   const { gitHubToken } = useGitHubApi();
 
@@ -23,11 +35,15 @@ export function useRepoMetadata() {
   return repoMetadata;
 }
 
-export function ReposProvider({ children }) {
-  const [repos, setRepos] = useLocalStorage("repos", []);
+interface ReposProviderProps {
+  children: React.ReactNode;
+}
+
+export const ReposProvider: FC<ReposProviderProps> = ({ children }) => {
+  const [repos, setRepos] = useLocalStorage<string[]>("repos", []);
   const { gitHubToken } = useGitHubApi();
 
-  const addRepo = async (repo) => {
+  const addRepo = async (repo: string) => {
     if (repos.includes(repo)) {
       throw new Error(`"${repo}" is already registered.`);
     }
@@ -35,7 +51,7 @@ export function ReposProvider({ children }) {
     setRepos([...repos, repo]);
   };
 
-  const deleteRepo = (repo) => {
+  const deleteRepo = (repo: string) => {
     setRepos(repos.filter((r) => r !== repo));
   };
 
@@ -44,4 +60,4 @@ export function ReposProvider({ children }) {
       {children}
     </ReposContext.Provider>
   );
-}
+};

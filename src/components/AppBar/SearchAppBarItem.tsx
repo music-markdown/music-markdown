@@ -1,15 +1,10 @@
 import { Autocomplete, TextField } from "@mui/material";
-import { useHistory, useParams } from "react-router";
+import { useHistory } from "react-router";
 import { useTrees } from "../../context/GitHubApiProvider";
-
-interface RouterParams {
-  repo: string;
-  branch: string;
-  path: string;
-}
+import { useRouteParams } from "../../lib/hooks";
 
 export default function SearchAppBarItem() {
-  const { repo, branch } = useParams<RouterParams>();
+  const { repo, branch } = useRouteParams();
   const history = useHistory();
   const { loading, files } = useTrees(repo, branch);
 

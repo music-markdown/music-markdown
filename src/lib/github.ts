@@ -39,7 +39,7 @@ export async function putContents(
  * Returns the list of repo names and corresponding GitHub metadata.
  */
 export async function getRepoMetadata(
-  repos: [string],
+  repos: string[],
   { gitHubToken }: Options
 ) {
   return Promise.all(
