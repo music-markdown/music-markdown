@@ -11,7 +11,7 @@ describe("ThemeMenuItem", () => {
     );
 
     fireEvent.click(screen.getByText("Light"));
-    expect(JSON.parse(localStorage.getItem("themeName"))).toEqual("light");
+    expect(JSON.parse(localStorage.getItem("themeName")!)).toEqual("light");
   });
 
   it("sets theme to dark when dark button is clicked", () => {
@@ -22,6 +22,6 @@ describe("ThemeMenuItem", () => {
     );
 
     fireEvent.click(screen.getByText("Dark"));
-    expect(JSON.parse(localStorage.getItem("themeName"))).toEqual("dark");
+    expect(JSON.parse(localStorage.getItem("themeName")!)).toEqual("dark");
   });
 });

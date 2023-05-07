@@ -5,9 +5,15 @@ import ShareIcon from "@mui/icons-material/Share";
 import ViewListIcon from "@mui/icons-material/ViewList";
 import { Button, Stack, Typography } from "@mui/material";
 import { Box } from "@mui/system";
-import { useHistory, useParams } from "react-router";
+import { useHistory } from "react-router";
+import { useRouteParams } from "../../lib/hooks";
 
-const ShareButton = ({ closeMenu, openQrCodeDialog }) => {
+interface ShareButtonProps {
+  closeMenu: () => void;
+  openQrCodeDialog: () => void;
+}
+
+const ShareButton = ({ closeMenu, openQrCodeDialog }: ShareButtonProps) => {
   const handleOpen = () => {
     closeMenu();
     openQrCodeDialog();
@@ -20,9 +26,13 @@ const ShareButton = ({ closeMenu, openQrCodeDialog }) => {
   );
 };
 
-const EditViewButton = ({ closeMenu }) => {
+interface EditViewButtonProps {
+  closeMenu: () => void;
+}
+
+const EditViewButton = ({ closeMenu }: EditViewButtonProps) => {
   const history = useHistory();
-  const { repo, mode, branch, path } = useParams();
+  const { repo, mode, branch, path } = useRouteParams();
 
   const edit = () => {
     closeMenu();
@@ -51,9 +61,13 @@ const EditViewButton = ({ closeMenu }) => {
   return null;
 };
 
-const SongListButton = ({ closeMenu }) => {
+interface SongListButtonProps {
+  closeMenu: () => void;
+}
+
+const SongListButton = ({ closeMenu }: SongListButtonProps) => {
   const history = useHistory();
-  const { repo, branch, path } = useParams();
+  const { repo, branch, path } = useRouteParams();
   const folder = path.split("/").slice(0, -1).join("/");
 
   const back = () => {
@@ -69,7 +83,7 @@ const SongListButton = ({ closeMenu }) => {
 };
 
 const ShowOnGitHubButton = () => {
-  const { repo, branch, path } = useParams();
+  const { repo, branch, path } = useRouteParams();
   const githubLink = `https://github.com/${repo}/blob/${branch}/${path}`;
 
   return (
@@ -79,7 +93,15 @@ const ShowOnGitHubButton = () => {
   );
 };
 
-export default function SongActionsMenuItem({ closeMenu, openQrCodeDialog }) {
+interface SongActionsMenuItemProps {
+  closeMenu: () => void;
+  openQrCodeDialog: () => void;
+}
+
+export default function SongActionsMenuItem({
+  closeMenu,
+  openQrCodeDialog,
+}: SongActionsMenuItemProps) {
   return (
     <Box>
       <Typography variant="subtitle1">Song Actions</Typography>

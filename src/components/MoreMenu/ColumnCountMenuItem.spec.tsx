@@ -23,7 +23,7 @@ describe("ColumnCountMenuItem", () => {
 
     fireEvent.click(screen.getByText("2"));
 
-    const songPrefs = JSON.parse(localStorage.getItem("songPrefs"));
+    const songPrefs = JSON.parse(localStorage.getItem("songPrefs")!);
     expect(songPrefs["o/r/b/song.md"]).toEqual({ columns: 2 });
   });
 
@@ -46,7 +46,7 @@ describe("ColumnCountMenuItem", () => {
 
     fireEvent.click(screen.getByText("1"));
 
-    const songPrefs = JSON.parse(localStorage.getItem("songPrefs"));
+    const songPrefs = JSON.parse(localStorage.getItem("songPrefs")!);
     expect(songPrefs["o/r/b/song.md"]).toBeUndefined();
   });
 });

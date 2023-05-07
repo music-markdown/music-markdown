@@ -66,11 +66,19 @@ const GithubTokenInstructions = () => (
   </Accordion>
 );
 
-export default function GithubTokenDialog({ open, handleClose }) {
+interface GithubTokenDialogProps {
+  open: boolean;
+  handleClose: () => void;
+}
+
+export default function GithubTokenDialog({
+  open,
+  handleClose,
+}: GithubTokenDialogProps) {
   const { gitHubToken, setGitHubToken } = useGitHubApi();
   const [token, setToken] = useState(gitHubToken);
 
-  const isValidToken = (token) => {
+  const isValidToken = (token: string) => {
     return token === "" || isValidGithubToken(token);
   };
 

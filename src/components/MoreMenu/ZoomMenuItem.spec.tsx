@@ -24,7 +24,7 @@ describe("ZoomMenuItem", () => {
     fireEvent.click(screen.getByLabelText("Zoom in"));
     expect(screen.getByLabelText("Zoom amount")).toHaveTextContent("105%");
 
-    const songPrefs = JSON.parse(localStorage.getItem("songPrefs"));
+    const songPrefs = JSON.parse(localStorage.getItem("songPrefs")!);
     expect(songPrefs["o/r/b/song.md"]).toEqual({ zoom: 1.05 });
   });
 
@@ -44,7 +44,7 @@ describe("ZoomMenuItem", () => {
     fireEvent.click(screen.getByLabelText("Zoom in"));
     expect(screen.getByLabelText("Zoom amount")).toHaveTextContent("110%");
 
-    const songPrefs = JSON.parse(localStorage.getItem("songPrefs"));
+    const songPrefs = JSON.parse(localStorage.getItem("songPrefs")!);
     expect(songPrefs["o/r/b/song.md"]).toEqual({ zoom: 1.1 });
   });
 
@@ -63,7 +63,7 @@ describe("ZoomMenuItem", () => {
     fireEvent.click(screen.getByLabelText("Zoom out"));
     expect(screen.getByLabelText("Zoom amount")).toHaveTextContent("95%");
 
-    const songPrefs = JSON.parse(localStorage.getItem("songPrefs"));
+    const songPrefs = JSON.parse(localStorage.getItem("songPrefs")!);
     expect(songPrefs["o/r/b/song.md"]).toEqual({ zoom: 0.95 });
   });
 
@@ -87,7 +87,7 @@ describe("ZoomMenuItem", () => {
     fireEvent.click(screen.getByLabelText("Zoom reset"));
     expect(screen.getByLabelText("Zoom amount")).toHaveTextContent("100%");
 
-    const songPrefs = JSON.parse(localStorage.getItem("songPrefs"));
+    const songPrefs = JSON.parse(localStorage.getItem("songPrefs")!);
     expect(songPrefs["o/r/b/song.md"]).toBeUndefined();
   });
 });

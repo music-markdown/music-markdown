@@ -11,12 +11,18 @@ import ThemeMenuItem from "./ThemeMenuItem";
 import TransposeMenuItem from "./TransposeMenuItem";
 import ZoomMenuItem from "./ZoomMenuItem";
 
-export default function MoreMenu({ open, close, anchorEl }) {
+interface MoreMenuProps {
+  open: boolean;
+  close: () => void;
+  anchorEl: HTMLElement | null;
+}
+
+export default function MoreMenu({ open, close, anchorEl }: MoreMenuProps) {
   const [qrCodeDialogOpen, setQrCodeDialogOpen] = useState(false);
 
   return (
     <>
-      <Popper anchor="right" open={open} anchorEl={anchorEl}>
+      <Popper open={open} anchorEl={anchorEl}>
         <Paper>
           <Box
             maxHeight="calc(100vh - 7em)"

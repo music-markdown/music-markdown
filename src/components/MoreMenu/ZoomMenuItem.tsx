@@ -22,20 +22,16 @@ const marks = [
   { value: 2, label: "400%" },
 ];
 
-function valueLabelFormat(value) {
+function valueLabelFormat(value: number) {
   return `${Math.round(value * 100)}%`;
 }
 
-function calculateValue(value) {
+function calculateValue(value: number) {
   return 2 ** value;
 }
 
 export default function ZoomMenuItem() {
   const { zoom, setZoom } = useZoom();
-
-  const handleChange = (_, newValue) => {
-    setZoom(calculateValue(newValue));
-  };
 
   return (
     <Box>
@@ -45,7 +41,10 @@ export default function ZoomMenuItem() {
         <Slider
           aria-label="Zoom"
           value={Math.log2(zoom)}
-          onChange={handleChange}
+          onChange={(_, newValue) => {
+            if (typeof newValue !== "number") return;
+            setZoom(calculateValue(newValue));
+          }}
           min={-2}
           max={2}
           step={0.01}
