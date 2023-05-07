@@ -3,6 +3,7 @@ import ExitToAppIcon from "@mui/icons-material/ExitToApp";
 import GitHubIcon from "@mui/icons-material/GitHub";
 import PhotoFilterIcon from "@mui/icons-material/PhotoFilter";
 import SaveIcon from "@mui/icons-material/Save";
+import { Box, Stack } from "@mui/material";
 import CircularProgress from "@mui/material/CircularProgress";
 import { green } from "@mui/material/colors";
 import Fab from "@mui/material/Fab";
@@ -11,18 +12,14 @@ import LinearProgress from "@mui/material/LinearProgress";
 import Paper from "@mui/material/Paper";
 import { useTheme } from "@mui/material/styles";
 import Tooltip from "@mui/material/Tooltip";
-import queryString from "query-string";
 import { useEffect, useState } from "react";
 import AceEditor from "react-ace";
-import { Link, useParams } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { useFileContent, useGitHubApi } from "../../context/GitHubApiProvider";
 import { useSnackbar } from "../../context/SnackbarProvider";
-import {
-  COLUMN_COUNT_QUERY_KEY,
-  TRANSPOSE_QUERY_KEY,
-} from "../../lib/constants";
+import { useTranspose } from "../../context/SongPrefsProvider";
 import { putContents } from "../../lib/github";
-import { useDebounce } from "../../lib/hooks";
+import { useDebounce, useRouteParams } from "../../lib/hooks";
 import asciiTabConvert from "../../tools/asciitab";
 import DirectoryBreadcrumbs from "../DirectoryBreadcrumbs";
 import Render from "./Render";
@@ -45,26 +42,19 @@ const FabProgress = styled(CircularProgress)(({ theme }) => ({
   zIndex: 1,
 }));
 
-const StyledFab = styled(Fab)(({ theme }) => ({
-  margin: theme.spacing(1),
-}));
-
-export default function Edit({ location }) {
+export default function Edit() {
   const theme = useTheme();
   const { gitHubToken } = useGitHubApi();
-  const [markdown, setMarkdown] = useState("");
+  const [markdown, setMarkdown] = useState<string>("");
   const debouncedMarkdown = useDebounce(markdown, 250);
-  const [sha, setSha] = useState();
-  const [saving, setSaving] = useState(false);
-  const [isDirty, setIsDirty] = useState(false);
-  const { repo, path, branch } = useParams();
+  const [sha, setSha] = useState<string | null>(null);
+  const [saving, setSaving] = useState<boolean>(false);
+  const [isDirty, setIsDirty] = useState<boolean>(false);
+  const { repo, path, branch } = useRouteParams();
   const { loading, value, content } = useFileContent(repo, path, branch);
+  const { transpose } = useTranspose();
+  const { pathname } = useLocation();
   const { successSnackbar, errorSnackbar } = useSnackbar();
-
-  const handleChange = (value) => {
-    setMarkdown(value);
-    setIsDirty(true);
-  };
 
   const handleSave = async () => {
     if (!saving) {
@@ -102,11 +92,7 @@ export default function Edit({ location }) {
     }
   }, [content, value]);
 
-  const params = queryString.parse(location.search);
-  const columnCount = params[COLUMN_COUNT_QUERY_KEY] || "1";
-  const transposeAmount = Number(params[TRANSPOSE_QUERY_KEY]) || 0;
-
-  const parts = location.pathname.split("/");
+  const parts = pathname.split("/");
   parts[4] = "viewer";
   const viewerLink = parts.join("/");
 
@@ -119,40 +105,44 @@ export default function Edit({ location }) {
 
   return (
     <>
-      <DirectoryBreadcrumbs pathname={location.pathname} />
+      <DirectoryBreadcrumbs />
       <Grid container>
         <Grid item xs={12}>
           <Paper variant="outlined" square>
-            <Tooltip
-              title={
-                gitHubToken ? "Save" : "Add a GitHub Token to Enable Saving"
-              }
-            >
-              <span>
-                <StyledFab
-                  disabled={!isDirty || !gitHubToken}
-                  onClick={handleSave}
+            <Box sx={{ padding: theme.spacing(1) }}>
+              <Stack spacing={1} direction="row">
+                <Tooltip
+                  title={
+                    gitHubToken ? "Save" : "Add a GitHub Token to Enable Saving"
+                  }
                 >
-                  <SaveIcon />
-                  {saving && <FabProgress size={68} />}
-                </StyledFab>
-              </span>
-            </Tooltip>
-            <Tooltip title="Auto Format">
-              <StyledFab onClick={handleAutoFormat}>
-                <PhotoFilterIcon />
-              </StyledFab>
-            </Tooltip>
-            <Tooltip title="Return to Markdown View">
-              <StyledFab component={Link} to={viewerLink}>
-                <ExitToAppIcon />
-              </StyledFab>
-            </Tooltip>
-            <Tooltip title="Open in GitHub">
-              <StyledFab href={githubLink} target="_blank">
-                <GitHubIcon />
-              </StyledFab>
-            </Tooltip>
+                  <span>
+                    <Fab
+                      disabled={!isDirty || !gitHubToken}
+                      onClick={handleSave}
+                    >
+                      <SaveIcon />
+                      {saving && <FabProgress size={68} />}
+                    </Fab>
+                  </span>
+                </Tooltip>
+                <Tooltip title="Auto Format">
+                  <Fab onClick={handleAutoFormat}>
+                    <PhotoFilterIcon />
+                  </Fab>
+                </Tooltip>
+                <Tooltip title="Return to Markdown View">
+                  <Fab component={Link} to={viewerLink}>
+                    <ExitToAppIcon />
+                  </Fab>
+                </Tooltip>
+                <Tooltip title="Open in GitHub">
+                  <Fab href={githubLink} target="_blank">
+                    <GitHubIcon />
+                  </Fab>
+                </Tooltip>
+              </Stack>
+            </Box>
           </Paper>
         </Grid>
         <Grid item xs={6}>
@@ -162,7 +152,10 @@ export default function Edit({ location }) {
               theme={theme.palette.mode === "dark" ? "twilight" : "textmate"}
               width="100%"
               maxLines={Infinity}
-              onChange={handleChange}
+              onChange={(value) => {
+                setMarkdown(value);
+                setIsDirty(true);
+              }}
               value={markdown}
               editorProps={{ $blockScrolling: true }}
             />
@@ -172,8 +165,9 @@ export default function Edit({ location }) {
           <ViewPaper variant="outlined" square>
             <Render
               source={debouncedMarkdown}
-              columnCount={columnCount}
-              transposeAmount={transposeAmount}
+              columns={1}
+              transpose={transpose}
+              zoom={1}
             ></Render>
           </ViewPaper>
         </Grid>
