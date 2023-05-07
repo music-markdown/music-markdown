@@ -1,12 +1,12 @@
 import styled from "@emotion/styled";
 import LinearProgress from "@mui/material/LinearProgress";
-import { useParams } from "react-router-dom";
 import { useFileContent } from "../../context/GitHubApiProvider";
 import {
   useColumns,
   useTranspose,
   useZoom,
 } from "../../context/SongPrefsProvider";
+import { useRouteParams } from "../../lib/hooks";
 import Render from "./Render";
 
 const DivRoot = styled("div")({
@@ -14,8 +14,8 @@ const DivRoot = styled("div")({
   padding: 8,
 });
 
-export default function View({ location }) {
-  const { repo, path, branch } = useParams();
+export default function View() {
+  const { repo, path, branch } = useRouteParams();
   const { loading, content } = useFileContent(repo, path, branch);
   const { columns } = useColumns();
   const { transpose } = useTranspose();

@@ -2,7 +2,7 @@ import styled from "@emotion/styled";
 import { useTheme } from "@mui/material/styles";
 import MarkdownIt from "markdown-it";
 import MarkdownItMusic from "markdown-it-music";
-import { useEffect, useRef, useState } from "react";
+import { FC, useEffect, useRef, useState } from "react";
 import { useSnackbar } from "../../context/SnackbarProvider";
 import { useYouTubeId } from "../../context/YouTubeIdProvider";
 import { useContainerDimensions } from "../../lib/hooks";
@@ -16,14 +16,37 @@ const DivColumns = styled("div")(({ theme }) => ({
   columnRuleColor: theme.palette.text.secondary,
 }));
 
-const MusicMarkdownRender = ({ source, width, columns, transpose }) => {
+interface MusicMarkdownRenderProps {
+  source: string;
+  width: number;
+  columns: number;
+  transpose: number;
+}
+
+interface MarkdownItWithMMD extends MarkdownIt {
+  setTranspose: (transpose: number) => void;
+  setTheme: (theme: string) => void;
+  setMaxWidth: (maxWidth: number) => void;
+  meta: {
+    youTubeId: string;
+  };
+}
+
+const MusicMarkdownRender: FC<MusicMarkdownRenderProps> = ({
+  source,
+  width,
+  columns,
+  transpose,
+}) => {
   const theme = useTheme();
   const { setYouTubeId } = useYouTubeId();
   const [html, setHtml] = useState("");
   const { errorSnackbar } = useSnackbar();
 
   useEffect(() => {
-    const md = new MarkdownIt({ html: true }).use(MarkdownItMusic);
+    const md = new MarkdownIt({ html: true }).use(
+      MarkdownItMusic
+    ) as MarkdownItWithMMD;
     md.setTranspose(transpose);
     md.setTheme(theme.palette.mode);
     md.setMaxWidth((width - COLUMN_GAP * (columns - 1)) / columns);
@@ -31,7 +54,7 @@ const MusicMarkdownRender = ({ source, width, columns, transpose }) => {
     try {
       setHtml(md.render(source));
       setYouTubeId(md.meta.youTubeId);
-    } catch (err) {
+    } catch (err: any) {
       console.log(err);
       setHtml(`<pre>${source}</pre>`);
       errorSnackbar(err.message);
@@ -62,8 +85,15 @@ const MusicMarkdownRender = ({ source, width, columns, transpose }) => {
   );
 };
 
-export default function Render(props) {
-  const componentRef = useRef();
+interface RenderProps {
+  source: string;
+  columns: number;
+  zoom: number;
+  transpose: number;
+}
+
+export default function Render(props: RenderProps) {
+  const componentRef = useRef(null);
   const { zoom } = props;
   const { width } = useContainerDimensions(componentRef, zoom);
 

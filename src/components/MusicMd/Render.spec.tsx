@@ -10,7 +10,7 @@ describe("Render", () => {
       <YouTubeIdProvider>
         <ThemeProvider theme={createTheme()}>
           <SnackbarProvider>
-            <Render source="" />
+            <Render source="" columns={1} transpose={0} zoom={1} />
           </SnackbarProvider>
         </ThemeProvider>
       </YouTubeIdProvider>
