@@ -17,7 +17,13 @@ const StyledGrid = styled(Grid)(({ theme }) => ({
   right: theme.spacing(2),
 }));
 
-export default function AddRepository({ handleAddRepository }) {
+interface AddRepositoryProps {
+  handleAddRepository: (repo: string) => Promise<void>;
+}
+
+export default function AddRepository({
+  handleAddRepository,
+}: AddRepositoryProps) {
   const [open, setOpen] = useState(false);
   const [name, setName] = useState("");
   const [owner, setOwner] = useState("");
@@ -37,17 +43,9 @@ export default function AddRepository({ handleAddRepository }) {
     try {
       await handleAddRepository(`${owner}/${name}`);
       handleDialogClose();
-    } catch (err) {
+    } catch (err: any) {
       errorSnackbar(err.message);
     }
-  };
-
-  const handleUpdateOwner = (event) => {
-    setOwner(event.target.value);
-  };
-
-  const handleUpdateName = (event) => {
-    setName(event.target.value);
   };
 
   return (
@@ -71,7 +69,7 @@ export default function AddRepository({ handleAddRepository }) {
             id="owner"
             label="Repository Owner"
             value={owner}
-            onChange={handleUpdateOwner}
+            onChange={(event) => setOwner(event.target.value)}
             fullWidth
           />
           <TextField
@@ -79,7 +77,7 @@ export default function AddRepository({ handleAddRepository }) {
             id="name"
             label="Repository Name"
             value={name}
-            onChange={handleUpdateName}
+            onChange={(event) => setName(event.target.value)}
             fullWidth
           />
         </DialogContent>
