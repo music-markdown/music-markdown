@@ -8,7 +8,7 @@ describe("AddRepository", () => {
     render(
       <ThemeProvider theme={createTheme()}>
         <SnackbarProvider>
-          <AddRepository handleAddRepository={() => true} />
+          <AddRepository handleAddRepository={async () => undefined} />
         </SnackbarProvider>
       </ThemeProvider>
     );

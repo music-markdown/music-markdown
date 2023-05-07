@@ -1,5 +1,5 @@
 import { createContext, FC, useContext, useEffect, useState } from "react";
-import { getRepoMetadata, verifyRepoExists } from "../lib/github";
+import { getRepoMetadata, RepoMetadata, verifyRepoExists } from "../lib/github";
 import { useLocalStorage } from "../lib/hooks";
 import { useGitHubApi } from "./GitHubApiProvider";
 
@@ -20,7 +20,7 @@ const ReposContext = createContext<ReposContextValue>({
 export const useRepos = () => useContext(ReposContext);
 
 export function useRepoMetadata() {
-  const [repoMetadata, setRepoMetadata] = useState<string[]>([]);
+  const [repoMetadata, setRepoMetadata] = useState<RepoMetadata[]>([]);
   const { repos } = useRepos();
   const { gitHubToken } = useGitHubApi();
 
