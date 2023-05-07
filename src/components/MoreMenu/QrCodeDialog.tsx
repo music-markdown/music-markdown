@@ -9,7 +9,12 @@ import {
 } from "@mui/material";
 import QRCode from "react-qr-code";
 
-export default function QrCodeDialog({ open, close }) {
+interface QrCodeDialogProps {
+  open: boolean;
+  close: () => void;
+}
+
+export default function QrCodeDialog({ open, close }: QrCodeDialogProps) {
   return (
     <Dialog open={open} onClose={close}>
       <DialogTitle id="share-song-qr-dialog-title">Song QR Code</DialogTitle>

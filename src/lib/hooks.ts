@@ -75,6 +75,7 @@ interface RouterParams {
   repo: string;
   branch: string;
   path: string;
+  mode: string;
 }
 
 export function useRouteParams() {

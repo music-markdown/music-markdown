@@ -29,9 +29,9 @@ describe("GithubTokenDialog", () => {
     fireEvent.change(screen.getByLabelText("GitHub Token"), {
       target: { value: "ghp_abcdefghijklmnopqrstuvwxyz1234567890" },
     });
-    fireEvent.click(screen.queryByText("Cancel"));
+    fireEvent.click(screen.queryByText("Cancel") as HTMLElement);
     expect(mockHandleClose).toBeCalled();
-    expect(JSON.parse(localStorage.getItem("gitHubToken"))).toEqual(
+    expect(JSON.parse(localStorage.getItem("gitHubToken")!)).toEqual(
       "ghp_abcdefghijklmnopqrstuvwxyzABCDEFGHIJ"
     );
   });
@@ -63,7 +63,7 @@ describe("GithubTokenDialog", () => {
 
     fireEvent.click(screen.getByText("Save"));
     expect(mockHandleClose).toBeCalled();
-    expect(JSON.parse(localStorage.getItem("gitHubToken"))).toEqual(
+    expect(JSON.parse(localStorage.getItem("gitHubToken")!)).toEqual(
       "ghp_abcdefghijklmnopqrstuvwxyzABCDEFGHIJ"
     );
   });
