@@ -5,7 +5,7 @@ import Paper from "@mui/material/Paper";
 import { useTheme } from "@mui/material/styles";
 import AceEditor from "react-ace";
 import { useTranspose } from "../../context/SongPrefsProvider";
-import { useDebounce } from "../../lib/hooks";
+import { useDebounce, useRouteParams } from "../../lib/hooks";
 import DirectoryBreadcrumbs from "../DirectoryBreadcrumbs";
 import EditButtonPanel from "./EditButtonPanel";
 import { useEditor } from "./editor";
@@ -24,24 +24,25 @@ const ViewPaper = styled(Paper)(({ theme }) => ({
 export default function Edit() {
   const theme = useTheme();
   const { transpose } = useTranspose();
-  const { dirty, loading, saving, save, markdown, setMarkdown, format } =
-    useEditor();
-  const debouncedMarkdown = useDebounce(markdown, 250);
-
-  if (loading) {
-    return <LinearProgress />;
-  }
+  const { repo, path, branch } = useRouteParams();
+  const editor = useEditor(repo, path, branch);
+  const debouncedMarkdown = useDebounce(editor.markdown, 250);
 
   return (
     <>
       <DirectoryBreadcrumbs />
       <Grid container>
         <Grid item xs={12}>
+          {editor.loading && <LinearProgress />}
+        </Grid>
+        <Grid item xs={12}>
           <EditButtonPanel
-            format={format}
-            dirty={dirty}
-            save={save}
-            saving={saving}
+            format={editor.format}
+            dirty={editor.dirty}
+            save={editor.save}
+            saving={editor.saving}
+            revert={editor.revert}
+            disabled={editor.loading}
           />
         </Grid>
         <Grid item xs={6}>
@@ -51,8 +52,8 @@ export default function Edit() {
               theme={theme.palette.mode === "dark" ? "twilight" : "textmate"}
               width="100%"
               maxLines={Infinity}
-              onChange={setMarkdown}
-              value={markdown}
+              onChange={editor.setMarkdown}
+              value={editor.markdown}
               editorProps={{ $blockScrolling: true }}
             />
           </Paper>

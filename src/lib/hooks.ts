@@ -1,4 +1,4 @@
-import { MutableRefObject, useEffect, useState } from "react";
+import { MutableRefObject, useCallback, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
 export function useDebounce(value: string, delay: number) {
@@ -49,20 +49,23 @@ export function useLocalStorage<T>(
     }
   });
 
-  const setValue = (value: T | ((prev: T) => T)) => {
-    try {
-      const valueToStore =
-        value instanceof Function ? value(storedValue) : value;
-      setStoredValue(valueToStore);
-      if (value) {
-        localStorage.setItem(key, JSON.stringify(valueToStore));
-      } else {
-        localStorage.removeItem(key);
+  const setValue = useCallback(
+    (value: T | ((prev: T) => T)) => {
+      try {
+        const valueToStore =
+          value instanceof Function ? value(storedValue) : value;
+        setStoredValue(valueToStore);
+        if (value) {
+          localStorage.setItem(key, JSON.stringify(valueToStore));
+        } else {
+          localStorage.removeItem(key);
+        }
+      } catch (error) {
+        console.log(error);
       }
-    } catch (error) {
-      console.log(error);
-    }
-  };
+    },
+    [key, storedValue]
+  );
 
   return [storedValue, setValue];
 }

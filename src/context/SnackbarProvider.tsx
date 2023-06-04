@@ -1,5 +1,5 @@
 import { Alert, AlertColor, Snackbar } from "@mui/material";
-import { createContext, FC, useContext, useState } from "react";
+import { createContext, FC, useCallback, useContext, useState } from "react";
 
 interface SnackbarContextValue {
   showSnackbar: (message: string, severity: AlertColor) => void;
@@ -34,19 +34,31 @@ export const SnackbarProvider: FC<SnackbarProviderProps> = ({ children }) => {
     setOpen(false);
   };
 
-  const showSnackbar = (newMessage: string, newSeverity: AlertColor) => {
-    setOpen(true);
-    setMessage(newMessage);
-    setSeverity(newSeverity);
-  };
+  const showSnackbar = useCallback(
+    (newMessage: string, newSeverity: AlertColor) => {
+      setOpen(true);
+      setMessage(newMessage);
+      setSeverity(newSeverity);
+    },
+    []
+  );
 
-  const successSnackbar = (newMessage: string) =>
-    showSnackbar(newMessage, "success");
-  const warningSnackbar = (newMessage: string) =>
-    showSnackbar(newMessage, "warning");
-  const infoSnackbar = (newMessage: string) => showSnackbar(newMessage, "info");
-  const errorSnackbar = (newMessage: string) =>
-    showSnackbar(newMessage, "error");
+  const successSnackbar = useCallback(
+    (newMessage: string) => showSnackbar(newMessage, "success"),
+    [showSnackbar]
+  );
+  const warningSnackbar = useCallback(
+    (newMessage: string) => showSnackbar(newMessage, "warning"),
+    [showSnackbar]
+  );
+  const infoSnackbar = useCallback(
+    (newMessage: string) => showSnackbar(newMessage, "info"),
+    [showSnackbar]
+  );
+  const errorSnackbar = useCallback(
+    (newMessage: string) => showSnackbar(newMessage, "error"),
+    [showSnackbar]
+  );
 
   return (
     <SnackbarContext.Provider
