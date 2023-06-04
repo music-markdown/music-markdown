@@ -1,5 +1,12 @@
 import { Base64 } from "js-base64";
-import { createContext, FC, useContext, useEffect, useState } from "react";
+import {
+  createContext,
+  FC,
+  useCallback,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
 import { gitHubApiFetch, isValidGithubToken } from "../lib/github";
 import { useLocalStorage } from "../lib/hooks";
 
@@ -43,21 +50,21 @@ function useGitHubFetch<T>(path: string, defaultValue: T) {
   const [loading, setLoading] = useState(true);
   const [value, setValue] = useState<T>(defaultValue);
 
-  useEffect(() => {
+  const load = useCallback(async () => {
     setLoading(true);
-
-    const doFetch = async () => {
-      const response = await gitHubApiFetch(path, {
-        gitHubToken,
-        cache: "no-cache",
-      });
-      setValue(await response.json());
-      setLoading(false);
-    };
-    doFetch();
+    const response = await gitHubApiFetch(path, {
+      gitHubToken,
+      cache: "no-cache",
+    });
+    setValue(await response.json());
+    setLoading(false);
   }, [path, gitHubToken]);
 
-  return { loading, value };
+  useEffect(() => {
+    load();
+  }, [path, load, gitHubToken]);
+
+  return { loading, load, value };
 }
 
 export interface RepositoryContent {
@@ -107,7 +114,7 @@ const EMPTY_FILE_CONTENT: FileContent = {
 };
 
 export function useFileContent(repo: string, path: string, branch: string) {
-  const { loading, value } = useGitHubFetch<FileContent>(
+  const { loading, load, value } = useGitHubFetch<FileContent>(
     `/repos/${repo}/contents/${path}?ref=${branch}`,
     EMPTY_FILE_CONTENT
   );
@@ -115,15 +122,15 @@ export function useFileContent(repo: string, path: string, branch: string) {
     throw new Error(`"${path}" is not a file.`);
   }
   const content = value.content ? Base64.decode(value.content) : "";
-  return { loading, value, content };
+  return { loading, load, value, content };
 }
 
 export function useFolderContents(repo: string, path: string, branch: string) {
-  const { loading, value } = useGitHubFetch<RepositoryContent[]>(
+  const { loading, load, value } = useGitHubFetch<RepositoryContent[]>(
     `/repos/${repo}/contents/${path || ""}?ref=${branch}`,
     []
   );
-  return { loading, value };
+  return { loading, load, value };
 }
 
 interface RepositoryTree {
