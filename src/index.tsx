@@ -1,12 +1,12 @@
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
-import ReactGA, { ga } from "react-ga";
+import ReactGA from "react-ga4";
 import { Metric } from "web-vitals";
 import App from "./components/App";
 import reportWebVitals from "./reportWebVitals";
 import * as serviceWorkerRegistration from "./serviceWorkerRegistration";
 
-ReactGA.initialize("G-Z1SBZF6YGE", { standardImplementation: true });
+ReactGA.initialize("G-Z1SBZF6YGE");
 
 const container = document.getElementById("root");
 const root = createRoot(container!);
@@ -23,7 +23,7 @@ root.render(
 serviceWorkerRegistration.register();
 
 function sendToAnalytics({ id, name, value }: Metric) {
-  ga("send", "event", {
+  ReactGA.gtag("send", "event", {
     eventCategory: "Web Vitals",
     eventAction: name,
     eventValue: Math.round(name === "CLS" ? value * 1000 : value), // values must be integers
