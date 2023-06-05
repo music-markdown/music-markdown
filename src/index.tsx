@@ -22,17 +22,23 @@ root.render(
 // Learn more about service workers: https://cra.link/PWA
 serviceWorkerRegistration.register();
 
-function sendToAnalytics({ id, name, value }: Metric) {
-  ReactGA.gtag("send", "event", {
+function sendToGoogleAnalytics({ id, name, value, delta }: Metric) {
+  ReactGA.send({
+    hitType: "event",
     eventCategory: "Web Vitals",
     eventAction: name,
-    eventValue: Math.round(name === "CLS" ? value * 1000 : value), // values must be integers
-    eventLabel: id, // id unique to current page load
-    nonInteraction: true, // avoids affecting bounce rate
+    eventLabel: id,
+    nonInteraction: true,
+    // Built-in params:
+    value: Math.round(name === "CLS" ? delta * 1000 : delta), // Use `delta` so the value can be summed.
+    // Custom params:
+    metric_id: id, // Needed to aggregate events.
+    metric_value: value, // Optional.
+    metric_delta: delta, // Optional.
   });
 }
 
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))
 // or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals(sendToAnalytics);
+reportWebVitals(sendToGoogleAnalytics);
