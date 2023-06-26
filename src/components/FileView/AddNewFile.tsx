@@ -80,12 +80,7 @@ export default function AddNewFile() {
   }
 
   return (
-    <StyledGrid
-      container
-      direction="row"
-      justifyContent="flex-end"
-      alignItems="flex-end"
-    >
+    <StyledGrid item justifyContent="flex-end" alignItems="flex-end">
       <Tooltip
         title={
           gitHubToken ? "Add Song" : "Add a GitHub Token to Enable Editing"
