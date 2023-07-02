@@ -8,6 +8,18 @@ import * as serviceWorkerRegistration from "./serviceWorkerRegistration";
 
 ReactGA.initialize("G-Z1SBZF6YGE");
 
+if (window.location.pathname === "/" && window.location.hash) {
+  ReactGA.send({
+    hitType: "event",
+    eventCategory: "debug",
+    eventAction: "hash_redirect",
+    eventLabel: window.location.hash,
+    hitCallback: () => {
+      window.location.replace(window.location.hash.substring(1));
+    },
+  });
+}
+
 const container = document.getElementById("root");
 const root = createRoot(container!);
 
