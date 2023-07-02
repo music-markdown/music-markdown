@@ -10,7 +10,7 @@ export default function LogoAppBarItem() {
   return (
     <Button component={Link} to="/">
       <ThemeAwareLogo
-        src="music-markdown.svg"
+        src="/music-markdown.svg"
         width={50}
         alt="Music Markdown"
       />
