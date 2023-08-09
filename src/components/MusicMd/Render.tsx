@@ -3,6 +3,7 @@ import { useTheme } from "@mui/material/styles";
 import MarkdownIt from "markdown-it";
 import MarkdownItMusic from "markdown-it-music";
 import { FC, useEffect, useRef, useState } from "react";
+import { useAutoScroll } from "../../context/AutoScrollProvider";
 import { useSnackbar } from "../../context/SnackbarProvider";
 import { useYouTubeId } from "../../context/YouTubeIdProvider";
 import { useContainerDimensions } from "../../lib/hooks";
@@ -29,6 +30,7 @@ interface MarkdownItWithMMD extends MarkdownIt {
   setMaxWidth: (maxWidth: number) => void;
   meta: {
     youTubeId: string;
+    autoScroll: string;
   };
 }
 
@@ -40,6 +42,7 @@ const MusicMarkdownRender: FC<MusicMarkdownRenderProps> = ({
 }) => {
   const theme = useTheme();
   const { setYouTubeId } = useYouTubeId();
+  const { setAutoScroll } = useAutoScroll();
   const [html, setHtml] = useState("");
   const { errorSnackbar } = useSnackbar();
 
@@ -54,12 +57,14 @@ const MusicMarkdownRender: FC<MusicMarkdownRenderProps> = ({
     try {
       setHtml(md.render(source));
       setYouTubeId(md.meta.youTubeId);
+      setAutoScroll(md.meta.autoScroll);
     } catch (err: any) {
       console.log(err);
       setHtml(`<pre>${source}</pre>`);
       errorSnackbar(err.message);
     }
   }, [
+    setAutoScroll,
     setYouTubeId,
     source,
     width,

@@ -3,6 +3,7 @@ import Toolbar from "@mui/material/Toolbar";
 import { Box } from "@mui/system";
 import { Route } from "react-router-dom";
 import { REPO_REGEX } from "../../lib/constants";
+import AutoScrollAppBarItem from "./AutoScrollAppBarItem";
 import LogoAppBarItem from "./LogoAppBarItem";
 import MoreAppBarItem from "./MoreAppBarItem";
 import SearchAppBarItem from "./SearchAppBarItem";
@@ -22,7 +23,12 @@ export default function AppBar() {
 
         <Route
           path={`${REPO_REGEX}/:mode(viewer|editor)/:branch/:path*`}
-          render={() => <YouTubeAppBarItem />}
+          render={() => (
+            <>
+              <YouTubeAppBarItem />
+              <AutoScrollAppBarItem />
+            </>
+          )}
         />
         <MoreAppBarItem />
       </Toolbar>

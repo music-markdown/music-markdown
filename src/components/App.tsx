@@ -1,4 +1,5 @@
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import { AutoScrollProvider } from "../context/AutoScrollProvider";
 import { GitHubApiProvider } from "../context/GitHubApiProvider";
 import { ReposProvider } from "../context/ReposProvider";
 import { SnackbarProvider } from "../context/SnackbarProvider";
@@ -15,17 +16,19 @@ import RepoViewer from "./RepoView";
 
 const App = () => (
   <YouTubeIdProvider>
-    <SongPrefsProvider>
-      <GitHubApiProvider>
-        <ReposProvider>
-          <ThemeProvider>
-            <SnackbarProvider>
-              <HomeRouter />
-            </SnackbarProvider>
-          </ThemeProvider>
-        </ReposProvider>
-      </GitHubApiProvider>
-    </SongPrefsProvider>
+    <AutoScrollProvider>
+      <SongPrefsProvider>
+        <GitHubApiProvider>
+          <ReposProvider>
+            <ThemeProvider>
+              <SnackbarProvider>
+                <HomeRouter />
+              </SnackbarProvider>
+            </ThemeProvider>
+          </ReposProvider>
+        </GitHubApiProvider>
+      </SongPrefsProvider>
+    </AutoScrollProvider>
   </YouTubeIdProvider>
 );
 
