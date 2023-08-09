@@ -23,6 +23,7 @@ Features:
   - Automatically convert existing guitar tablature to Music Markdown.
 - Rehearse along with YouTube videos.
 - [Transpose music](<https://en.wikipedia.org/wiki/Transposition_(music)>) up and down.
+- Autoscroll to allow rehearsal without manual scrolling
 
 ## Mission Statement
 
@@ -145,6 +146,28 @@ Example:
 ```music-markdown
 ---
 youTubeId: acvIVA9-FMQ
+---
+```
+
+##### Enable autoscroll
+
+To configure autoscroll to a Music Markdown file:
+
+1. Add `autoScroll: <pauseBeforeScrollInSeconds>,<pixelsToScrollPerSecond>` to the header (in between the pair of `---`).
+
+Example 1 (progress scroll 10px per second):
+
+```music-markdown
+---
+autoScroll: 0,10
+---
+```
+
+Example 2 (pause for 5 seconds then progress scroll 9px per second):
+
+```music-markdown
+---
+autoScroll: 5,9
 ---
 ```
 
