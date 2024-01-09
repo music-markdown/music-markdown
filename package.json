@@ -76,8 +76,6 @@
     "transform": {
       "\\.[jt]sx?$": "babel-jest"
     },
-    "transformIgnorePatterns": [
-      "/node_modules/(?!markdown-it-music).+\\.js$"
-    ]
+    "transformIgnorePatterns": []
   }
 }
