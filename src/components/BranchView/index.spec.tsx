@@ -18,17 +18,19 @@ describe("BranchViewer", () => {
         { name: "main" },
         { name: "branch-1" },
         { name: "branch-2" },
-      ])
+      ]),
     );
 
     render(
       <GitHubApiProvider>
         <ThemeProvider>
           <MemoryRouter initialEntries={["/repos/o/r"]}>
-            <Route path={REPO_REGEX} exact component={BranchViewer} />
+            <Route exact path={REPO_REGEX}>
+              <BranchViewer />
+            </Route>
           </MemoryRouter>
         </ThemeProvider>
-      </GitHubApiProvider>
+      </GitHubApiProvider>,
     );
 
     expect(await screen.findByText("main")).toBeInTheDocument();

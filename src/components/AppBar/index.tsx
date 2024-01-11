@@ -13,17 +13,15 @@ export default function AppBar() {
     <MuiAppBar position={"sticky"} key="top-navbar">
       <Toolbar>
         <LogoAppBarItem />
-        <Route
-          path={`${REPO_REGEX}/:mode/:branch/:path*`}
-          component={SearchAppBarItem}
-        />
+        <Route path={`${REPO_REGEX}/:mode/:branch/:path*`}>
+          <SearchAppBarItem />
+        </Route>
 
         <Box sx={{ flexGrow: 1 }} />
 
-        <Route
-          path={`${REPO_REGEX}/:mode(viewer|editor)/:branch/:path*`}
-          render={() => <YouTubeAppBarItem />}
-        />
+        <Route path={`${REPO_REGEX}/:mode(viewer|editor)/:branch/:path*`}>
+          <YouTubeAppBarItem />
+        </Route>
         <MoreAppBarItem />
       </Toolbar>
     </MuiAppBar>

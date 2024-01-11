@@ -15,11 +15,10 @@ describe("FileViewer", () => {
     fetch.mockResponse(JSON.stringify(mockMasterGetContentsResponse));
     render(
       <Router>
-        <Route
-          path={`${REPO_REGEX}/browser/:branch/:path*`}
-          component={FileViewer}
-        />
-      </Router>
+        <Route path={`${REPO_REGEX}/browser/:branch/:path*`}>
+          <FileViewer />
+        </Route>
+      </Router>,
     );
   });
 });
