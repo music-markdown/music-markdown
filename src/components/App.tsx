@@ -31,16 +31,25 @@ const App = () => (
 
 const HomeRouter = () => (
   <Router key="home-router">
-    <Route component={AppBar} />
+    <Route>
+      <AppBar />
+    </Route>
     <Switch>
-      <Route path={`${REPO_REGEX}/viewer/:branch/:path+`} component={View} />
-      <Route
-        path={`${REPO_REGEX}/browser/:branch/:path*`}
-        component={FileViewer}
-      />
-      <Route path={`${REPO_REGEX}/editor/:branch/:path*`} component={Edit} />
-      <Route path={REPO_REGEX} component={BranchViewer} />
-      <Route path="/" component={RepoViewer} />
+      <Route path={`${REPO_REGEX}/viewer/:branch/:path+`}>
+        <View />
+      </Route>
+      <Route path={`${REPO_REGEX}/browser/:branch/:path*`}>
+        <FileViewer />
+      </Route>
+      <Route path={`${REPO_REGEX}/editor/:branch/:path*`}>
+        <Edit />
+      </Route>
+      <Route path={REPO_REGEX}>
+        <BranchViewer />
+      </Route>
+      <Route path="/">
+        <RepoViewer />
+      </Route>
     </Switch>
   </Router>
 );

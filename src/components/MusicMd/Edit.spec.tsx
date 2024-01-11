@@ -15,12 +15,10 @@ describe("Edit", () => {
     fetch.mockResponse(JSON.stringify(mockMasterGetContentsResponse));
     render(
       <Router>
-        <Route
-          path={`${REPO_REGEX}/editor/:branch/:path*`}
-          exact
-          component={Edit}
-        />
-      </Router>
+        <Route exact path={`${REPO_REGEX}/editor/:branch/:path*`}>
+          <Edit />
+        </Route>
+      </Router>,
     );
   });
 });

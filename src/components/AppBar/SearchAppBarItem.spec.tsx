@@ -13,18 +13,17 @@ describe("SearchAppBarItem", () => {
 
   it("displays song1 and song2 in the options", async () => {
     fetch.mockResponse(
-      JSON.stringify({ tree: [{ path: "song1.md" }, { path: "song2.md" }] })
+      JSON.stringify({ tree: [{ path: "song1.md" }, { path: "song2.md" }] }),
     );
 
     render(
       <GitHubApiProvider>
         <MemoryRouter initialEntries={["/repos/o/r/viewer/b"]}>
-          <Route
-            path={`${REPO_REGEX}/:mode/:branch/:path*`}
-            component={SearchAppBarItem}
-          />
+          <Route path={`${REPO_REGEX}/:mode/:branch/:path*`}>
+            <SearchAppBarItem />
+          </Route>
         </MemoryRouter>
-      </GitHubApiProvider>
+      </GitHubApiProvider>,
     );
 
     await screen.findAllByText("Jump to…");
