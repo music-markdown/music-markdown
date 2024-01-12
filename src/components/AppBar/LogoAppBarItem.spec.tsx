@@ -7,7 +7,7 @@ describe("LogoAppBarItem", () => {
     render(
       <MemoryRouter>
         <LogoAppBarItem />
-      </MemoryRouter>
+      </MemoryRouter>,
     );
   });
 });

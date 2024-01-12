@@ -49,7 +49,8 @@
     "start": "vite --host",
     "test": "vitest",
     "build": "tsc && vite build",
-    "serve": "vite preview --host"
+    "serve": "vite preview --host",
+    "lint": "prettier . --write --ignore-path .gitignore"
   },
   "eslintConfig": {
     "extends": [

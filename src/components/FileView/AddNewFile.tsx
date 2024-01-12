@@ -58,7 +58,7 @@ export default function AddNewFile() {
       content,
       null,
       branch,
-      gitHubToken
+      gitHubToken,
     );
 
     if (response.status !== 201) {

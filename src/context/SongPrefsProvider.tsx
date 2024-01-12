@@ -44,7 +44,7 @@ function update(
   song: string,
   field: "columns" | "transpose" | "zoom",
   newVal: number,
-  defaultVal: number
+  defaultVal: number,
 ) {
   const songPrefs = { ...prevSongPrefs };
   const songPref = songPrefs[song] || {};
@@ -68,7 +68,7 @@ export function useSong() {
 
 export function useSongPref(
   fieldName: "columns" | "transpose" | "zoom",
-  defaultValue: number
+  defaultValue: number,
 ): [number, (newValue: number) => void] {
   const { songPrefs, setSongPrefs } = useSongPrefs();
   const song = useSong();

@@ -37,7 +37,7 @@ function buildBreadcrumb(previousPath: string[]) {
           key={`${keyBase}${i}`}
         >
           {directory}
-        </Typography>
+        </Typography>,
       );
     } else {
       breadcrumbItems.push(
@@ -49,7 +49,7 @@ function buildBreadcrumb(previousPath: string[]) {
           color="inherit"
         >
           {directory}
-        </Link>
+        </Link>,
       );
     }
   }

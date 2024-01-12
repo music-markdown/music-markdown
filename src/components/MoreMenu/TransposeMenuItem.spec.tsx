@@ -33,7 +33,7 @@ describe("TransposeMenuItem", () => {
             }}
           />
         </MemoryRouter>
-      </SongPrefsProvider>
+      </SongPrefsProvider>,
     );
 
     fireEvent.click(screen.getByLabelText("Transpose up"));
@@ -65,7 +65,7 @@ describe("TransposeMenuItem", () => {
             }}
           />
         </MemoryRouter>
-      </SongPrefsProvider>
+      </SongPrefsProvider>,
     );
 
     fireEvent.click(screen.getByLabelText("Transpose down"));
@@ -97,7 +97,7 @@ describe("TransposeMenuItem", () => {
             }}
           />
         </MemoryRouter>
-      </SongPrefsProvider>
+      </SongPrefsProvider>,
     );
 
     fireEvent.click(screen.getByText("Reset"));
