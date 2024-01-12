@@ -28,19 +28,7 @@
     "vite": "^5.0.11",
     "vite-plugin-svgr": "^4.2.0",
     "vite-tsconfig-paths": "^4.2.3",
-    "web-vitals": "^3.5.1",
-    "workbox-background-sync": "^7.0.0",
-    "workbox-broadcast-update": "^7.0.0",
-    "workbox-cacheable-response": "^7.0.0",
-    "workbox-core": "^7.0.0",
-    "workbox-expiration": "^7.0.0",
-    "workbox-google-analytics": "^7.0.0",
-    "workbox-navigation-preload": "^7.0.0",
-    "workbox-precaching": "^7.0.0",
-    "workbox-range-requests": "^7.0.0",
-    "workbox-routing": "^7.0.0",
-    "workbox-strategies": "^7.0.0",
-    "workbox-streams": "^7.0.0"
+    "web-vitals": "^3.5.1"
   },
   "devDependencies": {
     "@testing-library/jest-dom": "^6.2.0",
