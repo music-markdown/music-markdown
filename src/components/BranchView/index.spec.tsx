@@ -1,10 +1,14 @@
 import { render, screen } from "@testing-library/react";
-import fetch from "jest-fetch-mock";
 import { MemoryRouter, Route } from "react-router-dom";
+import { vi } from "vitest";
+import createFetchMock from "vitest-fetch-mock";
 import BranchViewer from ".";
 import { GitHubApiProvider } from "../../context/GitHubApiProvider";
 import { ThemeProvider } from "../../context/ThemeProvider";
 import { REPO_REGEX } from "../../lib/constants";
+
+const fetch = createFetchMock(vi);
+fetch.enableMocks();
 
 describe("BranchViewer", () => {
   beforeEach(async () => {

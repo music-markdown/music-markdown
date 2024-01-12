@@ -6,9 +6,9 @@ import EditButtonPanel from "./EditButtonPanel";
 
 describe("EditButtonPanel", () => {
   it("disables all buttons while loading", async () => {
-    const format = jest.fn();
-    const save = jest.fn();
-    const revert = jest.fn();
+    const format = vi.fn();
+    const save = vi.fn();
+    const revert = vi.fn();
     localStorage.setItem("gitHubToken", '"token"');
 
     render(
@@ -25,21 +25,21 @@ describe("EditButtonPanel", () => {
             />
           </Route>
         </MemoryRouter>
-      </GitHubApiProvider>
+      </GitHubApiProvider>,
     );
 
     expect(screen.getByRole("button", { name: "Format" })).toBeDisabled();
     expect(screen.getByRole("link", { name: "Viewer" })).toHaveAttribute(
-      "aria-disabled"
+      "aria-disabled",
     );
     expect(screen.getByRole("button", { name: "Revert" })).toBeDisabled();
     expect(screen.getByRole("button", { name: "Save" })).toBeDisabled();
   });
 
   it("disables save button if not dirty", async () => {
-    const format = jest.fn();
-    const save = jest.fn();
-    const revert = jest.fn();
+    const format = vi.fn();
+    const save = vi.fn();
+    const revert = vi.fn();
     localStorage.setItem("gitHubToken", '"token"');
 
     render(
@@ -56,16 +56,16 @@ describe("EditButtonPanel", () => {
             />
           </Route>
         </MemoryRouter>
-      </GitHubApiProvider>
+      </GitHubApiProvider>,
     );
 
     expect(screen.getByRole("button", { name: "Save" })).toBeDisabled();
   });
 
   it("disables save button if dirty and gitHubToken is undefined", async () => {
-    const format = jest.fn();
-    const save = jest.fn();
-    const revert = jest.fn();
+    const format = vi.fn();
+    const save = vi.fn();
+    const revert = vi.fn();
     localStorage.clear();
 
     render(
@@ -82,16 +82,16 @@ describe("EditButtonPanel", () => {
             />
           </Route>
         </MemoryRouter>
-      </GitHubApiProvider>
+      </GitHubApiProvider>,
     );
 
     expect(screen.getByRole("button", { name: "Save" })).toBeDisabled();
   });
 
   it("enables save button if dirty and gitHubToken is defined", async () => {
-    const format = jest.fn();
-    const save = jest.fn();
-    const revert = jest.fn();
+    const format = vi.fn();
+    const save = vi.fn();
+    const revert = vi.fn();
     localStorage.setItem("gitHubToken", '"token"');
 
     render(
@@ -108,16 +108,16 @@ describe("EditButtonPanel", () => {
             />
           </Route>
         </MemoryRouter>
-      </GitHubApiProvider>
+      </GitHubApiProvider>,
     );
 
     expect(screen.getByRole("button", { name: "Save" })).toBeEnabled();
   });
 
   it("disables save button while saving", async () => {
-    const format = jest.fn();
-    const save = jest.fn();
-    const revert = jest.fn();
+    const format = vi.fn();
+    const save = vi.fn();
+    const revert = vi.fn();
     localStorage.setItem("gitHubToken", '"token"');
 
     render(
@@ -134,16 +134,16 @@ describe("EditButtonPanel", () => {
             />
           </Route>
         </MemoryRouter>
-      </GitHubApiProvider>
+      </GitHubApiProvider>,
     );
 
     expect(screen.getByRole("button", { name: "Save" })).toBeDisabled();
   });
 
   it("calls format when format button clicked", async () => {
-    const format = jest.fn();
-    const save = jest.fn();
-    const revert = jest.fn();
+    const format = vi.fn();
+    const save = vi.fn();
+    const revert = vi.fn();
     localStorage.setItem("gitHubToken", '"token"');
 
     render(
@@ -160,7 +160,7 @@ describe("EditButtonPanel", () => {
             />
           </Route>
         </MemoryRouter>
-      </GitHubApiProvider>
+      </GitHubApiProvider>,
     );
 
     screen.getByRole("button", { name: "Format" }).click();
@@ -168,9 +168,9 @@ describe("EditButtonPanel", () => {
   });
 
   it("calls save when save button clicked", async () => {
-    const format = jest.fn();
-    const save = jest.fn();
-    const revert = jest.fn();
+    const format = vi.fn();
+    const save = vi.fn();
+    const revert = vi.fn();
     localStorage.setItem("gitHubToken", '"token"');
 
     render(
@@ -187,7 +187,7 @@ describe("EditButtonPanel", () => {
             />
           </Route>
         </MemoryRouter>
-      </GitHubApiProvider>
+      </GitHubApiProvider>,
     );
 
     screen.getByRole("button", { name: "Save" }).click();
@@ -195,9 +195,9 @@ describe("EditButtonPanel", () => {
   });
 
   it("calls revert when revert button clicked", async () => {
-    const format = jest.fn();
-    const save = jest.fn();
-    const revert = jest.fn();
+    const format = vi.fn();
+    const save = vi.fn();
+    const revert = vi.fn();
     localStorage.setItem("gitHubToken", '"token"');
 
     render(
@@ -214,7 +214,7 @@ describe("EditButtonPanel", () => {
             />
           </Route>
         </MemoryRouter>
-      </GitHubApiProvider>
+      </GitHubApiProvider>,
     );
 
     screen.getByRole("button", { name: "Revert" }).click();

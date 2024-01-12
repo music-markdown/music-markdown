@@ -1,4 +1,5 @@
-import { createTheme, ThemeProvider } from "@mui/material/styles";
+import { ThemeProvider } from "@emotion/react";
+import { createTheme } from "@mui/material/styles";
 import { render } from "@testing-library/react";
 import { SnackbarProvider } from "../../context/SnackbarProvider";
 import { YouTubeIdProvider } from "../../context/YouTubeIdProvider";
@@ -13,7 +14,7 @@ describe("Render", () => {
             <Render source="" columns={1} transpose={0} zoom={1} />
           </SnackbarProvider>
         </ThemeProvider>
-      </YouTubeIdProvider>
+      </YouTubeIdProvider>,
     );
   });
 });

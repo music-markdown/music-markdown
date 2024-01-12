@@ -1,10 +1,7 @@
+import { ThemeProvider as MuiThemeProvider } from "@emotion/react";
 import { CssBaseline, useMediaQuery } from "@mui/material";
-import {
-  createTheme,
-  StyledEngineProvider,
-  ThemeProvider as MuiThemeProvider,
-} from "@mui/material/styles";
-import { createContext, FC, useContext } from "react";
+import { StyledEngineProvider, createTheme } from "@mui/material/styles";
+import { FC, createContext, useContext } from "react";
 import { useLocalStorage } from "../lib/hooks";
 
 type ThemeName = "light" | "dark";
@@ -51,7 +48,7 @@ export const ThemeProvider: FC<ThemeProviderProps> = ({ children }) => {
   const prefersDarkTheme = useMediaQuery("(prefers-color-scheme: dark)");
   const [themeName, setThemeName] = useLocalStorage<ThemeSetting>(
     "themeName",
-    "system"
+    "system",
   );
 
   const getEffectiveThemeName = () => {

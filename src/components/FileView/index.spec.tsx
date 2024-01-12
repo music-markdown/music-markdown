@@ -1,9 +1,13 @@
 import { render } from "@testing-library/react";
-import fetch from "jest-fetch-mock";
-import { BrowserRouter as Router, Route } from "react-router-dom";
+import { Route, BrowserRouter as Router } from "react-router-dom";
+import { vi } from "vitest";
+import createFetchMock from "vitest-fetch-mock";
 import FileViewer from ".";
-import { REPO_REGEX } from "../../lib/constants";
 import { mockMasterGetContentsResponse } from "../../lib/MockGithubResponses";
+import { REPO_REGEX } from "../../lib/constants";
+
+const fetch = createFetchMock(vi);
+fetch.enableMocks();
 
 describe("FileViewer", () => {
   beforeEach(async () => {

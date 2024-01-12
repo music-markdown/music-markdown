@@ -1,8 +1,12 @@
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { render } from "@testing-library/react";
-import fetch from "jest-fetch-mock";
 import { MemoryRouter } from "react-router-dom";
+import { vi } from "vitest";
+import createFetchMock from "vitest-fetch-mock";
 import AppBar from "./index";
+
+const fetch = createFetchMock(vi);
+fetch.enableMocks();
 
 describe("AppBar", () => {
   beforeEach(async () => {
@@ -16,7 +20,7 @@ describe("AppBar", () => {
         <MemoryRouter>
           <AppBar />
         </MemoryRouter>
-      </ThemeProvider>
+      </ThemeProvider>,
     );
   });
 });

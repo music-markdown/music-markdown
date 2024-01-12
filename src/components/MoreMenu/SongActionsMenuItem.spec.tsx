@@ -6,8 +6,8 @@ import SongActionsMenuItem from "./SongActionsMenuItem";
 
 describe("SongActionsMenuItem", () => {
   it("renders edit button when on viewer page", () => {
-    const mockHandleClose = jest.fn();
-    const mockOpenQrCodeDialog = jest.fn();
+    const mockHandleClose = vi.fn();
+    const mockOpenQrCodeDialog = vi.fn();
 
     render(
       <SnackbarProvider>
@@ -22,15 +22,15 @@ describe("SongActionsMenuItem", () => {
             )}
           />
         </MemoryRouter>
-      </SnackbarProvider>
+      </SnackbarProvider>,
     );
 
     expect(screen.getByText("Edit inline")).toBeInTheDocument();
   });
 
   it("renders exit button when on editor page", () => {
-    const mockHandleClose = jest.fn();
-    const mockOpenQrCodeDialog = jest.fn();
+    const mockHandleClose = vi.fn();
+    const mockOpenQrCodeDialog = vi.fn();
 
     render(
       <SnackbarProvider>
@@ -45,7 +45,7 @@ describe("SongActionsMenuItem", () => {
             )}
           />
         </MemoryRouter>
-      </SnackbarProvider>
+      </SnackbarProvider>,
     );
 
     expect(screen.getByText("Exit to viewer")).toBeInTheDocument();

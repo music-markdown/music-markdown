@@ -1,9 +1,13 @@
 import { fireEvent, render, screen } from "@testing-library/react";
-import fetch from "jest-fetch-mock";
 import { MemoryRouter, Route } from "react-router";
+import { vi } from "vitest";
+import createFetchMock from "vitest-fetch-mock";
 import { GitHubApiProvider } from "../../context/GitHubApiProvider";
 import { REPO_REGEX } from "../../lib/constants";
 import SearchAppBarItem from "./SearchAppBarItem";
+
+const fetch = createFetchMock(vi);
+fetch.enableMocks();
 
 describe("SearchAppBarItem", () => {
   beforeEach(async () => {

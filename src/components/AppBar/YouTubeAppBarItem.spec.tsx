@@ -1,9 +1,10 @@
-import { createTheme, ThemeProvider } from "@mui/material/styles";
+import { ThemeProvider } from "@emotion/react";
+import { createTheme } from "@mui/material/styles";
 import { fireEvent, render, screen } from "@testing-library/react";
 import { useEffect } from "react";
 import {
-  useYouTubeId,
   YouTubeIdProvider,
+  useYouTubeId,
 } from "../../context/YouTubeIdProvider";
 import YouTubeAppBarItem from "./YouTubeAppBarItem";
 
@@ -21,7 +22,7 @@ describe("YouTubeAppBarItem", () => {
           <YouTubeIdSetter />
           <YouTubeAppBarItem />
         </ThemeProvider>
-      </YouTubeIdProvider>
+      </YouTubeIdProvider>,
     );
     const youTubeButton = screen.queryByRole("button");
     expect(youTubeButton).toBeInTheDocument();
@@ -33,7 +34,7 @@ describe("YouTubeAppBarItem", () => {
         <ThemeProvider theme={createTheme()}>
           <YouTubeAppBarItem />
         </ThemeProvider>
-      </YouTubeIdProvider>
+      </YouTubeIdProvider>,
     );
     const youTubeButton = screen.queryByRole("button");
     expect(youTubeButton).not.toBeInTheDocument();
@@ -46,7 +47,7 @@ describe("YouTubeAppBarItem", () => {
           <YouTubeIdSetter />
           <YouTubeAppBarItem />
         </ThemeProvider>
-      </YouTubeIdProvider>
+      </YouTubeIdProvider>,
     );
     expect(screen.queryByTitle("YouTube")).not.toBeInTheDocument();
     fireEvent.click(screen.getByRole("button"));

@@ -1,4 +1,4 @@
-const { isChord } = require("markdown-it-music/lib/chord");
+import { isChord } from "markdown-it-music/lib/chord";
 
 const State = {
   DEFAULT: 1,

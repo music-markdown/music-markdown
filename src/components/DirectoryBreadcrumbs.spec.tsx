@@ -1,8 +1,13 @@
-import { createTheme, ThemeProvider } from "@mui/material/styles";
+import { ThemeProvider } from "@emotion/react";
+import { createTheme } from "@mui/material/styles";
 import { render, screen } from "@testing-library/react";
-import fetch from "jest-fetch-mock";
 import { MemoryRouter } from "react-router-dom";
+import { vi } from "vitest";
+import createFetchMock from "vitest-fetch-mock";
 import RouterBreadcrumbs from "./DirectoryBreadcrumbs";
+
+const fetch = createFetchMock(vi);
+fetch.enableMocks();
 
 describe("RouterBreadcrumbs", () => {
   beforeEach(async () => {
@@ -16,7 +21,7 @@ describe("RouterBreadcrumbs", () => {
         <MemoryRouter initialEntries={["/repos/owner/repo/browser/master"]}>
           <RouterBreadcrumbs />
         </MemoryRouter>
-      </ThemeProvider>
+      </ThemeProvider>,
     );
 
     const breadcrumbs = screen.getAllByRole("breadcrumb");
@@ -34,7 +39,7 @@ describe("RouterBreadcrumbs", () => {
         >
           <RouterBreadcrumbs />
         </MemoryRouter>
-      </ThemeProvider>
+      </ThemeProvider>,
     );
 
     const breadcrumbs = screen.getAllByRole("breadcrumb");
@@ -53,7 +58,7 @@ describe("RouterBreadcrumbs", () => {
         >
           <RouterBreadcrumbs />
         </MemoryRouter>
-      </ThemeProvider>
+      </ThemeProvider>,
     );
 
     const breadcrumbs = screen.getAllByRole("breadcrumb");
@@ -72,7 +77,7 @@ describe("RouterBreadcrumbs", () => {
         >
           <RouterBreadcrumbs />
         </MemoryRouter>
-      </ThemeProvider>
+      </ThemeProvider>,
     );
 
     const breadcrumbs = screen.getAllByRole("breadcrumb");
