@@ -18,7 +18,7 @@ describe("ZoomMenuItem", () => {
             render={() => <ZoomMenuItem />}
           />
         </MemoryRouter>
-      </SongPrefsProvider>
+      </SongPrefsProvider>,
     );
 
     fireEvent.click(screen.getByLabelText("Zoom in"));
@@ -37,7 +37,7 @@ describe("ZoomMenuItem", () => {
             render={() => <ZoomMenuItem />}
           />
         </MemoryRouter>
-      </SongPrefsProvider>
+      </SongPrefsProvider>,
     );
 
     fireEvent.click(screen.getByLabelText("Zoom in"));
@@ -57,7 +57,7 @@ describe("ZoomMenuItem", () => {
             render={() => <ZoomMenuItem />}
           />
         </MemoryRouter>
-      </SongPrefsProvider>
+      </SongPrefsProvider>,
     );
 
     fireEvent.click(screen.getByLabelText("Zoom out"));
@@ -70,7 +70,7 @@ describe("ZoomMenuItem", () => {
   it("resets zoom to 1 when reset button is clicked", () => {
     localStorage.setItem(
       "songPrefs",
-      JSON.stringify({ "o/r/b/song.md": { zoom: 1.05 } })
+      JSON.stringify({ "o/r/b/song.md": { zoom: 1.05 } }),
     );
 
     render(
@@ -81,7 +81,7 @@ describe("ZoomMenuItem", () => {
             render={() => <ZoomMenuItem />}
           />
         </MemoryRouter>
-      </SongPrefsProvider>
+      </SongPrefsProvider>,
     );
 
     fireEvent.click(screen.getByLabelText("Zoom reset"));

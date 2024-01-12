@@ -116,7 +116,7 @@ const EMPTY_FILE_CONTENT: FileContent = {
 export function useFileContent(repo: string, path: string, branch: string) {
   const { loading, load, value } = useGitHubFetch<FileContent>(
     `/repos/${repo}/contents/${path}?ref=${branch}`,
-    EMPTY_FILE_CONTENT
+    EMPTY_FILE_CONTENT,
   );
   if (value.type !== "file") {
     throw new Error(`"${path}" is not a file.`);
@@ -128,7 +128,7 @@ export function useFileContent(repo: string, path: string, branch: string) {
 export function useFolderContents(repo: string, path: string, branch: string) {
   const { loading, load, value } = useGitHubFetch<RepositoryContent[]>(
     `/repos/${repo}/contents/${path || ""}?ref=${branch}`,
-    []
+    [],
   );
   return { loading, load, value };
 }
@@ -159,7 +159,7 @@ const EMPTY_TREES: RepositoryTrees = {
 export function useTrees(repo: string, branch: string) {
   const { loading, value } = useGitHubFetch<RepositoryTrees>(
     `/repos/${repo}/git/trees/${branch}?recursive=1`,
-    EMPTY_TREES
+    EMPTY_TREES,
   );
   const files = value.tree.map((tree) => tree.path);
   return { loading, value, files };
@@ -179,7 +179,7 @@ const EMPTY_BRANCHES: RepositoryBranch[] = [];
 export function useBranches(repo: string) {
   const { loading, value } = useGitHubFetch<RepositoryBranch[]>(
     `/repos/${repo}/branches`,
-    EMPTY_BRANCHES
+    EMPTY_BRANCHES,
   );
   return { loading, value };
 }

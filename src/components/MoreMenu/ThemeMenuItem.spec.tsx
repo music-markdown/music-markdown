@@ -7,7 +7,7 @@ describe("ThemeMenuItem", () => {
     render(
       <ThemeProvider>
         <ThemeMenuItem />
-      </ThemeProvider>
+      </ThemeProvider>,
     );
 
     fireEvent.click(screen.getByText("Light"));
@@ -18,7 +18,7 @@ describe("ThemeMenuItem", () => {
     render(
       <ThemeProvider>
         <ThemeMenuItem />
-      </ThemeProvider>
+      </ThemeProvider>,
     );
 
     fireEvent.click(screen.getByText("Dark"));

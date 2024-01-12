@@ -8,7 +8,7 @@ describe("ASCII Tab Converter transforms", () => {
         "All the leaves are brown        and the sky is gray",
         "F               C     E  Am       F        Esus4  E",
         "I've been for a walk         on a winter's day",
-      ].join("\n")
+      ].join("\n"),
     );
 
     const expected = [
@@ -28,7 +28,7 @@ describe("ASCII Tab Converter transforms", () => {
         "Am                    G       Am",
         "Tell her to make me a cambric shirt",
         "                    On the side of a hill in the deep forest green",
-      ].join("\n")
+      ].join("\n"),
     );
 
     const expected = [
@@ -69,7 +69,7 @@ describe("ASCII Tab Converter transforms", () => {
         "All the leaves are brown        and the sky is gray",
         "",
         "Verse 2:",
-      ].join("\n")
+      ].join("\n"),
     );
 
     const expected = [

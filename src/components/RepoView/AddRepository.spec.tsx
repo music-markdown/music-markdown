@@ -1,4 +1,5 @@
-import { createTheme, ThemeProvider } from "@mui/material/styles";
+import { ThemeProvider } from "@emotion/react";
+import { createTheme } from "@mui/material/styles";
 import { render } from "@testing-library/react";
 import { SnackbarProvider } from "../../context/SnackbarProvider";
 import AddRepository from "./AddRepository";
@@ -10,7 +11,7 @@ describe("AddRepository", () => {
         <SnackbarProvider>
           <AddRepository handleAddRepository={async () => undefined} />
         </SnackbarProvider>
-      </ThemeProvider>
+      </ThemeProvider>,
     );
   });
 });

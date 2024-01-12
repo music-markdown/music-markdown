@@ -12,7 +12,7 @@ export function useDebounce(value: string, delay: number) {
 
 export function useContainerDimensions(
   ref: MutableRefObject<any>,
-  zoom: number
+  zoom: number,
 ) {
   const [dimensions, setDimensions] = useState({ width: 0, height: 0 });
 
@@ -37,7 +37,7 @@ export function useContainerDimensions(
 
 export function useLocalStorage<T>(
   key: string,
-  initialValue: T
+  initialValue: T,
 ): [T, (value: T) => void] {
   const [storedValue, setStoredValue] = useState<T>(() => {
     try {
@@ -64,7 +64,7 @@ export function useLocalStorage<T>(
         console.log(error);
       }
     },
-    [key, storedValue]
+    [key, storedValue],
   );
 
   return [storedValue, setValue];

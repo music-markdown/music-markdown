@@ -6,7 +6,7 @@ import QrCodeDialog from "./QrCodeDialog";
 
 describe("QrCodeDialog", () => {
   it("renders qr code dialog", () => {
-    const mockHandleClose = jest.fn();
+    const mockHandleClose = vi.fn();
 
     render(
       <SnackbarProvider>
@@ -16,14 +16,14 @@ describe("QrCodeDialog", () => {
             render={() => <QrCodeDialog open={true} close={mockHandleClose} />}
           />
         </MemoryRouter>
-      </SnackbarProvider>
+      </SnackbarProvider>,
     );
 
     expect(screen.getByText("Song QR Code")).toBeInTheDocument();
   });
 
   it("calls close callback when close button is clicked", () => {
-    const mockHandleClose = jest.fn();
+    const mockHandleClose = vi.fn();
 
     render(
       <SnackbarProvider>
@@ -33,7 +33,7 @@ describe("QrCodeDialog", () => {
             render={() => <QrCodeDialog open={true} close={mockHandleClose} />}
           />
         </MemoryRouter>
-      </SnackbarProvider>
+      </SnackbarProvider>,
     );
 
     fireEvent.click(screen.getByText("Close"));

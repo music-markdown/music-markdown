@@ -3,13 +3,13 @@ import { GitHubApiProvider } from "../../context/GitHubApiProvider";
 import GithubTokenDialog from "./GithubTokenDialog";
 
 describe("GithubTokenDialog", () => {
-  const mockHandleClose = jest.fn();
+  const mockHandleClose = vi.fn();
 
   it("renders the dialog box", () => {
     render(
       <GitHubApiProvider>
         <GithubTokenDialog open={true} handleClose={mockHandleClose} />
-      </GitHubApiProvider>
+      </GitHubApiProvider>,
     );
 
     expect(screen.getByText("Set GitHub Token")).toBeInTheDocument();
@@ -19,11 +19,11 @@ describe("GithubTokenDialog", () => {
     render(
       <GitHubApiProvider>
         <GithubTokenDialog open={true} handleClose={mockHandleClose} />
-      </GitHubApiProvider>
+      </GitHubApiProvider>,
     );
     localStorage.setItem(
       "gitHubToken",
-      JSON.stringify("ghp_abcdefghijklmnopqrstuvwxyzABCDEFGHIJ")
+      JSON.stringify("ghp_abcdefghijklmnopqrstuvwxyzABCDEFGHIJ"),
     );
 
     fireEvent.change(screen.getByLabelText("GitHub Token"), {
@@ -32,7 +32,7 @@ describe("GithubTokenDialog", () => {
     fireEvent.click(screen.queryByText("Cancel") as HTMLElement);
     expect(mockHandleClose).toBeCalled();
     expect(JSON.parse(localStorage.getItem("gitHubToken")!)).toEqual(
-      "ghp_abcdefghijklmnopqrstuvwxyzABCDEFGHIJ"
+      "ghp_abcdefghijklmnopqrstuvwxyzABCDEFGHIJ",
     );
   });
 
@@ -40,7 +40,7 @@ describe("GithubTokenDialog", () => {
     render(
       <GitHubApiProvider>
         <GithubTokenDialog open={true} handleClose={mockHandleClose} />
-      </GitHubApiProvider>
+      </GitHubApiProvider>,
     );
 
     fireEvent.change(screen.getByLabelText("GitHub Token"), {
@@ -53,7 +53,7 @@ describe("GithubTokenDialog", () => {
     render(
       <GitHubApiProvider>
         <GithubTokenDialog open={true} handleClose={mockHandleClose} />
-      </GitHubApiProvider>
+      </GitHubApiProvider>,
     );
 
     fireEvent.change(screen.getByLabelText("GitHub Token"), {
@@ -64,7 +64,7 @@ describe("GithubTokenDialog", () => {
     fireEvent.click(screen.getByText("Save"));
     expect(mockHandleClose).toBeCalled();
     expect(JSON.parse(localStorage.getItem("gitHubToken")!)).toEqual(
-      "ghp_abcdefghijklmnopqrstuvwxyzABCDEFGHIJ"
+      "ghp_abcdefghijklmnopqrstuvwxyzABCDEFGHIJ",
     );
   });
 
@@ -72,11 +72,11 @@ describe("GithubTokenDialog", () => {
     render(
       <GitHubApiProvider>
         <GithubTokenDialog open={true} handleClose={mockHandleClose} />
-      </GitHubApiProvider>
+      </GitHubApiProvider>,
     );
     localStorage.setItem(
       "gitHubToken",
-      JSON.stringify("ghp_abcdefghijklmnopqrstuvwxyzABCDEFGHIJ")
+      JSON.stringify("ghp_abcdefghijklmnopqrstuvwxyzABCDEFGHIJ"),
     );
 
     fireEvent.change(screen.getByLabelText("GitHub Token"), {

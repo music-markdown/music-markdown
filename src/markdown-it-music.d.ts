@@ -3,3 +3,5 @@ declare module "markdown-it-music" {
   const markdownItMusic: (md: MarkdownIt) => void;
   export default markdownItMusic;
 }
+
+declare module "markdown-it-music/lib/chord";

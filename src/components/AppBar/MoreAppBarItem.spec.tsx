@@ -13,7 +13,7 @@ describe("MoreAppBarItem", () => {
             <MoreAppBarItem />
           </MemoryRouter>
         </ThemeProvider>
-      </GitHubApiProvider>
+      </GitHubApiProvider>,
     );
 
     fireEvent.click(screen.getByRole("button"));

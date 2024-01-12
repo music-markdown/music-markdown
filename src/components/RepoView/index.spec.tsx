@@ -1,4 +1,5 @@
-import { createTheme, ThemeProvider } from "@mui/material/styles";
+import { ThemeProvider } from "@emotion/react";
+import { createTheme } from "@mui/material/styles";
 import { act, render } from "@testing-library/react";
 import RepoViewer from ".";
 import { GitHubApiProvider } from "../../context/GitHubApiProvider";
@@ -18,7 +19,7 @@ describe("RepoViewer", () => {
               </SnackbarProvider>
             </ThemeProvider>
           </ReposProvider>
-        </GitHubApiProvider>
+        </GitHubApiProvider>,
       );
     });
   });

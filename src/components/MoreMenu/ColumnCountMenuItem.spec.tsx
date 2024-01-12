@@ -18,7 +18,7 @@ describe("ColumnCountMenuItem", () => {
             render={() => <ColumnCountMenuItem />}
           />
         </MemoryRouter>
-      </SongPrefsProvider>
+      </SongPrefsProvider>,
     );
 
     fireEvent.click(screen.getByText("2"));
@@ -30,7 +30,7 @@ describe("ColumnCountMenuItem", () => {
   it("clears columns when 1 column is selected", () => {
     localStorage.setItem(
       "songPrefs",
-      JSON.stringify({ "o/r/b/song.md": { columns: 2 } })
+      JSON.stringify({ "o/r/b/song.md": { columns: 2 } }),
     );
 
     render(
@@ -41,7 +41,7 @@ describe("ColumnCountMenuItem", () => {
             render={() => <ColumnCountMenuItem />}
           />
         </MemoryRouter>
-      </SongPrefsProvider>
+      </SongPrefsProvider>,
     );
 
     fireEvent.click(screen.getByText("1"));

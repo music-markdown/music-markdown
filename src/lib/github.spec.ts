@@ -1,6 +1,10 @@
-import fetch from "jest-fetch-mock";
 import { Base64 } from "js-base64";
+import { vi } from "vitest";
+import createFetchMock from "vitest-fetch-mock";
 import { gitHubApiFetch, isValidGithubToken } from "./github";
+
+const fetch = createFetchMock(vi);
+fetch.enableMocks();
 
 describe("GitHub API", () => {
   beforeEach(async () => {

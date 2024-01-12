@@ -27,7 +27,7 @@ describe("MoreMenu", () => {
             </MemoryRouter>
           </ThemeProvider>
         </GitHubApiProvider>
-      </SongPrefsProvider>
+      </SongPrefsProvider>,
     );
 
     expect(screen.queryByText("Song Actions")).not.toBeInTheDocument();
@@ -50,7 +50,7 @@ describe("MoreMenu", () => {
             </SnackbarProvider>
           </ThemeProvider>
         </GitHubApiProvider>
-      </SongPrefsProvider>
+      </SongPrefsProvider>,
     );
 
     expect(screen.getByText("Song Actions")).toBeInTheDocument();
@@ -71,7 +71,7 @@ describe("MoreMenu", () => {
             </MemoryRouter>
           </ThemeProvider>
         </GitHubApiProvider>
-      </SongPrefsProvider>
+      </SongPrefsProvider>,
     );
 
     expect(screen.queryByText("Transpose")).not.toBeInTheDocument();
@@ -94,7 +94,7 @@ describe("MoreMenu", () => {
             </SnackbarProvider>
           </ThemeProvider>
         </GitHubApiProvider>
-      </SongPrefsProvider>
+      </SongPrefsProvider>,
     );
 
     expect(screen.getByText("Transpose")).toBeInTheDocument();
@@ -115,7 +115,7 @@ describe("MoreMenu", () => {
             </MemoryRouter>
           </ThemeProvider>
         </GitHubApiProvider>
-      </SongPrefsProvider>
+      </SongPrefsProvider>,
     );
 
     expect(screen.queryByText("Columns")).not.toBeInTheDocument();
@@ -138,7 +138,7 @@ describe("MoreMenu", () => {
             </SnackbarProvider>
           </ThemeProvider>
         </GitHubApiProvider>
-      </SongPrefsProvider>
+      </SongPrefsProvider>,
     );
 
     expect(screen.getByText("Columns")).toBeInTheDocument();
@@ -159,7 +159,7 @@ describe("MoreMenu", () => {
             </MemoryRouter>
           </ThemeProvider>
         </GitHubApiProvider>
-      </SongPrefsProvider>
+      </SongPrefsProvider>,
     );
 
     expect(screen.getByText("Theme")).toBeInTheDocument();
@@ -180,14 +180,14 @@ describe("MoreMenu", () => {
             </MemoryRouter>
           </ThemeProvider>
         </GitHubApiProvider>
-      </SongPrefsProvider>
+      </SongPrefsProvider>,
     );
 
     expect(screen.getByText("GitHub Token")).toBeInTheDocument();
   });
 
   it("opens and closes qr code dialog when buttons clicked", async () => {
-    const mockHandleClose = jest.fn();
+    const mockHandleClose = vi.fn();
     const mockAnchorEl = document.createElement("button");
     render(
       <SongPrefsProvider>
@@ -204,7 +204,7 @@ describe("MoreMenu", () => {
             </SnackbarProvider>
           </ThemeProvider>
         </GitHubApiProvider>
-      </SongPrefsProvider>
+      </SongPrefsProvider>,
     );
 
     fireEvent.click(screen.getByText("Share song"));

@@ -12,7 +12,7 @@ describe("GithubTokenMenuItem", () => {
     render(
       <GitHubApiProvider>
         <GithubTokenMenuItem />
-      </GitHubApiProvider>
+      </GitHubApiProvider>,
     );
 
     fireEvent.click(screen.getByText("Set GitHub Token"));
@@ -23,14 +23,14 @@ describe("GithubTokenMenuItem", () => {
     render(
       <GitHubApiProvider>
         <GithubTokenMenuItem />
-      </GitHubApiProvider>
+      </GitHubApiProvider>,
     );
 
     fireEvent.click(screen.getByText("Set GitHub Token"));
     fireEvent.click(screen.getByText("Cancel"));
     await waitForElementToBeRemoved(screen.queryByText("Cancel"));
     expect(
-      screen.queryByText("How to Create a New Token")
+      screen.queryByText("How to Create a New Token"),
     ).not.toBeInTheDocument();
   });
 });

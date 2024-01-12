@@ -1,4 +1,5 @@
-import { createTheme, ThemeProvider } from "@mui/material/styles";
+import { ThemeProvider } from "@emotion/react";
+import { createTheme } from "@mui/material/styles";
 import { render, screen } from "@testing-library/react";
 import YouTubePlayer from "./YouTubePlayer";
 
@@ -7,7 +8,7 @@ describe("YouTubePlayer", () => {
     render(
       <ThemeProvider theme={createTheme()}>
         <YouTubePlayer visible={true} youTubeId="abcd" />
-      </ThemeProvider>
+      </ThemeProvider>,
     );
     expect(screen.getByTitle("YouTube")).toBeInTheDocument();
   });
@@ -16,7 +17,7 @@ describe("YouTubePlayer", () => {
     render(
       <ThemeProvider theme={createTheme()}>
         <YouTubePlayer visible={true} youTubeId={null} />
-      </ThemeProvider>
+      </ThemeProvider>,
     );
     expect(screen.queryByTitle("YouTube")).not.toBeInTheDocument();
   });
@@ -25,7 +26,7 @@ describe("YouTubePlayer", () => {
     render(
       <ThemeProvider theme={createTheme()}>
         <YouTubePlayer visible={false} youTubeId="abcd" />
-      </ThemeProvider>
+      </ThemeProvider>,
     );
     expect(screen.queryByTitle("YouTube")).not.toBeInTheDocument();
   });

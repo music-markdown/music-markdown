@@ -45,7 +45,7 @@ const MusicMarkdownRender: FC<MusicMarkdownRenderProps> = ({
 
   useEffect(() => {
     const md = new MarkdownIt({ html: true }).use(
-      MarkdownItMusic
+      MarkdownItMusic,
     ) as MarkdownItWithMMD;
     md.setTranspose(transpose);
     md.setTheme(theme.palette.mode);

@@ -17,14 +17,14 @@ export function useEditor(repo: string, path: string, branch: string) {
   const [unsavedMarkdown, setUnsavedMarkdown] =
     useLocalStorage<UnsavedMarkdown | null>(
       `unsaved/${repo}/${branch}/${path}`,
-      null
+      null,
     );
   const { successSnackbar, infoSnackbar, warningSnackbar, errorSnackbar } =
     useSnackbar();
 
   const revert = useCallback(
     () => setUnsavedMarkdown(null),
-    [setUnsavedMarkdown]
+    [setUnsavedMarkdown],
   );
 
   const setMarkdown = (markdown: string) => {
@@ -51,7 +51,7 @@ export function useEditor(repo: string, path: string, branch: string) {
     }
     if (unsavedMarkdown.sha !== value.sha) {
       warningSnackbar(
-        "Content has changed on GitHub. Saving will overwrite those changes."
+        "Content has changed on GitHub. Saving will overwrite those changes.",
       );
     }
     if (unsavedMarkdown.markdown === content) {
@@ -77,7 +77,7 @@ export function useEditor(repo: string, path: string, branch: string) {
       unsavedMarkdown.markdown,
       value.sha,
       branch,
-      gitHubToken
+      gitHubToken,
     );
     await response.json();
     setSaving(false);

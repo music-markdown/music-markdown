@@ -1,8 +1,6 @@
 # Music Markdown
 
-[![Build Status](https://travis-ci.com/music-markdown/music-markdown.svg?branch=master)](https://travis-ci.com/music-markdown/music-markdown)
-
-Hosted at [music-markdown.github.io](https://music-markdown.github.io).
+Hosted at [musicmd.app](https://musicmd.app).
 
 ## Intro
 
@@ -18,7 +16,6 @@ Features:
   - Multiple columns
   - [Guitar chord diagrams](https://www.guitar-chord.org/chart.html)
   - [ABC music notation](https://en.wikipedia.org/wiki/ABC_notation)
-  - [VexTab music notation](http://vexflow.com/vextab/)
 - Read and write Music Markdown files from your own GitHub repository.
   - Automatically convert existing guitar tablature to Music Markdown.
 - Rehearse along with YouTube videos.
@@ -32,7 +29,7 @@ Music Markdown is a toil of love. We are aware that it is not as easy to use as 
 
 ## Users Guide
 
-Music Markdown is [hosted on GitHub](https://music-markdown.github.io) and the web app reads music markdown files from GitHub repositories. This enables bands to have their own repositories of music that they maintain for themselves.
+Music Markdown is a web app that reads music markdown files from GitHub repositories. This enables bands to have their own repositories of music that they maintain for themselves.
 
 ### Setup
 
@@ -201,26 +198,6 @@ C D E F G A B c
 ```
 
 We use the [abcjs](https://www.abcjs.net/) library to render ABC notation. See the [ABC documentation](https://abcnotation.com/) for the full syntax specification.
-
-##### VexTab Notation
-
-VexTab notation can be added to a Music Markdown file by fencing it off in a `:::vextab` block. For example:
-
-```music-markdown
-:::vextab
-options space=20
-
-tabstave
-  notation=true
-  key=A time=4/4
-
-  notes :q =|: (5/2.5/3.7/4) :8 7-5h6/3 ^3^ 5h6-7/5 ^3^ :q 7V/4 |
-  notes :8 t12p7/4 s5s3/4 :8 3s:16:5-7/5 :h p5/4
-  text :w, |#segno, ,|, :hd, , #tr
-:::
-```
-
-See the [VexTab tutorial](http://vexflow.com/vextab/tutorial.html) to learn how to write VexTab code.
 
 ## Developers Guide
 

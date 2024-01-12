@@ -40,24 +40,24 @@ export const SnackbarProvider: FC<SnackbarProviderProps> = ({ children }) => {
       setMessage(newMessage);
       setSeverity(newSeverity);
     },
-    []
+    [],
   );
 
   const successSnackbar = useCallback(
     (newMessage: string) => showSnackbar(newMessage, "success"),
-    [showSnackbar]
+    [showSnackbar],
   );
   const warningSnackbar = useCallback(
     (newMessage: string) => showSnackbar(newMessage, "warning"),
-    [showSnackbar]
+    [showSnackbar],
   );
   const infoSnackbar = useCallback(
     (newMessage: string) => showSnackbar(newMessage, "info"),
-    [showSnackbar]
+    [showSnackbar],
   );
   const errorSnackbar = useCallback(
     (newMessage: string) => showSnackbar(newMessage, "error"),
-    [showSnackbar]
+    [showSnackbar],
   );
 
   return (

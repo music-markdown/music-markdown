@@ -15,7 +15,7 @@ export async function putContents(
   content: string,
   sha: string | null,
   branch: string,
-  gitHubToken: string
+  gitHubToken: string,
 ) {
   const body: GitHubFile = {
     message: `Music Markdown published ${path}`,
@@ -163,12 +163,12 @@ export interface RepoMetadata {
  */
 export async function getRepoMetadata(
   repos: string[],
-  { gitHubToken }: Options
+  { gitHubToken }: Options,
 ): Promise<RepoMetadata[]> {
   return Promise.all(
     repos.map(async (repo) =>
-      (await gitHubApiFetch(`/repos/${repo}`, { gitHubToken })).json()
-    )
+      (await gitHubApiFetch(`/repos/${repo}`, { gitHubToken })).json(),
+    ),
   );
 }
 
@@ -196,7 +196,7 @@ interface Options extends RequestInit {
  */
 export async function gitHubApiFetch(
   path: string,
-  { gitHubToken, ...init }: Options
+  { gitHubToken, ...init }: Options,
 ) {
   const input = new URL(path, GITHUB_API_URL);
 
