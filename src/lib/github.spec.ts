@@ -23,10 +23,10 @@ describe("GitHub API", () => {
   });
 
   test("isValidGithubToken returns true on valid fine-grained token", () => {
-    const token = "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;
+    const token =
+      "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";
     expect(isValidGithubToken(token)).toEqual(true);
   });
-
 
   test("isValidGithubToken returns false when token is null", () => {
     const token = null;
