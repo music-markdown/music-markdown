@@ -17,10 +17,16 @@ describe("GitHub API", () => {
     expect(isValidGithubToken(token)).toEqual(true);
   });
 
-  test("isValidGithubToken returns true on valid token", () => {
+  test("isValidGithubToken returns true on valid token (classic)", () => {
     const token = "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";
     expect(isValidGithubToken(token)).toEqual(true);
   });
+
+  test("isValidGithubToken returns true on valid fine-grained token", () => {
+    const token = "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;
+    expect(isValidGithubToken(token)).toEqual(true);
+  });
+
 
   test("isValidGithubToken returns false when token is null", () => {
     const token = null;

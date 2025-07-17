@@ -10,6 +10,7 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
+import Link from "@mui/material/Link";
 import { useState } from "react";
 import { useGitHubApi } from "../../context/GitHubApiProvider";
 import { isValidGithubToken } from "../../lib/github";
@@ -109,10 +110,15 @@ export default function GithubTokenDialog({
           value={token || ""}
           onChange={(e) => setToken(e.target.value)}
           error={!isValidToken(token)}
-          helperText="Warning: GitHub tokens are very sensitive. Anyone who 
-          gains access to this token will have access to your GitHub account.
-          Please proceed with caution."
+          helperText={isValidToken(token) ? "" : <>
+            Invalid token. Valid tokens start with "<code>ghp_</code>" or "<code>github_pat_</code>".
+          </>}
         ></TextField>
+      </DialogContent>
+      <DialogContent>
+        Warning: GitHub tokens are very sensitive. Anyone who
+        gains access to this token will have access to your GitHub account.
+        Please proceed with caution.
       </DialogContent>
       <DialogActions>
         <Button onClick={handleCloseDialog} color="secondary">

@@ -183,7 +183,8 @@ export function isValidGithubToken(gitHubToken: string | null) {
   return (
     !!gitHubToken &&
     (!!gitHubToken.match(/^[0-9a-f]{40}$/) ||
-      !!gitHubToken.match(/^ghp_[a-zA-Z0-9]{36}$/))
+      !!gitHubToken.match(/^ghp_[a-zA-Z0-9]{36}$/) ||
+      !!gitHubToken.match(/^github_pat_[a-zA-Z0-9_]+$/))
   );
 }
 
