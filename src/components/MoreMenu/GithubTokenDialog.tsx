@@ -111,14 +111,7 @@ export default function GithubTokenDialog({
           onChange={(e) => setToken(e.target.value)}
           error={!isValidToken(token)}
           helperText={isValidToken(token) ? "" : <>
-            Invalid token. If you believe this is an error{" "}
-              <Link
-                href="https://github.com/music-markdown/music-markdown/issues/new"
-                rel="noreferrer"
-                target="_blank"
-              >
-                contact the developer.
-              </Link>
+            Invalid token. Valid tokens start with "<code>ghp_</code>" or "<code>github_pat_</code>".
           </>}
         ></TextField>
       </DialogContent>
